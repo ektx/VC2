@@ -1,17 +1,16 @@
-export default function vue_plugin(md, name, options) {
-
+module.exports = function vue_plugin(md, name, options) {
+  // 渲染方案
   function render (tokens, idx, opts, env, self) {
-      if (tokens[idx].nesting === 1) {
-          tokens[idx].attrPush(['xml', tokens[idx].$template])
-          tokens[idx].attrPush(['js', tokens[idx].$js])
-          tokens[idx].attrPush(['css', tokens[idx].$css])
-          tokens[idx].attrPush(['key', Date.now()])
+    if (tokens[idx].nesting === 1) {
+      let { $template, $js, $css } = tokens[idx]
 
-          return self.renderToken(tokens, idx, opts, env, self) 
-      } else {
-          
-          return self.renderToken(tokens, idx, opts, env, self)
-      }
+      tokens[idx].attrJoin('xml', $template)
+      tokens[idx].attrJoin('js', $js)
+      tokens[idx].attrJoin('css', $css)
+      tokens[idx].attrJoin('key', Date.now())
+    }
+    // 生成 html
+    return self.renderToken(tokens, idx, opts, env, self)
   }
 
   function container (state, startLine, endLine, slient) {
@@ -29,7 +28,8 @@ export default function vue_plugin(md, name, options) {
       // :::demo-theme => <demo-theme/>
       let markToken = demoStr.slice(3).trim()
 
-      if (slient) { return true }
+    //   Since start is found, we can report success here in validation mode
+    if (slient) { return true }
 
       // 查找 block 结束位置
       let nextLine = startLine
@@ -68,9 +68,9 @@ export default function vue_plugin(md, name, options) {
               continue
           }
 
-          if (state.src.slice(start, max).length < 3) {
-              continue
-          }
+        //   if (state.src.slice(start, max).length < 3) {
+        //       continue
+        //   }
 
           let str = state.src.slice(start, max)
           
@@ -83,25 +83,25 @@ export default function vue_plugin(md, name, options) {
                   }
                   break
               case str === '</template>':
-                  temEnd = nextLine
+                  temEnd = nextLine + 1
                   break
               case str.startsWith('<script'):
                   jsStart = nextLine
                   break
               case str === '</script>':
-                  jsEnd = nextLine
+                  jsEnd = nextLine + 1
                   break
               case str.startsWith('<style'):
                   cssStart = nextLine
                   break
               case str === '</style>':
-                  cssEnd = nextLine
+                  cssEnd = nextLine + 1
           }
 
-          if (state.src.slice(start, max) === ':::') {
-              auto_closed = true
-              break
-          }
+        if (str === ':::') {
+          auto_closed = true
+          break
+        }
       }
 
       let old_parent = state.parentType
@@ -110,20 +110,23 @@ export default function vue_plugin(md, name, options) {
 
       token.markup = ':::'
       token.content = state.src.slice(
-          state.bMarks[startLine +1],
-          state.bMarks[nextLine]
+        state.bMarks[startLine +1],
+        state.bMarks[nextLine]
       )
+      // 获取模板内容 <template>...</template>
       token.$template = state.src.slice(
-          state.bMarks[temStart], 
-          state.bMarks[temEnd +1]
+        state.bMarks[temStart], 
+        state.bMarks[temEnd]
       )
+      // 获取 JS 内容 <script>...</script>
       token.$js = state.src.slice(
-          state.bMarks[jsStart],
-          state.bMarks[jsEnd +1]
+        state.bMarks[jsStart],
+        state.bMarks[jsEnd]
       )
+      // 获取 Css 内容 <style>...</style>
       token.$css = state.src.slice(
-          state.bMarks[cssStart],
-          state.bMarks[cssEnd +1]
+        state.bMarks[cssStart],
+        state.bMarks[cssEnd]
       )
       token.map = [startLine, nextLine]
       token.info = markToken

@@ -3,6 +3,7 @@ const Router = require('koa-router')
 const MarkdownIt = require('markdown-it')
 const fs = require('fs/promises')
 const path = require('path')
+const mdVue = require('./vue')
 
 let router = new Router()
 
@@ -10,6 +11,7 @@ router.get('/api/doc/:file', async ctx => {
   let file = path.join(__dirname, `../doc/${ctx.params.file}`)
   let str = await fs.readFile(file, { encoding: 'utf-8'})
   let md = new MarkdownIt()
+    .use(mdVue)
   let html = md.render(str)
 
   html = `<div class="markdown-it-mode">${html}</div>`
