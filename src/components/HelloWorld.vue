@@ -1,11 +1,14 @@
 <template>
-  <h1>{{ msg }}jkjk</h1>
+  <h1>{{ msg }}</h1>
   <button @click="count++">count is: {{ count }}</button>
   <button @click="get">Get</button>
-  <p>Edit <code>components/HelloWorld.vue</code> to test hot module replacement.</p>
+  <VCMdDemo :value="htmlStr"/>
 </template>
 
 <script>
+import { ref } from 'vue'
+let htmlStr = ''
+
 export default {
   name: 'HelloWorld',
   props: {
@@ -18,17 +21,22 @@ export default {
   },
   setup () {
 
+    htmlStr = ref('<h1>Hello Vite</h1>')
+
     return {
-      get
+      get,
+      htmlStr
     }
   }
 }
 
 function get () {
-  console.log('Get')
-  fetch('/doc/readme.md')
+  console.log('Get', htmlStr)
+  fetch('/api/doc/button.md')
+    .then(res => res.json())
     .then(res => {
-      console.log(res)
+      console.log(res.data)
+      htmlStr.value = res.data
     })
 }
 </script>
