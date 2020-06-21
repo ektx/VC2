@@ -1,4 +1,4 @@
-<template>
+<!-- template>
     <div class="demo-com">
         <div class="display-box"></div>
         <div class="source-box">
@@ -10,10 +10,10 @@
             </div>
         </div>
     </div>
-</template>
+</template-->
 
 <script>
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, compile, onMounted } from 'vue'
 
 export default {
     name: 'demo',
@@ -61,10 +61,10 @@ export default {
         }
     },
     mounted () {
-        this.codeEl = this.$el.querySelector('.source-box--main')
-        this.codeEl.addEventListener('transitionend', this.removeStyle)
+        // this.codeEl = this.$el.querySelector('.source-box--main')
+        // this.codeEl.addEventListener('transitionend', this.removeStyle)
 
-        this.init()
+        // this.init()
     },
     methods: {
         // 获取 script 部分内容
@@ -134,7 +134,7 @@ export default {
             let component = h(Com)
             console.log(component)
             // 挂载
-            this.$el.querySelector('.display-box').appendChild(component.$el)
+            // this.$el.querySelector('.display-box').appendChild(component.$el)
 
             this.setStyle()
         },
@@ -145,7 +145,45 @@ export default {
     },
     destroyed () {
         this.codeEl.removeEventListener('transitionend', this.removeStyle)
-    }
+    },
+    // https://github.com/vuejs/rfcs/blob/slots-unification/active-rfcs/0006-slots-unification.md
+  render(props, slots) {
+    console.log(slots)
+    let cards = []
+    Object.values(this.$slots).forEach(child => {
+      if (typeof child === 'function') {
+        cards.push( child() )
+      }
+    })
+
+    // return h(defineComponent({
+    //   template: `<input v-model="msg"/><div>
+    //     <p/>
+    //     <slot/>
+    //     <h1>skaj</h1>
+    //   </div>`,
+    //   // Vue 2
+    //   data: function () {
+    //     return {
+    //       msg: 'Hello'
+    //     }
+    //   }
+
+    //   // Composition API
+    // //   setup(_, { slots }) {
+    // //     let msg = 'setup'
+
+		// // console.log(slots)
+
+    // //     return {
+    // //       msg
+    // //     }
+    // //   }
+    // }))
+    // }), [this.$slots.test(), this.$slots.default()])
+
+    return h('div', slots.default())
+  }
 }
 </script>
 
