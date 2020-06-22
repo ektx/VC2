@@ -1,6 +1,5 @@
 <template>
   <h1>{{ msg }}</h1>
-  <button @click="count++">count is: {{ count }}</button>
   <button @click="get">Get</button>
   <!-- 测试插槽 -->
   <!-- <demo>
@@ -14,8 +13,8 @@
       <pre>Hello</pre>
     </template>
   </demo> -->
-  
-  <VCMdDemo :value="htmlStr"/>
+
+  <VCMarkedIt :value="htmlStr"/>
 </template>
 
 <script>
@@ -33,8 +32,7 @@ export default {
     }
   },
   setup () {
-
-    htmlStr = ref('<h1>Hello Vite</h1>')
+    htmlStr = ref('')
 
     return {
       get,
@@ -44,7 +42,6 @@ export default {
 }
 
 function get () {
-  console.log('Get', htmlStr)
   fetch('/api/doc/button.md')
     .then(res => res.json())
     .then(res => {
