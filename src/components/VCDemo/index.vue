@@ -1,19 +1,4 @@
-<!-- template>
-    <div class="demo-com">
-        <div class="display-box"></div>
-        <div class="source-box">
-            <div class="source-box--main" :style="style">
-                <slot/>
-            </div>
-            <div class="source-box--footer" @click="show = !show">
-                <span>{{ show ? '收起' : '查看代码'}}</span>
-            </div>
-        </div>
-    </div>
-</template-->
-
-
-<script type="jsx">
+<script>
 import { defineComponent, h, compile, onMounted, resolveComponent } from 'vue'
 
 export default {
@@ -147,56 +132,9 @@ export default {
     // destroyed () {
     //     this.codeEl.removeEventListener('transitionend', this.removeStyle)
     // },
-  // render() {
-
-
-  //   // return h(
-  //   //   defineComponent({
-  //   //     template: `<input v-model="msg"/><div>
-  //   //       <p/>
-  //   //       <slot name="test"/>
-  //   //       <h1>{{ msg }}</h1>
-  //   //     </div>`,
-  //   //     // Vue 2
-  //   //     data: function () {
-  //   //         return {
-  //   //         msg: 'Hello'
-  //   //         }
-  //   //     }
-
-  //   //     // Composition API
-  //   //     // setup(_, { slots }) {
-  //   //     //   let msg = 'setup'
-
-  //   //     //   return {
-  //   //     //     msg
-  //   //     //   }
-  //   //     // }
-  //   //   }),
-  //   //   [cards]
-  //   // )
-
-  //   return h(
-  //     'div', 
-  //     {
-  //       class: ['demo-com']
-  //     },
-  //     [
-        
-  //     ]
-  //     [this.$slots.default({
-  //       a: '90'
-  //     })]
-  //   )
-
-  //   // const Comp = resolveComponent(this, 'foo')
-  //   // return h(Comp)
-
-  // },
   setup (props, { slots }) {
 
     return () => {
-      // let cards = {}
       let _slots = {}
       // 取出可用的插槽对象
       Object.keys(slots).forEach(key => {
@@ -206,19 +144,19 @@ export default {
         }
       })
 
-      console.log(_slots)
-
       return h(
       defineComponent({
-        template: `<div>
-        <input v-model="msg"/>
-          <div>
-            <slot/>
-            <p/>
-            <slot name="test"/>
-            <h1>{{ msg }}</h1>
-          </div>
-        </div>`,
+        template: `<div class="demo-com">
+  <div class="display-box"></div>
+    <div class="source-box">
+      <div class="source-box--main" :style="style">
+        <slot/>
+      </div>
+    <div class="source-box--footer" @click="show = !show">
+      <span>{{ show ? '收起' : '查看代码'}}</span>
+    </div>
+  </div>
+</div>`,
         // Vue 2
         data: function () {
           return {
