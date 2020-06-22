@@ -1,31 +1,31 @@
 <script>
-import { defineComponent, h, compile, onMounted, resolveComponent } from 'vue'
+import { defineComponent, h, onMounted, reactive } from 'vue'
 
 export default {
-    name: 'demo',
-    props: {
-        xml: {
-            type: String,
-            default: ''
-        },
-        js: {
-            type: String,
-            default: ''
-        },
-        css: {
-            type: String,
-            default: ''
-        }
+  name: 'VCDemo',
+  props: {
+    xml: {
+      type: String,
+      default: ''
     },
-    // data () {
-    //     return {
-    //         show: false,
-    //         style: {
-    //             height: 0
-    //         },
-    //         codeEl: null
-    //     }
-    // },
+    js: {
+      type: String,
+      default: ''
+    },
+    css: {
+      type: String,
+      default: ''
+    }
+  },
+  // data () {
+  //     return {
+  //         show: false,
+  //         style: {
+  //             height: 0
+  //         },
+  //         codeEl: null
+  //     }
+  // },
     // watch: {
     //     show (val) {
     //         if (val) {
@@ -134,6 +134,18 @@ export default {
     // },
   setup (props, { slots }) {
 
+    const state = reactive({
+      show: false,
+      style: {
+        height: 0
+      },
+      codeEl: null
+    })
+
+    onMounted (() => {
+      console.log(1)
+    })
+
     return () => {
       let _slots = {}
       // 取出可用的插槽对象
@@ -147,20 +159,22 @@ export default {
       return h(
       defineComponent({
         template: `<div class="demo-com">
+        {{ STATE__ }}
   <div class="display-box"></div>
     <div class="source-box">
-      <div class="source-box--main" :style="style">
+      <div class="source-box--main" :style="STATE__.style">
         <slot/>
       </div>
-    <div class="source-box--footer" @click="show = !show">
-      <span>{{ show ? '收起' : '查看代码'}}</span>
+    <div class="source-box--footer" @click="STATE__.show = !STATE__.show">
+      <span>{{ STATE__.show ? '收起' : '查看代码'}}</span>
     </div>
   </div>
 </div>`,
         // Vue 2
         data: function () {
           return {
-            msg: 'Hello'
+            msg: 'Hello',
+            STATE__: state,
           }
         }
 
@@ -188,76 +202,76 @@ export default {
 
 <style lang="less">
 .demo-com {
-    margin: 2em 0;
-    border-radius: 3px;
-    border: 1px solid var(--gray75);
-    transition: border-color .3s ease-in-out;
+  margin: 2em 0;
+  border-radius: 3px;
+  border: 1px solid var(--gray75);
+  transition: border-color .3s ease-in-out;
 
-    .display-box {
-        padding: 10px;
-        border-radius: 3px 3px 0 0;
-        border-bottom: 1px solid var(--gray75);
-        background-color: #fff;
+  .display-box {
+    padding: 10px;
+    border-radius: 3px 3px 0 0;
+    border-bottom: 1px solid var(--gray75);
+    background-color: #fff;
+  }
+
+  .source-box {
+    .source-box--main {
+      overflow: hidden;
+      background-color: #fafafa;
+      transition: height .35s ease-in-out;
+
+      pre, code {
+        margin: 0;
+        border-radius: 0;
+        background: transparent;
+      }
+
+      p {
+        color: #333;
+      }
     }
 
-    .source-box {
-        .source-box--main {
-            overflow: hidden;
-            background-color: #fafafa;
-            transition: height .35s ease-in-out;
+    .source-box--footer {
+      position: sticky;
+      bottom: -20px;
+      margin-top: -1px;
+      font-size: 12px;
+      color: #666;
+      line-height: 3em;
+      text-align: center;
+      border-top: 1px solid var(--gray75);
+      background-color: #fff;
+      border-radius: 0 0 3px 3px;
+      cursor: pointer;
+      transition: 
+        color .3s ease-in-out,
+        background-color .3s ease-in-out;
 
-            pre, code {
-                margin: 0;
-                border-radius: 0;
-                background: transparent;
-            }
+      .DARK_source-box--footer {
+        color: #aaa;
+        background-color: var(--gray75);
+      }
 
-            p {
-                color: #333;
-            }
-        }
+      .dark-scheme & {
+        .DARK_source-box--footer
+      }
 
-        .source-box--footer {
-            position: sticky;
-            bottom: -20px;
-            margin-top: -1px;
-            font-size: 12px;
-            color: #666;
-            line-height: 3em;
-            text-align: center;
-            border-top: 1px solid var(--gray75);
-            background-color: #fff;
-            border-radius: 0 0 3px 3px;
-            cursor: pointer;
-            transition: 
-                color .3s ease-in-out,
-                background-color .3s ease-in-out;
+      @media (prefers-color-scheme: dark) {
+        .DARK_source-box--footer
+      }
 
-            .DARK_source-box--footer {
-                color: #aaa;
-                background-color: var(--gray75);
-            }
-
-            .dark-scheme & {
-                .DARK_source-box--footer
-            }
-
-            @media (prefers-color-scheme: dark) {
-                .DARK_source-box--footer
-            }
-
-            &:hover {
-                color: #09f;
-            }
-        }
-
-        blockquote {
-            margin: 10px;
-            padding: 5px 10px;
-            background: #fff;
-            border-radius: 3px;
-            border: 1px solid #eee;
-        }
+      &:hover {
+        color: #09f;
+      }
     }
+
+    blockquote {
+      margin: 10px;
+      padding: 5px 10px;
+      background: #fff;
+      border-radius: 3px;
+      border: 1px solid #eee;
+    }
+  }
 }
 </style>
