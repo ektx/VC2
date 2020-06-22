@@ -2,11 +2,16 @@
   <h1>{{ msg }}</h1>
   <button @click="count++">count is: {{ count }}</button>
   <button @click="get">Get</button>
-  <!-- <demo>
+  <demo>
     <template #default>default Slot</template>
     <template #test>Test Slot</template>
-  </demo> -->
-  <demo>abcd</demo>
+  </demo>
+  
+  <demo>
+    <template #test>
+      <pre>Hello</pre>
+    </template>
+  </demo>
   <VCMdDemo :value="htmlStr"/>
 </template>
 

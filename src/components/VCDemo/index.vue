@@ -12,8 +12,9 @@
     </div>
 </template-->
 
-<script>
-import { defineComponent, h, compile, onMounted } from 'vue'
+
+<script type="jsx">
+import { defineComponent, h, compile, onMounted, resolveComponent } from 'vue'
 
 export default {
     name: 'demo',
@@ -31,158 +32,217 @@ export default {
             default: ''
         }
     },
-    data () {
-        return {
-            show: false,
-            style: {
-                height: 0
-            },
-            codeEl: null
-        }
-    },
-    watch: {
-        show (val) {
-            if (val) {
-                let h = this.codeEl.scrollHeight
-                this.style.height = h + 'px'
-            } else {
-                let h = this.codeEl.scrollHeight
-                this.style.height = `${h}px`
-
-                requestAnimationFrame(() => {
-                    this.style.height = 0
-                })
-            }
-        }
-    },
-    computed: {
-        html () {
-            return this.xml.replace(/&#123;/g, '{')
-        }
-    },
-    mounted () {
-        // this.codeEl = this.$el.querySelector('.source-box--main')
-        // this.codeEl.addEventListener('transitionend', this.removeStyle)
-
-        // this.init()
-    },
-    methods: {
-        // 获取 script 部分内容
-        stripScript (content) {
-            let result = content.match(/<(script)>([\s\S]+)<\/\1>/)
-            result = result && result[2] ? result[2].trim() : ''
-
-            if (result) {
-                return Function(`return ${result.substr(15)}`)()
-            } else {
-                return {
-                    data () {
-                        return {}
-                    },
-                    watch: {},
-                    methods: {},
-                    mounted () {}
-                }
-            }
-        },
-        // 获取样式内容
-        setStyle () {
-            let cssInner = this.css.match(/<(style)\s*>([\s\S]+)<\/\1>/)
-            cssInner = cssInner && cssInner[2] ? 
-                cssInner[2].trim() : ''
-
-            let style = document.createElement('style')
-            this.$el.appendChild(style)
-
-            style.type = 'text/css'
-            style.appendChild(
-                document.createTextNode(cssInner)
-            )
-
-            // return result && result[2] ? result[2].trim() : ''
-        },
-        // 获取 template 内容
-        stripTemplate(content) {
-            content = content.trim()
-            if (!content) {
-                return content
-            }
-            content = content.replace(/<(script|style)[\s\S]+<\/\1>/g, '')
-            content = content.split('\n')
-            // 除去前后 template
-            content = content.slice(1, content.length-1)
-
-            return `<div>${content.join('')}</div>`
-        },
-
-        init () {
-            let { data, methods, mounted, watch } = this.stripScript( this.js )
-            let template = this.stripTemplate( this.html )
-
-            let Com = defineComponent({
-                // router: this.$router,
-                template,
-                data,
-                watch,
-                methods,
-                mounted
-            })
-            console.log(Com)
-
-            // https://cn.vuejs.org/v2/api/#vm-mount
-            // 渲染文档后
-            let component = h(Com)
-            console.log(component)
-            // 挂载
-            // this.$el.querySelector('.display-box').appendChild(component.$el)
-
-            this.setStyle()
-        },
-
-        removeStyle () {
-            if (this.show) this.style.height = ''
-        }
-    },
-    destroyed () {
-        this.codeEl.removeEventListener('transitionend', this.removeStyle)
-    },
-    // https://github.com/vuejs/rfcs/blob/slots-unification/active-rfcs/0006-slots-unification.md
-  render(props, slots) {
-    console.log(slots)
-    let cards = []
-    Object.values(this.$slots).forEach(child => {
-      if (typeof child === 'function') {
-        cards.push( child() )
-      }
-    })
-
-    // return h(defineComponent({
-    //   template: `<input v-model="msg"/><div>
-    //     <p/>
-    //     <slot/>
-    //     <h1>skaj</h1>
-    //   </div>`,
-    //   // Vue 2
-    //   data: function () {
+    // data () {
     //     return {
-    //       msg: 'Hello'
+    //         show: false,
+    //         style: {
+    //             height: 0
+    //         },
+    //         codeEl: null
     //     }
-    //   }
+    // },
+    // watch: {
+    //     show (val) {
+    //         if (val) {
+    //             let h = this.codeEl.scrollHeight
+    //             this.style.height = h + 'px'
+    //         } else {
+    //             let h = this.codeEl.scrollHeight
+    //             this.style.height = `${h}px`
 
-    //   // Composition API
-    // //   setup(_, { slots }) {
-    // //     let msg = 'setup'
+    //             requestAnimationFrame(() => {
+    //                 this.style.height = 0
+    //             })
+    //         }
+    //     }
+    // },
+    // computed: {
+    //     html () {
+    //         return this.xml.replace(/&#123;/g, '{')
+    //     }
+    // },
+    // mounted () {
+    //     // this.codeEl = this.$el.querySelector('.source-box--main')
+    //     // this.codeEl.addEventListener('transitionend', this.removeStyle)
 
-		// // console.log(slots)
+    //     // this.init()
+    // },
+    // methods: {
+    //     // 获取 script 部分内容
+    //     stripScript (content) {
+    //         let result = content.match(/<(script)>([\s\S]+)<\/\1>/)
+    //         result = result && result[2] ? result[2].trim() : ''
 
-    // //     return {
-    // //       msg
-    // //     }
-    // //   }
-    // }))
-    // }), [this.$slots.test(), this.$slots.default()])
+    //         if (result) {
+    //             return Function(`return ${result.substr(15)}`)()
+    //         } else {
+    //             return {
+    //                 data () {
+    //                     return {}
+    //                 },
+    //                 watch: {},
+    //                 methods: {},
+    //                 mounted () {}
+    //             }
+    //         }
+    //     },
+    //     // 获取样式内容
+    //     setStyle () {
+    //         let cssInner = this.css.match(/<(style)\s*>([\s\S]+)<\/\1>/)
+    //         cssInner = cssInner && cssInner[2] ? 
+    //             cssInner[2].trim() : ''
 
-    return h('div', slots.default())
+    //         let style = document.createElement('style')
+    //         this.$el.appendChild(style)
+
+    //         style.type = 'text/css'
+    //         style.appendChild(
+    //             document.createTextNode(cssInner)
+    //         )
+
+    //         // return result && result[2] ? result[2].trim() : ''
+    //     },
+    //     // 获取 template 内容
+    //     stripTemplate(content) {
+    //         content = content.trim()
+    //         if (!content) {
+    //             return content
+    //         }
+    //         content = content.replace(/<(script|style)[\s\S]+<\/\1>/g, '')
+    //         content = content.split('\n')
+    //         // 除去前后 template
+    //         content = content.slice(1, content.length-1)
+
+    //         return `<div>${content.join('')}</div>`
+    //     },
+
+    //     init () {
+    //         let { data, methods, mounted, watch } = this.stripScript( this.js )
+    //         let template = this.stripTemplate( this.html )
+
+    //         let Com = defineComponent({
+    //             // router: this.$router,
+    //             template,
+    //             data,
+    //             watch,
+    //             methods,
+    //             mounted
+    //         })
+    //         console.log(Com)
+
+    //         // https://cn.vuejs.org/v2/api/#vm-mount
+    //         // 渲染文档后
+    //         let component = h(Com)
+    //         console.log(component)
+    //         // 挂载
+    //         // this.$el.querySelector('.display-box').appendChild(component.$el)
+
+    //         this.setStyle()
+    //     },
+
+    //     removeStyle () {
+    //         if (this.show) this.style.height = ''
+    //     }
+    // },
+    // destroyed () {
+    //     this.codeEl.removeEventListener('transitionend', this.removeStyle)
+    // },
+  // render() {
+
+
+  //   // return h(
+  //   //   defineComponent({
+  //   //     template: `<input v-model="msg"/><div>
+  //   //       <p/>
+  //   //       <slot name="test"/>
+  //   //       <h1>{{ msg }}</h1>
+  //   //     </div>`,
+  //   //     // Vue 2
+  //   //     data: function () {
+  //   //         return {
+  //   //         msg: 'Hello'
+  //   //         }
+  //   //     }
+
+  //   //     // Composition API
+  //   //     // setup(_, { slots }) {
+  //   //     //   let msg = 'setup'
+
+  //   //     //   return {
+  //   //     //     msg
+  //   //     //   }
+  //   //     // }
+  //   //   }),
+  //   //   [cards]
+  //   // )
+
+  //   return h(
+  //     'div', 
+  //     {
+  //       class: ['demo-com']
+  //     },
+  //     [
+        
+  //     ]
+  //     [this.$slots.default({
+  //       a: '90'
+  //     })]
+  //   )
+
+  //   // const Comp = resolveComponent(this, 'foo')
+  //   // return h(Comp)
+
+  // },
+  setup (props, { slots }) {
+
+    return () => {
+      // let cards = {}
+      let _slots = {}
+      // 取出可用的插槽对象
+      Object.keys(slots).forEach(key => {
+        let val = slots[key]
+        if (typeof val === 'function') {
+          _slots[key] = val
+        }
+      })
+
+      console.log(_slots)
+
+      return h(
+      defineComponent({
+        template: `<div>
+        <input v-model="msg"/>
+          <div>
+            <slot/>
+            <p/>
+            <slot name="test"/>
+            <h1>{{ msg }}</h1>
+          </div>
+        </div>`,
+        // Vue 2
+        data: function () {
+          return {
+            msg: 'Hello'
+          }
+        }
+
+        // Composition API
+        // setup(_, { slots }) {
+        //   let msg = 'setup'
+
+        //   return {
+        //     msg
+        //   }
+        // }
+      }),
+      // 各种属性配制访问如下链接
+      // https://vuejs.org/v2/guide/render-function.html#The-Data-Object-In-Depth
+      { },
+      // https://github.com/vuejs/rfcs/blob/slots-unification/active-rfcs/0006-slots-unification.md
+      // 指定各插槽对应的渲染函数
+      _slots
+    )
+    }
   }
 }
 </script>
