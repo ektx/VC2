@@ -2,16 +2,19 @@
   <h1>{{ msg }}</h1>
   <button @click="count++">count is: {{ count }}</button>
   <button @click="get">Get</button>
-  <demo>
+  <!-- 测试插槽 -->
+  <!-- <demo>
     <template #default>default Slot</template>
     <template #test>Test Slot</template>
-  </demo>
-  
-  <demo>
+  </demo> -->
+
+  <!-- 测试指定具名插槽 -->
+  <!-- <demo>
     <template #test>
       <pre>Hello</pre>
     </template>
-  </demo>
+  </demo> -->
+  
   <VCMdDemo :value="htmlStr"/>
 </template>
 
