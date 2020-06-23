@@ -1,8 +1,6 @@
-# Button 按钮
+# 基础功能演示
 
-## 示例
-
-**Composition API Demo**
+## Composition API Demo
 
 ::: demo
 ```html
@@ -21,7 +19,7 @@
   <hr/>
   测试外部事件：{{ state.count}} <br/>
   <button @click="click2Evt(state)">Click Me</button>
-
+  <br/>
   {{ state }}
 </template>
 

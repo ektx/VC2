@@ -131,22 +131,28 @@ export default {
     // },
   setup (props, { slots }) {
     let {xml, css, js} = props
-    console.log(xml)
     let setupFun = getSetupFun(js)
-    console.log(setupFun(ref, watch, reactive))
+    // console.log(setupFun(ref, watch, reactive))
 
     const state = reactive({
       show: false,
       style: {
-        height: 0
-      },
-      codeEl: null
+        height: '0px'
+      }
     })
+    const codeEl = ref(null)
 
     watch(
       () => state.show,
       val => {
-        console.log(1000, val)
+        let h = codeEl.value.scrollHeight
+        state.style.height = h + 'px'
+
+        if (!val) {
+          requestAnimationFrame(() => {
+            state.style.height = '0px'
+          })
+        }
       }
     )
 
@@ -163,10 +169,9 @@ export default {
       return h(
       defineComponent({
         template: `<div class="demo-com">
-        {{ STATE__ }}
   <div class="display-box">${xml}</div>
     <div class="source-box">
-      <div class="source-box--main" :style="STATE__.style">
+      <div class="source-box--main" ref="CODE_EL__" :style="STATE__.style">
         <slot/>
       </div>
     <div class="source-box--footer" @click="STATE__.show = !STATE__.show">
@@ -187,11 +192,11 @@ export default {
           console.log('props:', props)
           // 调用用户定义的组件方法
           let __userData = setupFun(ref, watch, reactive).setup()
-          console.log(999, __userData)
 
           return {
             ...__userData,
-            STATE__: state
+            STATE__: state,
+            CODE_EL__: codeEl
           }
         }
       }),
@@ -238,7 +243,7 @@ function getSetupFun (str) {
     .source-box--main {
       overflow: hidden;
       background-color: #fafafa;
-      transition: height .35s ease-in-out;
+      transition: height .5s ease-out;
 
       pre, code {
         margin: 0;
@@ -253,7 +258,7 @@ function getSetupFun (str) {
 
     .source-box--footer {
       position: sticky;
-      bottom: -20px;
+      bottom: 0px;
       margin-top: -1px;
       font-size: 12px;
       color: #666;
