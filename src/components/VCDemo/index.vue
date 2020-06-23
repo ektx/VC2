@@ -38,17 +38,6 @@ export default {
     //         }
     //     }
     // },
-    // computed: {
-    //     html () {
-    //         return this.xml.replace(/&#123;/g, '{')
-    //     }
-    // },
-    // mounted () {
-    //     // this.codeEl = this.$el.querySelector('.source-box--main')
-    //     // this.codeEl.addEventListener('transitionend', this.removeStyle)
-
-    //     // this.init()
-    // },
     // methods: {
     //     // 获取 script 部分内容
     //     stripScript (content) {
@@ -126,9 +115,6 @@ export default {
     //         if (this.show) this.style.height = ''
     //     }
     // },
-    // destroyed () {
-    //     this.codeEl.removeEventListener('transitionend', this.removeStyle)
-    // },
   setup (props, { slots }) {
     let {xml, css, js} = props
     let setupFun = getSetupFun(js)
@@ -156,6 +142,53 @@ export default {
       }
     )
 
+    let template = `<div class="demo-com">
+      <div class="display-box">${xml}</div>
+        <div class="source-box">
+          <div class="source-box--main" ref="CODE_EL__" :style="STATE__.style">
+            <slot/>
+          </div>
+        <div class="source-box--footer" @click="STATE__.show = !STATE__.show">
+          <span>{{ STATE__.show ? '收起' : '查看代码'}}</span>
+        </div>
+      </div>
+    </div>`
+    let componentOpts = {}
+    // 调用用户定义的组件方法
+    let __userData = setupFun(ref, watch, reactive)
+
+    // options api
+    if (Reflect.has(__userData, 'data')) {
+      componentOpts = {
+        ...__userData,
+        data () {
+          return {
+            ...__userData.data(),
+            STATE__: state
+          }
+        },
+        mounted () {
+          // 运行 demo mounted
+          __userData.mounted && __userData.mounted()
+
+          // 绑定 code 展示区 dom
+          codeEl.value = this.$refs.CODE_EL__
+        }
+      }
+    } 
+    // Composition API
+    else {
+      componentOpts = {
+        setup() {
+          return {
+            ...__userData.setup(),
+            STATE__: state,
+            CODE_EL__: codeEl
+          }
+        }
+      }
+    }
+
     return () => {
       let _slots = {}
       // 取出可用的插槽对象
@@ -167,39 +200,7 @@ export default {
       })
 
       return h(
-      defineComponent({
-        template: `<div class="demo-com">
-  <div class="display-box">${xml}</div>
-    <div class="source-box">
-      <div class="source-box--main" ref="CODE_EL__" :style="STATE__.style">
-        <slot/>
-      </div>
-    <div class="source-box--footer" @click="STATE__.show = !STATE__.show">
-      <span>{{ STATE__.show ? '收起' : '查看代码'}}</span>
-    </div>
-  </div>
-</div>`,
-        // Vue 2
-        // data: function () {
-        //   return {
-        //     // msg: 'Hello',
-        //     STATE__: state,
-        //   }
-        // },
-
-        // Composition API
-        setup(props, { slots }) {
-          console.log('props:', props)
-          // 调用用户定义的组件方法
-          let __userData = setupFun(ref, watch, reactive).setup()
-
-          return {
-            ...__userData,
-            STATE__: state,
-            CODE_EL__: codeEl
-          }
-        }
-      }),
+        defineComponent({template, ...componentOpts}),
       // 各种属性配制访问如下链接
       // https://vuejs.org/v2/guide/render-function.html#The-Data-Object-In-Depth
       { },

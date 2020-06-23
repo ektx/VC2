@@ -2,6 +2,8 @@
 
 ## Composition API Demo
 
+以下为组合式 api 组件的 demo 写法演示：
+
 ::: demo
 ```html
 <template>
@@ -27,7 +29,7 @@
 export default {
   setup () {
     // 测试字符串绑定
-    let msg = ref('hello')
+    let msg = ref('composition api demo')
     // 测试对象的绑定
     let state = reactive({
       name: 'vc',
@@ -55,6 +57,44 @@ export default {
 
 function click2Evt(state) {
   state.count++
+}
+</script>
+```
+:::
+
+
+## Options API Demo
+
+以下是选项式 api 的组件 demo 写法演示：
+
+::: demo
+```html
+<template>
+  测试: {{ msg }} <br/>
+  <input v-model="msg" />
+
+  <h3>事件</h3>
+  <hr/>
+  测试内部事件 <br/>
+  <button @click="clickEvt">Click Me {{ count }}</button>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      msg: 'options api demo',
+      count: 0
+    }
+  },
+  mounted () {
+    console.log('Optins Demo is ready')
+  },
+  methods: {
+    clickEvt () {
+      this.count++
+    }
+  }
 }
 </script>
 ```
