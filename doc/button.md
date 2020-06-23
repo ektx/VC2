@@ -20,7 +20,7 @@
   
   <hr/>
   测试外部事件：{{ state.count}} <br/>
-  <button @click="click2Evt">Click Me</button>
+  <button @click="click2Evt(state)">Click Me</button>
 
   {{ state }}
 </template>
@@ -55,8 +55,7 @@ export default {
   }
 }
 
-function click2Evt() {
-  console.log(1)
+function click2Evt(state) {
   state.count++
 }
 </script>

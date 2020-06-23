@@ -133,7 +133,7 @@ export default {
     let {xml, css, js} = props
     console.log(xml)
     let setupFun = getSetupFun(js)
-    // console.log(setup(ref, watch).setup())
+    console.log(setupFun(ref, watch, reactive))
 
     const state = reactive({
       show: false,
