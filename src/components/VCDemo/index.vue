@@ -1,5 +1,11 @@
 <script>
-import { defineComponent, h, onMounted, reactive } from 'vue'
+import { 
+  defineComponent, // 定义组件
+  h, // 用于渲染组件
+  onMounted,
+  reactive, ref, 
+  watch 
+} from 'vue'
 
 export default {
   name: 'VCDemo',
@@ -17,15 +23,6 @@ export default {
       default: ''
     }
   },
-  // data () {
-  //     return {
-  //         show: false,
-  //         style: {
-  //             height: 0
-  //         },
-  //         codeEl: null
-  //     }
-  // },
     // watch: {
     //     show (val) {
     //         if (val) {
@@ -133,6 +130,10 @@ export default {
     //     this.codeEl.removeEventListener('transitionend', this.removeStyle)
     // },
   setup (props, { slots }) {
+    let {xml, css, js} = props
+    console.log(js)
+    let setupFun = getSetupFun(js)
+    // console.log(setup(ref, watch).setup())
 
     const state = reactive({
       show: false,
@@ -141,6 +142,13 @@ export default {
       },
       codeEl: null
     })
+
+    watch(
+      () => state.show,
+      val => {
+        console.log(1000, val)
+      }
+    )
 
     onMounted (() => {
       console.log(1)
@@ -160,7 +168,7 @@ export default {
       defineComponent({
         template: `<div class="demo-com">
         {{ STATE__ }}
-  <div class="display-box"></div>
+  <div class="display-box">${xml} {{ msg }}</div>
     <div class="source-box">
       <div class="source-box--main" :style="STATE__.style">
         <slot/>
@@ -171,21 +179,32 @@ export default {
   </div>
 </div>`,
         // Vue 2
-        data: function () {
-          return {
-            msg: 'Hello',
-            STATE__: state,
-          }
-        }
+        // data: function () {
+        //   return {
+        //     // msg: 'Hello',
+        //     STATE__: state,
+        //   }
+        // },
 
         // Composition API
-        // setup(_, { slots }) {
-        //   let msg = 'setup'
+        setup(props, { slots }) {
+          console.log('props:', props)
+          // 调用用户定义的组件方法
+          let __userData = setupFun(ref, watch, reactive).setup()
+          console.log(999, __userData)
+          // let msg = 'setup'
 
-        //   return {
-        //     msg
-        //   }
-        // }
+          // onMounted(() => {
+          //   console.log(111)
+          // })
+
+          return {
+            // msg,
+            ...__userData,
+            STATE__: state
+          }
+        }
+        // setup: setup(ref, watch).setup()
       }),
       // 各种属性配制访问如下链接
       // https://vuejs.org/v2/guide/render-function.html#The-Data-Object-In-Depth
@@ -196,6 +215,18 @@ export default {
     )
     }
   }
+}
+
+/**
+ * 从特定字符串获取到 setup与相关的方法
+ * @param {string} str 字符串内容
+ * @returns 得到一个 object 的对象
+ */
+function getSetupFun (str) {
+  // 移除字符串中 'export default'
+  str = str.slice(15)
+
+  return new Function('ref', 'watch', 'reactive', `return ${str}`)
 }
 </script>
 

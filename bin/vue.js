@@ -79,18 +79,20 @@ module.exports = function vue_plugin(md, name, options) {
                   // 必须开始标签小于结束标签
                   // 防止多个 template 时无法正确取值
                   if (temStart <= temEnd) {
-                      temStart = nextLine
+                    temStart = nextLine + 1
                   }
                   break
               case str === '</template>':
-                  temEnd = nextLine + 1
+                  temEnd = nextLine
                   break
-              case str.startsWith('<script'):
-                  jsStart = nextLine
-                  break
-              case str === '</script>':
-                  jsEnd = nextLine + 1
-                  break
+              case str.startsWith('<script'): {
+                jsStart = nextLine + 1
+                break
+              }
+              case str === '</script>': {
+                jsEnd = nextLine
+                break
+              }
               case str.startsWith('<style'):
                   cssStart = nextLine
                   break
