@@ -131,7 +131,7 @@ export default {
     // },
   setup (props, { slots }) {
     let {xml, css, js} = props
-    console.log(js)
+    console.log(xml)
     let setupFun = getSetupFun(js)
     // console.log(setup(ref, watch).setup())
 
@@ -150,10 +150,6 @@ export default {
       }
     )
 
-    onMounted (() => {
-      console.log(1)
-    })
-
     return () => {
       let _slots = {}
       // 取出可用的插槽对象
@@ -168,7 +164,7 @@ export default {
       defineComponent({
         template: `<div class="demo-com">
         {{ STATE__ }}
-  <div class="display-box">${xml} {{ msg }}</div>
+  <div class="display-box">${xml}</div>
     <div class="source-box">
       <div class="source-box--main" :style="STATE__.style">
         <slot/>
@@ -192,19 +188,12 @@ export default {
           // 调用用户定义的组件方法
           let __userData = setupFun(ref, watch, reactive).setup()
           console.log(999, __userData)
-          // let msg = 'setup'
-
-          // onMounted(() => {
-          //   console.log(111)
-          // })
 
           return {
-            // msg,
             ...__userData,
             STATE__: state
           }
         }
-        // setup: setup(ref, watch).setup()
       }),
       // 各种属性配制访问如下链接
       // https://vuejs.org/v2/guide/render-function.html#The-Data-Object-In-Depth

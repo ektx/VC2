@@ -13,8 +13,15 @@
   测试 reactive:<br/>
   <input v-model="state.name">
 
+  <h3>事件</h3>
   <hr/>
+  测试内部事件：{{ state.count}} <br/>
   <button @click="clickEvt">Click Me</button>
+  
+  <hr/>
+  测试外部事件：{{ state.count}} <br/>
+  <button @click="click2Evt">Click Me</button>
+
   {{ state }}
 </template>
 
@@ -34,16 +41,22 @@ export default {
       val => console.log('test:', val)
     )
 
+    function clickEvt () {
+      state.count++
+    }
+
     return {
       msg,
       state,
 
-      clickEvt
+      clickEvt,
+      click2Evt,
     }
   }
 }
 
-function clickEvt () {
+function click2Evt() {
+  console.log(1)
   state.count++
 }
 </script>

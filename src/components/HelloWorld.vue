@@ -45,8 +45,10 @@ function get () {
   fetch('/api/doc/button.md')
     .then(res => res.json())
     .then(res => {
-      // console.log(res.data)
-      htmlStr.value = res.data
+      // 将字符串中 `{{}}` 的 {{ 转换成 ASCII CODE 123
+      // 防止解析报错
+      // https://theasciicode.com.ar/ascii-printable-characters/braces-curly-brackets-opening-ascii-code-123.html
+      htmlStr.value = res.data.replace(/(?<!\{)\{{2}(?!\{)/g, '&#123;&#123;')
     })
 }
 </script>
