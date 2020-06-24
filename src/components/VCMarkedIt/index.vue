@@ -5,14 +5,10 @@ import './layout.less'
 
 export default {
   name: "v-markdown-it",
-  // components: {
-  //   demo,
-  //   demoTheme
-  // },
   props: {
     value: {
       type: String,
-      default: '<p>aa</p>'
+      default: ''
     }
   },
   computed: {
