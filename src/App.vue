@@ -7,7 +7,7 @@
   </header>
   <section class="content">
     <aside>
-      <Navs :value="aside" @change="changeEvt" />
+      <Navs :value="menu" @change="getEvt" />
     </aside>
     <main>
       <VCMarkedIt :value="htmlStr"/>
@@ -18,11 +18,15 @@
 
 
 <script>
+import Navs from './components/navs/index.vue'
 import { ref } from 'vue'
+import menu from './menu'
+
 let htmlStr = ''
 
 export default {
   name: 'HelloWorld',
+  components: { Navs },
   props: {
     msg: String
   },
@@ -36,14 +40,17 @@ export default {
 
     return {
       htmlStr,
-      get,
+      menu,
+      getEvt,
       toggleThemeEvt
     }
   }
 }
 
-function get () {
-  fetch('/api/doc/button.md')
+function getEvt (item) {
+  console.log(item)
+
+  fetch(`/api/doc?file=${item.file}`)
     .then(res => res.json())
     .then(res => {
       // 将字符串中 `{{}}` 的 {{ 转换成 ASCII CODE 123
@@ -53,7 +60,7 @@ function get () {
     })
 }
 
-function toggleThemeEvt() {
+function toggleThemeEvt () {
   document.querySelector("#app").classList.toggle("dark-scheme");
 }
 </script>
@@ -70,6 +77,7 @@ html {
   background-color: var(--gray80);
 }
 </style>
+
 <style lang="less" scoped>
 header {
   position: fixed;

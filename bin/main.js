@@ -8,8 +8,8 @@ const mdVue = require('./vue')
 
 let router = new Router()
 
-router.get('/api/doc/:file', async ctx => {
-  let file = path.join(__dirname, `../doc/${ctx.params.file}`)
+router.get('/api/doc', async ctx => {
+  let file = path.join(__dirname, `../doc/${ctx.request.query.file}`)
   let str = await fs.readFile(file, { encoding: 'utf-8'})
   let md = new MarkdownIt({
     html: true,
@@ -24,8 +24,7 @@ router.get('/api/doc/:file', async ctx => {
 
       return `<pre class="hljs"><code>${md.utils.escapeHtml(str)}</code></pre>`
     }
-  })
-    .use(mdVue)
+  }).use(mdVue)
   let html = md.render(str)
 
   html = `<div class="markdown-it-mode">${html}</div>`
@@ -44,17 +43,17 @@ const myPlugin = ({
     .use(router.routes())
     .use(async (ctx, next) => {
 
-    // ...wait for vite to do built-in transforms
-    await next()
+      // ...wait for vite to do built-in transforms
+      await next()
 
-    // Post processing before the content is served. Note this includes parts
-    // compiled from `*.vue` files, where <template> and <script> are served as
-    // `application/javascript` and <style> are served as `text/css`.
-    if (ctx.response.is('js')) {
-      console.log('post processing: 9', ctx.url)
-      // console.log(ctx.body) // can be string or Readable stream
-    }
-  })
+      // Post processing before the content is served. Note this includes parts
+      // compiled from `*.vue` files, where <template> and <script> are served as
+      // `application/javascript` and <style> are served as `text/css`.
+      if (ctx.response.is('js')) {
+        console.log('post processing: 9', ctx.url)
+        // console.log(ctx.body) // can be string or Readable stream
+      }
+    })
 }
 
 createServer({
