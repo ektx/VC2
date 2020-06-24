@@ -26,10 +26,6 @@ export default {
       }
 
       val.active = true
-      // if ('active' in val) {
-      // } else {
-      // 	this.$set(val, 'active', true)
-      // }
 
       // 本地存储地址
       localStorage.currentNav = JSON.stringify(val)

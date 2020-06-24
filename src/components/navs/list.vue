@@ -104,7 +104,6 @@ export default {
 			}
 		}
 
-
 		i {
 			display: inline-block;
 			width: 1em;

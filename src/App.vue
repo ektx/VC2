@@ -11,7 +11,6 @@
     </aside>
     <main>
       <VCMarkedIt :value="htmlStr"/>
-      <button @click="get">Get</button>
     </main>
   </section>
 </template>
@@ -48,8 +47,6 @@ export default {
 }
 
 function getEvt (item) {
-  console.log(item)
-
   fetch(`/api/doc?file=${item.file}`)
     .then(res => res.json())
     .then(res => {
@@ -61,7 +58,7 @@ function getEvt (item) {
 }
 
 function toggleThemeEvt () {
-  document.querySelector("#app").classList.toggle("dark-scheme");
+  document.querySelector("#app").classList.toggle("dark-scheme")
 }
 </script>
 
