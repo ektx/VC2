@@ -259,7 +259,7 @@ function getSetupFun (str) {
 
     .source-box--footer {
       position: sticky;
-      bottom: 0px;
+      bottom: -20px;
       margin-top: -1px;
       font-size: 12px;
       color: #666;
@@ -267,7 +267,7 @@ function getSetupFun (str) {
       text-align: center;
       border-top: 1px solid var(--gray75);
       background-color: #fff;
-      border-radius: 0 0 3px 3px;
+      // border-radius: 0 0 3px 3px;
       cursor: pointer;
       transition: 
         color .3s ease-in-out,
