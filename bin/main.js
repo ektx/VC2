@@ -1,6 +1,7 @@
 const { createServer } = require('vite')
 const Router = require('koa-router')
 const MarkdownIt = require('markdown-it')
+const Prism = require('prismjs')
 const fs = require('fs/promises')
 const path = require('path')
 const mdVue = require('./vue')
@@ -10,7 +11,20 @@ let router = new Router()
 router.get('/api/doc/:file', async ctx => {
   let file = path.join(__dirname, `../doc/${ctx.params.file}`)
   let str = await fs.readFile(file, { encoding: 'utf-8'})
-  let md = new MarkdownIt()
+  let md = new MarkdownIt({
+    html: true,
+    highlight(str, lang) {
+      if (lang) {
+        try {
+          let code = Prism.highlight(str, Prism.languages[lang], lang)
+
+          return `<pre class="language-${lang}"><code>${code}</code></pre>`
+        } catch (__) {}
+      }
+
+      return `<pre class="hljs"><code>${md.utils.escapeHtml(str)}</code></pre>`
+    }
+  })
     .use(mdVue)
   let html = md.render(str)
 
