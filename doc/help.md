@@ -7,7 +7,7 @@
 ::: demo
 ```html
 <template>
-  测试 ref: {{ msg }} <br/>
+  测试 ref: <span>{{ msg }}</span> <br/>
   <input v-model="msg" />
   <hr/>
   测试 reactive:<br/>

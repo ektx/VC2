@@ -13,8 +13,11 @@ describe('测试快速上手页面', function () {
 
 describe('测试 Composition API 功能', function () {
   it('输入框功能', function () {
-    cy.get(':nth-child(4) > .display-box > :nth-child(2)')
-      .type(' hello')
-      .should('have.value', 'composition api demo hello')
+    cy.get('.display-box > input:first')
+      .clear()
+      .type('hello')
+
+    cy.get('.display-box > span')
+      .should('contain', 'hello')
   })
 })
