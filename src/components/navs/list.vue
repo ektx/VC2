@@ -8,7 +8,11 @@
           {'is-link': !nav.children}
         ]" 
 			>
-				<span @click="clickEvt(nav)" :style="getNavStyle(level)">{{nav.label}}</span>
+				<a 
+					:href="nav.file"
+					:style="getNavStyle(level)"
+					@click="evt => clickEvt(nav, evt)" 
+				>{{nav.label}}</a>
 			</div>
 			<div class="nav-children" v-if="nav.children">
 				<nav-list :data="nav.children" :level="level+1"/>
@@ -56,7 +60,9 @@ export default {
 		 * 
 		 * @param {Object} nav 点击的菜单
 		 */
-		clickEvt (nav) {
+		clickEvt (nav, evt) {
+			evt && evt.preventDefault()
+
 			// 如果有文件 
 			if ('file' in nav) {
 				this.setCurrentNav(nav)
@@ -84,6 +90,10 @@ export default {
 		background-color: transparent;
 		pointer-events: none;
 
+		a {
+			color: inherit;
+		}
+
 		&.is-link {
 			color: var(--gray10);
 			pointer-events: auto;
@@ -94,8 +104,8 @@ export default {
 				border-left-color: #42b983;
 			}
 
-			span {
-        cursor: pointer;
+			a {
+				cursor: pointer;
         transition: color .35s ease-in-out;
         
         &:hover {
