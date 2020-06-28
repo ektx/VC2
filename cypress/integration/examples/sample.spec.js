@@ -1,6 +1,9 @@
 describe('测试快速上手页面', function () {
   it('打开帮助页面', function () {
-    cy.visit('http://localhost:3000/')
+    cy.visit('/')
+    // 暂停，用于手动运行
+    // cy.pause()
+
     // 找到文字内容为「快速上手」
     cy.contains('快速上手').click()
     // 地址栏应该包含 /
