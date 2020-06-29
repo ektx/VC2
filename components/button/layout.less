@@ -1,0 +1,90 @@
+.default (@name, @color) {
+  &.@{name} {
+    color: #fff;
+    border-color: @color;
+    background-color: @color;
+    
+    &.plain {
+      color: @color;
+    }
+  }
+ 
+  &[disabled] {
+    &.@{name} {
+      border-color: lighten(@color, 25%);
+      background-color: lighten(@color, 25%);
+
+      &.plain {
+        color: lighten(@color, 25%);
+      }
+    }
+    cursor: not-allowed;
+  }
+
+  &[type=text] {
+    &.@{name} {
+      color: @color;
+    }
+  }
+}
+
+.vc-btn-com {
+  padding: .25em .8em .3em;
+  border-radius: .15em;
+  border: 1px solid #ddd;
+  color: #666;
+  box-sizing: border-box;
+  cursor: pointer;
+  outline: none;
+
+  &.default {
+    &.plain {
+      border-color: #ddd;
+    }
+  }
+
+  &[disabled] {
+    color: #aaa;
+  }
+
+  .default(primary, #09f);
+  .default(success, #4aa02c);
+  .default(warn, #FF9800);
+  .default(error, #ff4d4f);
+
+  &.plain {
+    border-color: currentColor;
+    background-color: transparent;
+
+    &[disabled] {
+      background-color: transparent;
+    }
+  }
+
+  &:hover {
+    opacity: .85;
+    transition: opacity 200ms ease-in-out;
+  }
+
+  &[type=text] {
+    padding: 0 .2em;
+    background-color: transparent;
+    border-color: transparent;
+    
+    &[disabled] {
+      color:  #aaa;
+      border-color: transparent;
+      background-color: transparent;
+    }
+  }
+
+  &.animate {
+    animation: ripple-ani .1s ease-out;
+  }
+}
+
+@keyframes ripple-ani {
+  100% {
+    opacity: .5;
+  }
+}
