@@ -7,5 +7,14 @@ export default [
         "file": "help.md"
       }
     ]
+  },
+  {
+    "label": "组件",
+    "children": [
+      {
+        "label": "Button 按钮",
+        "file": "button.md"
+      }
+    ]
   }
 ]

@@ -157,37 +157,49 @@ export default {
     // 调用用户定义的组件方法
     let __userData = setupFun(ref, watch, reactive)
 
-    // options api
-    if (Reflect.has(__userData, 'data')) {
-      componentOpts = {
-        ...__userData,
-        data () {
-          return {
-            ...__userData.data(),
-            STATE__: state
-          }
-        },
-        mounted () {
-          // 运行 demo mounted
-          __userData.mounted && __userData.mounted()
+    if (__userData) {
+      // options api
+      if (Reflect.has(__userData, 'data')) {
+        componentOpts = {
+          ...__userData,
+          data () {
+            return {
+              ...__userData.data(),
+              STATE__: state
+            }
+          },
+          mounted () {
+            // 运行 demo mounted
+            __userData.mounted && __userData.mounted()
 
-          // 绑定 code 展示区 dom
-          codeEl.value = this.$refs.CODE_EL__
+            // 绑定 code 展示区 dom
+            codeEl.value = this.$refs.CODE_EL__
+          }
+        }
+      } 
+      // Composition API
+      else {
+        componentOpts = {
+          setup() {
+            return {
+              ...__userData.setup(),
+              STATE__: state,
+              CODE_EL__: codeEl
+            }
+          }
         }
       }
-    } 
-    // Composition API
-    else {
+    } else {
       componentOpts = {
         setup() {
           return {
-            ...__userData.setup(),
             STATE__: state,
             CODE_EL__: codeEl
           }
         }
       }
     }
+
 
     return () => {
       let _slots = {}
