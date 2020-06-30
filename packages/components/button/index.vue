@@ -1,6 +1,10 @@
 <template>
   <button 
-    :class="['vc-btn-com', color, {plain, animate}]" 
+    :class="[
+      'vc-button', 
+      color, 
+      {plain, animate, round}
+    ]" 
     type="button"
     v-bind="$attrs" 
     @click="clickEvt"
@@ -21,10 +25,9 @@ export default {
       default: 'default'
     },
     // 镂空
-    plain: {
-      type: Boolean,
-      default: false
-    }
+    plain: Boolean,
+    // 圆角
+    round: Boolean
   },
   data () {
     return {

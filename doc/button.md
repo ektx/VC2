@@ -1,14 +1,12 @@
 # Button 按钮
 
-## 示例
-
-基础效果演示
+## 基础效果
 
 ::: demo 
 ```html
 <template>
   <div>
-    <vc-btn>默认效果</vc-btn>
+    <vc-btn >默认效果</vc-btn>
     <vc-btn color="primary">主要效果</vc-btn>
     <vc-btn color="success">成功</vc-btn>
     <vc-btn color="warn">警告</vc-btn>
@@ -22,11 +20,19 @@
     <vc-btn plain color="warn">警告</vc-btn>
     <vc-btn plain color="error">错误</vc-btn>
   </div>
+  <br/>
+  <div>
+    <vc-btn round>默认效果</vc-btn>
+    <vc-btn round color="primary">主要效果</vc-btn>
+    <vc-btn round color="success">成功</vc-btn>
+    <vc-btn round color="warn">警告</vc-btn>
+    <vc-btn round color="error">错误</vc-btn>
+  </div>
 </template>
 ```
 :::
 
-文字按钮演示
+## 文字按钮
 
 ::: demo 
 ```html

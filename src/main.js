@@ -1,8 +1,10 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import VC from '../packages/index'
+
 import './assets/reset-1.5.0.css'
 import './assets/theme.less'
-import VC from '../index'
+import '../packages/layout.less'
 
 import VCMarkedIt from './components/VCMarkedIt/index.vue'
 import VCDemoCode from './components/VCDemo/index.vue'

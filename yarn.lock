@@ -3265,10 +3265,10 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vite@^1.0.0-beta.6:
-  version "1.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-1.0.0-beta.6.tgz#b9f8c64d14e9ed225d86587eb1656af06b073929"
-  integrity sha512-efLs24HIXRmh8dLT9c2jMMvRlxduod0xP9bNnWBCdYe+4sM8FgpDQ412fHdE6UCnpo4alkHcE5bgVS0jswB7Ng==
+vite@^1.0.0-beta.8:
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-1.0.0-beta.8.tgz#69828c5339675e4fc68b7eee0cdda60bd43d2406"
+  integrity sha512-OcDIRD8UsCvyxPT/Q1Cnm9B2fMNSzlfCyODVAxn+Pu7T8u8QB0ovJG2vTyyTwuc7dJ/eNSeMKtilwQqqvFzhWQ==
   dependencies:
     "@babel/parser" "^7.9.4"
     "@rollup/plugin-commonjs" "^13.0.0"
