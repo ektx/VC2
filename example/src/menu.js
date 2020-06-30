@@ -12,6 +12,10 @@ export default [
     "label": "组件",
     "children": [
       {
+        "label": "Icon 图标",
+        "file": "icon.md"
+      },
+      {
         "label": "Button 按钮",
         "file": "button.md"
       }
