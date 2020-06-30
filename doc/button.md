@@ -29,6 +29,12 @@
     <vc-btn round color="error">错误</vc-btn>
   </div>
 </template>
+
+<style>
+.demo-com .vc-button + .vc-button {
+  margin-left: 10px;
+}
+</style>
 ```
 :::
 

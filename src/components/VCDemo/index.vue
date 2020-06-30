@@ -23,21 +23,6 @@ export default {
       default: ''
     }
   },
-    // watch: {
-    //     show (val) {
-    //         if (val) {
-    //             let h = this.codeEl.scrollHeight
-    //             this.style.height = h + 'px'
-    //         } else {
-    //             let h = this.codeEl.scrollHeight
-    //             this.style.height = `${h}px`
-
-    //             requestAnimationFrame(() => {
-    //                 this.style.height = 0
-    //             })
-    //         }
-    //     }
-    // },
     // methods: {
     //     // 获取 script 部分内容
     //     stripScript (content) {
@@ -118,6 +103,7 @@ export default {
   setup (props, { slots }) {
     let {xml, css, js} = props
     let setupFun = getSetupFun(js)
+    console.log(css)
     // console.log(setupFun(ref, watch, reactive))
 
     const state = reactive({
@@ -152,7 +138,8 @@ export default {
           <span>{{ STATE__.show ? '收起' : '查看代码'}}</span>
         </div>
       </div>
-    </div>`
+    </div>
+    ${css}`
     let componentOpts = {}
     // 调用用户定义的组件方法
     let __userData = setupFun(ref, watch, reactive)
