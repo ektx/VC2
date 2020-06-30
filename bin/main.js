@@ -50,7 +50,7 @@ const myPlugin = ({
       // compiled from `*.vue` files, where <template> and <script> are served as
       // `application/javascript` and <style> are served as `text/css`.
       if (ctx.response.is('js')) {
-        console.log('post processing: 9', ctx.url)
+        console.log('post processing:', ctx.url)
         // console.log(ctx.body) // can be string or Readable stream
       }
     })
