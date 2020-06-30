@@ -6,27 +6,27 @@
 ```html
 <template>
   <div>
-    <vc-btn >默认效果</vc-btn>
-    <vc-btn color="primary">主要效果</vc-btn>
-    <vc-btn color="success">成功</vc-btn>
-    <vc-btn color="warn">警告</vc-btn>
-    <vc-btn color="error">错误</vc-btn>
+    <vc-button >默认效果</vc-button>
+    <vc-button color="primary">主要效果</vc-button>
+    <vc-button color="success">成功</vc-button>
+    <vc-button color="warn">警告</vc-button>
+    <vc-button color="error">错误</vc-button>
   </div>
   <br/>
   <div>
-    <vc-btn plain>默认效果</vc-btn>
-    <vc-btn plain color="primary">主要效果</vc-btn>
-    <vc-btn plain color="success">成功</vc-btn>
-    <vc-btn plain color="warn">警告</vc-btn>
-    <vc-btn plain color="error">错误</vc-btn>
+    <vc-button plain>默认效果</vc-button>
+    <vc-button plain color="primary">主要效果</vc-button>
+    <vc-button plain color="success">成功</vc-button>
+    <vc-button plain color="warn">警告</vc-button>
+    <vc-button plain color="error">错误</vc-button>
   </div>
   <br/>
   <div>
-    <vc-btn round>默认效果</vc-btn>
-    <vc-btn round color="primary">主要效果</vc-btn>
-    <vc-btn round color="success">成功</vc-btn>
-    <vc-btn round color="warn">警告</vc-btn>
-    <vc-btn round color="error">错误</vc-btn>
+    <vc-button round>默认效果</vc-button>
+    <vc-button round color="primary">主要效果</vc-button>
+    <vc-button round color="success">成功</vc-button>
+    <vc-button round color="warn">警告</vc-button>
+    <vc-button round color="error">错误</vc-button>
   </div>
 </template>
 
@@ -44,11 +44,11 @@
 ```html
 <template>
   <div>
-    <vc-btn type="text">默认效果</vc-btn>
-    <vc-btn type="text" color="primary">主要效果</vc-btn>
-    <vc-btn type="text" color="success">成功</vc-btn>
-    <vc-btn type="text" color="warn">警告</vc-btn>
-    <vc-btn type="text" color="error">错误</vc-btn>
+    <vc-button type="text">默认效果</vc-button>
+    <vc-button type="text" color="primary">主要效果</vc-button>
+    <vc-button type="text" color="success">成功</vc-button>
+    <vc-button type="text" color="warn">警告</vc-button>
+    <vc-button type="text" color="error">错误</vc-button>
   </div>
 </template>
 ```
@@ -60,27 +60,27 @@
 ```html
 <template>
   <div>
-    <vc-btn disabled>默认效果</vc-btn>
-    <vc-btn disabled color="primary">主要效果</vc-btn>
-    <vc-btn disabled color="success">成功</vc-btn>
-    <vc-btn disabled color="warn">警告</vc-btn>
-    <vc-btn disabled color="error">错误</vc-btn>
+    <vc-button disabled>默认效果</vc-button>
+    <vc-button disabled color="primary">主要效果</vc-button>
+    <vc-button disabled color="success">成功</vc-button>
+    <vc-button disabled color="warn">警告</vc-button>
+    <vc-button disabled color="error">错误</vc-button>
   </div>
   <br/>
   <div>
-    <vc-btn disabled plain>默认效果</vc-btn>
-    <vc-btn disabled plain color="primary">主要效果</vc-btn>
-    <vc-btn disabled plain color="success">成功</vc-btn>
-    <vc-btn disabled plain color="warn">警告</vc-btn>
-    <vc-btn disabled plain color="error">错误</vc-btn>
+    <vc-button disabled plain>默认效果</vc-button>
+    <vc-button disabled plain color="primary">主要效果</vc-button>
+    <vc-button disabled plain color="success">成功</vc-button>
+    <vc-button disabled plain color="warn">警告</vc-button>
+    <vc-button disabled plain color="error">错误</vc-button>
   </div>
   <br/>
   <div>
-    <vc-btn disabled type="text">默认效果</vc-btn>
-    <vc-btn disabled type="text" color="primary">主要效果</vc-btn>
-    <vc-btn disabled type="text" color="success">成功</vc-btn>
-    <vc-btn disabled type="text" color="warn">警告</vc-btn>
-    <vc-btn disabled type="text" color="error">错误</vc-btn>
+    <vc-button disabled type="text">默认效果</vc-button>
+    <vc-button disabled type="text" color="primary">主要效果</vc-button>
+    <vc-button disabled type="text" color="success">成功</vc-button>
+    <vc-button disabled type="text" color="warn">警告</vc-button>
+    <vc-button disabled type="text" color="error">错误</vc-button>
   </div>
 </template>
 ```
