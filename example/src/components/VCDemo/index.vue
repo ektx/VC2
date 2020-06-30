@@ -103,7 +103,6 @@ export default {
   setup (props, { slots }) {
     let {xml, css, js} = props
     let setupFun = getSetupFun(js)
-    console.log(css)
     // console.log(setupFun(ref, watch, reactive))
 
     const state = reactive({
