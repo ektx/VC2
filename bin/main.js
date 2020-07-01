@@ -57,6 +57,8 @@ const myPlugin = ({
 }
 
 createServer({
+  // root: './example',
+  // base: 'abcd',
   configureServer: [myPlugin],
   alias: {
     vue: 'vue/dist/vue.esm-bundler.js'
