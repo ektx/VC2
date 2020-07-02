@@ -6,7 +6,6 @@
       {plain, animate, round}
     ]" 
     type="button"
-    v-bind="$attrs" 
     @click="clickEvt"
   >
     <span><slot/></span>
@@ -37,7 +36,6 @@ export default {
   methods: {
     clickEvt () {
       this.animate = false
-      this.$emit('click')
       setTimeout(() => {
         this.animate = true
       }, 20)
