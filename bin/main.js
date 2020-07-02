@@ -2,15 +2,16 @@ const { createServer } = require('vite')
 const Router = require('koa-router')
 const MarkdownIt = require('markdown-it')
 const Prism = require('prismjs')
-const fs = require('fs/promises')
+const fs = require('fs')
 const path = require('path')
 const mdVue = require('./vue')
 
 let router = new Router()
 
+// 获取 doc 中的 markdown 文件
 router.get('/api/doc', async ctx => {
   let file = path.join(__dirname, `../doc/${ctx.request.query.file}`)
-  let str = await fs.readFile(file, { encoding: 'utf-8'})
+  let str = await fs.promises.readFile(file, { encoding: 'utf-8'})
   let md = new MarkdownIt({
     html: true,
     highlight(str, lang) {
@@ -33,6 +34,12 @@ router.get('/api/doc', async ctx => {
   ctx.body = { data: html }
 })
 
+// 获取 icon json
+router.get('/api/icons', async ctx => {
+  let file = path.join(__dirname, '../example/data/iconfont.json')
+  ctx.body= fs.createReadStream(file, {encoding: 'utf8'})
+})
+
 const myPlugin = ({
   root, // 项目目录的绝对地址
   app, // Koa app
@@ -51,14 +58,11 @@ const myPlugin = ({
       // `application/javascript` and <style> are served as `text/css`.
       if (ctx.response.is('js')) {
         console.log('post processing:', ctx.url)
-        // console.log(ctx.body) // can be string or Readable stream
       }
     })
 }
 
 createServer({
-  // root: './example',
-  // base: 'abcd',
   configureServer: [myPlugin],
   alias: {
     vue: 'vue/dist/vue.esm-bundler.js'
