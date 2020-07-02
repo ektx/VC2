@@ -17,3 +17,9 @@ yarn build
 # publish
 npm publish
 ```
+
+## E2E
+
+```sh
+yarn e2e
+```
