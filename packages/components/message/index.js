@@ -7,22 +7,33 @@ const Message = function (options) {
       message: options
     }
   }
+
+  let boxEl = document.querySelector('.vc-message-box')
   let visible = ref(false)
   let app = createApp(App, {
     ...options,
     visible
   })
+
+  if (!boxEl) {
+    boxEl = document.createElement('section')
+    boxEl.classList.add('vc-message-box')
+    document.body.appendChild(boxEl)  
+  }
+
   let el = document.createElement('div')
+  let time = options.duration ? options.duration + 400 : 3000
   el.classList.add('vc-message')
-  document.body.appendChild(el)  
+  boxEl.appendChild(el)  
   app.mount(el)
   
   visible.value = true
 
-  // setTimeout(() => {
-  //   visible.value = false
-  // }, 3000)
-  console.log(app)
+  if (!options.showClose) {
+    setTimeout(() => {
+      visible.value = false
+    }, time)
+  }
 };
 
 ['success', 'warning', 'info', 'error'].forEach(type => {
