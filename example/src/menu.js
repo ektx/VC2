@@ -18,6 +18,10 @@ export default [
       {
         "label": "Button 按钮",
         "file": "button.md"
+      },
+      {
+        "label": "Message",
+        "file": "message.md"
       }
     ]
   }

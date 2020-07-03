@@ -1,0 +1,46 @@
+.vc-message-inner {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  z-index: 1000;
+  padding: 5px 10px;
+  font-size: 14px;
+  color: #333;
+  border-radius: 3px;
+  backdrop-filter: saturate(180%) blur(20px);
+  background-color: rgba(255,255,255,0.72);
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, .3);
+  transform: translateX(-50%);
+  transition: opacity 0.3s, transform .4s, top 0.4s;
+
+  i {
+    display: inline-block;
+    margin-right: 5px;
+
+    &.info {
+      color: #09f;
+    }
+    
+    &.success {
+      color: #4CAF50;
+    }
+
+    &.warning {
+      color: #FF9800;
+    }
+
+    &.error {
+      color: #ff4d4f;
+    }
+  }
+
+  p {
+    display: inline-block;
+  }
+}
+
+.vc-message-fade-enter-from,
+.vc-message-fade-leave-to {
+  opacity: 0;
+  transform: translate(-50%, -100%);
+}
