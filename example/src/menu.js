@@ -19,6 +19,11 @@ export default [
         "label": "Button 按钮",
         "file": "button.md"
       },
+    ]
+  },
+  {
+    "label": "公告",
+    "children": [
       {
         "label": "Message",
         "file": "message.md"
