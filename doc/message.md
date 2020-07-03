@@ -133,3 +133,32 @@ export default {
 </script>
 ```
 :::
+
+## 使用 HTML 片段
+
+::: demo
+```html
+<template>
+  <vc-button @click="info">使用 HTML 片段</vc-button>
+</template>
+
+<script>
+export default {
+  setup() {
+    let message = inject('vcMessage')
+
+    function info () {
+      message({
+        useHtml: true,
+        message: '🎉 <strong>hello World！！</strong>'
+      })
+    }
+
+    return {
+      info,
+    }
+  }
+}
+</script>
+```
+:::

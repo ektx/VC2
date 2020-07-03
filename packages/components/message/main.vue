@@ -7,7 +7,9 @@
   >
     <div v-show="visible.value" :class="['vc-message-inner', type]">
       <i :class="[`vc-icon-${type}`, type]"></i>
-      <p>{{ message }}</p>
+      
+      <div v-if="useHtml" v-html="message"></div>
+      <p v-else>{{ message }}</p>
 
       <i v-if="showClose" class="vc-icon-close" @click="closeEvt"></i>
     </div>
@@ -23,7 +25,8 @@ export default {
     },
     visible: Object,
     type: String,
-    showClose: Boolean
+    showClose: Boolean,
+    useHtml: Boolean
   },
   methods: {
     handleAfterLeave () {
