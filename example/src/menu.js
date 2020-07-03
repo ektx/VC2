@@ -25,7 +25,7 @@ export default [
     "label": "公告",
     "children": [
       {
-        "label": "Message",
+        "label": "Message 消息提示",
         "file": "message.md"
       }
     ]
