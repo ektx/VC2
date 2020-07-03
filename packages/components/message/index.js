@@ -50,5 +50,5 @@ const Message = function (options) {
 
 export default {
   function: Message,
-  name: 'message'
+  name: 'vcMessage'
 }

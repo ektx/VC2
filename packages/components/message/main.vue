@@ -15,8 +15,6 @@
 </template>
 
 <script>
-import { watch, getCurrentInstance } from 'vue'
-
 export default {
   props: {
     message: {

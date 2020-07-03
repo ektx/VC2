@@ -16,7 +16,7 @@
 <script>
 export default {
   setup() {
-    let message = inject('message')
+    let message = inject('vcMessage')
 
     function info () {
       message({
@@ -61,7 +61,7 @@ export default {
 <script>
 export default {
   setup() {
-    let message = inject('message')
+    let message = inject('vcMessage')
 
     function info () {
       message({
@@ -115,7 +115,7 @@ export default {
 <script>
 export default {
   setup() {
-    let message = inject('message')
+    let message = inject('vcMessage')
 
     function info () {
       message({
