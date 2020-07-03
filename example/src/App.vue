@@ -29,11 +29,6 @@ export default {
   props: {
     msg: String
   },
-  data() {
-    return {
-      count: 0
-    }
-  },
   setup () {
     htmlStr = ref('')
 
