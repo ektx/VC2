@@ -4,7 +4,8 @@ import {
   h, // 用于渲染组件
   onMounted,
   reactive, ref, 
-  watch 
+  watch ,
+  inject
 } from 'vue'
 
 export default {
@@ -103,7 +104,6 @@ export default {
   setup (props, { slots }) {
     let {xml, css, js} = props
     let setupFun = getSetupFun(js)
-    // console.log(setupFun(ref, watch, reactive))
 
     const state = reactive({
       show: false,
@@ -141,7 +141,7 @@ export default {
     ${css}`
     let componentOpts = {}
     // 调用用户定义的组件方法
-    let __userData = setupFun(ref, watch, reactive)
+    let __userData = setupFun(ref, watch, reactive, inject)
 
     if (__userData) {
       // options api
@@ -219,7 +219,7 @@ function getSetupFun (str) {
   // 移除字符串中 'export default'
   str = str.slice(15)
 
-  return new Function('ref', 'watch', 'reactive', `return ${str}`)
+  return new Function('ref', 'watch', 'reactive', 'inject', `return ${str}`)
 }
 </script>
 
