@@ -68,6 +68,11 @@ html {
 .dark-scheme {
   background-color: var(--gray80);
 }
+
+// Demo 全局样式控制
+.display-box .vc-button + .vc-button {
+  margin-left: 10px;
+}
 </style>
 
 <style lang="less" scoped>
