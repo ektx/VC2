@@ -34,6 +34,8 @@ const Message = function (options) {
       visible.value = false
     }, time)
   }
+
+  return visible
 };
 
 ['success', 'warning', 'info', 'error'].forEach(type => {

@@ -162,3 +162,42 @@ export default {
 </script>
 ```
 :::
+
+
+## 灵活控制
+
+通过接收返回的 `visible` 字段，来灵活控制显示与隐藏
+
+::: demo
+```html
+<template>
+  <vc-button @click="show">Show</vc-button>
+  <vc-button @click="close">Close</vc-button>
+</template>
+
+<script>
+export default {
+  setup() {
+    let message = inject('vcMessage')
+    let visible = ref(false)
+
+    function show () {
+      visible = message({
+        showClose: true,
+        message: '🎉 hello World!'
+      })
+    }
+
+    function close () {
+      visible.value = false
+    }
+
+    return {
+      show,
+      close
+    }
+  }
+}
+</script>
+```
+:::
