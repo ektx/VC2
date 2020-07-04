@@ -88,7 +88,7 @@ export default {
       message({
         type: 'error',
         showClose: true,
-        message: '这是一个错误信息！这是一个错误信息！这是一个错误信息！这是一个错误信息！这是一个错误信息！这是一个错误信息！这是一个错误信息！'
+        message: '这是一个错误信息！'
       })
     }
 
