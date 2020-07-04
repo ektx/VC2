@@ -88,7 +88,7 @@ export default {
       message({
         type: 'error',
         showClose: true,
-        message: '这是一个错误信息！'
+        message: '这是一个错误信息！这是一个错误信息！这是一个错误信息！这是一个错误信息！这是一个错误信息！这是一个错误信息！这是一个错误信息！'
       })
     }
 
@@ -183,6 +183,7 @@ export default {
 
     function show () {
       visible = message({
+        // 不可省略，省略会导致自动关闭
         showClose: true,
         message: '🎉 hello World!'
       })
@@ -199,5 +200,43 @@ export default {
   }
 }
 </script>
+```
+:::
+
+## 自定义样式
+
+::: demo
+```html
+<template>
+  <vc-button @click="show">Show</vc-button>
+</template>
+
+<script>
+export default {
+  setup() {
+    let message = inject('vcMessage')
+
+    function show () {
+      message({
+        type: 'info',
+        showClose: true,
+        classes: 'my-class-name',
+        message: '这是自定义样式效果!'
+      })
+    }
+
+    return {
+      show
+    }
+  }
+}
+</script>
+
+<style>
+.my-class-name {
+  color: yellowgreen !important;
+  font-size: 16px !important;
+}
+</style>
 ```
 :::

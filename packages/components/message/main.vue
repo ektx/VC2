@@ -5,7 +5,10 @@
     @before-leave="handleBeforeLeave"
     @afterLeave="handleAfterLeave"
   >
-    <div v-show="visible.value" :class="['vc-message-inner', type]">
+    <div 
+      v-show="visible.value" 
+      :class="['vc-message-inner', type, classes]"
+    >
       <i :class="[`vc-icon-${type}`, type]"></i>
       
       <div v-if="useHtml" v-html="message"></div>
@@ -24,9 +27,17 @@ export default {
       default: ''
     },
     visible: Object,
+    // 提醒样式
     type: String,
+    // 显示关闭按钮
     showClose: Boolean,
-    useHtml: Boolean
+    // 使用 HTML 渲染
+    useHtml: Boolean,
+    // 自定义样式
+    classes: {
+      type: String,
+      default: ''
+    }
   },
   methods: {
     handleAfterLeave () {
