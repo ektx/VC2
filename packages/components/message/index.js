@@ -35,7 +35,15 @@ const Message = function (options) {
     }, time)
   }
 
-  return visible
+  function close () {
+    visible.value = false
+  }
+
+  function show () {
+    visible.value = true
+  }
+
+  return { close, show }
 };
 
 ['success', 'warning', 'info', 'error'].forEach(type => {

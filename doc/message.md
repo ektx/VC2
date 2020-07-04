@@ -166,7 +166,7 @@ export default {
 
 ## 灵活控制
 
-通过接收返回的 `visible` 字段，来灵活控制显示与隐藏
+通过定义一个变量接收返回对象，来灵活控制显示与隐藏。返回对象包含有 `show` 与 `close` 方法。
 
 ::: demo
 ```html
@@ -179,18 +179,22 @@ export default {
 export default {
   setup() {
     let message = inject('vcMessage')
-    let visible = ref(false)
+    let myMes 
 
     function show () {
-      visible = message({
-        // 不可省略，省略会导致自动关闭
-        showClose: true,
-        message: '🎉 hello World!'
-      })
+      if (myMes && 'show' in myMes) {
+        myMes.show()
+      } else {
+        myMes = message({
+          // 不可省略，省略会导致自动关闭
+          showClose: true,
+          message: '🎉 hello World!'
+        })
+      }
     }
 
     function close () {
-      visible.value = false
+      myMes.close()
     }
 
     return {
