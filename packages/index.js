@@ -2,11 +2,13 @@
 import vcButton from './components/button/index.vue'
 import vcIcon from './components/icon/index.vue'
 import vcMessage from './components/message/index.js'
+import vcNotification from './components/notification/index.js'
 
 const components = [
   vcButton,
   vcIcon,
-  vcMessage
+  vcMessage,
+  vcNotification
 ]
 
 const install = app => {
@@ -26,5 +28,6 @@ export default {
   install,
   vcButton,
   vcIcon,
-  vcMessage
+  vcMessage,
+  vcNotification
 }

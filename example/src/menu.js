@@ -27,6 +27,10 @@ export default [
       {
         "label": "Message 消息提示",
         "file": "message.md"
+      },
+      {
+        "label": "Notification 通知",
+        "file": "notification.md"
       }
     ]
   }
