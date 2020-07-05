@@ -1,8 +1,12 @@
 <template>
-  <transition name="vc-notify-fade">
+  <transition 
+    :name="`vc-notify-fade-${position}`"
+    @after-leave="handleAfterLeave"
+  >
     <div 
       v-show="visible.value" 
-      class="vc-notify-inner"
+      :class="['vc-notify-inner', position]"
+      @click="closeEvt"
     >
       Notify
     </div>
@@ -12,16 +16,36 @@
 <script>
 export default {
   props: {
+    id: Number,
     visible: Object,
+    top: Object,
+    close: Function,
+    position: String,
+  },
+  watch: {
+    top: {
+      handler (val) {
+        this.$el.parentNode.style.top = val.value + 'px'
+      },
+      deep: true
+    },
+  },
+  methods: {
+    closeEvt () {
+      this.close(this.id)
+    },
+    handleAfterLeave () {
+      document.body.removeChild(this.$el.parentNode)
+    }
   }
 }
 </script>
 
 <style lang="less">
-.vc-notification-box {
+.vc-notification {
   position: fixed;
-  top: 0;
   z-index: 3000;
+  transition: top .4s;
 }
 .vc-notify-inner {
   margin: 5px;
@@ -32,9 +56,9 @@ export default {
   box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, .3);
   transition: opacity .3s, transform .4s;
 }
-.vc-notify-fade-enter-from,
-.vc-notify-fade-leave-to {
+.vc-notify-fade-top-right-enter-from,
+.vc-notify-fade-top-right-leave-to {
   opacity: 0;
-  transform: translate(0%, -100%);
+  transform: translate(100%, -100%);
 }
 </style>
