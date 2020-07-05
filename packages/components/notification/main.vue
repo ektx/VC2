@@ -19,6 +19,7 @@ export default {
     id: Number,
     visible: Object,
     top: Object,
+    bottom: Object,
     close: Function,
     position: String,
   },
@@ -26,6 +27,12 @@ export default {
     top: {
       handler (val) {
         this.$el.parentNode.style.top = val.value + 'px'
+      },
+      deep: true
+    },
+    bottom: {
+      handler (val) {
+        this.$el.parentNode.style.bottom = val.value + 'px'
       },
       deep: true
     },
@@ -45,7 +52,7 @@ export default {
 .vc-notification {
   position: fixed;
   z-index: 3000;
-  transition: top .4s;
+  transition: top .4s, bottom .4s;
 }
 .vc-notify-inner {
   margin: 5px;
@@ -60,5 +67,20 @@ export default {
 .vc-notify-fade-top-right-leave-to {
   opacity: 0;
   transform: translate(100%, -100%);
+}
+.vc-notify-fade-top-left-enter-from,
+.vc-notify-fade-top-left-leave-to {
+  opacity: 0;
+  transform: translate(-100%, -100%);
+}
+.vc-notify-fade-bottom-right-enter-from,
+.vc-notify-fade-bottom-right-leave-to {
+  opacity: 0;
+  transform: translate(100%, 100%);
+}
+.vc-notify-fade-bottom-left-enter-from,
+.vc-notify-fade-bottom-left-leave-to {
+  opacity: 0;
+  transform: translate(-100%, 100%);
 }
 </style>

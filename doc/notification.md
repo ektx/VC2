@@ -40,3 +40,37 @@ export default {
 </script>
 ```
 :::
+
+## 自定义弹出位置
+可以让 Notification 从屏幕四角中的任意一角弹出
+
+::: demo
+```html
+<template>
+  <vc-button @click="open('top-right')">右上角</vc-button>
+  <vc-button @click="open('bottom-right')">右下角</vc-button>
+  <vc-button @click="open('top-left')">左上角</vc-button>
+  <vc-button @click="open('bottom-left')">左下角</vc-button>
+</template>
+
+<script>
+export default {
+  setup() {
+    let message = inject('vcNotification')
+
+    function open (position) {
+      message({
+        position,
+        type: 'info',
+        message: '这是一个普通信息！'
+      })
+    }
+
+    return {
+      open
+    }
+  }
+}
+</script>
+```
+:::
