@@ -1,39 +1,40 @@
-# Notification
+# Notification 通知
 
+## 基础效果
 
 ::: demo
+
+> `duration` 设置为 0 时，将不会自动关闭
+
 ```html
 <template>
-  <vc-button @click="info">自动关闭</vc-button>
-  <vc-button @click="success">手动关闭</vc-button>
+  <vc-button @click="auto">自动关闭</vc-button>
+  <vc-button @click="close">手动关闭</vc-button>
 </template>
 
 <script>
 export default {
   setup() {
-    let message = inject('vcNotification')
+    let notify = inject('vcNotification')
 
-    function info () {
-      message({
-        type: 'info',
+    function auto () {
+      notify({
+        title: '自动关闭',
         message: '这是一个普通信息！'
       })
     }
-    function success () {
-      message.success('这是一个成功信息！')
-    }
-    function warning () {
-      message.warning('这是一个警告信息！')
-    }
-    function error () {
-      message.error('这是一个错误信息！')
+
+    function close () {
+      notify({
+        title: '手动关闭',
+        duration: 0,
+        message: '这条提醒需要你手动关闭它'
+      })
     }
 
     return {
-      info,
-      success,
-      warning,
-      error
+      auto,
+      close
     }
   }
 }
@@ -61,13 +62,86 @@ export default {
     function open (position) {
       message({
         position,
-        type: 'info',
+        title: '标题名称',
         message: '这是一个普通信息！'
       })
     }
 
     return {
       open
+    }
+  }
+}
+</script>
+```
+:::
+
+## 带有倾向性
+
+带有 icon，常用来显示「成功、警告、消息、错误」类的系统消息
+
+::: demo
+```html
+<template>
+  <vc-button @click="open('info')">消息</vc-button>
+  <vc-button @click="open('success')">成功</vc-button>
+  <vc-button @click="open('warning')">警告</vc-button>
+  <vc-button @click="open('error')">失败</vc-button>
+</template>
+
+<script>
+export default {
+  setup() {
+    let message = inject('vcNotification')
+
+    function open (type) {
+      message({
+        type,
+        icon: 'vc-icon-success',
+        title: '标题名称',
+        message: '这是一个普通信息！'
+      })
+    }
+
+    return { open }
+  }
+}
+</script>
+```
+:::
+
+## 自定义图片
+
+::: demo
+```html
+<template>
+  <vc-button @click="icon">使用图标</vc-button>
+  <vc-button @click="img">使用图片</vc-button>
+</template>
+
+<script>
+export default {
+  setup() {
+    let message = inject('vcNotification')
+
+    function icon () {
+      message({
+        icon: 'vc-icon-success',
+        title: '标题名称',
+        message: '这是一个普通信息！'
+      })
+    }
+
+    function img () {
+      message({
+        img: '/example/public/logo.png',
+        title: '标题名称',
+      })
+    }
+
+    return {
+      img,
+      icon
     }
   }
 }

@@ -17,7 +17,7 @@ function Notification (options) {
     top,
     bottom,
     position,
-    close: Notification.close
+    close: Notification.close,
   }
 
   let app = createApp(App, options)
