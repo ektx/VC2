@@ -12,8 +12,6 @@ const components = [
 ]
 
 const install = app => {
-  console.log(app, install)
-
   components.forEach(item => {
     if (item.__file) {
       app.component(item.name, item)
