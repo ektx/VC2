@@ -10,7 +10,9 @@
       @mouseenter="mouseEnterEvt"
       @mouseleave="mouseLeaveEvt"
     >
-      <div class="vc-notify__icon"></div>
+      <div class="vc-notify__icon">
+        <i v-show="iconClasses" :class="iconClasses"/>
+      </div>
       <div class="vc-notify__group">
         <h3 v-show="title" class="vc-notify__title">
           <span>{{ title }}</span>
@@ -47,6 +49,7 @@ export default {
       type: String,
       default: ''
     },
+    // 定义倾向性效果
     type: {
       type: String,
       default: ''
@@ -59,7 +62,8 @@ export default {
   },
   data () {
     return {
-      timer: null
+      timer: null,
+      // iconClasses: ''
     }
   },
   watch: {
@@ -75,6 +79,11 @@ export default {
       },
       deep: true
     },
+  },
+  computed: {
+    iconClasses () {
+      return this.type ? `vc-icon-${this.type}` : ''
+    }
   },
   methods: {
     closeEvt () {
@@ -117,9 +126,11 @@ export default {
 }
 .vc-notify__group {
   flex: 1;
+  margin-left: 5px;
 }
 .vc-notify__title {
   display: flex;
+  // margin-bottom: 5px;
   font-size: 16px;
   color: #333;
 
@@ -145,6 +156,32 @@ export default {
   color: #666;
   font-size: 14px;
 }
+.vc-notify__icon {
+  display: flex;
+  // margin-left: 5px;
+  justify-content: center;
+  align-items: center;
+
+  i {
+    width: 40px;
+    font-size: 24px;
+    text-align: center;
+
+    &.vc-icon-info {
+      color: #09f;
+    }
+    &.vc-icon-success {
+      color: #4CAF50;
+    }
+    &.vc-icon-warning {
+      color: #FF9800;
+    }
+    &.vc-icon-error {
+      color: #ff4d4f;
+    }
+  }
+}
+
 .vc-notify-fade-top-right-enter-from,
 .vc-notify-fade-top-right-leave-to {
   opacity: 0;

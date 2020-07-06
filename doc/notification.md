@@ -4,7 +4,7 @@
 
 ::: demo
 
-> `duration` 设置为 0 时，将不会自动关闭
+> `duration` 设置为 **0** 时，将不会自动关闭
 
 ```html
 <template>
@@ -43,9 +43,13 @@ export default {
 :::
 
 ## 自定义弹出位置
-可以让 Notification 从屏幕四角中的任意一角弹出
+
+可以让 Notification 从屏幕四角中的任意一角弹出。
 
 ::: demo
+
+> 通过 `position` 来定位显示位置。
+
 ```html
 <template>
   <vc-button @click="open('top-right')">右上角</vc-button>
@@ -78,9 +82,12 @@ export default {
 
 ## 带有倾向性
 
-带有 icon，常用来显示「成功、警告、消息、错误」类的系统消息
+带有 icon，常用来显示「成功、警告、消息、错误」类的系统消息。
 
 ::: demo
+
+> `type`
+
 ```html
 <template>
   <vc-button @click="open('info')">消息</vc-button>
@@ -99,6 +106,7 @@ export default {
         type,
         icon: 'vc-icon-success',
         title: '标题名称',
+        duration: 0,
         message: '这是一个普通信息！'
       })
     }
