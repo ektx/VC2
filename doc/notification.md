@@ -156,3 +156,41 @@ export default {
 </script>
 ```
 :::
+
+## 事件回调
+
+::: demo
+```html
+<template>
+  <vc-button @click="open">提示</vc-button>
+</template>
+
+<script>
+export default {
+  setup() {
+    let message = inject('vcNotification')
+
+    function open () {
+      message({
+        icon: 'vc-icon-coffee',
+        title: '标题名称',
+        duration: 0,
+        message: '这是一个普通信息！',
+        onClick: (item) => {
+          item.closeEvt(item.id)
+        },
+        onClose: () => {
+          console.log('Close ...')
+        }
+      })
+
+    }
+
+    return {
+      open
+    }
+  }
+}
+</script>
+```
+:::

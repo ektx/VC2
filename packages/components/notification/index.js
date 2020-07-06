@@ -53,7 +53,6 @@ function Notification (options) {
 }
 
 Notification.close = function (id) {
-  console.log('close', id)
   let notify = notifyObj[id]
   notify.visible.value = false
 

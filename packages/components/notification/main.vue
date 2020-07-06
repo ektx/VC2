@@ -9,6 +9,7 @@
       :class="['vc-notify-inner', position]"
       @mouseenter="mouseEnterEvt"
       @mouseleave="mouseLeaveEvt"
+      @click="clickEvt"
     >
       <div class="vc-notify__icon">
         <i v-if="iconClasses" :class="[iconClasses, type]"/>
@@ -61,12 +62,14 @@ export default {
       default: 3000
     },
     icon: String,
-    img: String
+    img: String,
+
+    onClick: Function,
+    onClose: Function
   },
   data () {
     return {
-      timer: null,
-      // iconClasses: ''
+      timer: null
     }
   },
   watch: {
@@ -98,6 +101,7 @@ export default {
   },
   methods: {
     closeEvt () {
+      if (this.onClose) this.onClose()
       this.close(this.id)
     },
     mouseEnterEvt () {
@@ -113,6 +117,9 @@ export default {
       if (this.duration) {
         this.timer = setTimeout(this.closeEvt, this.duration)
       }
+    },
+    clickEvt () {
+      if (this.onClick) this.onClick(this)
     }
   }
 }
