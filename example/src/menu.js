@@ -22,6 +22,15 @@ export default [
     ]
   },
   {
+    "label": "表单",
+    "children": [
+      {
+        "label": "Form 表单",
+        "file": "form.md"
+      }
+    ]
+  },
+  {
     "label": "公告",
     "children": [
       {
