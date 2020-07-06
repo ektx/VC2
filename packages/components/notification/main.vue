@@ -11,7 +11,8 @@
       @mouseleave="mouseLeaveEvt"
     >
       <div class="vc-notify__icon">
-        <i v-show="iconClasses" :class="iconClasses"/>
+        <i v-if="iconClasses" :class="[iconClasses, type]"/>
+        <img v-else v-show="img" :src="img" />
       </div>
       <div class="vc-notify__group">
         <h3 v-show="title" class="vc-notify__title">
@@ -58,7 +59,9 @@ export default {
     duration: {
       type: Number,
       default: 3000
-    }
+    },
+    icon: String,
+    img: String
   },
   data () {
     return {
@@ -82,7 +85,15 @@ export default {
   },
   computed: {
     iconClasses () {
-      return this.type ? `vc-icon-${this.type}` : ''
+      let ico = ''
+
+      if (this.type) {
+        ico = `vc-icon-${this.type}`
+      } else if (this.icon) {
+        ico = this.icon
+      }
+      
+      return ico
     }
   },
   methods: {
@@ -167,16 +178,16 @@ export default {
     font-size: 24px;
     text-align: center;
 
-    &.vc-icon-info {
+    &.info {
       color: #09f;
     }
-    &.vc-icon-success {
+    &.success {
       color: #4CAF50;
     }
-    &.vc-icon-warning {
+    &.warning {
       color: #FF9800;
     }
-    &.vc-icon-error {
+    &.error {
       color: #ff4d4f;
     }
   }

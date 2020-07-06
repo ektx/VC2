@@ -118,7 +118,7 @@ export default {
 ```
 :::
 
-## 自定义图片
+## 自定义图片与图标
 
 ::: demo
 ```html
@@ -134,7 +134,7 @@ export default {
 
     function icon () {
       message({
-        icon: 'vc-icon-success',
+        icon: 'vc-icon-coffee',
         title: '标题名称',
         message: '这是一个普通信息！'
       })
