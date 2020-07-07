@@ -18,12 +18,14 @@
 export default {
   name: 'VcFormItem',
   props: {
+    // 标题
     label: {
       type: String,
       default: ''
     },
     // 指定标题的宽度，支持'auto'
-    labelWidth: String
+    labelWidth: String,
+    prop: String,
   },
   computed: {
     labelStyle () {
