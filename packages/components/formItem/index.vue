@@ -10,11 +10,24 @@
     </div>
     <div class="vc-form-item__content">
       <slot></slot>
+      <transition name="vc-fade-in">
+        <slot
+          v-if="validateState === 'error'"
+          name="error"
+          :error="validateMessage"
+        >
+          <div class="vc-form-item__error">
+            {{ validateMessage}}
+          </div>
+        </slot>
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
+import AsyncValidator from 'async-validator'
+
 export default {
   name: 'VcFormItem',
   props: {
@@ -58,8 +71,24 @@ export default {
       },
     }
   },
+  data () {
+    return {
+      parentForm: null,
+      validateState: '',
+      validateMessage: ''
+    }
+  },
   mounted () {
     this.updateLabelWidth()
+    if (this.$parent.$options.name === 'VcForm') {
+      this.parentForm = this.$parent
+    }
+
+    if (this.prop) {
+      if (this.parentForm) {
+        this.parentForm.fields.push( this )
+      }
+    }
   },
   updated () {
     console.log('updated')
@@ -75,6 +104,37 @@ export default {
           this.$parent.autoLabelWidth = labelWidth
         }
       }
+    },
+
+    validate (trigger, cb) {
+      const rules = this.getRules()
+      console.log(rules)
+
+      const descriptor = {}
+      if (rules.length > 0) {
+        rules.forEach(rule => {
+          delete rule.trigger
+        })
+      }
+      descriptor[this.prop] = rules
+
+      const validator = new AsyncValidator(descriptor)
+      const model = {}
+
+      model[this.prop] = this.parentForm.model[this.prop]
+
+      validator.validate(model, { firstFields: true }, (err, fields) => {
+        this.validateState = err ? 'error' : 'success'
+        this.validateMessage = err ? err[0].message : ''
+
+        cb(this.validateMessage)
+      })
+    },
+
+    getRules() {
+      let formRules = this.parentForm.rules
+
+      return formRules ? formRules[this.prop] : []
     }
   }
 }
@@ -83,6 +143,7 @@ export default {
 <style lang="less">
 .vc-form-item {
   display: flex;
+  margin-bottom: 22px;
   font-size: 14px;
 
   &.isColumn {
@@ -99,7 +160,27 @@ export default {
   }
 
   &__content {
+    position: relative;
+    flex: 1;
     min-height: 2em;
   }
+
+  &__error {
+    position: absolute;
+    left: 0;
+    font-size: 12px;
+    color: #ff4d4f;
+  }
+}
+
+.vc-fade-in-enter-active,
+.vc-fade-in-leave-active {
+  opacity: 1;
+  transition: opacity .2s;
+  transform-origin: center top;
+}
+.vc-fade-in-enter-from,
+.vc-fade-in-leave-to {
+  opacity: 0;
 }
 </style>
