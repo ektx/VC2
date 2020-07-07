@@ -16,11 +16,10 @@
 export default {
   name: 'VcButton',
   props: {
-    // - primary 主要的
-    // - warn 警告
-    // - error 错误
+    // 设置按钮效果
     color: {
       type: String,
+      // @arguments: primary / success / warn / error
       default: 'default'
     },
     // 镂空

@@ -83,8 +83,10 @@
 
 ## Poprs
 
-| 参数 | 类型 | 说明 | 默认值 | 可选值 |
-|---|---|---|:---:|:---:|
+| 参数 | 类型 | 说明 | 可选值 | 默认值 |
+|---|---|---|---|---|
+| color | **String** | 设置按钮效果 | primary / success / warn / error | - |
+| plain | **Boolean** | 镂空 | - | false |
 
 
 ## Events
