@@ -5,10 +5,8 @@
       { isColumn: flexDirection }
     ]"
   >
-    <div class="vc-form-item__label">
-      <label 
-        :style="labelStyle"
-      >{{ label }}</label>
+    <div class="vc-form-item__label" :style="labelStyle">
+      <label v-if="label">{{ label }}</label>
     </div>
     <div class="vc-form-item__content">
       <slot></slot>
@@ -29,10 +27,15 @@ export default {
   },
   computed: {
     labelStyle () {
+      let parent = this.$parent
       let width = this.labelWidth
 
-      if (this.$parent && this.$parent.$options.name === 'VcForm') {
-        width = this.$parent.labelWidth
+      if (parent && parent.$options.name === 'VcForm') {
+        width = parent.labelWidth
+
+        if (width === 'auto' && parent.autoLabelWidth) {
+          width = parent.autoLabelWidth + 'px'
+        }
       }
 
       return {
@@ -42,6 +45,34 @@ export default {
 
     flexDirection () {
       return !this.labelStyle.width
+    }
+  },
+  watch: {
+    labelWidth: {
+      handler (val) {
+        if (!val) {
+          this.updateLabelWidth()
+        }
+      },
+    }
+  },
+  mounted () {
+    this.updateLabelWidth()
+  },
+  updated () {
+    console.log('updated')
+  },
+  methods: {
+    updateLabelWidth () {
+      if (!this.flexDirection) {
+        let label = this.$el.querySelector('.vc-form-item__label')
+        let labelStyleWidth = window.getComputedStyle(label).width
+        let labelWidth = Math.ceil(parseFloat(labelStyleWidth))
+
+        if (labelWidth > this.$parent.autoLabelWidth) {
+          this.$parent.autoLabelWidth = labelWidth
+        }
+      }
     }
   }
 }
@@ -58,7 +89,7 @@ export default {
 
   &__label {
     color: #666;
-    line-height: 2em;
+    // line-height: 2em;
 
     label {
       padding-right: 5px;

@@ -12,7 +12,11 @@ export default {
     // 支持 auto。
     labelWidth: String
   },
-
+  data () {
+    return {
+      autoLabelWidth: 0
+    }
+  }
 }
 </script>
 
