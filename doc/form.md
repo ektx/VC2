@@ -10,11 +10,9 @@
 ```html
 <template>
   <vc-form label-width="auto">
-    <div>
-      <vc-form-item label="活动名称">
-        <input type="text" />
-      </vc-form-item>
-    </div>
+    <vc-form-item label="活动名称">
+      <input type="text" />
+    </vc-form-item>
     <vc-form-item label="活动区域">
       <select>
         <option>1</option>
