@@ -45,12 +45,11 @@ export default {
     prop: String,
   },
   computed: {
-    // flexDirection () {
-    //   return !this.labelStyle.width
-    // },
+    flexDirection () {
+      return !(this.labelWidth || this.vcForm.labelWidth)
+    },
 
     isRequired () {
-      console.log(11)
       let rules = this.getRules()
       let result = false
 
@@ -71,7 +70,7 @@ export default {
       parentForm: null,
       validateState: '',
       validateMessage: '',
-      flexDirection: false
+      // flexDirection: false
     }
   },
   mounted () {
@@ -112,6 +111,13 @@ export default {
 
         cb(this.validateMessage)
       })
+    },
+
+    resetField() {
+      this.validateState = ''
+      this.validateMessage = ''
+
+
     },
 
     getRules() {

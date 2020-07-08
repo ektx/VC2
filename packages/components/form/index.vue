@@ -38,7 +38,6 @@ export default {
         console.warn('[VC2 Warn][Form]model is required for validate to work!')
         return
       }
-      console.log(this)
       // 如果需要验证的fields为空，调用验证时立刻返回callback
       if (this.fields.length === 0 && cb) cb(result)
 
@@ -50,6 +49,16 @@ export default {
             cb && cb(result)
           }
         })
+      })
+    },
+    
+    resetFields() {
+      if (!this.model) {
+        console.warn('[VC Warn][Form]model is required for resetFields to work.');
+        return;
+      }
+      this.fields.forEach(field => {
+        field.resetField()
       })
     }
   }
