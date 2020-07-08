@@ -39,7 +39,7 @@ export default {
       formData: {
         name: '',
         region: '',
-        desc: ''
+        desc: 'text'
       },
       rules: {
         name: [

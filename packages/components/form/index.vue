@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import merge from '../../utils/merge'
+
 export default {
   name: 'VcForm',
   provide() {
@@ -27,7 +29,13 @@ export default {
   data () {
     return {
       autoLabelWidth: 0,
-      fields: []
+      fields: [],
+      defaultValue: {}
+    }
+  },
+  mounted() {
+    if (this.model) {
+      this.defaultValue = merge({}, this.model)
     }
   },
   methods: {
@@ -51,7 +59,7 @@ export default {
         })
       })
     },
-    
+
     resetFields() {
       if (!this.model) {
         console.warn('[VC Warn][Form]model is required for resetFields to work.');

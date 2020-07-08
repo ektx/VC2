@@ -117,7 +117,10 @@ export default {
       this.validateState = ''
       this.validateMessage = ''
 
-
+      if (this.prop) {
+        let val = this.vcForm.defaultValue[this.prop] || ''
+        this.vcForm.model[this.prop] = val
+      }
     },
 
     getRules() {
