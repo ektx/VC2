@@ -9,7 +9,7 @@
 ::: demo
 ```html
 <template>
-  <vc-form ref="form" label-width="auto" :model="formData" :rules="rules">
+  <vc-form ref="form" label-width="80px" :model="formData" :rules="rules">
     <vc-form-item label="活动名称" prop="name">
       <input type="text" v-model="formData.name" />
     </vc-form-item>
@@ -81,7 +81,6 @@ export default {
     }
   }
 }
-
 </script>
 ```
 :::

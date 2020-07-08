@@ -2,12 +2,13 @@
   <div 
     :class="[
       'vc-form-item', 
-      { isColumn: flexDirection }
+      { 
+        'is-column': flexDirection,
+        'is-required': isRequired
+      }
     ]"
   >
-    <div class="vc-form-item__label" :style="labelStyle">
-      <label v-if="label">{{ label }}</label>
-    </div>
+    <Label :label="label" :labelWidth="labelWidth || vcForm.labelWidth"/>
     <div class="vc-form-item__content">
       <slot></slot>
       <transition name="vc-fade-in">
@@ -26,10 +27,13 @@
 </template>
 
 <script>
+import Label from './label.vue'
 import AsyncValidator from 'async-validator'
 
 export default {
   name: 'VcFormItem',
+  inject: ['vcForm'],
+  components: { Label },
   props: {
     // 标题
     label: {
@@ -41,45 +45,36 @@ export default {
     prop: String,
   },
   computed: {
-    labelStyle () {
-      let parent = this.$parent
-      let width = this.labelWidth
+    // flexDirection () {
+    //   return !this.labelStyle.width
+    // },
 
-      if (parent && parent.$options.name === 'VcForm') {
-        width = parent.labelWidth
+    isRequired () {
+      console.log(11)
+      let rules = this.getRules()
+      let result = false
 
-        if (width === 'auto' && parent.autoLabelWidth) {
-          width = parent.autoLabelWidth + 'px'
-        }
+      if (rules && rules.length) {
+        rules.every(rule => {
+          if (rule.required) { 
+            result = true
+            return false
+          }
+          return true
+        })
       }
-
-      return {
-        width
-      }
-    },
-
-    flexDirection () {
-      return !this.labelStyle.width
-    }
-  },
-  watch: {
-    labelWidth: {
-      handler (val) {
-        if (!val) {
-          this.updateLabelWidth()
-        }
-      },
+      return result
     }
   },
   data () {
     return {
       parentForm: null,
       validateState: '',
-      validateMessage: ''
+      validateMessage: '',
+      flexDirection: false
     }
   },
   mounted () {
-    this.updateLabelWidth()
     if (this.$parent.$options.name === 'VcForm') {
       this.parentForm = this.$parent
     }
@@ -94,18 +89,6 @@ export default {
     console.log('updated')
   },
   methods: {
-    updateLabelWidth () {
-      if (!this.flexDirection) {
-        let label = this.$el.querySelector('.vc-form-item__label')
-        let labelStyleWidth = window.getComputedStyle(label).width
-        let labelWidth = Math.ceil(parseFloat(labelStyleWidth))
-
-        if (labelWidth > this.$parent.autoLabelWidth) {
-          this.$parent.autoLabelWidth = labelWidth
-        }
-      }
-    },
-
     validate (trigger, cb) {
       const rules = this.getRules()
       console.log(rules)
@@ -132,8 +115,9 @@ export default {
     },
 
     getRules() {
-      let formRules = this.parentForm.rules
+      if (!this.parentForm) return []
 
+      let formRules = this.parentForm.rules
       return formRules ? formRules[this.prop] : []
     }
   }
@@ -146,8 +130,15 @@ export default {
   margin-bottom: 22px;
   font-size: 14px;
 
-  &.isColumn {
+  &.is-column {
     flex-direction: column;
+  }
+  &.is-required {
+
+    .vc-form-item__label:before {
+      content: '*';
+      color: #ff4d4f;
+    }
   }
 
   &__label {
