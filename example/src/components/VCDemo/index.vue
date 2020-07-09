@@ -24,83 +24,6 @@ export default {
       default: ''
     }
   },
-    // methods: {
-    //     // 获取 script 部分内容
-    //     stripScript (content) {
-    //         let result = content.match(/<(script)>([\s\S]+)<\/\1>/)
-    //         result = result && result[2] ? result[2].trim() : ''
-
-    //         if (result) {
-    //             return Function(`return ${result.substr(15)}`)()
-    //         } else {
-    //             return {
-    //                 data () {
-    //                     return {}
-    //                 },
-    //                 watch: {},
-    //                 methods: {},
-    //                 mounted () {}
-    //             }
-    //         }
-    //     },
-    //     // 获取样式内容
-    //     setStyle () {
-    //         let cssInner = this.css.match(/<(style)\s*>([\s\S]+)<\/\1>/)
-    //         cssInner = cssInner && cssInner[2] ? 
-    //             cssInner[2].trim() : ''
-
-    //         let style = document.createElement('style')
-    //         this.$el.appendChild(style)
-
-    //         style.type = 'text/css'
-    //         style.appendChild(
-    //             document.createTextNode(cssInner)
-    //         )
-
-    //         // return result && result[2] ? result[2].trim() : ''
-    //     },
-    //     // 获取 template 内容
-    //     stripTemplate(content) {
-    //         content = content.trim()
-    //         if (!content) {
-    //             return content
-    //         }
-    //         content = content.replace(/<(script|style)[\s\S]+<\/\1>/g, '')
-    //         content = content.split('\n')
-    //         // 除去前后 template
-    //         content = content.slice(1, content.length-1)
-
-    //         return `<div>${content.join('')}</div>`
-    //     },
-
-    //     init () {
-    //         let { data, methods, mounted, watch } = this.stripScript( this.js )
-    //         let template = this.stripTemplate( this.html )
-
-    //         let Com = defineComponent({
-    //             // router: this.$router,
-    //             template,
-    //             data,
-    //             watch,
-    //             methods,
-    //             mounted
-    //         })
-    //         console.log(Com)
-
-    //         // https://cn.vuejs.org/v2/api/#vm-mount
-    //         // 渲染文档后
-    //         let component = h(Com)
-    //         console.log(component)
-    //         // 挂载
-    //         // this.$el.querySelector('.display-box').appendChild(component.$el)
-
-    //         this.setStyle()
-    //     },
-
-    //     removeStyle () {
-    //         if (this.show) this.style.height = ''
-    //     }
-    // },
   setup (props, { slots }) {
     let {xml, css, js} = props
     let setupFun = getSetupFun(js)
@@ -186,7 +109,6 @@ export default {
       }
     }
 
-
     return () => {
       let _slots = {}
       // 取出可用的插槽对象
@@ -197,15 +119,17 @@ export default {
         }
       })
 
-      return h(
-        defineComponent({template, ...componentOpts}),
-      // 各种属性配制访问如下链接
-      // https://vuejs.org/v2/guide/render-function.html#The-Data-Object-In-Depth
-      { },
-      // https://github.com/vuejs/rfcs/blob/slots-unification/active-rfcs/0006-slots-unification.md
-      // 指定各插槽对应的渲染函数
-      _slots
-    )
+      let H = h(
+          defineComponent({template, ...componentOpts}),
+        // 各种属性配制访问如下链接
+        // https://vuejs.org/v2/guide/render-function.html#The-Data-Object-In-Depth
+        { },
+        // https://github.com/vuejs/rfcs/blob/slots-unification/active-rfcs/0006-slots-unification.md
+        // 指定各插槽对应的渲染函数
+        _slots
+      )
+
+      return H
     }
   }
 }
