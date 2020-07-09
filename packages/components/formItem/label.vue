@@ -1,5 +1,8 @@
 <template>
-  <div class="vc-form-item__label" :style="labelStyle">
+  <div :class="[
+    'vc-form-item__label', 
+    `text-align-${vcForm.labelPosition}`,
+  ]" :style="labelStyle">
     <label v-if="label">{{ label }}</label>
   </div>
 </template>
@@ -70,6 +73,21 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
+.vc-form-item__label {
+  color: #666;
+  
+  &.text-align {
+    &-right {
+      text-align: right;
+    }
+    &-left {
+      text-align: left;
+    }
+  }
 
+  label {
+    padding-right: 5px;
+  }
+}
 </style>

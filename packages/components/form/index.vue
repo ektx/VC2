@@ -27,6 +27,12 @@ export default {
     },
     // 行内表单模式
     inline: Boolean,
+    // 表单域标签的位置，
+    // @arguments left / right / top
+    labelPosition: {
+      type: String,
+      default: 'right'
+    }
   },
   data () {
     return {

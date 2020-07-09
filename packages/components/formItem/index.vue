@@ -53,7 +53,7 @@ export default {
 
       if (!hasWidth && !isInline) result = true
 
-      return result
+      return this.vcForm.labelPosition === 'top' ? true : result
     },
 
     isRequired () {
@@ -156,15 +156,6 @@ export default {
     .vc-form-item__label:before {
       content: '*';
       color: #ff4d4f;
-    }
-  }
-
-  &__label {
-    color: #666;
-    // line-height: 2em;
-
-    label {
-      padding-right: 5px;
     }
   }
 

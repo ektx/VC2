@@ -93,12 +93,16 @@ export default {
 ```
 :::
 
-### 上下布局效果
+### 对齐方式
 
 ::: demo
 ```html
 <template>
-  <vc-form>
+  <vc-button @click="set('left')">左对齐</vc-button>
+  <vc-button @click="set('right')">右对齐</vc-button>
+  <vc-button @click="set('top')">顶部对齐</vc-button>
+  
+  <vc-form label-width="80px" :labelPosition="labelPosition">
     <vc-form-item label="活动名称">
       <input type="text" v-model="formData.name"/>
     </vc-form-item>
@@ -120,7 +124,7 @@ export default {
   
   <hr/>
 
-  {{ formData}}
+  {{ formData}} - {{ labelPosition }}
 </template>
 
 <script>
@@ -131,7 +135,13 @@ export default {
         name: '',
         region: '',
         desc: ''
-      }
+      },
+      labelPosition: 'right'
+    }
+  },
+  methods: {
+    set(type) {
+      this.labelPosition = type
     }
   }
 }
