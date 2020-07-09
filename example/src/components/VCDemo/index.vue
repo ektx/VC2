@@ -5,7 +5,8 @@ import {
   onMounted,
   reactive, ref, 
   watch ,
-  inject
+  inject,
+  getCurrentInstance
 } from 'vue'
 
 export default {
@@ -27,7 +28,7 @@ export default {
   setup (props, { slots }) {
     let {xml, css, js} = props
     let setupFun = getSetupFun(js)
-
+    
     const state = reactive({
       show: false,
       style: {
@@ -50,6 +51,12 @@ export default {
       }
     )
 
+    onMounted(() => {
+      let { ctx } = getCurrentInstance()
+
+      ctx.$el.insertAdjacentHTML('afterend', css)
+    })
+
     let template = `<div class="demo-com">
       <div class="display-box">${xml}</div>
         <div class="source-box">
@@ -60,8 +67,7 @@ export default {
           <span>{{ STATE__.show ? '收起' : '查看代码'}}</span>
         </div>
       </div>
-    </div>
-    ${css}`
+    </div>`
     let componentOpts = {}
     // 调用用户定义的组件方法
     let __userData = setupFun(ref, watch, reactive, inject)
