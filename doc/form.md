@@ -220,3 +220,90 @@ export default {
 </script>
 ```
 :::
+
+## 自定义校验规则
+
+这个例子中展示了如何使用自定义验证规则来完成密码的二次验证。
+
+::: demo
+```html
+<template>
+  <vc-form ref="form" label-width="80px" :model="formData" :rules="rules">
+    <vc-form-item label="密码" prop="passwd">
+      <input type="password" v-model="formData.passwd" />
+    </vc-form-item>
+    <vc-form-item label="确认密码" prop="checkPass">
+      <input type="password" v-model="formData.checkPass" />
+    </vc-form-item>
+    <vc-form-item>
+      <vc-button color="primary" @click="submitForm">提交</vc-button>
+      <vc-button @click="resetForm">重置</vc-button>
+    </vc-form-item>
+  </vc-form>
+</template>
+
+<script>
+export default {
+  setup () {
+    let validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      } else {
+        // 测试数据调用
+        if (formData.checkPass !== '') {
+          form.value.validateField('checkPass');
+        }
+        callback();
+      }
+    }
+    let validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== formData.passwd) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    }
+
+    const form = ref(null)
+    const formData = reactive({
+      passwd: '',
+      checkPass: '',
+    })
+    const rules = reactive({
+      passwd: [
+        { validator: validatePass, trigger: 'blur' }
+      ],
+      checkPass: [
+        { validator: validatePass2, trigger: 'blur' }
+      ],
+    })
+
+    let submitForm = () => {
+      form.value.validate((valid) => {
+        if (valid) {
+          console.log('submit!');
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    }
+
+    function resetForm() {
+      form.value.resetFields()
+    }
+
+    return {
+      form,
+      formData,
+      rules,
+      submitForm,
+      resetForm
+    }
+  }
+}
+</script>
+```
+:::
