@@ -78,7 +78,7 @@
     {
       "icon_id": "15798320",
       "name": "success",
-      "font_class": "success1",
+      "font_class": "success",
       "unicode": "e639",
       "unicode_decimal": 58937
     },
@@ -253,7 +253,7 @@
     {
       "icon_id": "15798114",
       "name": "left",
-      "font_class": "back1",
+      "font_class": "left",
       "unicode": "e61e",
       "unicode_decimal": 58910
     },
@@ -267,14 +267,14 @@
     {
       "icon_id": "15798110",
       "name": "arrow-right",
-      "font_class": "arrow-right1",
+      "font_class": "arrow-right",
       "unicode": "e61b",
       "unicode_decimal": 58907
     },
     {
       "icon_id": "15798111",
       "name": "arrow-up",
-      "font_class": "arrow-up1",
+      "font_class": "arrow-up",
       "unicode": "e61c",
       "unicode_decimal": 58908
     },
@@ -323,7 +323,7 @@
     {
       "icon_id": "15222085",
       "name": "line",
-      "font_class": "line1",
+      "font_class": "line",
       "unicode": "e613",
       "unicode_decimal": 58899
     },
@@ -1679,13 +1679,6 @@
       "unicode_decimal": 59077
     },
     {
-      "icon_id": "13519452",
-      "name": "notebook-2",
-      "font_class": "notebook-",
-      "unicode": "e6c6",
-      "unicode_decimal": 59078
-    },
-    {
       "icon_id": "13519453",
       "name": "s-home",
       "font_class": "s-home",
@@ -1709,7 +1702,7 @@
     {
       "icon_id": "13519456",
       "name": "notebook-1",
-      "font_class": "notebook-1",
+      "font_class": "notebook",
       "unicode": "e6ca",
       "unicode_decimal": 59082
     },
