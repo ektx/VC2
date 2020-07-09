@@ -288,7 +288,6 @@ export default {
           console.log('submit!');
         } else {
           console.log('error submit!!');
-          return false;
         }
       });
     }
