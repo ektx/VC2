@@ -53,7 +53,12 @@ export default {
       })
     },
 
-    // 验证部分字段内容
+    /**
+     * @Doc
+     * @description 验证部分字段内容
+     * @param props {string|array} 要验证的字段
+     * @param cb {function} 回调函数
+     */
     validateField(props, cb) {
       let filters = []
       props = props.concat(props)
@@ -65,6 +70,28 @@ export default {
       })
 
       this.validateArr(filters, cb)
+    },
+
+    /**
+     * @Doc
+     * @description 移除表单项的校验结果。
+     * @param props {array | string} 要清除验证的字段
+     * @default -
+     */
+    clearValidate(props = []) {
+      props = props.concat(props)
+
+      if (props.length) {
+        this.fields.forEach(field => {
+          if (props.includes(field.prop)) {
+            field.clearValidate()
+          }
+        })
+      } else {
+        this.fields.forEach(field => {
+          field.clearValidate()
+        })
+      }
     },
 
     validateArr(arr, cb) {

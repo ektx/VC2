@@ -26,6 +26,7 @@
     <vc-form-item>
       <vc-button color="primary" @click="submitForm">提交</vc-button>
       <vc-button @click="resetForm">重置</vc-button>
+      <vc-button @click="clearForm">清除错误</vc-button>
     </vc-form-item>
   </vc-form>
 
@@ -82,6 +83,9 @@ export default {
     resetForm() {
       console.log('reset...')
       this.$refs.form.resetFields()
+    },
+    clearForm() {
+      this.$refs.form.clearValidate()
     }
   }
 }

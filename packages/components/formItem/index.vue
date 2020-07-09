@@ -98,7 +98,7 @@ export default {
         })
       }
       descriptor[this.prop] = rules
-      
+
       const validator = new AsyncValidator(descriptor)
       const model = {}
 
@@ -113,13 +113,17 @@ export default {
     },
 
     resetField() {
-      this.validateState = ''
-      this.validateMessage = ''
+      this.clearValidate()
 
       if (this.prop) {
         let val = this.vcForm.defaultValue[this.prop] || ''
         this.vcForm.model[this.prop] = val
       }
+    },
+
+    clearValidate() {
+      this.validateState = ''
+      this.validateMessage = ''
     },
 
     getRules() {
