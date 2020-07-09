@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "15824647",
+      "name": "close-notification",
+      "font_class": "close-notification",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
       "icon_id": "15798470",
       "name": "bell",
       "font_class": "bell",
@@ -113,7 +120,7 @@
     {
       "icon_id": "15798181",
       "name": "close",
-      "font_class": "close1",
+      "font_class": "close",
       "unicode": "e632",
       "unicode_decimal": 58930
     },
@@ -1012,13 +1019,6 @@
       "font_class": "circle-plus",
       "unicode": "e65d",
       "unicode_decimal": 58973
-    },
-    {
-      "icon_id": "13519348",
-      "name": "close-notification",
-      "font_class": "close-notification",
-      "unicode": "e65e",
-      "unicode_decimal": 58974
     },
     {
       "icon_id": "13519350",
