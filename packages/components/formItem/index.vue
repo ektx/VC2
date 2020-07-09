@@ -141,39 +141,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-.vc-form-item {
-  display: flex;
-  margin-bottom: 22px;
-  font-size: 14px;
-
-  &.is-column {
-    flex-direction: column;
-  }
-
-  &__content {
-    position: relative;
-    flex: 1;
-    min-height: 2em;
-  }
-
-  &__error {
-    position: absolute;
-    left: 0;
-    font-size: 12px;
-    color: #ff4d4f;
-  }
-}
-
-.vc-fade-in-enter-active,
-.vc-fade-in-leave-active {
-  opacity: 1;
-  transition: opacity .2s;
-  transform-origin: center top;
-}
-.vc-fade-in-enter-from,
-.vc-fade-in-leave-to {
-  opacity: 0;
-}
-</style>

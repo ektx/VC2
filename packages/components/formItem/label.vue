@@ -75,27 +75,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-.vc-form-item__label {
-  color: #666;
-
-  .is-required &:not(.is-no-asterisk):before {
-    content: '*';
-    color: #ff4d4f;
-  }
-
-  &.text-align {
-    &-right {
-      text-align: right;
-    }
-    &-left {
-      text-align: left;
-    }
-  }
-
-  label {
-    padding-right: 5px;
-  }
-}
-</style>
