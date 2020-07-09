@@ -225,6 +225,8 @@ export default {
 
 这个例子中展示了如何使用自定义验证规则来完成密码的二次验证。
 
+> 自定义校验 **callback** 必须被调用。 更多高级用法可参考 [async-validator](https://github.com/yiminghe/async-validator)。
+
 ::: demo
 ```html
 <template>
