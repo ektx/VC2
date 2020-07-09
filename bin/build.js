@@ -8,7 +8,9 @@ async function main () {
   await copyIndexFile()
   await genLess()
   await moveFonts()
-  await moveComponents()
+  // await moveComponents()
+  await copyDir('./packages/components', './dist/components')
+  await copyDir('./packages/utils', './dist/utils')
 }
 
 function setOutpath () {
@@ -21,7 +23,7 @@ function setOutpath () {
   
     await fs_.mkdir('./dist', { recursive: true })
 
-    console.log('🗃 Dist is done!')
+    console.log('🗃  Dist is done!')
     resolve()
   })
 }
@@ -68,12 +70,9 @@ function moveFonts () {
   })
 }
 
-function moveComponents () {
+function copyDir(from, to) {
   return new Promise(async (resolve, reject) => {
-    let entryDir = './packages/components'
-    let outputDir = './dist/components'
-
-    await copyFile(entryDir, outputDir)
+    await copyFile(from, to)
     resolve()
   })
 }
@@ -81,6 +80,7 @@ function moveComponents () {
 function copyFile (entryDir, outputDir) {
   return new Promise(async (resolve, reject) => {
     let _isAbsolute = path.isAbsolute(entryDir)
+    // 移动文件时，过滤文件的后缀名类型
     let filter = ['', '.less']
 
     await fs.promises.mkdir(outputDir)
@@ -110,7 +110,6 @@ function copyFile (entryDir, outputDir) {
             let ws = fs.createWriteStream(output)
             
             rs.pipe(ws)
-            resolve(file)
             console.log(`🚚 ${file} is done!`)
           } else {
             console.log(`🗑  ${file} is remove!`)
@@ -120,6 +119,8 @@ function copyFile (entryDir, outputDir) {
           await copyFile(entry, output)
         }
       })
+
+      resolve()
     })
   })
 }
