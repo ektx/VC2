@@ -1,9 +1,14 @@
 # 图标
 
+## 使用方法
+
+也可以直接通过设置类名为 `vc-icon-iconName` 来使用即可。例如：
+
 ::: demo
 ```html
 <template>
-  <vc-icon name="search"/>
+  <i class="vc-icon-search"></i>
+  <vc-icon name="star-off"/>
 </template>
 ```
 :::
