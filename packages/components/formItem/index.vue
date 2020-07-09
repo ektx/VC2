@@ -151,13 +151,6 @@ export default {
   &.is-column {
     flex-direction: column;
   }
-  &.is-required {
-
-    .vc-form-item__label:before {
-      content: '*';
-      color: #ff4d4f;
-    }
-  }
 
   &__content {
     position: relative;

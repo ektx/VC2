@@ -2,6 +2,9 @@
   <div :class="[
     'vc-form-item__label', 
     `text-align-${vcForm.labelPosition}`,
+    {
+      'is-no-asterisk': vcForm.hideRequiredAsterisk
+    }
   ]" :style="labelStyle">
     <label v-if="label">{{ label }}</label>
   </div>
@@ -76,7 +79,12 @@ export default {
 <style lang="less">
 .vc-form-item__label {
   color: #666;
-  
+
+  .is-required &:not(.is-no-asterisk):before {
+    content: '*';
+    color: #ff4d4f;
+  }
+
   &.text-align {
     &-right {
       text-align: right;

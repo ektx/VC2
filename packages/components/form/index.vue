@@ -32,6 +32,11 @@ export default {
     labelPosition: {
       type: String,
       default: 'right'
+    },
+    // 是否显示必填字段的标签旁边的红色星号
+    hideRequiredAsterisk: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
