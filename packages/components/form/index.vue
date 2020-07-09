@@ -23,7 +23,7 @@ export default {
     // 规则
     rules: {
       type: Object,
-      default: () => {}
+      default: () => ({})
     }
   },
   data () {
@@ -56,6 +56,7 @@ export default {
     // 验证部分字段内容
     validateField(props, cb) {
       let filters = []
+      props = props.concat(props)
 
       this.fields.forEach(field => {
         if (props.includes(field.prop)) {
