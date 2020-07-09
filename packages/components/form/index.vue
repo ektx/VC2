@@ -1,7 +1,7 @@
 <template>
-  <section class="vc-form">
+  <form class="vc-form">
     <slot/>
-  </section>
+  </form>
 </template>
 
 <script>
