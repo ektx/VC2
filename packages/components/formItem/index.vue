@@ -70,7 +70,6 @@ export default {
       parentForm: null,
       validateState: '',
       validateMessage: '',
-      // flexDirection: false
     }
   },
   mounted () {
@@ -99,7 +98,7 @@ export default {
         })
       }
       descriptor[this.prop] = rules
-
+      
       const validator = new AsyncValidator(descriptor)
       const model = {}
 
@@ -124,10 +123,9 @@ export default {
     },
 
     getRules() {
-      if (!this.parentForm) return []
+      if (!this.prop) return []
 
-      let formRules = this.parentForm.rules
-      return formRules ? formRules[this.prop] : []
+      return this.vcForm.rules[this.prop] || []
     }
   }
 }
