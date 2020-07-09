@@ -1,5 +1,5 @@
 <template>
-  <form class="vc-form">
+  <form :class="['vc-form', { inline }]">
     <slot/>
   </form>
 </template>
@@ -24,7 +24,9 @@ export default {
     rules: {
       type: Object,
       default: () => ({})
-    }
+    },
+    // 行内表单模式
+    inline: Boolean,
   },
   data () {
     return {
@@ -119,5 +121,13 @@ export default {
 </script>
 
 <style lang="less">
+.vc-form {
+  &.inline {
+    display: flex;
 
+    .vc-form-item {
+      margin-right: 10px;
+    }
+  }
+}
 </style>

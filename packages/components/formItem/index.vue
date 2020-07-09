@@ -3,7 +3,7 @@
     :class="[
       'vc-form-item', 
       { 
-        'is-column': flexDirection,
+        'is-column': isColumn,
         'is-required': isRequired
       }
     ]"
@@ -43,10 +43,17 @@ export default {
     // 指定标题的宽度，支持'auto'
     labelWidth: String,
     prop: String,
+    inline: Boolean,
   },
   computed: {
-    flexDirection () {
-      return !(this.labelWidth || this.vcForm.labelWidth)
+    isColumn () {
+      let result = false
+      const hasWidth = !!(this.labelWidth || this.vcForm.labelWidth)
+      const isInline = this.inline || this.vcForm.inline
+
+      if (!hasWidth && !isInline) result = true
+
+      return result
     },
 
     isRequired () {
