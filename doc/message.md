@@ -67,6 +67,7 @@ export default {
       message({
         type: 'info',
         showClose: true,
+        duration: 0,
         message: '这是一个普通信息！'
       })
     }
@@ -74,6 +75,7 @@ export default {
       message({
         type: 'success',
         showClose: true,
+        duration: 0,
         message: '这是一个成功信息！'
       })
     }
@@ -81,6 +83,7 @@ export default {
       message({
         type: 'warning',
         showClose: true,
+        duration: 0,
         message: '这是一个警告信息！'
       })
     }
@@ -88,6 +91,7 @@ export default {
       message({
         type: 'error',
         showClose: true,
+        duration: 0,
         message: '这是一个错误信息！'
       })
     }
@@ -166,7 +170,7 @@ export default {
 
 ## 灵活控制
 
-通过定义一个变量接收返回对象，来灵活控制显示与隐藏。返回对象包含有 `show` 与 `close` 方法。
+可以接收一个返回 `close()` 事件。
 
 ::: demo
 ```html
@@ -179,15 +183,12 @@ export default {
 export default {
   setup() {
     let message = inject('vcMessage')
-    let myMes 
+    let myMes = null
 
     function show () {
-      if (myMes && 'show' in myMes) {
-        myMes.show()
-      } else {
+      if (!myMes) {
         myMes = message({
-          // 不可省略，省略会导致自动关闭
-          showClose: true,
+          duration: 0,
           message: '🎉 hello World!'
         })
       }
@@ -195,6 +196,7 @@ export default {
 
     function close () {
       myMes.close()
+      myMes = null
     }
 
     return {
@@ -222,8 +224,6 @@ export default {
 
     function show () {
       message({
-        type: 'info',
-        showClose: true,
         classes: 'my-class-name',
         message: '这是自定义样式效果!'
       })

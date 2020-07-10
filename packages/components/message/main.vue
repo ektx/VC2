@@ -22,12 +22,18 @@
 <script>
 export default {
   props: {
+    // 显示内容
     message: {
       type: String,
       default: ''
     },
+    /**
+     * @NoDoc
+     * 控制显示
+     */
     visible: Object,
     // 提醒样式
+    // @arguments info / success / warning / error
     type: String,
     // 显示关闭按钮
     showClose: Boolean,
@@ -37,6 +43,11 @@ export default {
     classes: {
       type: String,
       default: ''
+    },
+    // 显示时间, 毫秒。设为 0 则不会自动关闭
+    duration: {
+      type: Number,
+      default: 3000
     }
   },
   methods: {

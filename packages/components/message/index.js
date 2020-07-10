@@ -29,7 +29,7 @@ const Message = function (options) {
   
   visible.value = true
 
-  if (!options.showClose) {
+  if (options.duration !== 0) {
     setTimeout(() => {
       visible.value = false
     }, time)
@@ -39,11 +39,7 @@ const Message = function (options) {
     visible.value = false
   }
 
-  function show () {
-    visible.value = true
-  }
-
-  return { close, show }
+  return { close }
 };
 
 ['success', 'warning', 'info', 'error'].forEach(type => {
