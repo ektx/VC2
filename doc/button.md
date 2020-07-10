@@ -34,6 +34,8 @@
 
 ## 文字按钮
 
+纯文字效果。
+
 ::: demo 
 ```html
 <template>
@@ -49,6 +51,8 @@
 :::
 
 ## 禁用效果
+
+按钮不可用状态。
 
 ::: demo 
 ```html
@@ -80,6 +84,21 @@
 ```
 :::
 
+## 基础效果图标按钮
+
+带图标的按钮可增强辨识度（有文字）或节省空间（无文字）。
+
+::: demo 
+```html
+<template>
+  <vc-button icon="vc-icon-star-off" />
+  <vc-button color="primary" icon="vc-icon-bell" />
+  <vc-button color="success" icon="vc-icon-success" />
+  <vc-button color="warn" icon="vc-icon-warning">警告</vc-button>
+  <vc-button color="error" icon="vc-icon-close">错误</vc-button>
+</template>
+```
+:::
 
 ## Poprs
 

@@ -8,6 +8,7 @@
     type="button"
     @click="clickEvt"
   >
+    <i v-if="icon" :class="icon"></i>
     <span><slot/></span>
   </button>
 </template>
@@ -25,7 +26,12 @@ export default {
     // 镂空
     plain: Boolean,
     // 圆角
-    round: Boolean
+    round: Boolean,
+    // 图标
+    icon: {
+      type: String,
+      default: ''
+    }
   },
   data () {
     return {

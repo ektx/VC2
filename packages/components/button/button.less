@@ -4,6 +4,7 @@
     border-color: currentColor;
     background-color: currentColor;
 
+    i,
     span {
       color: #fff;
     }
@@ -73,6 +74,10 @@
   transition: all .3s ease-in-out;
   cursor: pointer;
   outline: none;
+
+  i + span:not(:empty) {
+    margin-left: 5px;
+  }
 
   &.default {
     &.plain {
