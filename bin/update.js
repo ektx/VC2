@@ -1,6 +1,5 @@
 const fs = require('fs')
 const path = require('path')
-const { EROFS } = require('constants')
 
 async function main() {
   let componentsDir = path.join(__dirname, '../packages/components')
