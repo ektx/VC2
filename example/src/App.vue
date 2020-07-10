@@ -18,7 +18,7 @@
 
 <script>
 import Navs from './components/navs/index.vue'
-import { ref } from 'vue'
+import { ref, onMounted, isProxy } from 'vue'
 import menu from './menu'
 
 let htmlStr = ''
@@ -32,6 +32,15 @@ export default {
   setup () {
     htmlStr = ref('')
 
+    onMounted(() => {
+      // 监听浏览器前进或后退
+      window.onpopstate = evt => {
+        if (evt.state) {
+          getEvt(evt.state)
+        }
+      }
+    })
+
     return {
       htmlStr,
       menu,
@@ -42,6 +51,11 @@ export default {
 }
 
 function getEvt (item) {
+  // 如果是代理对象，则不是浏览器前进后退触事件
+  if (isProxy(item)) {
+    history.pushState({file: item.file}, '', item.file)
+  }
+
   fetch(`/api/doc?file=${item.file}`)
     .then(res => res.json())
     .then(res => {
