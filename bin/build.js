@@ -1,5 +1,4 @@
 const fs = require('fs')
-const fs_ = require('fs/promises')
 const less = require('less')
 const path = require('path')
 
@@ -17,10 +16,10 @@ function setOutpath () {
     let buildPath = './dist'
   
     if (fs.existsSync(buildPath)) {
-      await fs_.rmdir(buildPath, { recursive: true})
+      await fs.promises.rmdir(buildPath, { recursive: true})
     }
   
-    await fs_.mkdir('./dist', { recursive: true })
+    await fs.promises.mkdir('./dist', { recursive: true })
 
     console.log('🗃  Dist is done!')
     resolve()
@@ -52,7 +51,7 @@ function genLess () {
         throw err
       }
 
-      await fs_.writeFile(output_, output.css)
+      await fs.promises.writeFile(output_, output.css)
       resolve()
       console.log('🎨 Less to css is done!')
     })
