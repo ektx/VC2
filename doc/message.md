@@ -49,7 +49,12 @@ export default {
 
 ## 手动关闭
 
+显示关闭按钮。
+
 ::: demo
+
+> `duration` 设置为 0，则不会自动关闭。
+
 ```html
 <template>
   <vc-button @click="info">提醒</vc-button>
