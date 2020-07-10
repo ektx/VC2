@@ -7,6 +7,10 @@
     }
   ]" :style="labelStyle">
     <label v-if="label">{{ label }}</label>
+    <span 
+      v-if="vcForm.labelSuffix && label" 
+      class="vc-form-item__label-suffix"
+    >{{ vcForm.labelSuffix }}</span>
   </div>
 </template>
 

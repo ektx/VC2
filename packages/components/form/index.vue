@@ -37,6 +37,11 @@ export default {
     hideRequiredAsterisk: {
       type: Boolean,
       default: false
+    },
+    // 表单域标签的后缀
+    labelSuffix: {
+      type: String,
+      default: ''
     }
   },
   data () {
