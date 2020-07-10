@@ -7,8 +7,7 @@ async function main () {
   await setOutpath()
   await copyIndexFile()
   await genLess()
-  await moveFonts()
-  // await moveComponents()
+  await copyDir('./packages/fonts', './dist/fonts')
   await copyDir('./packages/components', './dist/components')
   await copyDir('./packages/utils', './dist/utils')
 }
@@ -57,16 +56,6 @@ function genLess () {
       resolve()
       console.log('🎨 Less to css is done!')
     })
-  })
-}
-
-function moveFonts () {
-  return new Promise(async (resolve, reject) => {
-    let entryDir = './packages/fonts'
-    let outputDir = './dist/fonts'
-
-    await copyFile(entryDir, outputDir)
-    resolve()
   })
 }
 
