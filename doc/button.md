@@ -108,8 +108,9 @@
 ```html
 <template>
   <vc-button-group>
-    <vc-button color="primary"><i class="vc-icon-arrow-left"></i>上一页</vc-button>
-    <vc-button color="primary">下一页<i class="vc-icon-arrow-right"></i></vc-button>
+    <vc-button color="primary">上一首</vc-button>
+    <vc-button color="primary">播放</vc-button>
+    <vc-button color="primary">下一首</vc-button>
   </vc-button-group>
 
   <vc-button-group>

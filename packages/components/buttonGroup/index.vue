@@ -26,17 +26,31 @@ export default {
     &:first-child {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
+
+      &:not(.default) {
+        border-right-color: rgba(255, 255, 255, .5);
+      }
     }
     &:last-child {
       margin-left: -1px;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
+
+      &:not(.default) {
+        border-left-color: rgba(255, 255, 255, .5);
+      }
     }
 
     &:not(:first-child):not(:last-child) {
       margin-left: -1px;
       border-radius: 0;
+
+      &:not(.default) {
+        border-left-color: rgba(255, 255, 255, .5);
+        border-right-color: rgba(255, 255, 255, .5);
+      }
     }
+
   }
 }
 </style>
