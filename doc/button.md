@@ -108,9 +108,9 @@
 ```html
 <template>
   <vc-button-group>
-    <vc-button color="primary">上一首</vc-button>
-    <vc-button color="primary">播放</vc-button>
-    <vc-button color="primary">下一首</vc-button>
+    <vc-button round color="primary">上一首</vc-button>
+    <vc-button round color="primary">播放</vc-button>
+    <vc-button round color="primary">下一首</vc-button>
   </vc-button-group>
 
   <vc-button-group>
