@@ -84,8 +84,12 @@ html {
 }
 
 // Demo 全局样式控制
+.display-box .vc-button-group + .vc-button-group,
 .display-box .vc-button + .vc-button {
   margin-left: 10px;
+}
+.display-box .vc-button-group .vc-button + .vc-button {
+  margin-left: -1px;
 }
 </style>
 

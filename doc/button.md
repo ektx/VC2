@@ -100,6 +100,28 @@
 ```
 :::
 
+## 按钮组效果
+
+以按钮组的方式出现，常用于多项类似操作。
+
+::: demo 
+```html
+<template>
+  <vc-button-group>
+    <vc-button color="primary"><i class="vc-icon-arrow-left"></i>上一页</vc-button>
+    <vc-button color="primary">下一页<i class="vc-icon-arrow-right"></i></vc-button>
+  </vc-button-group>
+
+  <vc-button-group>
+    <vc-button icon="vc-icon-success" />
+    <vc-button icon="vc-icon-warning" />
+    <vc-button icon="vc-icon-search" />
+    <vc-button icon="vc-icon-close" />
+  </vc-button-group>
+</template>
+```
+:::
+
 ## Poprs
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
