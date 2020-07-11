@@ -123,6 +123,19 @@
 ```
 :::
 
+## 加载中
+
+点击按钮后进行数据加载操作，在按钮上显示加载状态。
+
+::: demo 
+```html
+<template>
+  <vc-button loading>加载中...</vc-button>
+  <vc-button loading icon="vc-icon-success" />
+</template>
+```
+:::
+
 ## Poprs
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |

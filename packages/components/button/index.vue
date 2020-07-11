@@ -6,9 +6,10 @@
       {plain, animate, round}
     ]" 
     type="button"
+    :disabled="loading || disabled"
     @click="clickEvt"
   >
-    <i v-if="icon" :class="icon"></i>
+    <i v-if="_icon" :class="_icon"></i>
     <span><slot/></span>
   </button>
 </template>
@@ -31,11 +32,19 @@ export default {
     icon: {
       type: String,
       default: ''
-    }
+    },
+    // 加载状态
+    loading: Boolean,
+    disabled: Boolean,
   },
   data () {
     return {
       animate: false
+    }
+  },
+  computed: {
+    _icon () {
+      return this.loading ? 'vc-icon-loading' : this.icon
     }
   },
   methods: {
