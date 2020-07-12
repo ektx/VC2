@@ -25,6 +25,10 @@ export default [
     "label": "表单",
     "children": [
       {
+        "label": "Select 选择器",
+        "file": "select.md"
+      },
+      {
         "label": "Form 表单",
         "file": "form.md"
       }
