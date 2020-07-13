@@ -1,23 +1,23 @@
-/* 以下代码自动生成于 Sat Jul 11 2020 23:03:21 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Mon Jul 13 2020 14:26:04 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
+import vcForm from './components/form/index.vue'
 import vcFormItem from './components/formItem/index.vue'
 import vcIcon from './components/icon/index.vue'
 import vcMessage from './components/message/index.js'
-import vcForm from './components/form/index.vue'
-import vcSelect from './components/select/index.vue'
 import vcNotification from './components/notification/index.js'
+import vcSelect from './components/select/index.vue'
 
 const components = [
   vcButton,
   vcButtonGroup,
+  vcForm,
   vcFormItem,
   vcIcon,
   vcMessage,
-  vcForm,
-  vcSelect,
-  vcNotification
+  vcNotification,
+  vcSelect
 ]
 
 const install = app => {
@@ -34,10 +34,10 @@ export default {
   install,
   vcButton,
   vcButtonGroup,
+  vcForm,
   vcFormItem,
   vcIcon,
   vcMessage,
-  vcForm,
-  vcSelect,
-  vcNotification
+  vcNotification,
+  vcSelect
 }
