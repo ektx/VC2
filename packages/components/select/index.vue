@@ -12,13 +12,13 @@
       <i class="vc-icon-arrow-down"/>
     </div>
     <transition name="vc-zoom-in-top">
-      <DropDown v-show="isFocus" ref="dropdown">
+      <DropDown v-show="isFocus">
         <ul class="vc-option">
           <li 
             v-for="item in options" 
             :key="item.value"
             :class="[{'selected': item.selected}]"
-            @click="selectedEvt(item)"
+            @click="evt => selectedEvt(evt, item)"
           >
             <label>{{item.label}}</label>
           </li>  
@@ -86,14 +86,15 @@ export default {
   methods: {
     focusEvt (e) {
       e.stopPropagation()
-      e.preventDefault()
+      debugger
 
-      console.log('F', e)
+      console.log(this.$refs.dropdown)
       if (this.isFocus) return
 
+      let tooltip = this.$el.querySelector('.vc-select__dropdown')
       this.isFocus = true
 
-      createPopper(this.$refs.inputArea, this.$refs.dropdown.$el, {
+      createPopper(this.$refs.inputArea, tooltip, {
         placement: 'bottom',
         modifiers: [
           {
@@ -118,8 +119,9 @@ export default {
       // this.isFocus = false
     },
 
-    selectedEvt(item) {
-      debugger
+    selectedEvt(evt, item) {
+      evt.stopPropagation()
+
       console.log(item)
       if (item.selected) {
         item.selected = false
