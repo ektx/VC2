@@ -1,11 +1,11 @@
 <template>
-  <div class="vc-select">
+  <div :class="['vc-select', {'is-open': isFocus}]">
     <div ref="inputArea" class="vc-select__input">
       <input 
         readonly 
         type="text" 
         autocomplete="off" 
-        @focus="focusEvt" 
+        @click="focusEvt" 
         @blur="blurEvt"
         v-model="intValue"
       >
@@ -76,13 +76,23 @@ export default {
       selectedItem: {}
     }
   },
+  mounted() {
+    console.log(this)
+    window.addEventListener('click', this.hideDropdown, false)
+    // this.$once('hook:beforeDestroy', () => {
+    //   document.removeEventListener(this.hideDropdown)
+    // })
+  },
   methods: {
-    focusEvt () {
-      console.log('F', this.$refs)
+    focusEvt (e) {
+      e.stopPropagation()
+      e.preventDefault()
+
+      console.log('F', e)
       if (this.isFocus) return
 
       this.isFocus = true
-debugger
+
       createPopper(this.$refs.inputArea, this.$refs.dropdown.$el, {
         placement: 'bottom',
         modifiers: [
@@ -137,6 +147,12 @@ debugger
           this.$emit('update:value', item.value)
         }
       }
+    },
+
+    hideDropdown() {
+      // debugger
+      console.log(1,'hide', this.isFocus)
+      this.isFocus = false
     }
   }
 }

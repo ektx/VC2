@@ -29,6 +29,11 @@
       top: 50%;
       color: #666;
       transform: translateY(-50%);
+      transition: transform .3s;
+
+      .is-open & {
+        transform: translateY(-50%) rotateZ(-180deg);
+      }
     }
   }
 }
