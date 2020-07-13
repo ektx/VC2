@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { ref, onUnmounted, onMounted } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropDown.vue'
 
@@ -53,42 +54,31 @@ export default {
     // 多选时是否将选中值按文字的形式展示	
     collapseTags: Boolean
   },
-  created() {
-    console.log(this.value)
+  setup() {
+    const isFocus = ref(false)
+    const intValue = ref('')
+    const selectedItem = ref({})
 
-    // if (this.value) {
-    //   this.options.forEach(item => {
-    //     if (this.multiple) {
-    //       if (this.value.includes(item.value)) {
-    //         this.selectedItem.push(item)
-    //       } 
-    //     } else {
-    //       if (item.value === this.value) 
-    //         this.selectedItem = [item]
-    //     }
-    //   })
-    // }
-  },
-  data() {
+    let hideDropdown = () => isFocus.value = false
+
+    onUnmounted(() => {
+      document.removeEventListener('click', hideDropdown, false)
+    })
+
+    onMounted(() => {
+      document.addEventListener('click', hideDropdown, false)
+    })
+
     return {
-      isFocus: false,
-      intValue: '',
-      selectedItem: {}
+      isFocus,
+      intValue,
+      selectedItem
     }
-  },
-  mounted() {
-    console.log(this)
-    window.addEventListener('click', this.hideDropdown, false)
-    // this.$once('hook:beforeDestroy', () => {
-    //   document.removeEventListener(this.hideDropdown)
-    // })
   },
   methods: {
     focusEvt (e) {
       e.stopPropagation()
-      debugger
 
-      console.log(this.$refs.dropdown)
       if (this.isFocus) return
 
       let tooltip = this.$el.querySelector('.vc-select__dropdown')
@@ -151,11 +141,9 @@ export default {
       }
     },
 
-    hideDropdown() {
-      // debugger
-      console.log(1,'hide', this.isFocus)
-      this.isFocus = false
-    }
+    
   }
 }
+
+
 </script>
