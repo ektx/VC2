@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { ref, onUnmounted, onMounted } from 'vue'
+import { ref, onBeforeMount, onUnmounted, onMounted, watch, } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropDown.vue'
 
@@ -54,12 +54,16 @@ export default {
     // 多选时是否将选中值按文字的形式展示	
     collapseTags: Boolean
   },
-  setup() {
+  setup(props) {
     const isFocus = ref(false)
     const intValue = ref('')
     const selectedItem = ref({})
 
     let hideDropdown = () => isFocus.value = false
+
+    // onBeforeMount(() => {
+
+    // })
 
     onUnmounted(() => {
       document.removeEventListener('click', hideDropdown, false)
@@ -68,6 +72,50 @@ export default {
     onMounted(() => {
       document.addEventListener('click', hideDropdown, false)
     })
+
+    watch(
+      () => props.value,
+      (val, old) => {
+        console.log('val:', val)
+        console.log('old:', old)
+
+        if (props.multiple) {
+          debugger
+          old = old ? old : []
+          if (old.length === val.length) return
+
+          let type = 'add'
+          let max = val
+          let filter = old
+
+          if (val.length < old.length) {
+            type = 'remove'
+            max = old
+            filter = val
+          }
+
+          let diff = max.find(item => !filter.includes(item))
+          // TODO: 查询props.options对象
+
+          if (type === 'add') {
+            selectedItem.value[diff.value] = diff
+          } else {
+            delete selectedItem.value[diff.value]
+          }
+
+          console.log(diff)
+        } else {
+          let item = props.options.find(item => item.value === val)
+
+          item.selected = true
+          intValue.value = item.label
+          selectedItem.value[item.value] = item
+        }
+      },
+      {
+        immediate: true
+      }
+    )
 
     return {
       isFocus,
