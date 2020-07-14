@@ -189,13 +189,16 @@ export default {
         return
       }
 
-      let tooltip = this.$el.querySelector('.vc-select__dropdown')
+      let { width } = this.$el.getBoundingClientRect()
+      let tooltipEl = this.$el.querySelector('.vc-select__dropdown')
       this.isFocus = true
+
+      tooltipEl.style.width = width + 'px'
 
       console.log(this.value)
       setHoverItem(this.value, this.options, this.hoverItem)
 
-      this.tooltip = createPopper(this.$refs.inputArea, tooltip, {
+      this.tooltip = createPopper(this.$refs.inputArea, tooltipEl, {
         placement: 'bottom',
         modifiers: [
           {
