@@ -148,7 +148,10 @@ export default {
     focusEvt (e) {
       e.stopPropagation()
 
-      if (this.isFocus) return
+      if (this.isFocus) {
+        this.isFocus = false
+        return
+      }
 
       let tooltip = this.$el.querySelector('.vc-select__dropdown')
       this.isFocus = true
