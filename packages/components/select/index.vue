@@ -1,5 +1,9 @@
 <template>
-  <div :class="['vc-select', {'is-open': isFocus}]" @click="focusEvt">
+  <div 
+    :class="[
+      'vc-select', 
+      {'is-open': isFocus, 'is-disabled': disabled}
+    ]" @click="focusEvt">
     <VS_Tags :selectedItem="selectedItem"/>
     <div ref="inputArea" class="vc-select__input">
       <input 
@@ -77,10 +81,12 @@ export default {
       type: Number,
       default: 1
     },
+    // 占位符
     placeholder: {
       type: String,
       default: '请选择'
-    }
+    },
+    disabled: Boolean
   },
   setup(props) {
     const isFocus = ref(false)
@@ -175,6 +181,8 @@ export default {
   methods: {
     focusEvt (e) {
       e.stopPropagation()
+
+      if (this.disabled) return
 
       if (this.isFocus) {
         this.isFocus = false
