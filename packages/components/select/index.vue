@@ -6,6 +6,7 @@
         readonly 
         type="text" 
         autocomplete="off" 
+        :placeholder="placeholder"
         @blur="blurEvt"
         v-model="intValue"
       >
@@ -75,6 +76,10 @@ export default {
     maxTagCount: {
       type: Number,
       default: 1
+    },
+    placeholder: {
+      type: String,
+      default: '请选择'
     }
   },
   setup(props) {
@@ -140,7 +145,7 @@ export default {
             })
           }
 
-          console.log(option)
+          intValue.value = Object.keys(val).length ? ' ' : ''
         } else {
           let item = props.options.find(item => item.value === val)
 

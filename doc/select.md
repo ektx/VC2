@@ -13,7 +13,7 @@
 <script>
 export default {
   setup() {
-    const value = ref('选项1')
+    const value = ref('')
     const options = [{
       value: '选项1',
       label: '黄金糕'
