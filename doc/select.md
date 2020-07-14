@@ -49,7 +49,6 @@ export default {
 ::: demo
 ```html
 <template>
-  {{ value }}<br/>
   <vc-select v-model:value="value" :options="options" multiple/>
   <vc-select v-model:value="value" :options="options" multiple collapse-tags/>
 </template>
