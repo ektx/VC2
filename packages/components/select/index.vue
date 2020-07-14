@@ -137,9 +137,11 @@ export default {
         } else {
           let item = props.options.find(item => item.value === val)
 
-          item.selected = true
-          intValue.value = item.label
-          selectedItem.value[item.value] = item
+          if (item) {
+            item.selected = true
+            intValue.value = item.label
+            selectedItem.value[item.value] = item
+          }
         }
       },
       {
