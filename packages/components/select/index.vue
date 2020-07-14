@@ -203,11 +203,12 @@ export default {
     selectedEvt(evt, item) {
       evt.stopPropagation()
 
-      console.log(item)
       if (item.selected) {
-        item.selected = false
-        delete this.selectedItem[item.value]
-        this.$emit('update:value', Object.keys(this.selectedItem))
+        if (this.multiple) {
+          item.selected = false
+          delete this.selectedItem[item.value]
+          this.$emit('update:value', Object.keys(this.selectedItem))
+        }
       } else {
         item.selected = true
 
