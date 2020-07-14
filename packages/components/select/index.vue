@@ -26,6 +26,7 @@
             @mouseover="optionMouseOver(hoverItem, item)"
           >
             <label>{{item.label}}</label>
+            <i v-if="item.selected" class="vc-icon-check"></i>
           </li>  
         </ul>        
       </DropDown>
