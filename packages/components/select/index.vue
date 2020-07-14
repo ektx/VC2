@@ -31,8 +31,10 @@
             @click="evt => selectedEvt(evt, item)"
             @mouseover="optionMouseOver(hoverItem, item)"
           >
-            <label>{{item.label}}</label>
-            <i v-if="item.selected" class="vc-icon-check"></i>
+            <slot v-bind="item">
+              <label>{{item.label}}</label>
+              <i v-if="item.selected" class="vc-icon-check"></i>
+            </slot>
           </li>  
         </ul>        
       </DropDown>
