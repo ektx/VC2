@@ -1,8 +1,6 @@
 <template>
   <div :class="['vc-select', {'is-open': isFocus}]" @click="focusEvt">
-    <VS_Tags 
-      v-model:selectedItem="selectedItem" 
-    />
+    <VS_Tags :selectedItem="selectedItem"/>
     <div ref="inputArea" class="vc-select__input">
       <input 
         readonly 

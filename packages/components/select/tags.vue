@@ -6,7 +6,7 @@
       :key="item.value"
     >
       {{item.label}}
-      <i class="vc-icon-close"/>
+      <i class="vc-icon-close" @click="evt => vcSelect.selectedEvt(evt, item)"/>
     </span>
   </div>
 </template>
@@ -23,10 +23,15 @@ export default {
   },
   updated() {
     if (!this.vcSelect.collapseTags) {
-      this.vcSelect.$refs.inputArea.style.height = this.$el.offsetHeight + 'px'
+      let H = this.$el.offsetHeight 
+
+      if (H >= 20) 
+        this.vcSelect.$refs.inputArea.style.height = H + 'px'
 
       this.vcSelect.tooltip && this.vcSelect.tooltip.update()
     }
+  },
+  methods: {
   }
 }
 </script>
@@ -49,6 +54,16 @@ export default {
     border-radius: 2px;
     border: 1px solid #e9e9eb;
     background-color: #f4f4f5;
+
+    i {
+      opacity: .5;
+      cursor: pointer;
+      transition: opacity .3s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
 }
 </style>
