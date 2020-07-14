@@ -1,11 +1,13 @@
 <template>
-  <div :class="['vc-select', {'is-open': isFocus}]">
+  <div :class="['vc-select', {'is-open': isFocus}]" @click="focusEvt">
+    <VS_Tags 
+      v-model:selectedItem="selectedItem" 
+    />
     <div ref="inputArea" class="vc-select__input">
       <input 
         readonly 
         type="text" 
         autocomplete="off" 
-        @click="focusEvt" 
         @blur="blurEvt"
         v-model="intValue"
       >
@@ -33,13 +35,25 @@
 </template>
 
 <script>
-import { ref, onBeforeMount, onUnmounted, onMounted, watch, } from 'vue'
+import { 
+  ref, 
+  onBeforeMount, 
+  onUnmounted, 
+  onMounted, 
+  watch,
+} from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropDown.vue'
+import VS_Tags from './tags.vue'
 
 export default {
   name: 'VcSelect',
-  components: { DropDown },
+  components: { DropDown, VS_Tags },
+  provide() {
+    return {
+      vcSelect: this
+    }
+  },
   props: {
     value: {
       type: [String, Number, Array],
@@ -63,6 +77,7 @@ export default {
     const intValue = ref('')
     const selectedItem = ref({})
     const hoverItem = ref({})
+    let tooltip = null
 
     let hideDropdown = () => isFocus.value = false
 
@@ -135,6 +150,7 @@ export default {
     )
 
     return {
+      tooltip,
       isFocus,
       intValue,
       selectedItem,
@@ -159,7 +175,7 @@ export default {
       console.log(this.value)
       setHoverItem(this.value, this.options, this.hoverItem)
 
-      createPopper(this.$refs.inputArea, tooltip, {
+      this.tooltip = createPopper(this.$refs.inputArea, tooltip, {
         placement: 'bottom',
         modifiers: [
           {

@@ -34,17 +34,24 @@ export default {
     content: '';
     transform: rotate(-45deg);
     background: #fff;
-    border-width: 1px 1px 0 0;
     border-color: #ddd;
     border-style: solid;
   }
 
   &[data-popper-placement^='top'] > #arrow {
     bottom: -5px;
+
+    &::before {
+      border-width: 0 0 1px 1px;
+    }
   }
 
   &[data-popper-placement^='bottom'] > #arrow {
     top: -5px;
+
+    &::before {
+      border-width: 1px 1px 0 0;
+    }
   }
 }
 

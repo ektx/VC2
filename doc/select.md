@@ -7,7 +7,6 @@
 ::: demo
 ```html
 <template>
-  {{value}}<br/>
   <vc-select v-model:value="value" :options="options"/>
 </template>
 
