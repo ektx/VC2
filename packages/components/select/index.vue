@@ -94,16 +94,29 @@ export default {
             filter = val
           }
 
-          let diff = max.find(item => !filter.includes(item))
-          // TODO: 查询props.options对象
+          let diff = []
+          max.forEach(item => {
+            if (!filter.includes(item)) diff.push(item)
+          })
+          let option = []
+          props.options.forEach(item => {
+            if (diff.includes(item.value)) {
+              option.push(item)
+            }
+          })
 
           if (type === 'add') {
-            selectedItem.value[diff.value] = diff
+            option.forEach(item => {
+              item.selected = true
+              selectedItem.value[item.value] = item
+            })
           } else {
-            delete selectedItem.value[diff.value]
+            option.forEach(item => {
+              delete selectedItem.value[item.value]
+            })
           }
 
-          console.log(diff)
+          console.log(option)
         } else {
           let item = props.options.find(item => item.value === val)
 

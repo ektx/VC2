@@ -57,7 +57,7 @@ export default {
 <script>
 export default {
   setup() {
-    const value = ref([])
+    const value = ref(['选项2', '选项4'])
 
     const options = [{
       value: '选项1',
