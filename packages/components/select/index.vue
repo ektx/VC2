@@ -17,8 +17,12 @@
           <li 
             v-for="item in options" 
             :key="item.value"
-            :class="[{'selected': item.selected}]"
+            :class="[{
+              'selected': item.selected,
+              'hover': item.hover
+            }]"
             @click="evt => selectedEvt(evt, item)"
+            @mouseover="optionMouseOver(hoverItem, item)"
           >
             <label>{{item.label}}</label>
           </li>  
@@ -58,6 +62,7 @@ export default {
     const isFocus = ref(false)
     const intValue = ref('')
     const selectedItem = ref({})
+    const hoverItem = ref({})
 
     let hideDropdown = () => isFocus.value = false
 
@@ -76,11 +81,10 @@ export default {
     watch(
       () => props.value,
       (val, old) => {
-        console.log('val:', val)
-        console.log('old:', old)
+        // console.log('val:', val)
+        // console.log('old:', old)
 
         if (props.multiple) {
-          debugger
           old = old ? old : []
           if (old.length === val.length) return
 
@@ -133,7 +137,11 @@ export default {
     return {
       isFocus,
       intValue,
-      selectedItem
+      selectedItem,
+      hoverItem,
+
+      optionMouseOver,
+      setHoverItem
     }
   },
   methods: {
@@ -144,6 +152,9 @@ export default {
 
       let tooltip = this.$el.querySelector('.vc-select__dropdown')
       this.isFocus = true
+
+      console.log(this.value)
+      setHoverItem(this.value, this.options, this.hoverItem)
 
       createPopper(this.$refs.inputArea, tooltip, {
         placement: 'bottom',
@@ -206,5 +217,26 @@ export default {
   }
 }
 
+
+function optionMouseOver (hover, item) {
+  if (hover.value) hover.value.hover = false
+  item.hover = true
+  hover.value = item
+}
+
+function setHoverItem (value, options, hover) {
+  let hasFrist = false
+  value = [].concat(value)
+  
+  options.forEach(item => {
+    if (value.includes(item.value) && !hasFrist) {
+      item.hover = true
+      hasFrist = true
+      hover.value = item
+    } else {
+      item.hover = false
+    }
+  })
+}
 
 </script>
