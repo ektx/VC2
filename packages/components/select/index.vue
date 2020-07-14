@@ -21,6 +21,7 @@
               'selected': item.selected,
               'hover': item.hover
             }]"
+            :disabled="item.disabled"
             @click="evt => selectedEvt(evt, item)"
             @mouseover="optionMouseOver(hoverItem, item)"
           >
@@ -207,6 +208,8 @@ export default {
 
     selectedEvt(evt, item) {
       evt.stopPropagation()
+
+      if (item.disabled) return
 
       if (item.selected) {
         if (this.multiple) {
