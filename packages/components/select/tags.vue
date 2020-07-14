@@ -2,12 +2,13 @@
   <div v-if="vcSelect.multiple" class="vc-select-tags">
     <span 
       class="vc-tag"
-      v-for="item in selectedItem" 
+      v-for="item in displayItem" 
       :key="item.value"
     >
       {{item.label}}
       <i class="vc-icon-close" @click="evt => vcSelect.selectedEvt(evt, item)"/>
     </span>
+    <span v-if="vcSelect.collapseTags && moreSize > 0" class="vc-tag more-tag"> +{{ moreSize }} </span>
   </div>
 </template>
 
@@ -22,13 +23,23 @@ export default {
     },
   },
   updated() {
-    if (!this.vcSelect.collapseTags) {
-      let H = this.$el.offsetHeight 
+    let H = this.$el.offsetHeight 
 
-      if (H >= 20) 
-        this.vcSelect.$refs.inputArea.style.height = H + 'px'
+    if (H >= 20) 
+      this.vcSelect.$refs.inputArea.style.height = H + 'px'
 
-      this.vcSelect.tooltip && this.vcSelect.tooltip.update()
+    this.vcSelect.tooltip && this.vcSelect.tooltip.update()
+  },
+  computed: {
+    moreSize () {
+      return Object.keys(this.selectedItem).length - this.vcSelect.maxTagCount  
+    },
+    displayItem() {
+      if (this.vcSelect.collapseTags) {
+        return Object.values(this.selectedItem).slice(0, this.vcSelect.maxTagCount)
+      } else {
+        return this.selectedItem
+      }
     }
   },
   methods: {
@@ -63,6 +74,10 @@ export default {
       &:hover {
         opacity: 1;
       }
+    }
+
+    &.more-tag {
+      padding: 2px 10px;
     }
   }
 }

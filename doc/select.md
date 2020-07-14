@@ -49,7 +49,7 @@ export default {
 ```html
 <template>
   <vc-select v-model:value="value" :options="options" multiple/>
-  <vc-select v-model:value="value" :options="options" multiple collapse-tags/>
+  <vc-select v-model:value="value" :options="options" multiple collapse-tags :max-tag-count="2"/>
 </template>
 
 <script>

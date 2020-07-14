@@ -68,7 +68,12 @@ export default {
     // 是否多选
     multiple: Boolean,
     // 多选时是否将选中值按文字的形式展示	
-    collapseTags: Boolean
+    collapseTags: Boolean,
+    // 多选时最多显示多少个 tag
+    maxTagCount: {
+      type: Number,
+      default: 1
+    }
   },
   setup(props) {
     const isFocus = ref(false)
