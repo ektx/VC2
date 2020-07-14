@@ -204,7 +204,6 @@ export default {
 
       tooltipEl.style.width = width + 'px'
 
-      console.log(this.value)
       setHoverItem(this.value, this.options, this.hoverItem)
 
       this.tooltip = createPopper(this.$refs.inputArea, tooltipEl, {
@@ -226,10 +225,6 @@ export default {
         ],
         strategy: 'fixed'
       })
-    },
-
-    blurEvt() {
-      // this.isFocus = false
     },
 
     selectedEvt(evt, item) {
