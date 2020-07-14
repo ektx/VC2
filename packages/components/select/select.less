@@ -45,6 +45,24 @@
       .is-open & {
         transform: translateY(-50%) rotateZ(-180deg);
       }
+
+      &.vc-icon-error {
+        display: none;
+        cursor: pointer;
+
+        .clearable & {
+          display: block;
+          opacity: 0;
+        }
+        .clearable:hover & {
+          opacity: .7;
+        }
+      }
+      &.vc-icon-arrow-down {
+        .clearable:hover & {
+          display: none;
+        }
+      }
     }
   }
 }

@@ -25,9 +25,9 @@ export default {
   updated() {
     let H = this.$el.offsetHeight 
 
-    if (H >= 20) 
-      this.vcSelect.$refs.inputArea.style.height = H + 'px'
+    H = H >= 20 ? H + 'px' : 'auto'
 
+    this.vcSelect.$refs.inputArea.style.height = H
     this.vcSelect.tooltip && this.vcSelect.tooltip.update()
   },
   computed: {
@@ -52,9 +52,9 @@ export default {
   position: absolute;
   top: 0px;
   left: 0px;
-  right: 0px;
+  right: 2em;
   z-index: 1;
-  padding: 3px 2em 0px 3px;
+  padding: 3px 0 0 3px;
   box-sizing: border-box;
 
   .vc-tag {

@@ -2,7 +2,7 @@
   <div 
     :class="[
       'vc-select', 
-      {'is-open': isFocus, 'is-disabled': disabled}
+      {'is-open': isFocus, 'is-disabled': disabled, clearable}
     ]" @click="focusEvt">
     <VS_Tags :selectedItem="selectedItem"/>
     <div ref="inputArea" class="vc-select__input">
@@ -15,6 +15,7 @@
         v-model="intValue"
       >
       <i class="vc-icon-arrow-down"/>
+      <i class="vc-icon-error" @click="clearValue"/>
     </div>
     <transition name="vc-zoom-in-top">
       <DropDown v-show="isFocus">
@@ -86,9 +87,10 @@ export default {
       type: String,
       default: '请选择'
     },
-    disabled: Boolean
+    disabled: Boolean,
+    clearable: Boolean
   },
-  setup(props) {
+  setup(props, { emit }) {
     const isFocus = ref(false)
     const intValue = ref('')
     const selectedItem = ref({})
@@ -96,10 +98,6 @@ export default {
     let tooltip = null
 
     let hideDropdown = () => isFocus.value = false
-
-    // onBeforeMount(() => {
-
-    // })
 
     onUnmounted(() => {
       document.removeEventListener('click', hideDropdown, false)
@@ -114,7 +112,6 @@ export default {
       (val, old) => {
         // console.log('val:', val)
         // console.log('old:', old)
-
         if (props.multiple) {
           old = old ? old : []
           if (old.length === val.length) return
@@ -147,6 +144,7 @@ export default {
             })
           } else {
             option.forEach(item => {
+              item.selected = false
               delete selectedItem.value[item.value]
             })
           }
@@ -167,6 +165,14 @@ export default {
       }
     )
 
+    function clearValue(evt) {
+      evt.stopPropagation()
+
+      if (isFocus.value) isFocus.value = false
+      intValue.value = ''
+      emit('update:value', props.multiple ? [] : '')
+    }
+
     return {
       tooltip,
       isFocus,
@@ -175,7 +181,8 @@ export default {
       hoverItem,
 
       optionMouseOver,
-      setHoverItem
+      setHoverItem,
+      clearValue
     }
   },
   methods: {
@@ -257,8 +264,6 @@ export default {
         }
       }
     },
-
-    
   }
 }
 
