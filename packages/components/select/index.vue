@@ -135,6 +135,7 @@ export default {
         if (props.multiple) {
           old = old ? old : []
           val = [].concat(val)
+          old = [].concat(old)
 
           if (old.length === val.length) return
 
@@ -149,6 +150,7 @@ export default {
           }
 
           let diff = []
+          console.log(max)
           max.forEach(item => {
             if (!filter.includes(item)) diff.push(item)
           })
