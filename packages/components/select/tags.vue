@@ -8,8 +8,17 @@
       {{item.label}}
       <i class="vc-icon-close" @click="evt => vcSelect.selectedEvt(evt, item)"/>
     </span>
-    <span v-if="vcSelect.collapseTags && moreSize > 0" class="vc-tag more-tag"> +{{ moreSize }} </span>
-    <input v-if="vcSelect.filterable" class="vc-select-tags__filter" type="text" autocomplete="off">
+    <span 
+      v-if="vcSelect.collapseTags && moreSize > 0" 
+      class="vc-tag more-tag"
+    > +{{ moreSize }} </span>
+    <input 
+      v-if="vcSelect.filterable" 
+      class="vc-select-tags__filter" 
+      type="text" 
+      autocomplete="off"
+      v-model="vcSelect.query"
+    >
   </div>
 </template>
 

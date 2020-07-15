@@ -114,11 +114,13 @@ export default {
     const selectedItem = ref({})
     const hoverItem = ref({})
     const intValue = ref('')
+    const query = ref('')
 
     const _placeholder = computed(() => {
       let result = ''
       if (props.multiple) {
         result = props.value.length ? '' : props.placeholder
+        result = query.value ? '' : result
         intValue.value = ''
       }
       else {
@@ -225,9 +227,17 @@ export default {
       }
     )
 
+    watch(
+      () => intValue.value,
+      (val) => {
+        query.value = val
+        if (ctx.tooltip) ctx.tooltip.update()
+      }
+    )
+
     const _options = computed(() => {
         let result = []
-        let val = intValue.value
+        let val = query.value
 
         if (!props.filterable) {
           return props.options
@@ -273,6 +283,7 @@ export default {
       hoverItem,
       _placeholder,
       _options,
+      query,
 
       optionMouseOver,
       setHoverItem,
@@ -290,9 +301,6 @@ export default {
         return
       }
 
-      if (this.filterable) {
-      }
-
       let { width } = this.$el.getBoundingClientRect()
       let tooltipEl = this.$el.querySelector('.vc-select__dropdown')
       this.isFocus = true
@@ -300,26 +308,30 @@ export default {
       tooltipEl.style.width = width + 'px'
 
       setHoverItem(this.value, this.options, this.hoverItem)
-
-      this.tooltip = createPopper(this.$refs.inputArea, tooltipEl, {
-        placement: 'bottom',
-        modifiers: [
-          {
-            name: 'offset',
-            options: {
-              offset: [0, 10]
+// debugger
+      if (!this.tooltip) {
+        this.tooltip = createPopper(this.$refs.inputArea, tooltipEl, {
+          placement: 'bottom',
+          modifiers: [
+            {
+              name: 'offset',
+              options: {
+                offset: [0, 10]
+              }
+            }, 
+            {
+              name: 'computeStyles',
+              options: {
+                adaptive: false,
+                gpuAcceleration: false
+              }
             }
-          }, 
-          {
-            name: 'computeStyles',
-            options: {
-              adaptive: false,
-              gpuAcceleration: false
-            }
-          }
-        ],
-        strategy: 'fixed'
-      })
+          ],
+          strategy: 'fixed'
+        })
+      } else {
+        this.tooltip.update()
+      }
     },
 
     selectedEvt(evt, item) {
@@ -335,6 +347,7 @@ export default {
         }
       } else {
         item.selected = true
+        this.query = ''
 
         if (this.multiple) {
           this.selectedItem[item.value] = item
@@ -365,6 +378,7 @@ function optionMouseOver (hover, item) {
   hover.value = item
 }
 
+// 展开时，显示第一个选中的选项
 function setHoverItem (value, options, hover) {
   let hasFrist = false
   value = [].concat(value)
