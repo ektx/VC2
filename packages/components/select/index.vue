@@ -18,8 +18,8 @@
     </div>
     <transition name="vc-zoom-in-top">
       <DropDown v-show="isFocus">
-        <ul>
-          <template v-for="item in options" >
+        <ul v-if="_options.length">
+          <template v-for="item in _options" >
             <template v-if="item.children">
               <VCSGroup :item="item" :key="item.label">
                 <template #label="item">
@@ -45,6 +45,9 @@
             </VCSOption>
           </template>
         </ul>
+        <div class="vc-select-empty" v-else>
+          无匹配数据
+        </div>
       </DropDown>
     </transition>
   </div>
@@ -58,6 +61,7 @@ import {
   onMounted, 
   watch,
   computed,
+  getCurrentInstance,
 } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropDown.vue'
@@ -105,28 +109,36 @@ export default {
     filterable: Boolean,
   },
   setup(props, { emit }) {
+    const { ctx } = getCurrentInstance()
     const isFocus = ref(false)
     const selectedItem = ref({})
     const hoverItem = ref({})
+    const intValue = ref('')
 
     const _placeholder = computed(() => {
-      if (props.multiple) return props.value.length ? '' : props.placeholder
-      else return props.value 
-        ? selectedItem.value[props.value].label 
-        : props.placeholder
-    })
-    const intValue = computed(() => {
-      if (props.multiple) return ''
-      else {
-        if (props.filterable && isFocus.value) return ''
-        else return props.value 
-          ? selectedItem.value[props.value].label
-          : ''
+      let result = ''
+      if (props.multiple) {
+        result = props.value.length ? '' : props.placeholder
+        intValue.value = ''
       }
+      else {
+        let item = selectedItem.value[props.value]
+
+        if (props.value && item) {
+          result = item.label
+          intValue.value = item.label
+        } else {
+          result = props.placeholder
+          intValue.value = ''
+        }
+
+        if (props.filterable && isFocus.value) intValue.value = ''
+      }
+
+      return result
     })
 
     let tooltip = null
-
     let hideDropdown = () => isFocus.value = false
 
     onUnmounted(() => {
@@ -213,6 +225,39 @@ export default {
       }
     )
 
+    const _options = computed(() => {
+        let result = []
+        let val = intValue.value
+
+        if (!props.filterable) {
+          return props.options
+        }
+
+        props.options.forEach(option => {
+          if (option.children) {
+            let _arr = []
+
+            option.children.forEach(item => {
+              if (item.label.includes(val)) {
+                _arr.push( item )
+              }
+            })
+
+            if (_arr.length)
+              result.push({...option, children: _arr})
+          } else {
+            if (option.label.includes(val))
+              result.push(option)
+          }
+        })
+
+        if (result.length === 0) {
+          ctx.tooltip.update()
+        }
+
+        return result
+    })
+
     function clearValue(evt) {
       evt.stopPropagation()
 
@@ -227,6 +272,7 @@ export default {
       selectedItem,
       hoverItem,
       _placeholder,
+      _options,
 
       optionMouseOver,
       setHoverItem,
