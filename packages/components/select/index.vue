@@ -4,7 +4,7 @@
       'vc-select', 
       {'is-open': isFocus, 'is-disabled': disabled, clearable}
     ]" @click="focusEvt">
-    <VS_Tags :selectedItem="selectedItem"/>
+    <VS_Tags ref="tags" :selectedItem="selectedItem"/>
     <div ref="inputArea" class="vc-select__input">
       <input 
         :readonly="!filterable" 
@@ -308,7 +308,7 @@ export default {
       tooltipEl.style.width = width + 'px'
 
       setHoverItem(this.value, this.options, this.hoverItem)
-// debugger
+
       if (!this.tooltip) {
         this.tooltip = createPopper(this.$refs.inputArea, tooltipEl, {
           placement: 'bottom',
@@ -352,6 +352,7 @@ export default {
         if (this.multiple) {
           this.selectedItem[item.value] = item
           this.$emit('update:value', Object.keys(this.selectedItem))
+          this.$refs.tags.focusEvt()
         } else {
           let oldKeys = Object.keys(this.selectedItem)
           

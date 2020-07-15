@@ -51,6 +51,11 @@ export default {
         return this.selectedItem
       }
     }
+  },
+  methods: {
+    focusEvt() {
+      this.$el.querySelector('.vc-select-tags__filter').focus()
+    }
   }
 }
 </script>
