@@ -106,15 +106,23 @@ export default {
   },
   setup(props, { emit }) {
     const isFocus = ref(false)
-    const intValue = ref('')
     const selectedItem = ref({})
     const hoverItem = ref({})
 
     const _placeholder = computed(() => {
-      if (props.multiple) return props.placeholder
+      if (props.multiple) return props.value.length ? '' : props.placeholder
       else return props.value 
         ? selectedItem.value[props.value].label 
         : props.placeholder
+    })
+    const intValue = computed(() => {
+      if (props.multiple) return ''
+      else {
+        if (props.filterable && isFocus.value) return ''
+        else return props.value 
+          ? selectedItem.value[props.value].label
+          : ''
+      }
     })
 
     let tooltip = null
@@ -177,8 +185,6 @@ export default {
               delete selectedItem.value[item.value]
             })
           }
-
-          intValue.value = Object.keys(val).length ? ' ' : ''
         } else {
           let item = ''
 
@@ -198,7 +204,6 @@ export default {
 
           if (item) {
             item.selected = true
-            intValue.value = item.label
             selectedItem.value[item.value] = item
           }
         }
@@ -212,7 +217,6 @@ export default {
       evt.stopPropagation()
 
       if (isFocus.value) isFocus.value = false
-      intValue.value = ''
       emit('update:value', props.multiple ? [] : '')
     }
 
@@ -300,7 +304,6 @@ export default {
           this.selectedItem = {
             [item.value]: item
           }
-          this.intValue = item.label
           this.isFocus = false
           this.$emit('update:value', item.value)
         }
