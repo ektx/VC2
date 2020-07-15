@@ -255,3 +255,116 @@ export default {
 </script>
 ```
 :::
+
+## 分组
+
+备选项进行分组展示
+
+::: demo
+```html
+<template>
+  <vc-select v-model:value="value" :options="options" />
+</template>
+
+<script>
+export default {
+  setup() {
+    const value = ref(['Shanghai'])
+
+    const options = [
+      {
+        label: '热门城市',
+        children: [{
+          value: 'Shanghai',
+          label: '上海'
+        }, {
+          value: 'Beijing',
+          label: '北京'
+        }]
+      }, 
+      {
+        label: '城市名',
+        children: [{
+          value: 'Chengdu',
+          label: '成都'
+        }, {
+          value: 'Shenzhen',
+          label: '深圳'
+        }, {
+          value: 'Guangzhou',
+          label: '广州'
+        }, {
+          value: 'Dalian',
+          label: '大连'
+        }]
+      }]
+
+    return {
+      value,
+      options
+    }
+  }
+}
+</script>
+```
+:::
+
+## 分组自定义模板
+
+::: demo
+```html
+<template>
+  <vc-select v-model:value="value" :options="options">
+    <template #label="item">
+      <i>{{item.label}}</i>
+      <hr/>
+    </template>
+    <template #default="item">
+      <label>{{item.label}}</label>
+      <i>{{item.value}}</i>
+    </template>
+  </vc-select>
+</template>
+
+<script>
+export default {
+  setup() {
+    const value = ref(['Shanghai'])
+
+    const options = [
+      {
+        label: '热门城市',
+        children: [{
+          value: 'Shanghai',
+          label: '上海'
+        }, {
+          value: 'Beijing',
+          label: '北京'
+        }]
+      }, 
+      {
+        label: '城市名',
+        children: [{
+          value: 'Chengdu',
+          label: '成都'
+        }, {
+          value: 'Shenzhen',
+          label: '深圳'
+        }, {
+          value: 'Guangzhou',
+          label: '广州'
+        }, {
+          value: 'Dalian',
+          label: '大连'
+        }]
+      }]
+
+    return {
+      value,
+      options
+    }
+  }
+}
+</script>
+```
+:::

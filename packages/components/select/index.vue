@@ -11,7 +11,6 @@
         type="text" 
         autocomplete="off" 
         :placeholder="placeholder"
-        @blur="blurEvt"
         v-model="intValue"
       >
       <i class="vc-icon-arrow-down"/>
@@ -19,24 +18,33 @@
     </div>
     <transition name="vc-zoom-in-top">
       <DropDown v-show="isFocus">
-        <ul class="vc-option">
-          <li 
-            v-for="item in options" 
-            :key="item.value"
-            :class="[{
-              'selected': item.selected,
-              'hover': item.hover
-            }]"
-            :disabled="item.disabled"
-            @click="evt => selectedEvt(evt, item)"
-            @mouseover="optionMouseOver(hoverItem, item)"
-          >
-            <slot v-bind="item">
-              <label>{{item.label}}</label>
-              <i v-if="item.selected" class="vc-icon-check"></i>
-            </slot>
-          </li>  
-        </ul>        
+        <ul>
+          <template v-for="item in options" >
+            <template v-if="item.children">
+              <VCSGroup :item="item" :key="item.label">
+                <template #label="item">
+                  <slot name="label" v-bind="item">
+                    <div class="vc-select-group__label">{{item.label}}</div>
+                  </slot>
+                </template>
+                <template #default="item">
+                  <slot v-bind="item">
+                    <label>{{item.label}}</label>
+                    <i v-if="item.selected" class="vc-icon-check"></i>
+                  </slot>
+                </template>
+              </VCSGroup>
+            </template>
+            <VCSOption v-else :key="item.value" :item="item">
+              <template #default="item">
+                <slot v-bind="item">
+                  <label>{{item.label}}</label>
+                  <i v-if="item.selected" class="vc-icon-check"></i>
+                </slot>
+              </template>
+            </VCSOption>
+          </template>
+        </ul>
       </DropDown>
     </transition>
   </div>
@@ -53,10 +61,12 @@ import {
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropDown.vue'
 import VS_Tags from './tags.vue'
+import VCSOption from './option.vue'
+import VCSGroup from './group.vue'
 
 export default {
   name: 'VcSelect',
-  components: { DropDown, VS_Tags },
+  components: { DropDown, VS_Tags, VCSOption, VCSGroup },
   provide() {
     return {
       vcSelect: this
