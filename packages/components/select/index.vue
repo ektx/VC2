@@ -112,7 +112,9 @@ export default {
 
     const _placeholder = computed(() => {
       if (props.multiple) return props.placeholder
-      else return props.value ? props.value : props.placeholder
+      else return props.value 
+        ? selectedItem.value[props.value].label 
+        : props.placeholder
     })
 
     let tooltip = null
@@ -150,7 +152,6 @@ export default {
           }
 
           let diff = []
-          console.log(max)
           max.forEach(item => {
             if (!filter.includes(item)) diff.push(item)
           })
@@ -240,8 +241,6 @@ export default {
       }
 
       if (this.filterable) {
-        // this.intValue = ''
-        // this.placeholder = 'sda'
       }
 
       let { width } = this.$el.getBoundingClientRect()
