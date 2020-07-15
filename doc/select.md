@@ -384,7 +384,7 @@ export default {
 <script>
 export default {
   setup() {
-    const value = ref(['Shanghai'])
+    const value = ref('Shanghai')
 
     const options = [
       {

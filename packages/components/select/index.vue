@@ -7,10 +7,10 @@
     <VS_Tags :selectedItem="selectedItem"/>
     <div ref="inputArea" class="vc-select__input">
       <input 
-        readonly 
+        :readonly="!filterable" 
         type="text" 
         autocomplete="off" 
-        :placeholder="placeholder"
+        :placeholder="_placeholder"
         v-model="intValue"
       >
       <i class="vc-icon-arrow-down"/>
@@ -57,6 +57,7 @@ import {
   onUnmounted, 
   onMounted, 
   watch,
+  computed,
 } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropDown.vue'
@@ -108,6 +109,12 @@ export default {
     const intValue = ref('')
     const selectedItem = ref({})
     const hoverItem = ref({})
+
+    const _placeholder = computed(() => {
+      if (props.multiple) return props.placeholder
+      else return props.value ? props.value : props.placeholder
+    })
+
     let tooltip = null
 
     let hideDropdown = () => isFocus.value = false
@@ -212,6 +219,7 @@ export default {
       intValue,
       selectedItem,
       hoverItem,
+      _placeholder,
 
       optionMouseOver,
       setHoverItem,
@@ -227,6 +235,11 @@ export default {
       if (this.isFocus) {
         this.isFocus = false
         return
+      }
+
+      if (this.filterable) {
+        // this.intValue = ''
+        // this.placeholder = 'sda'
       }
 
       let { width } = this.$el.getBoundingClientRect()
