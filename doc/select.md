@@ -378,13 +378,15 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" filterable />
+  <vc-select v-model:value="value1" :options="options" filterable />
+  <vc-select v-model:value="value2" :options="options" multiple filterable />
 </template>
 
 <script>
 export default {
   setup() {
-    const value = ref('Shanghai')
+    const value1 = ref('Shanghai')
+    const value2 = ref(['Shanghai'])
 
     const options = [
       {
@@ -415,7 +417,8 @@ export default {
       }]
 
     return {
-      value,
+      value1,
+      value2,
       options
     }
   }

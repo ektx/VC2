@@ -9,6 +9,7 @@
       <i class="vc-icon-close" @click="evt => vcSelect.selectedEvt(evt, item)"/>
     </span>
     <span v-if="vcSelect.collapseTags && moreSize > 0" class="vc-tag more-tag"> +{{ moreSize }} </span>
+    <input class="vc-select-tags__filter" type="text" autocomplete="off">
   </div>
 </template>
 
@@ -24,8 +25,8 @@ export default {
   },
   updated() {
     let H = this.$el.offsetHeight 
-
-    H = H >= 20 ? H + 'px' : 'auto'
+    
+    H = H >= 24 ? H + 'px' : 'auto'
 
     this.vcSelect.$refs.inputArea.style.height = H
     this.vcSelect.tooltip && this.vcSelect.tooltip.update()
@@ -41,14 +42,14 @@ export default {
         return this.selectedItem
       }
     }
-  },
-  methods: {
   }
 }
 </script>
 
 <style lang="less">
 .vc-select-tags {
+  display: flex;
+  flex-wrap: wrap;
   position: absolute;
   top: 0px;
   left: 0px;
@@ -79,6 +80,16 @@ export default {
     &.more-tag {
       padding: 2px 10px;
     }
+  }
+
+  &__filter {
+    margin: 0 0 2px 0;
+    width: 10%;
+    flex-grow: 1;
+    color: #333;
+    border: none;
+    outline: none;
+    background-color: transparent;
   }
 }
 </style>
