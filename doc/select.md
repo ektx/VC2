@@ -227,7 +227,7 @@ export default {
 <script>
 export default {
   setup() {
-    const value = ref(['选项2', '选项4'])
+    const value = ref('选项2')
 
     const options = [{
       value: '选项1',
@@ -269,7 +269,7 @@ export default {
 <script>
 export default {
   setup() {
-    const value = ref(['Shanghai'])
+    const value = ref('Shanghai')
 
     const options = [
       {
@@ -314,7 +314,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options">
+  <vc-select v-model:value="value" :options="options" multiple>
     <template #label="item">
       <i>{{item.label}}</i>
       <hr/>
@@ -324,6 +324,61 @@ export default {
       <i>{{item.value}}</i>
     </template>
   </vc-select>
+</template>
+
+<script>
+export default {
+  setup() {
+    const value = ref('Shanghai')
+
+    const options = [
+      {
+        label: '热门城市',
+        children: [{
+          value: 'Shanghai',
+          label: '上海'
+        }, {
+          value: 'Beijing',
+          label: '北京'
+        }]
+      }, 
+      {
+        label: '城市名',
+        children: [{
+          value: 'Chengdu',
+          label: '成都'
+        }, {
+          value: 'Shenzhen',
+          label: '深圳'
+        }, {
+          value: 'Guangzhou',
+          label: '广州'
+        }, {
+          value: 'Dalian',
+          label: '大连'
+        }]
+      }]
+
+    return {
+      value,
+      options
+    }
+  }
+}
+</script>
+```
+:::
+
+
+## 可搜索
+
+可以利用搜索功能快速查找选项
+
+
+::: demo
+```html
+<template>
+  <vc-select v-model:value="value" :options="options" filterable />
 </template>
 
 <script>

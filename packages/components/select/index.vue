@@ -100,7 +100,8 @@ export default {
       default: '请选择'
     },
     disabled: Boolean,
-    clearable: Boolean
+    clearable: Boolean,
+    filterable: Boolean,
   },
   setup(props, { emit }) {
     const isFocus = ref(false)
@@ -126,6 +127,8 @@ export default {
         // console.log('old:', old)
         if (props.multiple) {
           old = old ? old : []
+          val = [].concat(val)
+
           if (old.length === val.length) return
 
           let type = 'add'
@@ -144,8 +147,12 @@ export default {
           })
           let option = []
           props.options.forEach(item => {
-            if (diff.includes(item.value)) {
-              option.push(item)
+            if (item.children) {
+              item.children.forEach(child => {
+                if (diff.includes(child.value)) option.push(child)
+              })
+            } else {
+              if (diff.includes(item.value)) option.push(item)
             }
           })
 
@@ -163,7 +170,21 @@ export default {
 
           intValue.value = Object.keys(val).length ? ' ' : ''
         } else {
-          let item = props.options.find(item => item.value === val)
+          let item = ''
+
+          for (let i = 0, l = props.options.length; i < l; i++) {
+            let data = props.options[i]
+
+            if (data.children) {
+              item = data.children.find(child => child.value === val)
+              break
+            } else {
+              if (data.value === val) {
+                item = data
+                break
+              }
+            }
+          }
 
           if (item) {
             item.selected = true
