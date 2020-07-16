@@ -41,6 +41,7 @@ function createCss(lessArr) {
   let cssData = `/* 以下代码自动生成于 ${Date()} */\n\n`
 
   cssData += `@import './styles/var.less';\n`
+  cssData += `@import './styles/transition.less';\n`
   cssData += lessArr.join('\r\n')
 
   fs.writeFile(cssPath, cssData, {encoding: 'utf8'}, (err) => {
