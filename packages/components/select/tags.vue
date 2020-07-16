@@ -11,7 +11,7 @@
     <span 
       v-if="vcSelect.collapseTags && moreSize > 0" 
       class="vc-tag more-tag"
-    > + {{ moreSize }} </span>
+    > +{{ moreSize }} </span>
     <input 
       v-if="vcSelect.filterable || vcSelect.createTags" 
       class="vc-select-tags__filter" 
@@ -60,7 +60,10 @@ export default {
   },
   methods: {
     focusEvt() {
-      this.$el.querySelector('.vc-select-tags__filter').focus()
+      let {filterable, createTags} = this.vcSelect
+      if (filterable || createTags) {
+        this.$el.querySelector('.vc-select-tags__filter').focus()
+      }
     }
   }
 }
