@@ -123,7 +123,8 @@ export default {
     const intValue = ref('')
     const query = ref('')
     const isChange = ref(false)
-    const vcForm = inject('VcForm', {})
+    const vcForm = inject('vcForm', {})
+    const vcFormItem = inject('vcFormItem', {})
 
     const _placeholder = computed(() => {
       let result = ''
@@ -249,7 +250,10 @@ export default {
       (val) => {
         if (!val) {
           if (isChange.value) isChange.value = false
-          else emit('blur')
+          else {
+            emit('blur')
+            vcFormItem.checkValidate('blur')
+          }
         }
       }
     )
@@ -317,7 +321,9 @@ export default {
       _options,
       query,
       isChange,
+
       vcForm,
+      vcFormItem,
 
       optionMouseOver,
       setHoverItem,
@@ -404,7 +410,9 @@ export default {
         }
       }
 
-      console.log(this)
+      if (this.vcFormItem) {
+        this.vcFormItem.checkValidate('change')
+      }
       this.isChange = true
       this.$emit('update:value', result)
       this.$emit('change', result)
