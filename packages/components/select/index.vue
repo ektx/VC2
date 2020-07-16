@@ -211,6 +211,9 @@ export default {
           }
         } else {
           let item = ''
+          let oldItem = selectedItem.value[old]
+
+          if (oldItem) oldItem.selected = false
 
           for (let i = 0, l = props.options.length; i < l; i++) {
             let data = props.options[i]
