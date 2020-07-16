@@ -123,8 +123,8 @@ export default {
     const intValue = ref('')
     const query = ref('')
     const isChange = ref(false)
-    const vcForm = inject('vcForm', {})
-    const vcFormItem = inject('vcFormItem', {})
+    const vcForm = inject('vcForm', null)
+    const vcFormItem = inject('vcFormItem', null)
 
     const _placeholder = computed(() => {
       let result = ''
@@ -252,7 +252,8 @@ export default {
           if (isChange.value) isChange.value = false
           else {
             emit('blur')
-            vcFormItem.checkValidate('blur')
+            console.log(vcFormItem)
+            if (vcFormItem) vcFormItem.checkValidate('blur')
           }
         }
       }
