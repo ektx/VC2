@@ -14,7 +14,7 @@
       <input type="text" v-model="formData.name" />
     </vc-form-item>
     <vc-form-item label="活动区域" prop="region">
-      <vc-select v-model:value="formData.region" :options="options"/>
+      <vc-select v-model:value="formData.region" :options="options" multiple/>
     </vc-form-item>
     <vc-form-item label="活动形式" prop="desc">
       <textarea v-model="formData.desc" style="height: 100px"></textarea>
@@ -35,7 +35,7 @@ export default {
     return {
       formData: {
         name: '',
-        region: '',
+        region: [],
         desc: 'text'
       },
       options: [{
@@ -51,7 +51,7 @@ export default {
           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
         region: [
-          { required: true, message: '请选择活动区域', trigger: ['blur', 'change'] }
+          { required: true, type: 'array', message: '请选择活动区域', trigger: ['blur', 'change'] }
         ],
         date1: [
           { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
