@@ -38,7 +38,10 @@ async function main() {
 
 function createCss(lessArr) {
   let cssPath = path.join(__dirname, '../packages/layout.less')
-  let cssData = `/* 以下代码自动生成于 ${Date()} */\n\n${lessArr.join('\r\n')}`
+  let cssData = `/* 以下代码自动生成于 ${Date()} */\n\n`
+
+  cssData += `@import './styles/var.less';\n`
+  cssData += lessArr.join('\r\n')
 
   fs.writeFile(cssPath, cssData, {encoding: 'utf8'}, (err) => {
     if (err) throw Error(err)
