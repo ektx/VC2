@@ -63,6 +63,7 @@ import {
   computed,
   getCurrentInstance,
   reactive,
+  inject,
 } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropDown.vue'
@@ -121,6 +122,8 @@ export default {
     const hoverItem = ref({})
     const intValue = ref('')
     const query = ref('')
+    const isChange = ref(false)
+    const vcForm = inject('VcForm', {})
 
     const _placeholder = computed(() => {
       let result = ''
@@ -241,6 +244,16 @@ export default {
       }
     )
 
+    watch(
+      () => isFocus.value,
+      (val) => {
+        if (!val) {
+          if (isChange.value) isChange.value = false
+          else emit('blur')
+        }
+      }
+    )
+
     const _options = computed(() => {
         let result = []
         let val = query.value.trim()
@@ -303,6 +316,8 @@ export default {
       _placeholder,
       _options,
       query,
+      isChange,
+      vcForm,
 
       optionMouseOver,
       setHoverItem,
@@ -357,20 +372,21 @@ export default {
       evt.stopPropagation()
 
       if (item.disabled) return
+      let result = ''
       this.query = ''
 
       if (item.selected) {
         if (this.multiple || this.createTags) {
           item.selected = false
           delete this.selectedItem[item.value]
-          this.$emit('update:value', Object.keys(this.selectedItem))
+          result = Object.keys(this.selectedItem)
         }
       } else {
         item.selected = true
 
         if (this.multiple || this.createTags) {
           this.selectedItem[item.value] = item
-          this.$emit('update:value', Object.keys(this.selectedItem))
+          result = Object.keys(this.selectedItem)
           this.$refs.tags.focusEvt()
         } else {
           let oldKeys = Object.keys(this.selectedItem)
@@ -384,9 +400,14 @@ export default {
             [item.value]: item
           }
           this.isFocus = false
-          this.$emit('update:value', item.value)
+          result = item.value
         }
       }
+
+      console.log(this)
+      this.isChange = true
+      this.$emit('update:value', result)
+      this.$emit('change', result)
     },
   }
 }

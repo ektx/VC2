@@ -526,3 +526,53 @@ export default {
 </script>
 ```
 :::
+
+
+## 事件用法
+
+::: demo
+```html
+<template>
+  <vc-select v-model:value="value" :options="options" @change="change" @blur="blur"/>
+</template>
+
+<script>
+export default {
+  setup() {
+    const value = ref('')
+    const options = [{
+      value: '选项1',
+      label: '黄金糕'
+    }, {
+      value: '选项2',
+      label: '双皮奶'
+    }, {
+      value: '选项3',
+      label: '蚵仔煎'
+    }, {
+      value: '选项4',
+      label: '龙须面'
+    }, {
+      value: '选项5',
+      label: '北京烤鸭'
+    }]
+
+    function change(item) {
+      console.log('change', item)
+    }
+
+    function blur() {
+      console.log('blur')
+    }
+
+    return {
+      value,
+      options,
+      change,
+      blur
+    }
+  }
+}
+</script>
+```
+:::
