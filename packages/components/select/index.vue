@@ -106,7 +106,10 @@ export default {
     },
     disabled: Boolean,
     clearable: Boolean,
+    // 是否可搜索
     filterable: Boolean,
+    // 自定义搜索方法
+    filterMethod: Function,
   },
   setup(props, { emit }) {
     const { ctx } = getCurrentInstance()
@@ -243,26 +246,30 @@ export default {
           return props.options
         }
 
-        props.options.forEach(option => {
-          if (option.children) {
-            let _arr = []
+        if (props.filterMethod && typeof props.filterMethod === 'function') {
+          result = props.filterMethod(val, props.options)
+        } else {
+          props.options.forEach(option => {
+            if (option.children) {
+              let _arr = []
 
-            option.children.forEach(item => {
-              if (item.label.includes(val)) {
-                _arr.push( item )
-              }
-            })
+              option.children.forEach(item => {
+                if (item.label.includes(val)) {
+                  _arr.push( item )
+                }
+              })
 
-            if (_arr.length)
-              result.push({...option, children: _arr})
-          } else {
-            if (option.label.includes(val))
-              result.push(option)
-          }
-        })
+              if (_arr.length)
+                result.push({...option, children: _arr})
+            } else {
+              if (option.label.includes(val))
+                result.push(option)
+            }
+          })
+        }
 
         if (result.length === 0) {
-          ctx.tooltip.update()
+          ctx.tooltip && ctx.tooltip.update()
         }
 
         return result

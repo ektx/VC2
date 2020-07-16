@@ -426,3 +426,60 @@ export default {
 </script>
 ```
 :::
+
+## 自定义搜索
+
+可以利用搜索功能快速查找选项
+
+::: demo
+```html
+<template>
+  <vc-select v-model:value="value" :options="options" filterable :filterMethod="find"/>
+</template>
+
+<script>
+export default {
+  setup() {
+    const value = ref('')
+
+    const options = [{
+      value: '1',
+      label: '黄金糕'
+    }, {
+      value: '2',
+      label: '双皮奶'
+    }, {
+      value: '3',
+      label: '蚵仔煎'
+    }, {
+      value: '4',
+      label: '龙须面'
+    }, {
+      value: '5',
+      label: '北京烤鸭'
+    }]
+
+    function find(val, list) {
+      let result = list
+
+      if (val) {
+        result = []
+        
+        list.forEach(item => {
+          if (item.value == val) result.push(item)
+        })
+      }
+
+      return result
+    }
+
+    return {
+      value,
+      options,
+      find
+    }
+  }
+}
+</script>
+```
+:::
