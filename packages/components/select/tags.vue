@@ -1,5 +1,5 @@
 <template>
-  <div v-if="vcSelect.multiple" class="vc-select-tags">
+  <div v-if="vcSelect.multiple || vcSelect.createTags" class="vc-select-tags">
     <span 
       class="vc-tag"
       v-for="item in displayItem" 
@@ -11,12 +11,13 @@
     <span 
       v-if="vcSelect.collapseTags && moreSize > 0" 
       class="vc-tag more-tag"
-    > +{{ moreSize }} </span>
+    > + {{ moreSize }} </span>
     <input 
-      v-if="vcSelect.filterable" 
+      v-if="vcSelect.filterable || vcSelect.createTags" 
       class="vc-select-tags__filter" 
       type="text" 
       autocomplete="off"
+      :placeholder="placeholder"
       v-model="vcSelect.query"
     >
   </div>
@@ -49,6 +50,11 @@ export default {
         return Object.values(this.selectedItem).slice(0, this.vcSelect.maxTagCount)
       } else {
         return this.selectedItem
+      }
+    },
+    placeholder() {
+      if (this.vcSelect.filterable) {
+        return this.vcSelect.value.length ? '' : this.vcSelect.placeholder
       }
     }
   },

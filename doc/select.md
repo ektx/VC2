@@ -464,7 +464,7 @@ export default {
 
       if (val) {
         result = []
-        
+
         list.forEach(item => {
           if (item.value == val) result.push(item)
         })
@@ -477,6 +477,49 @@ export default {
       value,
       options,
       find
+    }
+  }
+}
+</script>
+```
+:::
+
+
+## 创建条目
+
+可以创建并选中选项中不存在的条目
+
+::: demo
+```html
+<template>
+  <vc-select v-model:value="value" :options="options" filterable createTags/>
+</template>
+
+<script>
+export default {
+  setup() {
+    const value = ref('')
+
+    const options = [{
+      value: '1',
+      label: '黄金糕'
+    }, {
+      value: '2',
+      label: '双皮奶'
+    }, {
+      value: '3',
+      label: '蚵仔煎'
+    }, {
+      value: '4',
+      label: '龙须面'
+    }, {
+      value: '5',
+      label: '北京烤鸭'
+    }]
+
+    return {
+      value,
+      options
     }
   }
 }

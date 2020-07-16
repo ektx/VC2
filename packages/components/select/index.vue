@@ -62,6 +62,7 @@ import {
   watch,
   computed,
   getCurrentInstance,
+  reactive,
 } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropDown.vue'
@@ -110,6 +111,8 @@ export default {
     filterable: Boolean,
     // 自定义搜索方法
     filterMethod: Function,
+    // 是否允许用户创建新条目
+    createTags: Boolean, 
   },
   setup(props, { emit }) {
     const { ctx } = getCurrentInstance()
@@ -121,9 +124,9 @@ export default {
 
     const _placeholder = computed(() => {
       let result = ''
-      if (props.multiple) {
+      if (props.multiple || props.createTags) {
         result = props.value.length ? '' : props.placeholder
-        result = query.value ? '' : result
+        result = props.filterable ? '' : result
         intValue.value = ''
       }
       else {
@@ -240,8 +243,8 @@ export default {
 
     const _options = computed(() => {
         let result = []
-        let val = query.value
-
+        let val = query.value.trim()
+        
         if (!props.filterable) {
           return props.options
         }
@@ -269,6 +272,15 @@ export default {
         }
 
         if (result.length === 0) {
+          if (props.createTags) {
+            let addItem = reactive({
+              value: val,
+              label: val,
+              selected: Reflect.has(selectedItem.value, val),
+              hover: false
+            })
+            result.push(addItem)
+          }
           ctx.tooltip && ctx.tooltip.update()
         }
 
@@ -345,18 +357,18 @@ export default {
       evt.stopPropagation()
 
       if (item.disabled) return
+      this.query = ''
 
       if (item.selected) {
-        if (this.multiple) {
+        if (this.multiple || this.createTags) {
           item.selected = false
           delete this.selectedItem[item.value]
           this.$emit('update:value', Object.keys(this.selectedItem))
         }
       } else {
         item.selected = true
-        this.query = ''
 
-        if (this.multiple) {
+        if (this.multiple || this.createTags) {
           this.selectedItem[item.value] = item
           this.$emit('update:value', Object.keys(this.selectedItem))
           this.$refs.tags.focusEvt()
