@@ -392,25 +392,25 @@ export default {
 
       setHoverItem(this.value, this.options, this.hoverItem)
 
-        this.tooltip = createPopper(this.$refs.inputArea, tooltipEl, {
-          placement: 'bottom',
-          modifiers: [
-            {
-              name: 'offset',
-              options: {
-                offset: [0, 10]
-              }
-            }, 
-            {
-              name: 'computeStyles',
-              options: {
-                adaptive: false,
-                gpuAcceleration: false
-              }
+      this.tooltip = createPopper(this.$refs.inputArea, tooltipEl, {
+        placement: 'bottom',
+        modifiers: [
+          {
+            name: 'offset',
+            options: {
+              offset: [0, 10]
             }
-          ],
-          strategy: 'fixed'
-        })
+          }, 
+          {
+            name: 'computeStyles',
+            options: {
+              adaptive: false,
+              gpuAcceleration: false
+            }
+          }
+        ],
+        strategy: 'fixed'
+      })
     },
 
     selectedEvt(evt, item) {

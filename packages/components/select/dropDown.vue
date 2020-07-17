@@ -1,5 +1,5 @@
 <template>
-  <div :class="['vc-select__dropdown']">
+  <div class="vc-select__dropdown">
     <slot/>
     <div id="arrow" data-popper-arrow></div>
   </div>
