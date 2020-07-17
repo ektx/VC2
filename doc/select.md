@@ -484,6 +484,66 @@ export default {
 ```
 :::
 
+## 远程搜索
+
+可以利用搜索功能快速查找选项
+
+::: demo
+```html
+<template>
+  <vc-select v-model:value="value" :options="options" filterable :remote-method="find" />
+</template>
+
+<script>
+export default {
+  setup() {
+    const value = ref('')
+    const options = ref([])
+    const list = ["Alabama", "Alaska", "Arizona",
+      "Arkansas", "California", "Colorado",
+      "Connecticut", "Delaware", "Florida",
+      "Georgia", "Hawaii", "Idaho", "Illinois",
+      "Indiana", "Iowa", "Kansas", "Kentucky",
+      "Louisiana", "Maine", "Maryland",
+      "Massachusetts", "Michigan", "Minnesota",
+      "Mississippi", "Missouri", "Montana",
+      "Nebraska", "Nevada", "New Hampshire",
+      "New Jersey", "New Mexico", "New York",
+      "North Carolina", "North Dakota", "Ohio",
+      "Oklahoma", "Oregon", "Pennsylvania",
+      "Rhode Island", "South Carolina",
+      "South Dakota", "Tennessee", "Texas",
+      "Utah", "Vermont", "Virginia",
+      "Washington", "West Virginia", "Wisconsin",
+      "Wyoming"]
+
+    function find(val, cb) {
+      setTimeout(() => {
+        let result = []
+
+        list.forEach(item => {
+          if (item.toLowerCase().includes(val)) {
+            result.push({
+              label: item,
+              value: item
+            })
+          }
+        })
+        cb(result)
+      }, 1000)
+    }
+
+    return {
+      value,
+      options,
+      find
+    }
+  }
+}
+</script>
+```
+:::
+
 
 ## 创建条目
 

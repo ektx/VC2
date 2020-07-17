@@ -12,8 +12,12 @@
         autocomplete="off" 
         :placeholder="_placeholder"
         v-model="intValue"
+        @input="setQuery"
       >
-      <i class="vc-icon-arrow-down"/>
+      <span v-if="isLoading">
+        <i class="vc-icon-loading"/>
+      </span>
+      <i v-else class="vc-icon-arrow-down"/>
       <i class="vc-icon-error" @click="clearValue"/>
     </div>
     <transition name="vc-zoom-in-top">
@@ -46,7 +50,7 @@
           </template>
         </ul>
         <div class="vc-select-empty" v-else>
-          无匹配数据
+          {{ isLoading ? '加载中' : '无匹配数据' }}
         </div>
       </DropDown>
     </transition>
@@ -114,6 +118,8 @@ export default {
     filterMethod: Function,
     // 是否允许用户创建新条目
     createTags: Boolean, 
+    // 自定义远程搜索功能
+    remoteMethod: Function
   },
   setup(props, { emit }) {
     const { ctx } = getCurrentInstance()
@@ -123,8 +129,10 @@ export default {
     const intValue = ref('')
     const query = ref('')
     const isChange = ref(false)
+    const isLoading = ref(false)
     const vcForm = inject('vcForm', null)
     const vcFormItem = inject('vcFormItem', null)
+    const _options = ref([])
 
     const _placeholder = computed(() => {
       let result = ''
@@ -240,13 +248,13 @@ export default {
       }
     )
 
-    watch(
-      () => intValue.value,
-      (val) => {
-        query.value = val
-        if (ctx.tooltip) ctx.tooltip.update()
-      }
-    )
+    function setQuery(evt) {
+      let { value } = evt.target
+
+      query.value = value
+      intValue.value = value
+      if (ctx.tooltip) ctx.tooltip.update()
+    }
 
     watch(
       () => isFocus.value,
@@ -255,24 +263,43 @@ export default {
           if (isChange.value) isChange.value = false
           else {
             emit('blur')
-            console.log(vcFormItem)
             if (vcFormItem) vcFormItem.checkValidate('blur')
           }
         }
       }
     )
 
-    const _options = computed(() => {
+    watch(
+      () => query.value,
+      (val) => {
+        let str = val.trim()
         let result = []
-        let val = query.value.trim()
-        
-        if (!props.filterable) {
-          return props.options
+        let done = (list) => {
+          _options.value = list
+          isLoading.value = false
         }
 
-        if (props.filterMethod && typeof props.filterMethod === 'function') {
+        if (props.remoteMethod) {
+          _options.value = []
+          if (str) {
+            isLoading.value = true
+            props.remoteMethod(val, done)
+          }
+          return
+        }
+
+        // 无过滤情况
+        if (!props.filterable) {
+          _options.value = props.options
+          return 
+        }
+
+        // 自定义过滤效果
+        if (props.filterMethod) {
           result = props.filterMethod(val, props.options)
-        } else {
+        } 
+        // 默认过滤效果
+        else {
           props.options.forEach(option => {
             if (option.children) {
               let _arr = []
@@ -305,8 +332,12 @@ export default {
           ctx.tooltip && ctx.tooltip.update()
         }
 
-        return result
-    })
+        _options.value = result
+      },
+      {
+        immediate: true
+      }
+    )
 
     function clearValue(evt) {
       evt.stopPropagation()
@@ -325,13 +356,15 @@ export default {
       _options,
       query,
       isChange,
+      isLoading,
 
       vcForm,
       vcFormItem,
 
       optionMouseOver,
       setHoverItem,
-      clearValue
+      clearValue,
+      setQuery
     }
   },
   methods: {
