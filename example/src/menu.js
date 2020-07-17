@@ -29,6 +29,10 @@ export default [
         "file": "select.md"
       },
       {
+        "label": "ColorPicker 颜色选择器",
+        "file": "colorPicker.md"
+      },
+      {
         "label": "Form 表单",
         "file": "form.md"
       }

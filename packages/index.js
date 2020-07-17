@@ -1,8 +1,9 @@
-/* 以下代码自动生成于 Thu Jul 16 2020 09:16:42 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Fri Jul 17 2020 15:10:06 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
 import vcForm from './components/form/index.vue'
+import vcColorPicker from './components/colorPicker/index.vue'
 import vcFormItem from './components/formItem/index.vue'
 import vcIcon from './components/icon/index.vue'
 import vcMessage from './components/message/index.js'
@@ -13,6 +14,7 @@ const components = [
   vcButton,
   vcButtonGroup,
   vcForm,
+  vcColorPicker,
   vcFormItem,
   vcIcon,
   vcMessage,
@@ -35,6 +37,7 @@ export default {
   vcButton,
   vcButtonGroup,
   vcForm,
+  vcColorPicker,
   vcFormItem,
   vcIcon,
   vcMessage,
