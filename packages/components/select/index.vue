@@ -20,7 +20,7 @@
       <i v-else class="vc-icon-arrow-down"/>
       <i class="vc-icon-error" @click="clearValue"/>
     </div>
-    <transition name="vc-zoom-in-top">
+    <transition name="vc-zoom-in-top" @after-leave="afterLeave">
       <DropDown v-show="isFocus">
         <ul v-if="_options.length">
           <template v-for="item in _options" >
@@ -346,6 +346,11 @@ export default {
       emit('update:value', props.multiple ? [] : '')
     }
 
+    function afterLeave() {
+      ctx.tooltip.destroy()
+      emit('closed')
+    }
+
     return {
       tooltip,
       isFocus,
@@ -364,7 +369,8 @@ export default {
       optionMouseOver,
       setHoverItem,
       clearValue,
-      setQuery
+      setQuery,
+      afterLeave
     }
   },
   methods: {
@@ -386,7 +392,6 @@ export default {
 
       setHoverItem(this.value, this.options, this.hoverItem)
 
-      if (!this.tooltip) {
         this.tooltip = createPopper(this.$refs.inputArea, tooltipEl, {
           placement: 'bottom',
           modifiers: [
@@ -406,9 +411,6 @@ export default {
           ],
           strategy: 'fixed'
         })
-      } else {
-        this.tooltip.update()
-      }
     },
 
     selectedEvt(evt, item) {
