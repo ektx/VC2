@@ -6,8 +6,8 @@
       :style="colorStyle"
       @click="showDropdownEvt"
     ></div>
-    <transition name="vc-zoom-in-top">
-      <DropDown v-show="isVisible" ref="dropdownEl"/>
+    <transition name="vc-zoom-in-top" @after-enter="afterEnterEvt">
+      <DropDown v-show="isVisible"/>
     </transition>
   </div>
 </template>
@@ -16,6 +16,7 @@
 import { ref, getCurrentInstance, onMounted, onUnmounted } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
+import { formatString, isVisible, isOpened } from './color'
 
 export default {
   name: 'VcColorPicker',
@@ -36,7 +37,6 @@ export default {
     })
     const colorEl = ref(null)
     const dropdown = ref(null)
-    const isVisible = ref(false)
     const isActive = ref(false)
 
     function showDropdownEvt (evt) {
@@ -45,6 +45,9 @@ export default {
       const dropdownEl = ctx.$el.querySelector('.vc-color-picker__drop-down')
 
       isVisible.value = true
+      
+      formatString(props.value)
+      console.log(ctx)
 
       dropdown.value = createPopper(
         colorEl.value,
@@ -71,9 +74,12 @@ export default {
     }
 
     function hideDropdown () {
-      console.trace(1)
-      debugger
       if (!isActive.value) isVisible.value = false
+    }
+
+    function afterEnterEvt() {
+      console.log('opened')
+      isOpened.value = true
     }
 
     onMounted(() => {
@@ -90,7 +96,9 @@ export default {
       dropdown,
       isVisible,
       isActive,
-      showDropdownEvt
+      isOpened,
+      showDropdownEvt,
+      afterEnterEvt
     }
   }
 }
@@ -100,7 +108,6 @@ export default {
 .vc-color-picker {
   position: relative;
   display: inline-block;
-  // font-size: 0;
 
   &__color {
     display: inline-block;

@@ -1,19 +1,28 @@
 <template>
   <div class="vc-color-picker__drop-down">
-    <HSLPanel />
-    <h1>hello</h1>
-    <h1>hello</h1>
+    <ColorPanel />
+    <HSLAPanel />
+    <RGBAPanel />
+    <HexPanel />
     <h1>hello</h1>
     <h1>hello</h1>
   </div>
 </template>
 
 <script>
-import HSLPanel from './hslPanel.vue'
+import ColorPanel from './colorPanel.vue'
+import HSLAPanel from './hslaPanel.vue'
+import RGBAPanel from './rgbaPanel.vue'
+import HexPanel from './hexPanel.vue'
 
 export default {
   name: 'VcColorPickerDropdown',
-  components: { HSLPanel }
+  components: { 
+    ColorPanel,  
+    HSLAPanel,
+    RGBAPanel,
+    HexPanel
+  }
 }
 </script>
 

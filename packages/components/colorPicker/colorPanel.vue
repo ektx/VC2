@@ -14,8 +14,9 @@
 </template>
 
 <script>
-import { ref, computed, getCurrentInstance, onMounted, onUnmounted } from 'vue'
+import { ref, computed, getCurrentInstance, onMounted, onUnmounted, watch } from 'vue'
 import { useMousePosition } from '../../utils/mouse'
+import { lightness, hue, saturation, HSV_V, HSV_S, isOpened } from './color'
 
 export default {
   inject: ['vcColorPicker'],
@@ -37,7 +38,7 @@ export default {
     })
     const elBCR = ref({})
     const {x, y} = useMousePosition()
-    
+
     const cursorStyle = computed(() => {
       return {
         transform: `translate(${X.value}px, ${Y.value}px)`
@@ -54,12 +55,29 @@ export default {
       document.removeEventListener('mouseup', ctx.mouseupEvt, false)
     })
 
+    watch(
+      () => isOpened.value,
+      (val) => {
+        console.log(val)
+        if (val) {
+          ctx.$nextTick(() => {
+            ctx.setPosition()
+          })
+        }
+      }
+    )
+
     return {
       x, y,
       X, Y,
       cursorStyle,
       start,
-      elBCR
+      elBCR,
+      lightness,
+      saturation,
+      hue,
+      HSV_S,
+      HSV_V,
     }
   },
   methods: {
@@ -91,7 +109,7 @@ export default {
 
     mousemoveEvt(evt) {
       if (this.vcColorPicker.isActive) {
-        console.log('mousemove...', this.elBCR)
+        // console.log('mousemove...', this.elBCR)
         let {pageX, pageY} = evt
         let {x, y, layerX, layerY} = this.start
         let {width, height} = this.elBCR
@@ -106,6 +124,19 @@ export default {
 
         this.X = _x
         this.Y = _y
+        // HSV
+        this.HSV_V = (1 - _y / height) * 100
+        this.HSV_S = _x / width
+      }
+    },
+
+    setPosition() {
+      this.elBCR = this.$el.getBoundingClientRect()
+      let { width, height } = this.elBCR
+
+      if (width && height) {
+        this.X = width * (this.HSV_V/100)
+        this.Y = height * (1 - this.HSV_S/100)
       }
     }
   }
