@@ -8,7 +8,11 @@
       <span :style="colorStyle"></span>
     </div>
     <transition name="vc-zoom-in-top" @after-enter="afterEnterEvt">
-      <DropDown v-show="isVisible"/>
+      <DropDown 
+        v-show="isVisible" 
+        :format="format"
+        :isOpened="isOpened"
+      />
     </transition>
   </div>
 </template>
@@ -17,7 +21,7 @@
 import { ref, getCurrentInstance, onMounted, onUnmounted, computed, watch } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
-import { formatString, isVisible, isOpened, hex, colorStyle } from './color'
+import { formatString, hex, colorStyle } from './color'
 
 export default {
   name: 'VcColorPicker',
@@ -26,6 +30,12 @@ export default {
     value: {
       type: String,
       default: ''
+    },
+    // 写入 v-model 的颜色的格式
+    // @argumenst hsl / hsv / hex / rgb
+    format: {
+      type: String,
+      default: 'hex'
     }
   },
   provide() {
@@ -36,6 +46,8 @@ export default {
     const colorEl = ref(null)
     const dropdown = ref(null)
     const isActive = ref(false)
+    const isVisible = ref(false)
+    const isOpened = ref(false)
 
     function showDropdownEvt (evt) {
       evt.stopPropagation()

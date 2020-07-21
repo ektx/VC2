@@ -17,10 +17,13 @@
 <script>
 import { ref, computed, getCurrentInstance, onMounted, onUnmounted, watch } from 'vue'
 import { useMousePosition } from '../../utils/mouse'
-import { lightness, hue, saturation, HSV_V, HSV_S, isOpened, update } from './color'
+import { lightness, hue, saturation, HSV_V, HSV_S, update } from './color'
 
 export default {
   inject: ['vcColorPicker'],
+  props: {
+    isOpened: Boolean,
+  },
   setup(props) {
     const { ctx } = getCurrentInstance()
     const X = ref(0)
@@ -56,7 +59,7 @@ export default {
     })
 
     watch(
-      () => isOpened.value,
+      () => props.isOpened,
       (val) => {
         console.log(val)
         if (val) {

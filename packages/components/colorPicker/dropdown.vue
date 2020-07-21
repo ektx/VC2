@@ -1,6 +1,8 @@
 <template>
   <div class="vc-color-picker__drop-down" @mouseup="mouseupEvt">
-    <ColorPanel />
+    
+    <ColorPanel :isOpened="isOpened"/>
+
     <div class="vc-color-picker__display-panel">
       <div class="current-color">
         <div class="color-box">
@@ -9,10 +11,10 @@
       </div>
       <AlphaBar/>
     </div>
-    <HSVAPanel />
-    <HSLAPanel />
-    <RGBAPanel />
-    <HexPanel />
+    <HexPanel v-if="format === 'hex'" />
+    <HSVAPanel v-else-if="format === 'hsv'" />
+    <HSLAPanel v-else-if="format === 'hsl'" />
+    <RGBAPanel v-else/>
   </div>
 </template>
 
@@ -34,6 +36,10 @@ export default {
     RGBAPanel,
     HexPanel,
     AlphaBar
+  },
+  props: {
+    format: String,
+    isOpened: Boolean,
   },
   setup() {
     function mouseupEvt(evt) {

@@ -10,8 +10,6 @@ const R = ref(0)
 const G = ref(0)
 const B = ref(0)
 const hex = ref('')
-const isVisible = ref(false)
-const isOpened = ref(false)
 const colorStyle = ref({})
 
 const hsv2hsl = function(hue, sat, val) {
@@ -284,8 +282,6 @@ export {
   alpha,
   R, G, B,
   hex,
-  isVisible,
-  isOpened,
   colorStyle,
   formatString,
   hsv2rgb,
