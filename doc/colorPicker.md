@@ -11,8 +11,9 @@
 <script>
 export default {
   setup() {
-    const color = ref('hsl(10, 40%, 30%)')
-
+    // const color = ref('hsl(10, 40%, 30%)')
+    const color = ref('hsla(10, 40%, 30%, .3)')
+    
     return { color }
   }
 }

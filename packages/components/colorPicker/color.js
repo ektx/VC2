@@ -230,9 +230,9 @@ function formatString (value) {
       .map((val, index) => index > 2 ? parseFloat(val) : parseInt(val, 10));
 
     if (parts.length === 4) {
-      // this._alpha = Math.floor(parseFloat(parts[3]) * 100);
+      alpha.value = parseFloat(parts[3])
     } else if (parts.length === 3) {
-      // this._alpha = 100;
+      alpha.value = 1
     }
     if (parts.length >= 3) {
       const { h, s, v } = hsl2hsv(parts[0], parts[1], parts[2])
