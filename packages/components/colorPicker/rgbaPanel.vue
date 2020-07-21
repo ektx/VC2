@@ -1,18 +1,15 @@
 <template>
-  <ul 
-    class="color-picker__rgba-panel color-picker__text-table"
-    @mouseup="mouseupEvt"
-  >
+  <ul class="color-picker__rgba-panel color-picker__text-table">
     <li>
-      <input type="number" v-model="R">
+      <input type="number" max="255" min="0" v-model="R" @blur="changeEvt">
       <p>R</p>
     </li>
     <li>
-      <input type="number" v-model="G">
+      <input type="number" max="255" min="0" v-model="G" @blur="changeEvt">
       <p>G</p>
     </li>
     <li>
-      <input type="number" v-model="B">
+      <input type="number" max="255" min="0" v-model="B" @blur="changeEvt">
       <p>B</p>
     </li>
     <li>
@@ -23,19 +20,19 @@
 </template>
 
 <script>
-import { alpha, R, G, B } from './color'
+import { alpha, R, G, B, formatString, updateColorPanel } from './color'
 
 export default {
   setup() {
-
-    function mouseupEvt(evt) {
-      evt.stopPropagation()
+    function changeEvt() {
+      formatString(`rgb(${R.value}, ${G.value}, ${B.value})`)
+      updateColorPanel()
     }
 
     return {
       alpha,
       R, G, B,
-      mouseupEvt
+      changeEvt
     }
   }
 }
