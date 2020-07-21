@@ -11,7 +11,7 @@
 <script>
 export default {
   setup() {
-    const color = ref('#0099ff')
+    const color = ref('hsl(10, 40%, 30%)')
 
     return { color }
   }

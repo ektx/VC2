@@ -1,18 +1,15 @@
 <template>
-  <ul 
-    class="color-picker__hsla-panel color-picker__text-table"
-    @mouseup="mouseupEvt"
-  >
+  <ul class="color-picker__hsla-panel color-picker__text-table">
     <li>
-      <input type="number" v-model="hue">
+      <input type="number" v-model="hue" @blur="changeEvt">
       <p>H</p>
     </li>
     <li>
-      <input type="text" v-model="saturation">
+      <input type="text" v-model="saturation" @blur="changeEvt">
       <p>S</p>
     </li>
     <li>
-      <input type="text" v-model="lightness">
+      <input type="text" v-model="lightness" @blur="changeEvt">
       <p>L</p>
     </li>
     <li>
@@ -23,15 +20,15 @@
 </template>
 
 <script>
-import { lightness, hue, saturation, alpha } from './color'
+import { lightness, hue, saturation, alpha, formatString, updateColorPanel } from './color'
 
 export default {
   name: 'VcColorPickerHSLAPanel',
   setup() {
 
-    function mouseupEvt(evt) {
-      evt.stopPropagation()
-      console.log(111)
+    function changeEvt() {
+      formatString(`hsl(${hue.value}, ${saturation.value}, ${lightness.value})`)
+      updateColorPanel()
     }
 
     return {
@@ -39,7 +36,7 @@ export default {
       saturation,
       hue,
       alpha,
-      mouseupEvt
+      changeEvt
     }
   }
 }

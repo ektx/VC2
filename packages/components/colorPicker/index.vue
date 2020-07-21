@@ -3,9 +3,10 @@
     <div 
       ref="colorEl"
       class="vc-color-picker__color" 
-      :style="colorStyle"
       @click="showDropdownEvt"
-    ></div>
+    >
+      <span :style="colorStyle"></span>
+    </div>
     <transition name="vc-zoom-in-top" @after-enter="afterEnterEvt">
       <DropDown v-show="isVisible"/>
     </transition>
@@ -13,10 +14,10 @@
 </template>
 
 <script>
-import { ref, getCurrentInstance, onMounted, onUnmounted } from 'vue'
+import { ref, getCurrentInstance, onMounted, onUnmounted, computed, watch } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
-import { formatString, isVisible, isOpened } from './color'
+import { formatString, isVisible, isOpened, hex, colorStyle } from './color'
 
 export default {
   name: 'VcColorPicker',
@@ -30,11 +31,8 @@ export default {
   provide() {
     return { vcColorPicker: this}
   },
-  setup(props, {}) {
+  setup(props, { emit }) {
     const { ctx } = getCurrentInstance()
-    const colorStyle = ref({
-      backgroundColor: props.value
-    })
     const colorEl = ref(null)
     const dropdown = ref(null)
     const isActive = ref(false)
@@ -82,6 +80,10 @@ export default {
       isOpened.value = true
     }
 
+    colorStyle.value = {
+      backgroundColor: props.value
+    }
+
     onMounted(() => {
       document.addEventListener('mouseup', hideDropdown, false)
     })
@@ -89,6 +91,14 @@ export default {
     onUnmounted(() => {
       document.removeEventListener('mouseup', hideDropdown, false)
     })
+
+    // watch(
+    //   () =>  hex.value,
+    //   (val) => {
+    //     console.log(1, val)
+    //     emit('update:value', val)
+    //   }
+    // )
 
     return {
       colorEl,
@@ -114,8 +124,15 @@ export default {
     width: 1em;
     height: 1em;
     font-size: 14px;
-    border-radius: 3px;
-    border: 1px solid rgba(0, 0, 0, .3);
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==);
+
+    span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 3px;
+      border: 1px solid rgba(0, 0, 0, .3);
+    }
   }
 }
 </style>

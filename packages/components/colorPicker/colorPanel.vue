@@ -1,9 +1,10 @@
 <template>
   <div 
     class="vc-color-picker__hsl-panel" 
-    :style="vcColorPicker.colorStyle"
+    :style="panelColor"
     @mousedown="mousedownEvt"
-  >{{cursorStyle}}-{{x}}:{{y}}
+    @mouseup="mouseupEvt"
+  >
     <span 
       class="vc-color-picker__hsl-cursor"
       :style="cursorStyle"
@@ -20,12 +21,6 @@ import { lightness, hue, saturation, HSV_V, HSV_S, isOpened, update } from './co
 
 export default {
   inject: ['vcColorPicker'],
-  props: {
-    // styles: {
-    //   type: Object,
-    //   default: () => ({})
-    // }
-  },
   setup(props) {
     const { ctx } = getCurrentInstance()
     const X = ref(0)
@@ -44,15 +39,20 @@ export default {
         transform: `translate(${X.value}px, ${Y.value}px)`
       }
     })
+    const panelColor = computed(() => {
+      return {
+        backgroundColor: `hsl(${hue.value}, 100%, 50%)`
+      }
+    })
 
     onMounted(() => {
       document.addEventListener('mousemove', ctx.mousemoveEvt, false)
-      document.addEventListener('mouseup', ctx.mouseupEvt, false)
+      // document.addEventListener('mouseup', ctx.mouseupEvt, false)
     })
 
     onUnmounted(() => {
       document.removeEventListener('mousemove', ctx.mousemoveEvt, false)
-      document.removeEventListener('mouseup', ctx.mouseupEvt, false)
+      // document.removeEventListener('mouseup', ctx.mouseupEvt, false)
     })
 
     watch(
@@ -67,10 +67,18 @@ export default {
       }
     )
 
+    watch(
+      [HSV_V, HSV_S],
+      ([v, s]) => {
+        if (!ctx.vcColorPicker.isActive) ctx.setPosition()
+      }
+    )
+
     return {
       x, y,
       X, Y,
       cursorStyle,
+      panelColor,
       start,
       elBCR,
       lightness,
@@ -128,7 +136,7 @@ export default {
         let v = Math.round((1 - _y / height) * 100)
         let s = Math.round(_x / width * 100)
 
-        update('hsv', {h: this.hue, s, v})
+        update({h: this.hue, s, v})
       }
     },
 
@@ -137,8 +145,8 @@ export default {
       let { width, height } = this.elBCR
 
       if (width && height) {
-        this.X = width * (this.HSV_V/100)
-        this.Y = height * (1 - this.HSV_S/100)
+        this.X = width * (this.HSV_S/100)
+        this.Y = height * (1 - this.HSV_V/100)
       }
     }
   }

@@ -12,6 +12,7 @@ const B = ref(0)
 const hex = ref('')
 const isVisible = ref(false)
 const isOpened = ref(false)
+const colorStyle = ref({})
 
 const hsv2hsl = function(hue, sat, val) {
   sat /= 100
@@ -191,11 +192,65 @@ function formatString (value) {
     const { h, s, v } = rgb2hsv(r, g, b)
     HSV_S.value = s
     HSV_V.value = v
-    
+
     setHSL(h, s, v)
     setRGB(h, s, v)
     // Hex
-    hex.value = value
+    hex.value = `#${_hex}`
+  } else if (value.startsWith('hsv')) {
+    const parts = value.replace(/hsva|hsv|\(|\)/gm, '')
+      .split(/\s|,/g)
+      .filter((val) => val !== '')
+      .map((val, index) => index > 2 ? parseFloat(val) : parseInt(val, 10))
+
+    if (parts.length === 4) {
+      // this._alpha = Math.floor(parseFloat(parts[3]) * 100);
+    } else if (parts.length === 3) {
+      // this._alpha = 100;
+    }
+    if (parts.length >= 3) {
+      HSV_S.value = parts[1]
+      HSV_V.value = parts[2]
+      setHSL(parts[0], parts[1], parts[2])
+      let {r, g, b} = setRGB(parts[0], parts[1], parts[2])
+      
+      hex.value = toHex({r, g, b})
+    }
+  } else if (value.startsWith('rgb')) {
+    const parts = value.replace(/rgba|rgb|\(|\)/gm, '')
+        .split(/\s|,/g)
+        .filter((val) => val !== '')
+        .map((val, index) => index > 2 ? parseFloat(val) : parseInt(val, 10));
+
+    if (parts.length === 4) {
+      // this._alpha = Math.floor(parseFloat(parts[3]) * 100);
+    } else if (parts.length === 3) {
+      // this._alpha = 100;
+    }
+    if (parts.length >= 3) {
+      const { h, s, v } = rgb2hsv(parts[0], parts[1], parts[2])
+      HSV_S.value = s
+      HSV_V.value = v
+
+      let {r, g, b} = setRGB(h, s, v)
+      setHSL(h, s, v)
+      hex.value = toHex({r, g, b})
+    }
+  } else if (value.indexOf('hsl') !== -1) {
+    const parts = value.replace(/hsla|hsl|\(|\)/gm, '')
+      .split(/\s|,/g)
+      .filter((val) => val !== '')
+      .map((val, index) => index > 2 ? parseFloat(val) : parseInt(val, 10));
+
+    if (parts.length === 4) {
+      // this._alpha = Math.floor(parseFloat(parts[3]) * 100);
+    } else if (parts.length === 3) {
+      // this._alpha = 100;
+    }
+    if (parts.length >= 3) {
+      const { h, s, v } = hsl2hsv(parts[0], parts[1], parts[2])
+      update({ h, s, v })
+    }
   }
 }
 
@@ -217,20 +272,19 @@ function setRGB(h, s, v) {
   return {r, g, b}
 }
 
-function update(type, value) {
-  console.log(type, value)
-  switch (type) {
-    case 'hsv': {
-      let {h, s, v} = value
-      HSV_S.value = s
-      HSV_V.value = v
+function update({h, s, v}) {
+  HSV_S.value = s
+  HSV_V.value = v
 
-      setHSL(h, s, v)
-      let {r, g, b} = setRGB(h, s, v)
-      
-      hex.value = toHex({r, g, b})
-      break
-    }
+  setHSL(h, s, v)
+  let {r, g, b} = setRGB(h, s, v)
+  
+  hex.value = toHex({r, g, b})
+}
+
+function updateColorPanel() {
+  colorStyle.value = {
+    backgroundColor: hex.value
   }
 }
 
@@ -245,12 +299,9 @@ export {
   hex,
   isVisible,
   isOpened,
-
+  colorStyle,
   formatString,
   hsv2rgb,
   update,
-}
-
-export function getHSL() {
-  return { lightness, saturation, hue }
+  updateColorPanel,
 }
