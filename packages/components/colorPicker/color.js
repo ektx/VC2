@@ -190,13 +190,7 @@ function formatString (value) {
     }
   
     const { h, s, v } = rgb2hsv(r, g, b)
-    HSV_S.value = s
-    HSV_V.value = v
-
-    setHSL(h, s, v)
-    setRGB(h, s, v)
-    // Hex
-    hex.value = `#${_hex}`
+    update({ h, s, v })
   } else if (value.startsWith('hsv')) {
     const parts = value.replace(/hsva|hsv|\(|\)/gm, '')
       .split(/\s|,/g)
@@ -209,18 +203,16 @@ function formatString (value) {
       // this._alpha = 100;
     }
     if (parts.length >= 3) {
-      HSV_S.value = parts[1]
-      HSV_V.value = parts[2]
-      setHSL(parts[0], parts[1], parts[2])
-      let {r, g, b} = setRGB(parts[0], parts[1], parts[2])
-      
-      hex.value = toHex({r, g, b})
+      let h = parts[0]
+      let s = parts[1]
+      let v = parts[2]
+      update({ h, s, v })
     }
   } else if (value.startsWith('rgb')) {
     const parts = value.replace(/rgba|rgb|\(|\)/gm, '')
-        .split(/\s|,/g)
-        .filter((val) => val !== '')
-        .map((val, index) => index > 2 ? parseFloat(val) : parseInt(val, 10));
+      .split(/\s|,/g)
+      .filter((val) => val !== '')
+      .map((val, index) => index > 2 ? parseFloat(val) : parseInt(val, 10));
 
     if (parts.length === 4) {
       // this._alpha = Math.floor(parseFloat(parts[3]) * 100);
@@ -229,12 +221,7 @@ function formatString (value) {
     }
     if (parts.length >= 3) {
       const { h, s, v } = rgb2hsv(parts[0], parts[1], parts[2])
-      HSV_S.value = s
-      HSV_V.value = v
-
-      let {r, g, b} = setRGB(h, s, v)
-      setHSL(h, s, v)
-      hex.value = toHex({r, g, b})
+      update({ h, s, v })
     }
   } else if (value.indexOf('hsl') !== -1) {
     const parts = value.replace(/hsla|hsl|\(|\)/gm, '')
