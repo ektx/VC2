@@ -10,7 +10,7 @@ const R = ref(0)
 const G = ref(0)
 const B = ref(0)
 const hex = ref('')
-const colorStyle = ref({})
+// const colorStyle = ref({})
 
 const hsv2hsl = function(hue, sat, val) {
   sat /= 100
@@ -268,9 +268,9 @@ function update({h, s, v}) {
 }
 
 function updateColorPanel() {
-  colorStyle.value = {
-    backgroundColor: hex.value
-  }
+  // colorStyle.value = {
+  //   backgroundColor: `rgba(${R.value}, ${G.value}, ${B.value}, ${alpha})`
+  // }
 }
 
 export {
@@ -282,7 +282,7 @@ export {
   alpha,
   R, G, B,
   hex,
-  colorStyle,
+  // colorStyle,
   formatString,
   hsv2rgb,
   update,

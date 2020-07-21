@@ -21,7 +21,7 @@
 import { ref, getCurrentInstance, onMounted, onUnmounted, computed, watch } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
-import { formatString, hex, colorStyle } from './color'
+import { formatString, R, G, B, alpha } from './color'
 
 export default {
   name: 'VcColorPicker',
@@ -57,7 +57,6 @@ export default {
       isVisible.value = true
       
       formatString(props.value)
-      console.log(ctx)
 
       dropdown.value = createPopper(
         colorEl.value,
@@ -88,15 +87,12 @@ export default {
     }
 
     function afterEnterEvt() {
-      console.log('opened')
       isOpened.value = true
     }
 
-    colorStyle.value = {
-      backgroundColor: props.value
-    }
-
     onMounted(() => {
+      formatString(props.value)
+
       document.addEventListener('mouseup', hideDropdown, false)
     })
 
@@ -104,6 +100,12 @@ export default {
       document.removeEventListener('mouseup', hideDropdown, false)
     })
 
+    const colorStyle = computed(() => {
+      return {
+        backgroundColor: `rgba(${R.value}, ${G.value}, ${B.value}, ${alpha.value})`
+      }
+    })
+    
     // watch(
     //   () =>  hex.value,
     //   (val) => {
@@ -113,6 +115,7 @@ export default {
     // )
 
     return {
+      R,
       colorEl,
       colorStyle,
       dropdown,
