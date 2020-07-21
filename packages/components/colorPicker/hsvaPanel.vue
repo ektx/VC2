@@ -8,12 +8,12 @@
       <p>H</p>
     </li>
     <li>
-      <input type="text" v-model="saturation">
+      <input type="text" v-model="HSV_S">
       <p>S</p>
     </li>
     <li>
-      <input type="text" v-model="lightness">
-      <p>L</p>
+      <input type="text" v-model="HSV_V">
+      <p>V</p>
     </li>
     <li>
       <input type="number" v-model="alpha">
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { lightness, hue, saturation, alpha } from './color'
+import { hue, HSV_S, HSV_V, alpha } from './color'
 
 export default {
   name: 'VcColorPickerHSLAPanel',
@@ -31,12 +31,11 @@ export default {
 
     function mouseupEvt(evt) {
       evt.stopPropagation()
-      console.log(111)
     }
 
     return {
-      lightness,
-      saturation,
+      HSV_S,
+      HSV_V,
       hue,
       alpha,
       mouseupEvt

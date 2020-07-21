@@ -1,6 +1,7 @@
 <template>
   <div class="vc-color-picker__drop-down">
     <ColorPanel />
+    <HSVAPanel />
     <HSLAPanel />
     <RGBAPanel />
     <HexPanel />
@@ -11,6 +12,7 @@
 
 <script>
 import ColorPanel from './colorPanel.vue'
+import HSVAPanel from './hsvaPanel.vue'
 import HSLAPanel from './hslaPanel.vue'
 import RGBAPanel from './rgbaPanel.vue'
 import HexPanel from './hexPanel.vue'
@@ -19,6 +21,7 @@ export default {
   name: 'VcColorPickerDropdown',
   components: { 
     ColorPanel,  
+    HSVAPanel,
     HSLAPanel,
     RGBAPanel,
     HexPanel

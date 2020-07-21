@@ -16,7 +16,7 @@
 <script>
 import { ref, computed, getCurrentInstance, onMounted, onUnmounted, watch } from 'vue'
 import { useMousePosition } from '../../utils/mouse'
-import { lightness, hue, saturation, HSV_V, HSV_S, isOpened } from './color'
+import { lightness, hue, saturation, HSV_V, HSV_S, isOpened, update } from './color'
 
 export default {
   inject: ['vcColorPicker'],
@@ -125,8 +125,10 @@ export default {
         this.X = _x
         this.Y = _y
         // HSV
-        this.HSV_V = (1 - _y / height) * 100
-        this.HSV_S = _x / width
+        let v = Math.round((1 - _y / height) * 100)
+        let s = Math.round(_x / width * 100)
+
+        update('hsv', {h: this.hue, s, v})
       }
     },
 

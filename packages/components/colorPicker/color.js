@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 
-const lightness = ref(0)
-const saturation = ref(0)
+const lightness = ref('')
+const saturation = ref('')
 const hue = ref(0)
 const HSV_V = ref(0)
 const HSV_S = ref(0)
@@ -13,12 +13,17 @@ const hex = ref('')
 const isVisible = ref(false)
 const isOpened = ref(false)
 
-const hsv2hsl = function(h, sat, val) {
-  return [
-    h,
-    (sat * val / ((h = (2 - sat) * val) < 1 ? h : 2 - h)) || 0,
-    h / 2
-  ];
+const hsv2hsl = function(hue, sat, val) {
+  sat /= 100
+  val /= 100
+  let h = hue
+  let s = (sat * val / ((hue = (2 - sat) * val) < 1 ? hue : 2 - hue)) || 0
+  let l = Math.round(hue / 2 * 100)
+
+  s = `${Math.round(s * 100)}%`
+  l = `${l}%`
+
+  return {h, s, l}
 };
 
 // Need to handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
@@ -184,20 +189,48 @@ function formatString (value) {
     }
   
     const { h, s, v } = rgb2hsv(r, g, b)
-    const rgb = hsv2rgb(h, s, v)
-    const hsl = hsv2hsl(h, s/100, v/100)
     HSV_S.value = s
     HSV_V.value = v
-    // HSL
-    hue.value = hsl[0]
-    saturation.value = hsl[1] * 100 + '%'
-    lightness.value = hsl[2] * 100 + '%'
-    // RGB
-    R.value = rgb.r
-    G.value = rgb.g
-    B.value = rgb.b
+    
+    setHSL(h, s, v)
+    setRGB(h, s, v)
     // Hex
     hex.value = value
+  }
+}
+
+function setHSL(h, s, v) {
+  let hsl = hsv2hsl(h, s, v)
+
+  hue.value = hsl.h
+  saturation.value = hsl.s
+  lightness.value = hsl.l
+}
+
+function setRGB(h, s, v) {
+  let { r, g, b} = hsv2rgb(h, s, v)
+
+  R.value = r
+  G.value = g
+  B.value = b
+
+  return {r, g, b}
+}
+
+function update(type, value) {
+  console.log(type, value)
+  switch (type) {
+    case 'hsv': {
+      let {h, s, v} = value
+      HSV_S.value = s
+      HSV_V.value = v
+
+      setHSL(h, s, v)
+      let {r, g, b} = setRGB(h, s, v)
+      
+      hex.value = toHex({r, g, b})
+      break
+    }
   }
 }
 
@@ -215,6 +248,7 @@ export {
 
   formatString,
   hsv2rgb,
+  update,
 }
 
 export function getHSL() {
