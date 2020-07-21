@@ -21,7 +21,7 @@
 import { ref, getCurrentInstance, onMounted, onUnmounted, computed, watch } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
-import { formatString, R, G, B, alpha } from './color'
+import { formatString, hsv2rgb } from './color'
 
 export default {
   name: 'VcColorPicker',
@@ -39,7 +39,7 @@ export default {
     }
   },
   provide() {
-    return { vcColorPicker: this}
+    return { vcColorPicker: this }
   },
   setup(props, { emit }) {
     const { ctx } = getCurrentInstance()
@@ -48,6 +48,8 @@ export default {
     const isActive = ref(false)
     const isVisible = ref(false)
     const isOpened = ref(false)
+    const hsv = ref({})
+    const alpha = ref(1)
 
     function showDropdownEvt (evt) {
       evt.stopPropagation()
@@ -91,8 +93,11 @@ export default {
     }
 
     onMounted(() => {
-      formatString(props.value)
+      let { hsv: _h, alpha: a } = formatString(props.value)
 
+      hsv.value = _h
+      alpha.value = a
+console.log(hsv.value)
       document.addEventListener('mouseup', hideDropdown, false)
     })
 
@@ -101,8 +106,13 @@ export default {
     })
 
     const colorStyle = computed(() => {
+      let { h, s, v } = hsv.value
+
+      if (!h) return {}
+
+      let { r, g, b } = hsv2rgb(h, s, v)
       return {
-        backgroundColor: `rgba(${R.value}, ${G.value}, ${B.value}, ${alpha.value})`
+        backgroundColor: `rgba(${r}, ${g}, ${b}, ${alpha.value})`
       }
     })
     
@@ -115,7 +125,6 @@ export default {
     // )
 
     return {
-      R,
       colorEl,
       colorStyle,
       dropdown,

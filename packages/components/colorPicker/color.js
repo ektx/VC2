@@ -166,6 +166,9 @@ const hsv2rgb = function(h, s, v) {
 }
 
 function formatString (value) {
+  let hsv = {}
+  let alpha = 1
+
   if (value.startsWith('#')) {
     const _hex = value.replace('#', '').trim();
     if (!/^(?:[0-9a-fA-F]{3}){1,2}$/.test(_hex)) return;
@@ -183,12 +186,11 @@ function formatString (value) {
   
     if (_hex.length === 8) {
       alpha.value = Math.floor(_hex.substring(6) / 255)
-    } else if (_hex.length === 3 || _hex.length === 6) {
-      alpha.value = 1
+    // } else if (_hex.length === 3 || _hex.length === 6) {
+    //   alpha.value = 1
     }
   
-    const { h, s, v } = rgb2hsv(r, g, b)
-    update({ h, s, v })
+    hsv = rgb2hsv(r, g, b)
   } else if (value.startsWith('hsv')) {
     const parts = value.replace(/hsva|hsv|\(|\)/gm, '')
       .split(/\s|,/g)
@@ -197,14 +199,14 @@ function formatString (value) {
 
     if (parts.length === 4) {
       // this._alpha = Math.floor(parseFloat(parts[3]) * 100);
-    } else if (parts.length === 3) {
+    // } else if (parts.length === 3) {
       // this._alpha = 100;
     }
     if (parts.length >= 3) {
       let h = parts[0]
       let s = parts[1]
       let v = parts[2]
-      update({ h, s, v })
+      hsv = {h, s, v}
     }
   } else if (value.startsWith('rgb')) {
     const parts = value.replace(/rgba|rgb|\(|\)/gm, '')
@@ -214,12 +216,11 @@ function formatString (value) {
 
     if (parts.length === 4) {
       // this._alpha = Math.floor(parseFloat(parts[3]) * 100);
-    } else if (parts.length === 3) {
+    // } else if (parts.length === 3) {
       // this._alpha = 100;
     }
     if (parts.length >= 3) {
-      const { h, s, v } = rgb2hsv(parts[0], parts[1], parts[2])
-      update({ h, s, v })
+      hsv = rgb2hsv(parts[0], parts[1], parts[2])
     }
   } else if (value.indexOf('hsl') !== -1) {
     const parts = value.replace(/hsla|hsl|\(|\)/gm, '')
@@ -228,15 +229,16 @@ function formatString (value) {
       .map((val, index) => index > 2 ? parseFloat(val) : parseInt(val, 10));
 
     if (parts.length === 4) {
-      alpha.value = parseFloat(parts[3])
-    } else if (parts.length === 3) {
-      alpha.value = 1
+      alpha = parseFloat(parts[3])
+    // } else if (parts.length === 3) {
+      // alpha = 1
     }
     if (parts.length >= 3) {
-      const { h, s, v } = hsl2hsv(parts[0], parts[1], parts[2])
-      update({ h, s, v })
+      hsv = hsl2hsv(parts[0], parts[1], parts[2])
     }
   }
+
+  return { hsv, alpha }
 }
 
 function setHSL(h, s, v) {
