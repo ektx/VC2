@@ -32,3 +32,32 @@ export default {
 </script>
 ```
 :::
+
+## 透明度
+
+::: demo
+```html
+<template>
+  <h3>RGB {{ color1 }}</h3>
+  <vc-color-picker v-model:value="color1" format="rgb"/>
+
+  <h3>HSL {{ color2}}</h3>
+  <vc-color-picker v-model:value="color2" format="hsl"/>
+
+  <h3>HSV {{ color3}}</h3>
+  <vc-color-picker v-model:value="color3" format="hsv"/>
+</template>
+
+<script>
+export default {
+  setup() {
+    const color1 = ref('rgba(76, 175, 80, 0.5)')
+    const color2 = ref('hsla(340, 82%, 52%, 0.5)')
+    const color3 = ref('hsva(10, 40%, 30%, 0.5)')
+    
+    return { color1, color2, color3 }
+  }
+}
+</script>
+```
+:::

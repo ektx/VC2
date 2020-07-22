@@ -171,9 +171,7 @@ function formatString (value) {
     }
   
     if (_hex.length === 8) {
-      alpha.value = Math.floor(_hex.substring(6) / 255)
-    // } else if (_hex.length === 3 || _hex.length === 6) {
-    //   alpha.value = 1
+      alpha = Math.floor(_hex.substring(6) / 255)
     }
   
     hsv = rgb2hsv(r, g, b)
@@ -183,11 +181,7 @@ function formatString (value) {
       .filter((val) => val !== '')
       .map((val, index) => index > 2 ? parseFloat(val) : parseInt(val, 10))
 
-    if (parts.length === 4) {
-      // this._alpha = Math.floor(parseFloat(parts[3]) * 100);
-    // } else if (parts.length === 3) {
-      // this._alpha = 100;
-    }
+    if (parts.length === 4) alpha = parseFloat(parts[3])
     if (parts.length >= 3) {
       let h = parts[0]
       let s = parts[1]
@@ -200,11 +194,7 @@ function formatString (value) {
       .filter((val) => val !== '')
       .map((val, index) => index > 2 ? parseFloat(val) : parseInt(val, 10));
 
-    if (parts.length === 4) {
-      // this._alpha = Math.floor(parseFloat(parts[3]) * 100);
-    // } else if (parts.length === 3) {
-      // this._alpha = 100;
-    }
+    if (parts.length === 4) alpha = parseFloat(parts[3])
     if (parts.length >= 3) {
       hsv = rgb2hsv(parts[0], parts[1], parts[2])
     }
@@ -214,11 +204,7 @@ function formatString (value) {
       .filter((val) => val !== '')
       .map((val, index) => index > 2 ? parseFloat(val) : parseInt(val, 10));
 
-    if (parts.length === 4) {
-      alpha = parseFloat(parts[3])
-    // } else if (parts.length === 3) {
-      // alpha = 1
-    }
+    if (parts.length === 4) alpha = parseFloat(parts[3])
     if (parts.length >= 3) {
       hsv = hsl2hsv(parts[0], parts[1], parts[2])
     }
