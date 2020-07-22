@@ -179,26 +179,3 @@ function updateValue(format, hsv, alpha, emit) {
   emit('update:value', result)
 }
 </script>
-
-<style lang="less">
-.vc-color-picker {
-  position: relative;
-  display: inline-block;
-
-  &__color {
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    font-size: 14px;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==);
-
-    span {
-      display: block;
-      width: 100%;
-      height: 100%;
-      border-radius: 3px;
-      border: 1px solid rgba(0, 0, 0, .3);
-    }
-  }
-}
-</style>

@@ -157,35 +157,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-.vc-color-picker__hsl {
-  &-panel {
-    position: relative;
-    width: 100%;
-    height: 125px;
-    background: 
-      linear-gradient(0deg,#000,transparent),
-      linear-gradient(90deg,#fff,hsla(0,0%,100%,0));
-    overflow: hidden;
-  }
-
-  &-cursor {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 0;
-    height: 0;
-
-    i {
-      display: block;
-      width: 10px;
-      height: 10px;
-      border: 1px solid #fff;
-      border-radius: 100%;
-      background: transparent;
-      transform: translate(-50%, -50%);
-    }
-  }
-}
-</style>
