@@ -4,18 +4,15 @@
       <input type="text" :value="hex" @blur="changeEvt">
       <p>十六进制</p>
     </li>
-    <Alpha />
   </ul>
 </template>
 
 <script>
 import { formatString, hsv2rgb, toHex } from './color'
 import { getCurrentInstance, computed } from 'vue'
-import Alpha from './alpha.vue'
 
 export default {
   inject: ['vcColorPicker'],
-  components: { Alpha },
   setup() {
     const { ctx } = getCurrentInstance()
 

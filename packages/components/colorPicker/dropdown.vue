@@ -9,7 +9,7 @@
           <span :style="colorStyle"></span>
         </div>
       </div>
-      <AlphaBar/>
+      <AlphaBar :format="format"/>
     </div>
     <HexPanel v-if="format === 'hex'" />
     <HSVAPanel v-else-if="format === 'hsv'" />
@@ -44,7 +44,7 @@ export default {
   },
   setup() {
     const { ctx } = getCurrentInstance()
-    
+
     function mouseupEvt(evt) {
       evt.stopPropagation()
     }
@@ -68,7 +68,7 @@ export default {
     z-index: 2000;
     box-sizing: content-box;
     background-color: #fff;
-    border: 1px solid #ebeef5;
+    width: 230px;
     border-radius: 4px;
     box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
   }

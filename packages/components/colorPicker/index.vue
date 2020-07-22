@@ -21,7 +21,7 @@
 import { ref, getCurrentInstance, onMounted, onUnmounted, computed, watch, provide } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
-import { formatString, hsv2rgb } from './color'
+import { formatString, hsv2rgb, toHex, hsv2hsl } from './color'
 
 export default {
   name: 'VcColorPicker',
@@ -81,7 +81,8 @@ export default {
                 gpuAcceleration: false
               }
             }
-          ]
+          ],
+          strategy: 'fixed'
         }
       )
     }
@@ -99,7 +100,6 @@ export default {
 
       hsv.value = _h
       alpha.value = a
-      console.log(hsv.value)
       document.addEventListener('mouseup', hideDropdown, false)
     })
 
@@ -121,10 +121,14 @@ export default {
     
     watch(
       () =>  hsv.value,
-      (val) => {
-        console.log(1, val)
-        // emit('update:value', val)
+      (val) => updateValue(props.format, val, alpha.value, emit),
+      {
+        deep: true
       }
+    )
+    watch(
+      () => alpha.value,
+      (val) => updateValue(props.format, hsv.value, val, emit)
     )
 
     return {
@@ -140,6 +144,39 @@ export default {
       afterEnterEvt
     }
   }
+}
+
+function updateValue(format, hsv, alpha, emit) {
+  let result = ''
+  let {h, s, v} = hsv
+
+  switch (format) {
+    case 'hex': {
+      let rgb = hsv2rgb(h, s, v)
+      result = toHex(rgb)
+      break
+    }
+    case 'rgb': {
+      let {r, g, b}= hsv2rgb(h, s, v)
+      if (alpha === 1) {
+        result = `rgb(${r}, ${g}, ${b})`
+      } else {
+        result = `rgba(${r}, ${g}, ${b}, ${alpha})`
+      }
+      break
+    }
+    case 'hsl': {
+      let {h: _h, s: _s, l} = hsv2hsl(h, s, v)
+      if (alpha === 1) result = `hsl(${_h}, ${_s}, ${l})`
+      else result = `hsla(${_h}, ${_s}, ${l}, ${alpha})`
+      break 
+    }
+    case 'hsv': {
+      if (alpha === 1) result = `hsv(${h}, ${s}, ${v})`
+      else result = `hsva(${h}, ${s}, ${v}, ${alpha})`
+    }
+  }
+  emit('update:value', result)
 }
 </script>
 

@@ -162,7 +162,7 @@ export default {
 .vc-color-picker__hsl {
   &-panel {
     position: relative;
-    width: 230px;
+    width: 100%;
     height: 125px;
     background: 
       linear-gradient(0deg,#000,transparent),

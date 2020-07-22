@@ -4,7 +4,7 @@
       <div class="vc-color-picker__hue-bar"></div>
       <span class="vc-color-picker__hue-thumb" :style="hueThumbStyle"></span>
     </div>
-    <div class="vc-color-picker__alpha">
+    <div class="vc-color-picker__alpha" v-if="format !== 'hex'">
       <div class="vc-color-picker__alpha-bar" :style="alphaBarStyles"></div>
       <span class="vc-color-picker__alpha-thumb" :style="alphaThumbStyle"></span>
     </div>
@@ -18,6 +18,9 @@ import { hsv2rgb } from './color'
 export default {
   name: 'VcColorPickerAlphaBar',
   inject: ['vcColorPicker'],
+  props: {
+    format: String
+  },
   setup() {
     const { ctx } = getCurrentInstance()
     const alphaBarStyles = computed(() => {
@@ -50,6 +53,10 @@ export default {
 
 <style lang="less">
 .vc-color-picker__control-model {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   flex: 1;
   margin: 0 0 0 10px;
 }
