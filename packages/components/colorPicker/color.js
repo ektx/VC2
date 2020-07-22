@@ -1,17 +1,3 @@
-import { ref } from 'vue'
-
-const lightness = ref('')
-const saturation = ref('')
-const hue = ref(0)
-const HSV_V = ref(0)
-const HSV_S = ref(0)
-const alpha = ref(1)
-const R = ref(0)
-const G = ref(0)
-const B = ref(0)
-const hex = ref('')
-// const colorStyle = ref({})
-
 const hsv2hsl = function(hue, sat, val) {
   sat /= 100
   val /= 100
@@ -241,56 +227,11 @@ function formatString (value) {
   return { hsv, alpha }
 }
 
-function setHSL(h, s, v) {
-  let hsl = hsv2hsl(h, s, v)
-
-  hue.value = hsl.h
-  saturation.value = hsl.s
-  lightness.value = hsl.l
-}
-
-function setRGB(h, s, v) {
-  let { r, g, b} = hsv2rgb(h, s, v)
-
-  R.value = r
-  G.value = g
-  B.value = b
-
-  return {r, g, b}
-}
-
-// function update({h, s, v}) {
-//   HSV_S.value = s
-//   HSV_V.value = v
-
-//   setHSL(h, s, v)
-//   let {r, g, b} = setRGB(h, s, v)
-  
-//   hex.value = toHex({r, g, b})
-// }
-
-function updateColorPanel() {
-  // colorStyle.value = {
-  //   backgroundColor: `rgba(${R.value}, ${G.value}, ${B.value}, ${alpha})`
-  // }
-}
-
 export {
-  lightness,
-  saturation,
-  hue,
-  HSV_S,
-  HSV_V,
-  alpha,
-  R, G, B,
-  hex,
-  // colorStyle,
   formatString,
   hsv2rgb,
   hsv2hsl,
   hsl2hsv,
   rgb2hsv,
   toHex,
-  // update,
-  updateColorPanel,
 }
