@@ -97,7 +97,7 @@ export default {
 
       hsv.value = _h
       alpha.value = a
-console.log(hsv.value)
+      console.log(hsv.value)
       document.addEventListener('mouseup', hideDropdown, false)
     })
 
@@ -108,9 +108,10 @@ console.log(hsv.value)
     const colorStyle = computed(() => {
       let { h, s, v } = hsv.value
 
-      if (!h) return {}
+      if (h === undefined) return {}
 
       let { r, g, b } = hsv2rgb(h, s, v)
+      
       return {
         backgroundColor: `rgba(${r}, ${g}, ${b}, ${alpha.value})`
       }
@@ -125,6 +126,8 @@ console.log(hsv.value)
     // )
 
     return {
+      hsv,
+      alpha,
       colorEl,
       colorStyle,
       dropdown,

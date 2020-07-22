@@ -37,11 +37,9 @@ export default {
     const elBCR = ref({})
     const {x, y} = useMousePosition()
 
-    const cursorStyle = computed(() => {
-      return {
-        transform: `translate(${X.value}px, ${Y.value}px)`
-      }
-    })
+    const cursorStyle = computed(() => ({
+      transform: `translate(${X.value}px, ${Y.value}px)`
+    }))
     const panelColor = computed(() => {
       return {
         backgroundColor: `hsl(${hue.value}, 100%, 50%)`
@@ -139,17 +137,18 @@ export default {
         let v = Math.round((1 - _y / height) * 100)
         let s = Math.round(_x / width * 100)
 
-        update({h: this.hue, s, v})
+        this.vcColorPicker.hsv = {h: this.hue, s, v}
       }
     },
 
     setPosition() {
       this.elBCR = this.$el.getBoundingClientRect()
       let { width, height } = this.elBCR
+      let { h, s, v } = this.vcColorPicker.hsv
 
       if (width && height) {
-        this.X = width * (this.HSV_S/100)
-        this.Y = height * (1 - this.HSV_V/100)
+        this.X = width * (h / 100)
+        this.Y = height * (1 - v / 100)
       }
     }
   }

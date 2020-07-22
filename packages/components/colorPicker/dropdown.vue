@@ -6,7 +6,7 @@
     <div class="vc-color-picker__display-panel">
       <div class="current-color">
         <div class="color-box">
-          <span :style="{backgroundColor: `rgba(${R}, ${G}, ${B}, ${alpha})`}"></span>
+          <span :style="colorStyle"></span>
         </div>
       </div>
       <AlphaBar/>
@@ -25,10 +25,11 @@ import HSLAPanel from './hslaPanel.vue'
 import RGBAPanel from './rgbaPanel.vue'
 import HexPanel from './hexPanel.vue'
 import AlphaBar from './alphaBar.vue'
-import { R, G, B, alpha } from './color'
+import { getCurrentInstance, onMounted, ref, computed } from 'vue'
 
 export default {
   name: 'VcColorPickerDropdown',
+  inject: ['vcColorPicker'],
   components: { 
     ColorPanel,  
     HSVAPanel,
@@ -42,14 +43,19 @@ export default {
     isOpened: Boolean,
   },
   setup() {
+    const { ctx } = getCurrentInstance()
+    
     function mouseupEvt(evt) {
       evt.stopPropagation()
     }
 
-    return {
-      R, G, B, alpha,
+    const colorStyle = computed(() => {
+      return ctx.vcColorPicker.colorStyle
+    })
 
-      mouseupEvt
+    return {
+      mouseupEvt,
+      colorStyle
     }
   }
 }
