@@ -259,15 +259,15 @@ function setRGB(h, s, v) {
   return {r, g, b}
 }
 
-function update({h, s, v}) {
-  HSV_S.value = s
-  HSV_V.value = v
+// function update({h, s, v}) {
+//   HSV_S.value = s
+//   HSV_V.value = v
 
-  setHSL(h, s, v)
-  let {r, g, b} = setRGB(h, s, v)
+//   setHSL(h, s, v)
+//   let {r, g, b} = setRGB(h, s, v)
   
-  hex.value = toHex({r, g, b})
-}
+//   hex.value = toHex({r, g, b})
+// }
 
 function updateColorPanel() {
   // colorStyle.value = {
@@ -289,6 +289,8 @@ export {
   hsv2rgb,
   hsv2hsl,
   hsl2hsv,
-  update,
+  rgb2hsv,
+  toHex,
+  // update,
   updateColorPanel,
 }

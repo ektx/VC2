@@ -17,7 +17,6 @@
 <script>
 import { ref, computed, getCurrentInstance, onMounted, onUnmounted, watch } from 'vue'
 import { useMousePosition } from '../../utils/mouse'
-import { lightness, hue, saturation, HSV_V, HSV_S, update } from './color'
 
 export default {
   inject: ['vcColorPicker'],
@@ -41,8 +40,9 @@ export default {
       transform: `translate(${X.value}px, ${Y.value}px)`
     }))
     const panelColor = computed(() => {
+      let { h } = ctx.vcColorPicker.hsv
       return {
-        backgroundColor: `hsl(${hue.value}, 100%, 50%)`
+        backgroundColor: `hsl(${h}, 100%, 50%)`
       }
     })
 
@@ -68,12 +68,12 @@ export default {
       }
     )
 
-    watch(
-      [HSV_V, HSV_S],
-      ([v, s]) => {
-        if (!ctx.vcColorPicker.isActive) ctx.setPosition()
-      }
-    )
+    // watch(
+    //   [HSV_V, HSV_S],
+    //   ([v, s]) => {
+    //     if (!ctx.vcColorPicker.isActive) ctx.setPosition()
+    //   }
+    // )
 
     return {
       x, y,
@@ -82,11 +82,6 @@ export default {
       panelColor,
       start,
       elBCR,
-      lightness,
-      saturation,
-      hue,
-      HSV_S,
-      HSV_V,
     }
   },
   methods: {
@@ -134,21 +129,22 @@ export default {
         this.X = _x
         this.Y = _y
         // HSV
+        let { h } = this.vcColorPicker.hsv
         let v = Math.round((1 - _y / height) * 100)
         let s = Math.round(_x / width * 100)
 
-        this.vcColorPicker.hsv = {h: this.hue, s, v}
+        this.vcColorPicker.hsv = {h, s, v}
       }
     },
 
     setPosition() {
       this.elBCR = this.$el.getBoundingClientRect()
       let { width, height } = this.elBCR
-      let { h, s, v } = this.vcColorPicker.hsv
+      let { s, v } = this.vcColorPicker.hsv
 
       if (width && height) {
-        this.X = width * (h / 100)
-        this.Y = height * (1 - v / 100)
+        this.X = Math.round(width * (s / 100))
+        this.Y = Math.round(height * (1 - v / 100))
       }
     }
   }

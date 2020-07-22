@@ -1,34 +1,41 @@
 <template>
   <ul class="vc-color-picker__hex-panel color-picker__text-table">
     <li>
-      <input type="text" v-model="hex" @blur="changeEvt">
+      <input type="text" :value="hex" @blur="changeEvt">
       <p>十六进制</p>
     </li>
-    <li>
-      <input type="text" v-model="alpha">
-      <p>A</p>
-    </li>
+    <Alpha />
   </ul>
 </template>
 
 <script>
-import { hex, alpha, formatString, updateColorPanel } from './color'
+import { formatString, hsv2rgb, toHex } from './color'
+import { getCurrentInstance, computed } from 'vue'
+import Alpha from './alpha.vue'
 
 export default {
+  inject: ['vcColorPicker'],
+  components: { Alpha },
   setup() {
+    const { ctx } = getCurrentInstance()
+
+    const hex = computed(() => {
+      let {h, s, v} = ctx.vcColorPicker.hsv
+      let {r, g, b} = hsv2rgb(h, s, v)
+
+      return toHex({r, g, b})
+    })
 
     function changeEvt(evt) {
-      evt.stopPropagation()
-      
-      formatString(hex.value)
-      updateColorPanel()
+      let format = formatString(evt.target.value)
+
+      if (format) {
+        let { hsv } = format
+        ctx.vcColorPicker.hsv = hsv
+      }
     }
 
-    return {
-      hex,
-      alpha,
-      changeEvt
-    }
+    return { hex, changeEvt }
   }
 }
 </script>

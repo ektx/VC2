@@ -17,7 +17,7 @@ export default {
     const color = ref('hsl(10, 40%, 30%)')
     const color2 = ref('hsla(10, 40%, 30%, .3)')
     const color3 = ref('hsla(10, 40%, 30%, .3)')
-    const color4 = ref('hsla(10, 40%, 30%, .3)')
+    const color4 = ref('rgb(76, 175, 80)')
     
     return { color, color2, color3, color4 }
   }

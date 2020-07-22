@@ -12,36 +12,32 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
-import { R, G, B, alpha, hue } from './color'
+import { ref, computed, getCurrentInstance } from 'vue'
+import { hsv2rgb } from './color'
 
 export default {
   name: 'VcColorPickerAlphaBar',
+  inject: ['vcColorPicker'],
   setup() {
+    const { ctx } = getCurrentInstance()
     const alphaBarStyles = computed(() => {
-      let from = `rgba(${R.value}, ${G.value}, ${B.value}, 0)`
-      let to = `rgb(${R.value}, ${G.value}, ${B.value})`
+      let {h, s, v} = ctx.vcColorPicker.hsv
+      let {r, g, b} = hsv2rgb(h, s, v)
+      let from = `rgba(${r}, ${g}, ${b}, 0)`
+      let to = `rgb(${r}, ${g}, ${b})`
 
       return {
         background: `linear-gradient(to right, ${from} 0%, ${to} 100%)`
       }
     })
 
-    const alphaThumbStyle = computed(() => {
-      let val = alpha.value <= 1 ? alpha.value * 100 : alpha.value
+    const alphaThumbStyle = computed(() => ({
+      left: Math.round(ctx.vcColorPicker.alpha * 100) + '%'
+    }))
 
-      return {
-        left: Math.round(val) + '%'
-      }
-    })
-
-    const hueThumbStyle = computed(() => {
-      let val = Math.round(hue.value / 360 * 100)
-
-      return {
-        left: val + '%'
-      }
-    })
+    const hueThumbStyle = computed(() => ({
+      left: Math.round(ctx.vcColorPicker.hsv.h / 360 * 100) + '%'
+    }))
 
     return {
       alphaBarStyles,
