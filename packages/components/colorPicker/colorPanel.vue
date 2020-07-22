@@ -3,7 +3,6 @@
     class="vc-color-picker__hsl-panel" 
     :style="panelColor"
     @mousedown="mousedownEvt"
-    @mouseup="mouseupEvt"
   >
     <span 
       class="vc-color-picker__hsl-cursor"
@@ -55,12 +54,12 @@ export default {
 
     onMounted(() => {
       document.addEventListener('mousemove', ctx.mousemoveEvt, false)
-      // document.addEventListener('mouseup', ctx.mouseupEvt, false)
+      document.addEventListener('mouseup', ctx.mouseupEvt, false)
     })
 
     onUnmounted(() => {
       document.removeEventListener('mousemove', ctx.mousemoveEvt, false)
-      // document.removeEventListener('mouseup', ctx.mouseupEvt, false)
+      document.removeEventListener('mouseup', ctx.mouseupEvt, false)
     })
 
     watch(
@@ -110,12 +109,11 @@ export default {
       this.X = layerX
       this.Y = layerY
       this.vcColorPicker.isActive = true
+      this.vcColorPicker.isDrag = true
     },
 
     mouseupEvt(evt) {
-      setTimeout(() => {
-        this.vcColorPicker.isActive = false
-      }, 1);
+      this.vcColorPicker.isActive = false
     },
 
     mousemoveEvt(evt) {

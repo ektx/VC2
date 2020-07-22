@@ -46,7 +46,8 @@ export default {
     const { ctx } = getCurrentInstance()
 
     function mouseupEvt(evt) {
-      evt.stopPropagation()
+      if (!ctx.vcColorPicker.isDrag)
+        evt.stopPropagation()
     }
 
     const colorStyle = computed(() => {

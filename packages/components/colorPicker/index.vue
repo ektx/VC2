@@ -48,6 +48,7 @@ export default {
     const isActive = ref(false)
     const isVisible = ref(false)
     const isOpened = ref(false)
+    const isDrag = ref(false)
     const hsv = ref({})
     const alpha = ref(1)
 
@@ -88,7 +89,11 @@ export default {
     }
 
     function hideDropdown () {
-      if (!isActive.value) isVisible.value = false
+      if (isDrag.value) {
+        isDrag.value = false
+      } else {
+        isVisible.value = false
+      }
     }
 
     function afterEnterEvt() {
@@ -140,6 +145,7 @@ export default {
       isVisible,
       isActive,
       isOpened,
+      isDrag,
       showDropdownEvt,
       afterEnterEvt
     }
