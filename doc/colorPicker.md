@@ -19,16 +19,16 @@
 </template>
 
 <script>
-export default {
-  setup() {
-    const color = ref('#f90')
-    const color2 = ref('rgb(76, 175, 80)')
-    const color3 = ref('hsl(340, 82%, 52%)')
-    const color4 = ref('hsv(10, 40%, 30%)')
-    
-    return { color, color2, color3, color4 }
+  export default {
+    setup() {
+      const color = ref('#f90')
+      const color2 = ref('rgb(76, 175, 80)')
+      const color3 = ref('hsl(340, 82%, 52%)')
+      const color4 = ref('hsv(10, 40%, 30%)')
+      
+      return { color, color2, color3, color4 }
+    }
   }
-}
 </script>
 ```
 :::
