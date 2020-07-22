@@ -1,8 +1,8 @@
-/* 以下代码自动生成于 Mon Jul 20 2020 11:21:59 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Wed Jul 22 2020 11:12:57 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
-import vcColorPicker from './components/colorPicker/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
+import vcColorPicker from './components/colorPicker/index.vue'
 import vcForm from './components/form/index.vue'
 import vcFormItem from './components/formItem/index.vue'
 import vcIcon from './components/icon/index.vue'
@@ -12,8 +12,8 @@ import vcSelect from './components/select/index.vue'
 
 const components = [
   vcButton,
-  vcColorPicker,
   vcButtonGroup,
+  vcColorPicker,
   vcForm,
   vcFormItem,
   vcIcon,
@@ -35,8 +35,8 @@ const install = app => {
 export default {
   install,
   vcButton,
-  vcColorPicker,
   vcButtonGroup,
+  vcColorPicker,
   vcForm,
   vcFormItem,
   vcIcon,

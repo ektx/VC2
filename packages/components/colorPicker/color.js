@@ -23,7 +23,7 @@ const hsv2hsl = function(hue, sat, val) {
   l = `${l}%`
 
   return {h, s, l}
-};
+}
 
 // Need to handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
 // <http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0>
@@ -287,6 +287,8 @@ export {
   // colorStyle,
   formatString,
   hsv2rgb,
+  hsv2hsl,
+  hsl2hsv,
   update,
   updateColorPanel,
 }
