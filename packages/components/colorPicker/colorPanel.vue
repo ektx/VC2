@@ -15,7 +15,14 @@
 </template>
 
 <script>
-import { ref, computed, getCurrentInstance, onMounted, onUnmounted, watch } from 'vue'
+import { 
+  ref, 
+  computed, 
+  getCurrentInstance, 
+  onMounted, 
+  onUnmounted, 
+  watch, inject 
+} from 'vue'
 import { useMousePosition } from '../../utils/mouse'
 
 export default {
@@ -59,7 +66,6 @@ export default {
     watch(
       () => props.isOpened,
       (val) => {
-        console.log(val)
         if (val) {
           ctx.$nextTick(() => {
             ctx.setPosition()
@@ -68,12 +74,13 @@ export default {
       }
     )
 
-    // watch(
-    //   [HSV_V, HSV_S],
-    //   ([v, s]) => {
-    //     if (!ctx.vcColorPicker.isActive) ctx.setPosition()
-    //   }
-    // )
+    let _HSV = inject('VCColorPickerHSV')
+    watch(
+      () => _HSV.value,
+      (val) => {
+        if (!ctx.vcColorPicker.isActive) ctx.setPosition()
+      }
+    )
 
     return {
       x, y,

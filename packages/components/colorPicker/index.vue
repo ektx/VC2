@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { ref, getCurrentInstance, onMounted, onUnmounted, computed, watch } from 'vue'
+import { ref, getCurrentInstance, onMounted, onUnmounted, computed, watch, provide } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
 import { formatString, hsv2rgb } from './color'
@@ -50,6 +50,8 @@ export default {
     const isOpened = ref(false)
     const hsv = ref({})
     const alpha = ref(1)
+
+    provide('VCColorPickerHSV', hsv)
 
     function showDropdownEvt (evt) {
       evt.stopPropagation()
@@ -117,13 +119,13 @@ export default {
       }
     })
     
-    // watch(
-    //   () =>  hex.value,
-    //   (val) => {
-    //     console.log(1, val)
-    //     emit('update:value', val)
-    //   }
-    // )
+    watch(
+      () =>  hsv.value,
+      (val) => {
+        console.log(1, val)
+        // emit('update:value', val)
+      }
+    )
 
     return {
       hsv,
