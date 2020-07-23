@@ -36,6 +36,11 @@ export default {
     format: {
       type: String,
       default: 'hex'
+    },
+    // 延迟功能
+    delay: {
+      type: Number,
+      default: 100
     }
   },
   provide() {
@@ -51,6 +56,7 @@ export default {
     const isDrag = ref(false)
     const hsv = ref({})
     const alpha = ref(1)
+    let timer = null
 
     provide('VCColorPickerHSV', hsv)
 
@@ -123,17 +129,23 @@ export default {
         backgroundColor: `rgba(${r}, ${g}, ${b}, ${alpha.value})`
       }
     })
+
+    function delayFun () {
+      if (timer) clearTimeout(timer)
+
+      timer = setTimeout(() => {
+        updateValue(props.format, hsv.value, alpha.value, emit)
+      }, props.delay)
+    }
     
     watch(
       () =>  hsv.value,
-      (val) => updateValue(props.format, val, alpha.value, emit),
-      {
-        deep: true
-      }
+      (val) => delayFun(),
+      { deep: true }
     )
     watch(
       () => alpha.value,
-      (val) => updateValue(props.format, hsv.value, val, emit)
+      (val) => delayFun()
     )
 
     return {
@@ -182,6 +194,7 @@ function updateValue(format, hsv, alpha, emit) {
       else result = `hsva(${h}, ${s}, ${v}, ${alpha})`
     }
   }
+  
   emit('update:value', result)
 }
 </script>
