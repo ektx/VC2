@@ -1,14 +1,20 @@
 <template>
   <div class="vc-color-picker__control-model" ref="box">
     <div class="vc-color-picker__hue">
-      <div class="vc-color-picker__hue-bar"></div>
-      <span class="vc-color-picker__hue-thumb" :style="hueThumbStyle"></span>
+      <div 
+        class="vc-color-picker__hue-bar" 
+        @mousedown="evt => mousedown(evt, 'hsv')"
+      ></div>
+      <span 
+        class="vc-color-picker__hue-thumb" 
+        :style="hueThumbStyle"
+      ></span>
     </div>
     <div class="vc-color-picker__alpha" v-if="format !== 'hex'">
       <div 
         class="vc-color-picker__alpha-bar" 
         :style="alphaBarStyles"
-        @mousedown="mousedown"
+        @mousedown="evt => mousedown(evt, 'alpha')"
       ></div>
       <span 
         class="vc-color-picker__alpha-thumb" 
@@ -31,6 +37,8 @@ export default {
 const vcColorPicker = inject('vcColorPicker')
 let start = {}
 let boxBCR = {}
+let isActive = false
+
 export const box = ref(null)
 
 export const alphaBarStyles = computed(() => {
@@ -52,7 +60,7 @@ export const hueThumbStyle = computed(() => ({
   left: Math.round(vcColorPicker.hsv.h / 360 * 100) + '%'
 }))
 
-export function mousedown(evt) {
+export function mousedown(evt, type) {
   evt.stopPropagation()
   let {pageX, layerX} = evt
 
@@ -60,7 +68,9 @@ export function mousedown(evt) {
   start = {
     pageX,
     layerX,
+    type
   }
+  isActive = true
 
   boxBCR = box.value.getBoundingClientRect()
   mousemove(evt)
@@ -68,13 +78,17 @@ export function mousedown(evt) {
 
 onMounted(() => {
   document.addEventListener('mousemove', mousemove, false)
+  document.addEventListener('mouseup', mouseup, false)
 })
 
 onUnmounted(() => {
   document.removeEventListener('mousemove', mousemove, false)
+  document.removeEventListener('mouseup', mouseup, false)
 })
 
 export function mousemove(evt) {
+  if (!isActive) return
+
   let { width } = boxBCR
   let { pageX } = evt
 
@@ -85,7 +99,17 @@ export function mousemove(evt) {
       ? x > width ? width : x 
       : 0
     
-    vcColorPicker.alpha = parseFloat((x / width).toFixed(1))
+    let o = x / width
+
+    if (start.type === 'alpha') {
+      vcColorPicker.alpha = parseFloat(o.toFixed(1))
+    } else {
+      vcColorPicker.hsv.h = Math.round(o * 360)
+    }
   }
+}
+
+export function mouseup() {
+  isActive = false
 }
 </script>
