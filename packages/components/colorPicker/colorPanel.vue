@@ -113,6 +113,8 @@ export default {
       this.Y = layerY
       this.vcColorPicker.isActive = true
       this.vcColorPicker.isDrag = true
+      
+      this.mousemoveEvt(evt)
     },
 
     mouseupEvt(evt) {
@@ -121,7 +123,7 @@ export default {
 
     mousemoveEvt(evt) {
       if (this.vcColorPicker.isActive) {
-        let {pageX, pageY} = evt
+        let { pageX, pageY } = evt
         let {x, y, layerX, layerY} = this.start
         let {width, height} = this.elBCR
         let _x = layerX + pageX - x

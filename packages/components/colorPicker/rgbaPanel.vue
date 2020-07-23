@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { formatString, hsv2rgb, rgb2hsv } from './color'
+import { hsv2rgb, rgb2hsv } from './color'
 import Alpha from './alpha.vue'
 import { getCurrentInstance, computed } from 'vue'
 

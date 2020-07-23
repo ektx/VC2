@@ -51,11 +51,12 @@ export default {
   },
   provide() {
     return {
-      vcColorPicker: this
+      vcColorPicker: this,
     }
   }
 }
 
+const { ctx } = getCurrentInstance()
 const vcFormItem = inject('vcFormItem', null)
 let timer = null
 
@@ -69,7 +70,6 @@ export const hsv = ref({})
 export const alpha = ref(1)
 
 provide('VCColorPickerHSV', hsv)
-const { ctx } = getCurrentInstance()
 
 export const colorStyle = computed(() => {
   let { h, s, v } = hsv.value
