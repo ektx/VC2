@@ -61,3 +61,73 @@ export default {
 </script>
 ```
 :::
+
+
+## 圆形
+
+::: demo
+
+> `round` 可以设置为圆形效果。
+
+```html
+<template>
+  <h3>Hex {{color}}</h3>
+  <vc-color-picker v-model:value="color" round/>
+
+  <h3>RGB {{ color2 }}</h3>
+  <vc-color-picker v-model:value="color2" round format="rgb"/>
+
+  <h3>HSL {{ color3}}</h3>
+  <vc-color-picker v-model:value="color3" round format="hsl"/>
+
+  <h3>HSV {{ color4}}</h3>
+  <vc-color-picker v-model:value="color4" round format="hsv"/>
+</template>
+
+<script>
+  export default {
+    setup() {
+      const color = ref('#f90')
+      const color2 = ref('rgb(76, 175, 80)')
+      const color3 = ref('hsl(340, 82%, 52%)')
+      const color4 = ref('hsv(10, 40%, 30%)')
+      
+      return { color, color2, color3, color4 }
+    }
+  }
+</script>
+```
+:::
+
+## 值为空
+
+::: demo
+```html
+<template>
+  <h3>Hex {{color}}</h3>
+  <vc-color-picker v-model:value="color" round/>
+
+  <h3>RGB {{ color2 }}</h3>
+  <vc-color-picker v-model:value="color2" round format="rgb"/>
+
+  <h3>HSL {{ color3}}</h3>
+  <vc-color-picker v-model:value="color3" round format="hsl"/>
+
+  <h3>HSV {{ color4}}</h3>
+  <vc-color-picker v-model:value="color4" round format="hsv"/>
+</template>
+
+<script>
+  export default {
+    setup() {
+      const color = ref('')
+      const color2 = ref('')
+      const color3 = ref('')
+      const color4 = ref('')
+      
+      return { color, color2, color3, color4 }
+    }
+  }
+</script>
+```
+:::

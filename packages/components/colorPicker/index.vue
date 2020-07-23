@@ -2,7 +2,7 @@
   <div class="vc-color-picker">
     <div 
       ref="colorEl"
-      class="vc-color-picker__color" 
+      :class="['vc-color-picker__color', { 'is-round': round }]" 
       @click="showDropdownEvt"
     >
       <span :style="colorStyle"></span>
@@ -41,7 +41,9 @@ export default {
     delay: {
       type: Number,
       default: 100
-    }
+    },
+    // 圆形效果
+    round: Boolean
   },
   provide() {
     return { vcColorPicker: this }
@@ -173,33 +175,33 @@ function updateValue(format, hsv, alpha, emit, vcFormItem) {
   let result = ''
   let {h, s, v} = hsv
 
-  switch (format) {
-    case 'hex': {
-      let rgb = hsv2rgb(h, s, v)
-      result = toHex(rgb)
-      break
-    }
-    case 'rgb': {
-      let {r, g, b}= hsv2rgb(h, s, v)
-
-      if (r) {
+  if (h !== undefined) {
+    switch (format) {
+      case 'hex': {
+        let rgb = hsv2rgb(h, s, v)
+        result = toHex(rgb)
+        break
+      }
+      case 'rgb': {
+        let {r, g, b}= hsv2rgb(h, s, v)
+  
         if (alpha === 1) {
           result = `rgb(${r}, ${g}, ${b})`
         } else {
           result = `rgba(${r}, ${g}, ${b}, ${alpha})`
         }
+        break
       }
-      break
-    }
-    case 'hsl': {
-      let {h: _h, s: _s, l} = hsv2hsl(h, s, v)
-      if (alpha === 1) result = `hsl(${_h}, ${_s}, ${l})`
-      else result = `hsla(${_h}, ${_s}, ${l}, ${alpha})`
-      break 
-    }
-    case 'hsv': {
-      if (alpha === 1) result = `hsv(${h}, ${s}, ${v})`
-      else result = `hsva(${h}, ${s}, ${v}, ${alpha})`
+      case 'hsl': {
+        let {h: _h, s: _s, l} = hsv2hsl(h, s, v)
+        if (alpha === 1) result = `hsl(${_h}, ${_s}, ${l})`
+        else result = `hsla(${_h}, ${_s}, ${l}, ${alpha})`
+        break 
+      }
+      case 'hsv': {
+        if (alpha === 1) result = `hsv(${h}, ${s}, ${v})`
+        else result = `hsva(${h}, ${s}, ${v}, ${alpha})`
+      }
     }
   }
 

@@ -1,4 +1,4 @@
-const hsv2hsl = function(hue, sat, val) {
+const hsv2hsl = function(hue = 0, sat = 0, val = 0) {
   sat /= 100
   val /= 100
   let h = hue

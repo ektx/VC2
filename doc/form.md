@@ -14,7 +14,7 @@
       <input type="text" v-model="formData.name" />
     </vc-form-item>
     <vc-form-item label="队旗颜色" prop="color">
-      <vc-color-picker v-model:value="formData.color" format="rgb"/>
+      <vc-color-picker v-model:value="formData.color" round/>
     </vc-form-item>
     <vc-form-item label="活动区域" prop="region">
       <vc-select v-model:value="formData.region" :options="options" multiple/>
