@@ -17,8 +17,12 @@
   </div>
 </template>
 
-<script>
-import { ref, getCurrentInstance, onMounted, onUnmounted, computed, watch, provide, inject } from 'vue'
+<script setup="props, { emit }">
+import { 
+  ref, getCurrentInstance, 
+  onMounted, onUnmounted, 
+  computed, watch, provide, inject 
+} from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
 import { formatString, hsv2rgb, toHex, hsv2hsl } from './color'
@@ -46,129 +50,116 @@ export default {
     round: Boolean
   },
   provide() {
-    return { vcColorPicker: this }
-  },
-  setup(props, { emit }) {
-    const { ctx } = getCurrentInstance()
-    const colorEl = ref(null)
-    const dropdown = ref(null)
-    const isActive = ref(false)
-    const isVisible = ref(false)
-    const isOpened = ref(false)
-    const isDrag = ref(false)
-    const hsv = ref({})
-    const alpha = ref(1)
-    let timer = null
-
-    const vcFormItem = inject('vcFormItem', null)
-
-    provide('VCColorPickerHSV', hsv)
-
-    function showDropdownEvt (evt) {
-      evt.stopPropagation()
-
-      const dropdownEl = ctx.$el.querySelector('.vc-color-picker__drop-down')
-
-      isVisible.value = true
-      
-      formatString(props.value)
-
-      dropdown.value = createPopper(
-        colorEl.value,
-        dropdownEl,
-        {
-          placement: 'bottom',
-          modifiers: [
-            {
-              name: 'offset',
-              options: {
-                offset: [0, 5]
-              }
-            },
-            {
-              name: 'computeStyles',
-              options: {
-                adaptive: false,
-                gpuAcceleration: false
-              }
-            }
-          ],
-          strategy: 'fixed'
-        }
-      )
-    }
-
-    function hideDropdown () {
-      if (isDrag.value) {
-        isDrag.value = false
-      } else {
-        if (isVisible.value) {
-          isVisible.value = false
-          if (vcFormItem) vcFormItem.checkValidate('blur')
-        }
-      }
-    }
-
-    function afterEnterEvt() {
-      isOpened.value = true
-    }
-
-    onMounted(() => {
-      let { hsv: _h, alpha: a } = formatString(props.value)
-
-      hsv.value = _h
-      alpha.value = a
-      document.addEventListener('mouseup', hideDropdown, false)
-    })
-
-    onUnmounted(() => {
-      document.removeEventListener('mouseup', hideDropdown, false)
-    })
-
-    const colorStyle = computed(() => {
-      let { h, s, v } = hsv.value
-
-      if (h === undefined) return {}
-
-      let { r, g, b } = hsv2rgb(h, s, v)
-      
-      return {
-        backgroundColor: `rgba(${r}, ${g}, ${b}, ${alpha.value})`
-      }
-    })
-
-    function delayFun () {
-      if (timer) clearTimeout(timer)
-
-      timer = setTimeout(() => {
-        updateValue(props.format, hsv.value, alpha.value, emit, vcFormItem)
-      }, props.delay)
-    }
-    
-    watch(
-      () =>  hsv.value,
-      (val) => delayFun(),
-      { deep: true }
-    )
-    watch(
-      () => alpha.value,
-      (val) => delayFun()
-    )
-
     return {
-      hsv,
-      alpha,
-      colorEl,
-      colorStyle,
-      dropdown,
-      isVisible,
-      isActive,
-      isOpened,
-      isDrag,
-      showDropdownEvt,
-      afterEnterEvt
+      vcColorPicker: this
     }
   }
+}
+
+const vcFormItem = inject('vcFormItem', null)
+let timer = null
+
+export const colorEl = ref(null)
+export const dropdown = ref(null)
+export const isActive = ref(false)
+export const isVisible = ref(false)
+export const isOpened = ref(false)
+export const isDrag = ref(false)
+export const hsv = ref({})
+export const alpha = ref(1)
+
+provide('VCColorPickerHSV', hsv)
+const { ctx } = getCurrentInstance()
+
+export const colorStyle = computed(() => {
+  let { h, s, v } = hsv.value
+
+  if (h === undefined) return {}
+
+  let { r, g, b } = hsv2rgb(h, s, v)
+  
+  return {
+    backgroundColor: `rgba(${r}, ${g}, ${b}, ${alpha.value})`
+  }
+})
+
+export function afterEnterEvt() {
+  isOpened.value = true
+}
+
+watch(
+  () =>  hsv.value,
+  (val) => delayFun(),
+  { deep: true }
+)
+watch(
+  () => alpha.value,
+  (val) => delayFun()
+)
+
+onMounted(() => {
+  let { hsv: _h, alpha: a } = formatString(props.value)
+
+  hsv.value = _h
+  alpha.value = a
+  document.addEventListener('mouseup', hideDropdown, false)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('mouseup', hideDropdown, false)
+})
+
+function hideDropdown () {
+  if (isDrag.value) {
+    isDrag.value = false
+  } else {
+    if (isVisible.value) {
+      isVisible.value = false
+      if (vcFormItem) vcFormItem.checkValidate('blur')
+    }
+  }
+}
+
+function delayFun () {
+  if (timer) clearTimeout(timer)
+
+  timer = setTimeout(() => {
+    updateValue(props.format, hsv.value, alpha.value, emit, vcFormItem)
+  }, props.delay)
+}
+
+export function showDropdownEvt (evt) {
+  evt.stopPropagation()
+
+  const dropdownEl = ctx.$el.querySelector('.vc-color-picker__drop-down')
+
+  isVisible.value = true
+  
+  formatString(props.value)
+
+  dropdown.value = createPopper(
+    colorEl.value,
+    dropdownEl,
+    {
+      placement: 'bottom',
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: [0, 5]
+          }
+        },
+        {
+          name: 'computeStyles',
+          options: {
+            adaptive: false,
+            gpuAcceleration: false
+          }
+        }
+      ],
+      strategy: 'fixed'
+    }
+  )
 }
 
 function updateValue(format, hsv, alpha, emit, vcFormItem) {

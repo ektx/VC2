@@ -25,7 +25,7 @@ import {
 import { useMousePosition } from '../../utils/mouse'
 
 export default {
-  inject: ['vcColorPicker'],
+  // inject: ['vcColorPicker'],
   props: {
     isOpened: Boolean,
   },
@@ -41,12 +41,13 @@ export default {
     })
     const elBCR = ref({})
     const {x, y} = useMousePosition()
+    const vcColorPicker = inject('vcColorPicker', null)
 
     const cursorStyle = computed(() => ({
       transform: `translate(${X.value}px, ${Y.value}px)`
     }))
     const panelColor = computed(() => {
-      let { h } = ctx.vcColorPicker.hsv
+      let { h } = vcColorPicker.hsv
       h = h || 0
       return {
         backgroundColor: `hsl(${h}, 100%, 50%)`
@@ -78,7 +79,7 @@ export default {
     watch(
       () => _HSV.value,
       (val) => {
-        if (!ctx.vcColorPicker.isActive) ctx.setPosition()
+        if (!vcColorPicker.isActive) ctx.setPosition()
       }
     )
 
@@ -89,6 +90,7 @@ export default {
       panelColor,
       start,
       elBCR,
+      vcColorPicker,
     }
   },
   methods: {
@@ -119,7 +121,6 @@ export default {
 
     mousemoveEvt(evt) {
       if (this.vcColorPicker.isActive) {
-        // console.log('mousemove...', this.elBCR)
         let {pageX, pageY} = evt
         let {x, y, layerX, layerY} = this.start
         let {width, height} = this.elBCR
