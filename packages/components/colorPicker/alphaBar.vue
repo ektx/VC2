@@ -11,87 +11,35 @@
   </div>
 </template>
 
-<script>
-import { ref, computed, getCurrentInstance } from 'vue'
+<script setup>
+import { ref, computed, getCurrentInstance, inject } from 'vue'
 import { hsv2rgb } from './color'
 
+const { ctx } = getCurrentInstance()
+const vcColorPicker = inject('vcColorPicker')
+
 export default {
-  name: 'VcColorPickerAlphaBar',
-  inject: ['vcColorPicker'],
   props: {
     format: String
-  },
-  setup() {
-    const { ctx } = getCurrentInstance()
-    const alphaBarStyles = computed(() => {
-      let {h, s, v} = ctx.vcColorPicker.hsv
-      let {r, g, b} = hsv2rgb(h, s, v)
-      let from = `rgba(${r}, ${g}, ${b}, 0)`
-      let to = `rgb(${r}, ${g}, ${b})`
-
-      return {
-        background: `linear-gradient(to right, ${from} 0%, ${to} 100%)`
-      }
-    })
-
-    const alphaThumbStyle = computed(() => ({
-      left: Math.round(ctx.vcColorPicker.alpha * 100) + '%'
-    }))
-
-    const hueThumbStyle = computed(() => ({
-      left: Math.round(ctx.vcColorPicker.hsv.h / 360 * 100) + '%'
-    }))
-
-    return {
-      alphaBarStyles,
-      alphaThumbStyle,
-      hueThumbStyle,
-    }
   }
 }
+
+export const alphaBarStyles = computed(() => {
+  let {h, s, v} = vcColorPicker.hsv
+  let {r, g, b} = hsv2rgb(h, s, v)
+  let from = `rgba(${r}, ${g}, ${b}, 0)`
+  let to = `rgb(${r}, ${g}, ${b})`
+
+  return {
+    background: `linear-gradient(to right, ${from} 0%, ${to} 100%)`
+  }
+})
+
+export const alphaThumbStyle = computed(() => ({
+  left: Math.round(vcColorPicker.alpha * 100) + '%'
+}))
+
+export const hueThumbStyle = computed(() => ({
+  left: Math.round(vcColorPicker.hsv.h / 360 * 100) + '%'
+}))
 </script>
-
-<style lang="less">
-.vc-color-picker__control-model {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  flex: 1;
-  margin: 0 0 0 10px;
-}
-.vc-color-picker__hue,
-.vc-color-picker__alpha {
-  position: relative;
-  width: 100%;
-  height: 10px;
-
-  &-bar {
-    width: 100%;
-    height: 100%;
-  }
-
-  &-thumb {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 12px;
-    height: 12px;
-    background: #fff;
-    border-radius: 100%;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, .2);
-    transform: translate(-50%, -50%);
-    cursor: pointer;
-  }
-}
-.vc-color-picker__hue {
-  background: linear-gradient(90deg,red 0,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,red);
-
-  & + .vc-color-picker__alpha {
-    margin-top: 8px;
-  }
-}
-.vc-color-picker__alpha {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==);
-}
-</style>
