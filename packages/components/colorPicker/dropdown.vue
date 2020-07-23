@@ -5,8 +5,9 @@
 
     <div class="vc-color-picker__display-panel">
       <div class="current-color">
-        <div class="color-box">
+        <div class="color-box" @click="clear">
           <span :style="colorStyle"></span>
+          <i class="vc-icon-close"></i>
         </div>
       </div>
       <AlphaBar :format="format"/>
@@ -54,9 +55,14 @@ export default {
       return ctx.vcColorPicker.colorStyle
     })
 
+    function clear() {
+      ctx.vcColorPicker.hsv = {}
+    }
+
     return {
       mouseupEvt,
-      colorStyle
+      colorStyle,
+      clear
     }
   }
 }
