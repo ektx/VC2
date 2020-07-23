@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import { ref, computed, getCurrentInstance, inject, onMounted, onUnmounted } from 'vue'
+import { ref, computed, inject, onMounted, onUnmounted } from 'vue'
 import { hsv2rgb } from './color'
 
 export default {
