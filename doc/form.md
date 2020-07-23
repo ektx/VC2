@@ -13,6 +13,9 @@
     <vc-form-item label="活动名称" prop="name">
       <input type="text" v-model="formData.name" />
     </vc-form-item>
+    <vc-form-item label="队旗颜色" prop="color">
+      <vc-color-picker v-model:value="formData.color" format="rgb"/>
+    </vc-form-item>
     <vc-form-item label="活动区域" prop="region">
       <vc-select v-model:value="formData.region" :options="options" multiple/>
     </vc-form-item>
@@ -35,6 +38,7 @@ export default {
     return {
       formData: {
         name: '',
+        color: '',
         region: [],
         desc: 'text'
       },
@@ -49,6 +53,9 @@ export default {
         name: [
           { required: true, message: '请输入活动名称', trigger: 'blur' },
           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ],
+        color: [
+          { required: true, message: '队旗颜色不能为空', trigger: 'blur' },
         ],
         region: [
           { required: true, type: 'array', message: '请选择活动区域', trigger: ['blur', 'change'] }

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { ref, getCurrentInstance, onMounted, onUnmounted, computed, watch, provide } from 'vue'
+import { ref, getCurrentInstance, onMounted, onUnmounted, computed, watch, provide, inject } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
 import { formatString, hsv2rgb, toHex, hsv2hsl } from './color'
@@ -57,6 +57,8 @@ export default {
     const hsv = ref({})
     const alpha = ref(1)
     let timer = null
+
+    const vcFormItem = inject('vcFormItem', null)
 
     provide('VCColorPickerHSV', hsv)
 
@@ -98,7 +100,10 @@ export default {
       if (isDrag.value) {
         isDrag.value = false
       } else {
-        isVisible.value = false
+        if (isVisible.value) {
+          isVisible.value = false
+          if (vcFormItem) vcFormItem.checkValidate('blur')
+        }
       }
     }
 
@@ -134,7 +139,7 @@ export default {
       if (timer) clearTimeout(timer)
 
       timer = setTimeout(() => {
-        updateValue(props.format, hsv.value, alpha.value, emit)
+        updateValue(props.format, hsv.value, alpha.value, emit, vcFormItem)
       }, props.delay)
     }
     
@@ -164,7 +169,7 @@ export default {
   }
 }
 
-function updateValue(format, hsv, alpha, emit) {
+function updateValue(format, hsv, alpha, emit, vcFormItem) {
   let result = ''
   let {h, s, v} = hsv
 
@@ -176,10 +181,13 @@ function updateValue(format, hsv, alpha, emit) {
     }
     case 'rgb': {
       let {r, g, b}= hsv2rgb(h, s, v)
-      if (alpha === 1) {
-        result = `rgb(${r}, ${g}, ${b})`
-      } else {
-        result = `rgba(${r}, ${g}, ${b}, ${alpha})`
+
+      if (r) {
+        if (alpha === 1) {
+          result = `rgb(${r}, ${g}, ${b})`
+        } else {
+          result = `rgba(${r}, ${g}, ${b}, ${alpha})`
+        }
       }
       break
     }
@@ -194,7 +202,10 @@ function updateValue(format, hsv, alpha, emit) {
       else result = `hsva(${h}, ${s}, ${v}, ${alpha})`
     }
   }
-  
+
   emit('update:value', result)
+  emit('change', result)
+
+  if (vcFormItem) vcFormItem.checkValidate('change')
 }
 </script>

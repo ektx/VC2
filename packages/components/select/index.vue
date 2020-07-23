@@ -130,7 +130,6 @@ export default {
     const query = ref('')
     const isChange = ref(false)
     const isLoading = ref(false)
-    const vcForm = inject('vcForm', null)
     const vcFormItem = inject('vcFormItem', null)
     const _options = ref([])
 
@@ -363,7 +362,6 @@ export default {
       isChange,
       isLoading,
 
-      vcForm,
       vcFormItem,
 
       optionMouseOver,

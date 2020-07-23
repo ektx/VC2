@@ -47,6 +47,7 @@ export default {
     }))
     const panelColor = computed(() => {
       let { h } = ctx.vcColorPicker.hsv
+      h = h || 0
       return {
         backgroundColor: `hsl(${h}, 100%, 50%)`
       }
@@ -134,7 +135,7 @@ export default {
         this.X = _x
         this.Y = _y
         // HSV
-        let { h } = this.vcColorPicker.hsv
+        let h = this.vcColorPicker.hsv.h || 0
         let v = Math.round((1 - _y / height) * 100)
         let s = Math.round(_x / width * 100)
 
