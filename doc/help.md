@@ -1,10 +1,13 @@
-# 基础功能演示
+# Demo功能演示
 
 ## Composition API Demo
 
 以下为组合式 api 组件的 demo 写法演示：
 
 ::: demo
+
+> 默认 `ref` `reactive` `watch` `inject` 都已经注入，使用时，无需导入。
+
 ```html
 <template>
   测试 ref: <span>{{ msg }}</span> <br/>
@@ -62,7 +65,6 @@ function click2Evt(state) {
 ```
 :::
 
-
 ## Options API Demo
 
 以下是选项式 api 的组件 demo 写法演示：
@@ -100,13 +102,13 @@ export default {
 ```
 :::
 
-## Poprs
+## Poprs 格式示例
 
 | 参数 | 类型 | 说明 | 默认值 | 可选值 |
 |---|---|---|:---:|:---:|
-| `type` | **string** | 定义按钮的外形 | - | 'text' |
+| type | **string** | 定义按钮的外形 | - | '' |
 
-## Events
+## Events 格式示例
 
 | 事件名 | 说明 | 回调参数 |
 | --- | --- | --- |
