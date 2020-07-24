@@ -138,3 +138,8 @@ yarn run create
 +|  |-- index.js 更新
 +|  |-- layout.less 更新
 ```
+
+# 资料参考
+[Vue3.js](http://v3.vuejs.org/)  
+[Vue-next](https://github.com/vuejs/vue-next)  
+[rfc](https://github.com/vuejs/rfcs)  
