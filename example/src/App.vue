@@ -15,7 +15,6 @@
   </section>
 </template>
 
-
 <script>
 import Navs from './components/navs/index.vue'
 import { ref, onMounted, isProxy } from 'vue'
@@ -39,6 +38,11 @@ export default {
           getEvt(evt.state)
         }
       }
+
+      let pathname = location.pathname.slice(1)
+      if (pathname) {
+        getEvt({file: pathname})
+      }
     })
 
     return {
@@ -51,18 +55,23 @@ export default {
 }
 
 function getEvt (item) {
+  let { file } = item
+
   // 如果是代理对象，则不是浏览器前进后退触事件
   if (isProxy(item)) {
-    history.pushState({file: item.file}, '', item.file)
+    history.pushState({file: file}, '', file)
   }
 
-  fetch(`/api/doc?file=${item.file}`)
+  fetch(`/api/doc?file=${file}`)
     .then(res => res.json())
     .then(res => {
       // 将字符串中 `{{}}` 的 {{ 转换成 ASCII CODE 123
       // 防止解析报错
       // https://theasciicode.com.ar/ascii-printable-characters/braces-curly-brackets-opening-ascii-code-123.html
       htmlStr.value = res.data.replace(/(?<!\{)\{{2}(?!\{)/g, '&#123;&#123;')
+    })
+    .catch(() => {
+      htmlStr.value = '<h1>😱 404</h1>'
     })
 }
 
