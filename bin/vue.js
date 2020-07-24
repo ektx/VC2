@@ -1,3 +1,5 @@
+// 对 markdown 文档中的 ::: demo 进行文档化解析功能
+
 module.exports = function vue_plugin(md, name, options) {
   // 渲染方案
   function render (tokens, idx, opts, env, self) {

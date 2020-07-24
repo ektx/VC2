@@ -8,6 +8,7 @@
     "dev": "node ./bin/main.js",
     "build": "node ./bin/build.js",
     "update": "node ./bin/update.js",
+    "create": "node ./bin/create.mjs && yarn run update",
     "e2e": "./node_modules/.bin/cypress open"
   },
   "module": "./dist/index.js",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@vue/compiler-sfc": "^3.0.0-rc.4",
     "cypress": "^4.9.0",
+    "inquirer": "^7.3.3",
     "koa-router": "^9.0.1",
     "less": "^3.11.3",
     "markdown-it": "^11.0.0",
