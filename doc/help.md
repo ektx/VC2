@@ -112,3 +112,29 @@ export default {
 
 | 事件名 | 说明 | 回调参数 |
 | --- | --- | --- |
+
+## 辅助功能
+
+### 创建组件
+
+```js
+# 启动，然后按提示输入名称，如：colorPicker
+yarn run create
+```
+
+自动创建以下内容
+
+``` diff
+ ---- VC2
+ |-- doc
++|  |-- colorPicker.md 创建示例文档
+ |-- example
+ |  |-- src
++|    |-- menu.js 更新菜单
+ |-- packages
+ |  |-- components
++|  | |-- colorPicker 创建组件相关目录
++|  |   |-- index.vue
++|  |-- index.js 更新
++|  |-- layout.less 更新
+```
