@@ -18,7 +18,7 @@ export default [
       {
         "label": "Button 按钮",
         "file": "button.md"
-      },
+      }
     ]
   },
   {
@@ -48,6 +48,10 @@ export default [
       {
         "label": "Notification 通知",
         "file": "notification.md"
+      },
+      {
+        "label": "Layer 弹层",
+        "file": "layer.md"
       }
     ]
   }

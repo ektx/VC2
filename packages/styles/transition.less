@@ -13,3 +13,66 @@
   opacity: 0;
   transform: scaleY(0);
 }
+
+
+.vc-fade-down-enter-active {
+  animation: vc-ani-fade-in .4s;
+}
+
+.vc-fade-down-leave-active {
+  animation: vc-ani-fade-out .4s;
+}
+
+@keyframes vc-ani-fade-in {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+
+@keyframes vc-ani-fade-out {
+  0% {
+      opacity: 1;
+  }
+  100% {
+      opacity: 0;
+  }
+}
+
+@keyframes vc-ani-fade-up-in {
+  0% {
+      opacity: 0;
+      transform: translateY(30px)
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0px)
+  }
+}
+// 动画
+.scale-enter-active {
+  animation: vc-ani-scale-in .4s;
+} 
+.scale-leave-active {
+  animation: vc-ani-scale-out .4s;
+}
+
+@keyframes vc-ani-scale-in {
+  0% {
+      transform: scale(0)
+  }
+  100% {
+      transform: scale(1)
+  }
+}
+
+@keyframes vc-ani-scale-out {
+  0% {
+      transform: scale(1)
+  }
+  100% {
+      transform: scale(0)
+  }
+}
