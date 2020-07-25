@@ -10,7 +10,7 @@
     <p>这是一段信息</p>
     <template #footer>
       <vc-button>取消</vc-button>
-      <vc-button @click="open = false">确认</vc-button>
+      <vc-button color="primary" @click="open = false">确认</vc-button>
     </template>
   </vc-layer>
 </template>
