@@ -6,6 +6,8 @@ const fs = require('fs')
 const path = require('path')
 const mdVue = require('./vue')
 
+require('prismjs/components/prism-diff')
+
 let router = new Router()
 
 // 获取 doc 中的 markdown 文件
@@ -15,12 +17,10 @@ router.get('/api/doc', async ctx => {
   let md = new MarkdownIt({
     html: true,
     highlight(str, lang) {
-      if (lang) {
-        try {
-          let code = Prism.highlight(str, Prism.languages[lang], lang)
+      if (Prism.languages[lang]) {
+        let code = Prism.highlight(str, Prism.languages[lang], lang)
 
-          return `<pre class="language-${lang}"><code>${code}</code></pre>`
-        } catch (__) {}
+        return `<pre class="language-${lang}"><code>${code}</code></pre>`
       }
 
       return `<pre class="hljs"><code>${md.utils.escapeHtml(str)}</code></pre>`
