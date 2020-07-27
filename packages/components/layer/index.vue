@@ -158,7 +158,7 @@ export default {
   },
   unmounted () {
     if (this.appendToBody && this.$el) {
-      document.body.removeChild(this.$el)
+      this.$el.parentNode.removeChild(this.$el)
     }
     document.documentElement.removeEventListener('click', this.getClickPosition)
   }
