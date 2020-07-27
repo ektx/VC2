@@ -11,16 +11,16 @@
     >
       <transition name="scale">
         <div v-show="show" class="layer-inner" :style="style">
-          <header>
+          <div class="vc-layer__header">
             <slot name="title">
               <span>{{title}}</span>
             </slot>
             <i class="vc-icon-close" @click="hideLayer"></i>
-          </header>
-          <main><slot></slot></main>
-          <footer v-if="$slots.footer">
+          </div>
+          <div class="vc-layer__main"><slot></slot></div>
+          <div class="vc-layer__footer" v-if="$slots.footer">
             <slot name="footer"></slot>
-          </footer>
+          </div>
         </div>
         </transition>
       </div>
@@ -183,7 +183,7 @@ export default {
     border-radius: 3px;
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
 
-    & > header {
+    & > .vc-layer__header {
       position: relative;
       font-size: 18px;
       color: #333;
@@ -201,13 +201,17 @@ export default {
       }
     }
 
-    & > main {
+    & > .vc-layer__main {
       padding: 10px 20px;
     }
 
-    & > footer {
+    & > .vc-layer__footer {
       padding: 10px 20px;
       text-align: right;
+
+      button + button {
+        margin-left: 10px;
+      }
     }
   }
 }
