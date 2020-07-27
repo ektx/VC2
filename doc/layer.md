@@ -6,7 +6,7 @@
 ```html
 <template>
   <vc-button @click="open = !open">Open Layer - {{open}}</vc-button>
-  <vc-layer v-model:show="open" title="hello world">
+  <vc-layer v-model:show="open" title="hello world" append-to-body>
     <p>这是一段信息</p>
     <template #footer>
       <vc-button>取消</vc-button>

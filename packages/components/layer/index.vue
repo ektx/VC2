@@ -50,7 +50,9 @@ export default {
     closeModal: {
       type: Boolean,
       default: false
-    }
+    },
+    // Dialog 自身是否插入至 body 元素上
+    appendToBody: Boolean,
   },
   computed: {
     style () {
@@ -72,70 +74,79 @@ export default {
       return style
     }
   },
-    data () {
-        return {
-            evt: {
-                x: 0,
-                y: 0
-            },
-            isAllow: false
+  data () {
+      return {
+          evt: {
+              x: 0,
+              y: 0
+          },
+          isAllow: false
+      }
+  },
+  watch: {
+    show (val) {
+      if (val) {
+        // 允许记录点击位置
+        this.isAllow = true
+        this.$emit('open')
+
+        if (this.appendToBody) {
+          document.body.appendChild(this.$el)
         }
+      }
+    }
+  },
+  mounted () {
+    if (this.show) {
+      if (this.appendToBody) {
+        document.body.appendChild(this.$el)
+      }
+    }
+    document.documentElement.addEventListener('click', this.getClickPosition)
+  },
+  methods: {
+    layerBoxClick () {
+      if (!this.closeModal) this.hideLayer()
     },
-    watch: {
-        show (val) {
-            if (val) {
-                // 允许记录点击位置
-                this.isAllow = true
-                this.$emit('open')
-            }
-        }
+
+    hideLayer () {
+      this.$emit('update:show', false)
+      this.$emit('close')
     },
-    mounted () {
-      document.documentElement.addEventListener('click', this.getClickPosition)
-    },
-    methods: {
-      layerBoxClick () {
-        if (!this.closeModal) this.hideLayer()
-      },
 
-      hideLayer () {
-        this.$emit('update:show', false)
-        this.$emit('close')
-      },
+    getClickPosition (evt) {
+      if ( isIE() ) {
+        if (this.show) return
+      } else {
+        // 防止组件记录了非开启弹层的位置信息
+        if (!this.isAllow) return
+        if (!this.show) return
+      }
 
-        getClickPosition (evt) {
-          if ( isIE() ) {
-            if (this.show) return
-          } else {
-            // 防止组件记录了非开启弹层的位置信息
-            if (!this.isAllow) return
-            if (!this.show) return
-          }
-
-          let { clientX, clientY } = evt
-          // 0.5为弹层的默认宽度
-          let width = window.innerWidth * .5
+      let { clientX, clientY } = evt
+      // 0.5为弹层的默认宽度
+      let width = window.innerWidth * .5
             
-          if (this.width) {
-            if (this.width.endsWith('px')) {
-              width = parseInt(this.width)
-            } 
-            // 20vw 20%
-            else {
-              width = window.innerWidth * (parseInt(this.width)/100)
-            }
-          }
+      if (this.width) {
+        if (this.width.endsWith('px')) {
+          width = parseInt(this.width)
+        } 
+        // 20vw 20%
+        else {
+          width = window.innerWidth * (parseInt(this.width)/100)
+        }
+      }
 
-          let halfW = width / 2
-          let x = clientX - (window.innerWidth / 2)
-          let y = clientY - 100
+      let halfW = width / 2
+      let x = clientX - (window.innerWidth / 2)
+      let y = clientY - 100
 
-          // x 轴偏移
-          x = x + halfW
+      // x 轴偏移
+      x = x + halfW
 
-          this.evt = Object.assign({}, {x, y})
-          this.isAllow = false
-        },
+      this.evt = Object.assign({}, {x, y})
+      this.isAllow = false
+    },
 
     afterEnter() {
       this.$emit('opened')
@@ -146,6 +157,9 @@ export default {
     }
   },
   unmounted () {
+    if (this.appendToBody && this.$el) {
+      document.body.removeChild(this.$el)
+    }
     document.documentElement.removeEventListener('click', this.getClickPosition)
   }
 }
