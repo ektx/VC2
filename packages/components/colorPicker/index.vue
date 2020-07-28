@@ -65,7 +65,7 @@ export default {
     const isVisible = ref(false)
     const isOpened = ref(false)
     const isDrag = ref(false)
-    const hsv = ref({})
+    const hsv = ref({__: true})
     const alpha = ref(1)
 
     provide('VCColorPickerHSV', hsv)
@@ -84,7 +84,10 @@ export default {
 
     watch(
       () =>  hsv.value,
-      (val) => delayFun(),
+      (val, old) => {
+        if (old.__) return
+        delayFun()
+      },
       { deep: true }
     )
     watch(
