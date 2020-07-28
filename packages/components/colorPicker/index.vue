@@ -2,7 +2,10 @@
   <div class="vc-color-picker">
     <div 
       ref="colorEl"
-      :class="['vc-color-picker__color', { 'is-round': round }]" 
+      :class="[
+        'vc-color-picker__color', 
+        { 'is-round': round, 'is-empty': !value }
+      ]" 
       @click="showDropdownEvt"
     >
       <span :style="colorStyle"></span>
