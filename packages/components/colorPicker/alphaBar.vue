@@ -24,92 +24,106 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import { ref, computed, inject, onMounted, onUnmounted } from 'vue'
 import { hsv2rgb } from './color'
 
 export default {
   props: {
     format: String
-  }
-}
+  },
+  setup() {
+    const vcColorPicker = inject('vcColorPicker')
 
-const vcColorPicker = inject('vcColorPicker')
-let start = {}
-let boxBCR = {}
-let isActive = false
+    let start = {}
+    let boxBCR = {}
+    let isActive = false
 
-export const box = ref(null)
+    const box = ref(null)
 
-export const alphaBarStyles = computed(() => {
-  let {h, s, v} = vcColorPicker.hsv
-  let {r, g, b} = hsv2rgb(h, s, v)
-  let from = `rgba(${r}, ${g}, ${b}, 0)`
-  let to = `rgb(${r}, ${g}, ${b})`
+    const alphaBarStyles = computed(() => {
+      let {h, s, v} = vcColorPicker.hsv
+      let {r, g, b} = hsv2rgb(h, s, v)
+      let from = `rgba(${r}, ${g}, ${b}, 0)`
+      let to = `rgb(${r}, ${g}, ${b})`
 
-  return {
-    background: `linear-gradient(to right, ${from} 0%, ${to} 100%)`
-  }
-})
+      return {
+        background: `linear-gradient(to right, ${from} 0%, ${to} 100%)`
+      }
+    })
 
-export const alphaThumbStyle = computed(() => ({
-  left: Math.round(vcColorPicker.alpha * 100) + '%'
-}))
+    const alphaThumbStyle = computed(() => ({
+      left: Math.round(vcColorPicker.alpha * 100) + '%'
+    }))
 
-export const hueThumbStyle = computed(() => ({
-  left: Math.round(vcColorPicker.hsv.h / 360 * 100) + '%'
-}))
+    const hueThumbStyle = computed(() => ({
+      left: Math.round(vcColorPicker.hsv.h / 360 * 100) + '%'
+    }))
 
-export function mousedown(evt, type) {
-  evt.stopPropagation()
-  let {pageX, layerX} = evt
+    onMounted(() => {
+      document.addEventListener('mousemove', mousemove, false)
+      document.addEventListener('mouseup', mouseup, false)
+    })
 
-  vcColorPicker.isDrag = true
-  start = {
-    pageX,
-    layerX,
-    type
-  }
-  isActive = true
+    onUnmounted(() => {
+      document.removeEventListener('mousemove', mousemove, false)
+      document.removeEventListener('mouseup', mouseup, false)
+    })
 
-  boxBCR = box.value.getBoundingClientRect()
-  mousemove(evt)
-}
+    function mouseup() {
+      isActive = false
+    }
 
-onMounted(() => {
-  document.addEventListener('mousemove', mousemove, false)
-  document.addEventListener('mouseup', mouseup, false)
-})
 
-onUnmounted(() => {
-  document.removeEventListener('mousemove', mousemove, false)
-  document.removeEventListener('mouseup', mouseup, false)
-})
+    function mousedown(evt, type) {
+      evt.stopPropagation()
+      let {pageX, layerX} = evt
 
-export function mousemove(evt) {
-  if (!isActive) return
+      vcColorPicker.isDrag = true
+      start = {
+        pageX,
+        layerX,
+        type
+      }
+      isActive = true
 
-  let { width } = boxBCR
-  let { pageX } = evt
+      boxBCR = box.value.getBoundingClientRect()
+      mousemove(evt)
+    }
 
-  if (vcColorPicker.isDrag) {
-    let x = start.layerX + pageX - start.pageX
+    function mousemove(evt) {
+      if (!isActive) return
 
-    x = x > 0 
-      ? x > width ? width : x 
-      : 0
-    
-    let o = x / width
+      let { width } = boxBCR
+      let { pageX } = evt
 
-    if (start.type === 'alpha') {
-      vcColorPicker.alpha = parseFloat(o.toFixed(1))
-    } else {
-      vcColorPicker.hsv.h = Math.round(o * 360)
+      if (vcColorPicker.isDrag) {
+        let x = start.layerX + pageX - start.pageX
+
+        x = x > 0 
+          ? x > width ? width : x 
+          : 0
+        
+        let o = x / width
+
+        if (start.type === 'alpha') {
+          vcColorPicker.alpha = parseFloat(o.toFixed(1))
+        } else {
+          vcColorPicker.hsv.h = Math.round(o * 360)
+        }
+      }
+    }
+
+
+    return {
+      box,
+      alphaBarStyles,
+      alphaThumbStyle,
+      hueThumbStyle,
+      mouseup,
+      mousemove,
+      mousedown
     }
   }
-}
-
-export function mouseup() {
-  isActive = false
 }
 </script>
