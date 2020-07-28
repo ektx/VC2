@@ -107,7 +107,7 @@ export default {
         let o = x / width
 
         if (start.type === 'alpha') {
-          vcColorPicker.alpha = parseFloat(o.toFixed(1))
+          vcColorPicker.alpha = parseFloat(o.toFixed(2))
         } else {
           vcColorPicker.hsv.h = Math.round(o * 360)
         }

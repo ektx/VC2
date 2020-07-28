@@ -3,7 +3,7 @@
     <input 
       type="number" 
       max="1" min="0" 
-      step="0.1" 
+      step="0.01" 
       v-model="alpha" 
     >
     <p>A</p>
