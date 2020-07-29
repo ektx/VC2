@@ -1,27 +1,27 @@
-/* 以下代码自动生成于 Wed Jul 29 2020 10:33:28 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Wed Jul 29 2020 22:02:24 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
-import vcForm from './components/form/index.vue'
-import vcIcon from './components/icon/index.vue'
 import vcColorPicker from './components/colorPicker/index.vue'
+import vcForm from './components/form/index.vue'
 import vcFormItem from './components/formItem/index.vue'
-import vcSelect from './components/select/index.vue'
+import vcIcon from './components/icon/index.vue'
 import vcLayer from './components/layer/index.vue'
-import vcNotification from './components/notification/index.js'
 import vcMessage from './components/message/index.js'
+import vcNotification from './components/notification/index.js'
+import vcSelect from './components/select/index.vue'
 
 const components = [
   vcButton,
   vcButtonGroup,
-  vcForm,
-  vcIcon,
   vcColorPicker,
+  vcForm,
   vcFormItem,
-  vcSelect,
+  vcIcon,
   vcLayer,
+  vcMessage,
   vcNotification,
-  vcMessage
+  vcSelect
 ]
 
 const install = app => {
@@ -38,12 +38,12 @@ export default {
   install,
   vcButton,
   vcButtonGroup,
-  vcForm,
-  vcIcon,
   vcColorPicker,
+  vcForm,
   vcFormItem,
-  vcSelect,
+  vcIcon,
   vcLayer,
+  vcMessage,
   vcNotification,
-  vcMessage
+  vcSelect
 }

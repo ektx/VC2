@@ -1,15 +1,10 @@
 // 自动生成组件
 import fs from 'fs'
 import inquirer from 'inquirer'
+import getMenu from './lib/getMenu.mjs'
 
 async function main() {
-  let menu = await fs.promises.readFile('./example/src/menu.js', {encoding: 'utf8'})
-  menu = Function(`return ${menu.slice(15)}`)()
-
-  let menuList = menu.map((item, index) => ({
-    name: item.label,
-    value: index
-  }))
+  let { list :menuList } = await getMenu()
 
   console.log('Create')
   let components = await inquirer.prompt([
