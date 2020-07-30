@@ -34,6 +34,7 @@ export default {
   name: 'VcColorPicker',
   components: { DropDown },
   props: {
+    // 颜色值
     value: {
       type: String,
       default: ''
@@ -76,6 +77,8 @@ export default {
     const colorStyle = computed(() => {
       let { h, s, v } = hsv.value
 
+      if (!props.value) return {}
+
       if (h === undefined) return {}
 
       let { r, g, b } = hsv2rgb(h, s, v)
@@ -99,10 +102,7 @@ export default {
     )
 
     onMounted(() => {
-      let { hsv: _h, alpha: a } = formatString(props.value)
-
-      hsv.value = _h
-      alpha.value = a
+      formatHSV()
       document.addEventListener('mouseup', hideDropdown, false)
     })
 
@@ -165,6 +165,13 @@ export default {
           strategy: 'fixed'
         }
       )
+    }
+
+    function formatHSV () {
+      let { hsv: _h, alpha: a } = formatString(props.value)
+
+      hsv.value = _h
+      alpha.value = a
     }
 
     return {
