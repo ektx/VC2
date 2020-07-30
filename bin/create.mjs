@@ -2,9 +2,10 @@
 import fs from 'fs'
 import inquirer from 'inquirer'
 import getMenu from './lib/getMenu.mjs'
+import { updateMenu } from './lib/menu.mjs'
 
 async function main() {
-  let { list :menuList } = await getMenu()
+  let { menu, list :menuList } = await getMenu()
 
   console.log('Create')
   let components = await inquirer.prompt([
@@ -52,11 +53,6 @@ async function main() {
   updateMenu(menu)
   createMarkdown(components)
   createComponent(components)
-}
-
-function updateMenu (data) {
-  data = 'export default ' + JSON.stringify(data, '', '  ')
-  return fs.promises.writeFile('./example/src/menu.js', data)
 }
 
 function createMarkdown({ name }) {
