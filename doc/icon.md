@@ -15,11 +15,13 @@
 
 ### 图标集合
 
+点击图标可直接复制样式名。
+
 ::: demo
 ```html
 <template>
   <ul class="icon-list">
-    <li v-for="icon in $icon" :key="icon.icon_id">
+    <li v-for="icon in $icon" :key="icon.icon_id" @click="copy(icon)">
       <i :class="'vc-icon-' + icon.font_class"></i>
       <span class="icon-name">{{'vc-icon-' + icon.font_class}}</span>
     </li>
@@ -29,6 +31,7 @@
 <script>
 export default {
   setup() {
+    let message = inject('vcMessage')
     let $icon = ref([])
 
     fetch('/api/icons')
@@ -39,8 +42,21 @@ export default {
         $icon.value = res.glyphs
       })
 
+    async function copy(icon) {
+      const res = await navigator.permissions.query({ name: 'clipboard-write' })
+
+      if (res.state === 'granted') {
+        let name = `vc-icon-${icon.name}`
+        message.success(`${name} 复制成功`)
+        return navigator.clipboard.writeText(name);
+      }
+
+      return Promise.reject(res);
+    }
+
     return {
-      $icon
+      $icon,
+      copy
     }
   }
 }

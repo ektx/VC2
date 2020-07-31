@@ -216,12 +216,8 @@
 
   code {
     color: #d63200;
-    padding: 2px 5px;
-    margin: 0 2px;
     border-radius: 2px;
     white-space: nowrap;
-    background-color: var(--gray90);
-    transition: background .4s ease-in-out;
   }
 
   pre {
@@ -365,5 +361,9 @@
 
   pre[class~=language-bash]:before {
     content: "sh"
+  }
+
+  pre[class~=language-diff]:before {
+    content: "diff"
   }
 }

@@ -33,6 +33,11 @@ import AsyncValidator from 'async-validator'
 export default {
   name: 'VcFormItem',
   inject: ['vcForm'],
+  provide() {
+    return {
+      vcFormItem: this
+    }
+  },
   components: { Label },
   props: {
     // 标题
@@ -90,26 +95,30 @@ export default {
       }
     }
   },
-  updated () {
-    console.log('updated')
-  },
   methods: {
     validate (trigger, cb) {
       const rules = this.getRules()
-      console.log(rules)
 
       const descriptor = {}
+      descriptor[this.prop] = []
+
       if (rules.length > 0) {
         rules.forEach(rule => {
-          delete rule.trigger
+          if (trigger) {
+            if (rule.trigger.includes(trigger))
+              descriptor[this.prop].push(rule)
+          } else {
+            descriptor[this.prop].push(rule)
+          }
         })
       }
-      descriptor[this.prop] = rules
+
+      if (!descriptor[this.prop].length) return
 
       const validator = new AsyncValidator(descriptor)
       const model = {}
 
-      model[this.prop] = this.parentForm.model[this.prop]
+      model[this.prop] = this.vcForm.model[this.prop]
 
       validator.validate(model, { firstFields: true }, (err, fields) => {
         this.validateState = err ? 'error' : 'success'
@@ -137,6 +146,12 @@ export default {
       if (!this.prop) return []
 
       return this.vcForm.rules[this.prop] || []
+    },
+
+    checkValidate(trigger) {
+      this.$nextTick(() => {
+        this.validate(trigger)
+      })
     }
   }
 }

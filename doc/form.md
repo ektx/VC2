@@ -13,12 +13,11 @@
     <vc-form-item label="活动名称" prop="name">
       <input type="text" v-model="formData.name" />
     </vc-form-item>
+    <vc-form-item label="队旗颜色" prop="color">
+      <vc-color-picker v-model:value="formData.color" round/>
+    </vc-form-item>
     <vc-form-item label="活动区域" prop="region">
-      <select v-model="formData.region">
-        <option value="" selected disabled>请选择</option>
-        <option value="shanghai">上海</option>
-        <option value="beijing">北京</option>
-      </select>
+      <vc-select v-model:value="formData.region" :options="options" multiple/>
     </vc-form-item>
     <vc-form-item label="活动形式" prop="desc">
       <textarea v-model="formData.desc" style="height: 100px"></textarea>
@@ -39,16 +38,27 @@ export default {
     return {
       formData: {
         name: '',
-        region: '',
+        color: '',
+        region: [],
         desc: 'text'
       },
+      options: [{
+        value: 'Beijing',
+        label: '北京'
+      }, {
+        value: 'Shanghai',
+        label: '上海'
+      }],
       rules: {
         name: [
           { required: true, message: '请输入活动名称', trigger: 'blur' },
           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
+        color: [
+          { required: true, message: '队旗颜色不能为空', trigger: 'blur' },
+        ],
         region: [
-          { required: true, message: '请选择活动区域', trigger: 'change' }
+          { required: true, type: 'array', message: '请选择活动区域', trigger: ['blur', 'change'] }
         ],
         date1: [
           { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
@@ -107,11 +117,7 @@ export default {
       <input type="text" v-model="formData.name"/>
     </vc-form-item>
     <vc-form-item label="活动区域">
-      <select v-model="formData.region">
-        <option value="" selected disabled>请选择</option>
-        <option value="shanghai">上海</option>
-        <option value="beijing">北京</option>
-      </select>
+      <vc-select v-model:value="formData.region" :options="options"/>
     </vc-form-item>
     <vc-form-item label="活动形式" prop="desc">
       <textarea v-model="formData.desc" style="height: 100px"></textarea>
@@ -136,6 +142,13 @@ export default {
         region: '',
         desc: ''
       },
+      options: [{
+        value: 'Beijing',
+        label: '北京'
+      }, {
+        value: 'Shanghai',
+        label: '上海'
+      }],
       labelPosition: 'right'
     }
   },
@@ -162,11 +175,7 @@ export default {
       <input type="text" v-model="formData.name"/>
     </vc-form-item>
     <vc-form-item label="活动区域" prop="region">
-      <select v-model="formData.region">
-        <option value="" selected disabled>请选择</option>
-        <option value="shanghai">上海</option>
-        <option value="beijing">北京</option>
-      </select>
+      <vc-select v-model:value="formData.region" :options="options"/>
     </vc-form-item>
     <vc-form-item>
       <vc-button color="primary" @click="submitForm">查询</vc-button>
@@ -183,6 +192,13 @@ export default {
         name: '',
         region: '',
       },
+      options: [{
+        value: 'Beijing',
+        label: '北京'
+      }, {
+        value: 'Shanghai',
+        label: '上海'
+      }],
       rules: {
         name: [
           { required: true, message: '请输入活动名称', trigger: 'blur' },
@@ -242,11 +258,7 @@ export default {
       <input type="text" v-model="formData.name" />
     </vc-form-item>
     <vc-form-item label="活动区域" prop="region">
-      <select v-model="formData.region">
-        <option value="" selected disabled>请选择</option>
-        <option value="shanghai">上海</option>
-        <option value="beijing">北京</option>
-      </select>
+      <vc-select v-model:value="formData.region" :options="options"/>
     </vc-form-item>
     <vc-form-item label="活动形式" prop="desc">
       <textarea v-model="formData.desc" style="height: 100px"></textarea>
@@ -269,6 +281,13 @@ export default {
         region: '',
         desc: ''
       },
+      options: [{
+        value: 'Beijing',
+        label: '北京'
+      }, {
+        value: 'Shanghai',
+        label: '上海'
+      }],
       rules: {
         name: [
           { required: true, message: '请输入活动名称', trigger: 'blur' },

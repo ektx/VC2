@@ -147,7 +147,7 @@ export default {
  */
 function getSetupFun (str) {
   // 移除字符串中 'export default'
-  str = str.slice(15)
+  str = str.trim().slice(15)
 
   return new Function('ref', 'watch', 'reactive', 'inject', `return ${str}`)
 }

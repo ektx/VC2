@@ -1,0 +1,78 @@
+
+.vc-zoom-in-top-enter-active,
+.vc-zoom-in-top-leave-active {
+  opacity: 1;
+  transform: scaleY(1);
+  transition: 
+    transform 400ms cubic-bezier(0.23, 1, 0.32, 1), 
+    opacity 400ms cubic-bezier(0.23, 1, 0.32, 1);
+  transform-origin: center top;
+}
+.vc-zoom-in-top-enter-from,
+.vc-zoom-in-top-leave-active {
+  opacity: 0;
+  transform: scaleY(0);
+}
+
+
+.vc-fade-down-enter-active {
+  animation: vc-ani-fade-in .4s;
+}
+
+.vc-fade-down-leave-active {
+  animation: vc-ani-fade-out .4s;
+}
+
+@keyframes vc-ani-fade-in {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+
+@keyframes vc-ani-fade-out {
+  0% {
+      opacity: 1;
+  }
+  100% {
+      opacity: 0;
+  }
+}
+
+@keyframes vc-ani-fade-up-in {
+  0% {
+      opacity: 0;
+      transform: translateY(30px)
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0px)
+  }
+}
+// 动画
+.scale-enter-active {
+  animation: vc-ani-scale-in .4s;
+} 
+.scale-leave-active {
+  animation: vc-ani-scale-out .4s;
+}
+
+@keyframes vc-ani-scale-in {
+  0% {
+      transform: scale(0)
+  }
+  100% {
+      transform: scale(1)
+  }
+}
+
+@keyframes vc-ani-scale-out {
+  0% {
+      transform: scale(1)
+  }
+  100% {
+      transform: scale(0)
+  }
+}

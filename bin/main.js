@@ -6,6 +6,8 @@ const fs = require('fs')
 const path = require('path')
 const mdVue = require('./vue')
 
+require('prismjs/components/prism-diff')
+
 let router = new Router()
 
 // 获取 doc 中的 markdown 文件
@@ -15,12 +17,10 @@ router.get('/api/doc', async ctx => {
   let md = new MarkdownIt({
     html: true,
     highlight(str, lang) {
-      if (lang) {
-        try {
-          let code = Prism.highlight(str, Prism.languages[lang], lang)
+      if (Prism.languages[lang]) {
+        let code = Prism.highlight(str, Prism.languages[lang], lang)
 
-          return `<pre class="language-${lang}"><code>${code}</code></pre>`
-        } catch (__) {}
+        return `<pre class="language-${lang}"><code>${code}</code></pre>`
       }
 
       return `<pre class="hljs"><code>${md.utils.escapeHtml(str)}</code></pre>`
@@ -57,7 +57,7 @@ const myPlugin = ({
       // compiled from `*.vue` files, where <template> and <script> are served as
       // `application/javascript` and <style> are served as `text/css`.
       if (ctx.response.is('js')) {
-        console.log('post processing:', ctx.url)
+        console.log(ctx.url)
       }
     })
 }
@@ -67,4 +67,6 @@ createServer({
   alias: {
     vue: 'vue/dist/vue.esm-bundler.js'
   }
-}).listen(3000)
+}).listen(3000, () => {
+  console.log('App Running at: http://localhost:3000/')
+})
