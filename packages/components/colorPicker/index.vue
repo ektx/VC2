@@ -77,9 +77,7 @@ export default {
     const colorStyle = computed(() => {
       let { h, s, v } = hsv.value
 
-      if (!props.value) return {}
-
-      if (h === undefined) return {}
+      if (!props.value || h === undefined) return {}
 
       let { r, g, b } = hsv2rgb(h, s, v)
       
