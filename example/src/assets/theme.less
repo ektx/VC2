@@ -1,0 +1,44 @@
+.lighten(@counter) when (@counter >= 0) {
+  .lighten((@counter - 5));  
+  --gray@{counter}: lighten(black, @counter); 
+}
+
+.darken(@counter) when (@counter >= 0) {
+  --gray@{counter}: darken(white, @counter); 
+  .darken((@counter - 5));  
+}
+
+.otherColor(@name, @color) {
+  --@{name}: @color;
+  --@{name}Hover: lighten(@color, 10);
+  --@{name}Active: darken(@color, 10);
+}
+
+.normalColor {
+  .otherColor(link, #2b65ec);
+  .otherColor(success, #4aa02c);
+  .otherColor(warn, #ee9a4d);
+  .otherColor(error, #e41b17);
+}
+
+.light-scheme {
+  // 调用循环
+  .lighten(100); 
+  .normalColor
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    .light-scheme   
+  }
+}
+
+.dark-scheme {
+  .darken(100); 
+  .normalColor       
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    .dark-scheme    
+  }
+}
