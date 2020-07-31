@@ -23,6 +23,7 @@
         @focus="handleFocus"
         @blur="handleBlur"
         @change="handleChange"
+        :maxlength="maxlength"
       />
       <div class="vc-input__suffix-icon" v-if="suffixIcon">
         <i :class="suffixIcon"></i>
@@ -39,6 +40,16 @@
       <div class="vc-input__showPassword" v-if="showPassword && isMety" @click="closeMsg">
         <i class="vc-icon-view"></i>
       </div>
+
+
+      <div class="vc-input__numLength" v-if="showWordLimit">
+        <i class="">
+          <span>0</span><span>/100</span>
+        </i>
+      </div>
+      {{showWordLimit}}
+
+
     </div>
     <div v-else class="vc_input__textarea">
       <textarea
@@ -107,6 +118,14 @@ export default {
     },
     autosize: {
       type: [Boolean, Object],
+      default: false
+    },
+    maxlength: {
+      type: Number,
+    },
+    //show-word-limit
+    showWordLimit: {
+      type: Boolean,
       default: false
     }
   },
@@ -267,6 +286,10 @@ export default {
 
     .vc-input__showPassword {
       padding-right: 4px;
+    }
+
+    .vc-input__numLength{
+      padding-right: 6px;
     }
 
     .int-icon-right {

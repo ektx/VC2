@@ -208,7 +208,7 @@ export default {
 ```html
 <template>
   <div>
-    <vc-input v-model:value="input1" placeholder="请输入内容" ></vc-input>
+    <vc-input v-model:value="input1" placeholder="请输入内容" maxlength="10" show-word-limit></vc-input>
     <vc-input type="textarea" autosize v-model:value="textarea" placeholder="请输入内容"></vc-input>
   </div>
   
