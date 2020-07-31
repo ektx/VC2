@@ -2,7 +2,12 @@
   <div 
     :class="[
       'vc-select', 
-      {'is-open': isFocus, 'is-disabled': disabled, clearable}
+      {
+        'is-focus': isFocus,
+        'is-open': isOpen, 
+        'is-disabled': disabled, 
+        clearable,
+      }
     ]" @click="focusEvt">
     <VS_Tags ref="tags" :selectedItem="selectedItem"/>
     <div ref="inputArea" class="vc-select__input">
@@ -21,7 +26,7 @@
       <i class="vc-icon-error" @click="clearValue"/>
     </div>
     <transition name="vc-zoom-in-top" @after-leave="afterLeave">
-      <DropDown v-show="isFocus">
+      <DropDown v-show="isOpen">
         <ul v-if="_options.length">
           <template v-for="item in _options" >
             <template v-if="item.children">
@@ -60,7 +65,6 @@
 <script>
 import { 
   ref, 
-  onBeforeMount, 
   onUnmounted, 
   onMounted, 
   watch,
@@ -124,11 +128,11 @@ export default {
   setup(props, { emit }) {
     const { ctx } = getCurrentInstance()
     const isFocus = ref(false)
+    const isOpen = ref(false)
     const selectedItem = ref({})
     const hoverItem = ref({})
     const intValue = ref('')
     const query = ref('')
-    const isChange = ref(false)
     const isLoading = ref(false)
     const vcFormItem = inject('vcFormItem', null)
     const _options = ref([])
@@ -151,14 +155,17 @@ export default {
           intValue.value = ''
         }
 
-        if (props.filterable && isFocus.value) intValue.value = ''
+        if (props.filterable && isOpen.value) intValue.value = ''
       }
 
       return result
     })
 
     let tooltip = null
-    let hideDropdown = () => isFocus.value = false
+    let hideDropdown = () => {
+      isOpen.value = false
+      isFocus.value = false
+    }
 
     onUnmounted(() => {
       document.removeEventListener('click', hideDropdown, false)
@@ -258,12 +265,11 @@ export default {
     watch(
       () => isFocus.value,
       (val) => {
-        if (!val) {
-          if (isChange.value) isChange.value = false
-          else {
-            emit('blur')
-            if (vcFormItem) vcFormItem.checkValidate('blur')
-          }
+        if (val) {
+          emit('focus', val)
+        } else {
+          emit('blur')
+          if (vcFormItem) vcFormItem.checkValidate('blur')
         }
       }
     )
@@ -341,7 +347,7 @@ export default {
     function clearValue(evt) {
       evt.stopPropagation()
 
-      if (isFocus.value) isFocus.value = false
+      if (isOpen.value) isOpen.value = false
       emit('update:value', props.multiple ? [] : '')
     }
 
@@ -353,13 +359,13 @@ export default {
     return {
       tooltip,
       isFocus,
+      isOpen,
       intValue,
       selectedItem,
       hoverItem,
       _placeholder,
       _options,
       query,
-      isChange,
       isLoading,
 
       vcFormItem,
@@ -377,13 +383,15 @@ export default {
 
       if (this.disabled) return
 
-      if (this.isFocus) {
+      if (this.isOpen) {
+        this.isOpen = false
         this.isFocus = false
         return
       }
 
       let { width } = this.$el.getBoundingClientRect()
       let tooltipEl = this.$el.querySelector('.vc-select__dropdown')
+      this.isOpen = true
       this.isFocus = true
 
       tooltipEl.style.width = width + 'px'
@@ -442,7 +450,7 @@ export default {
           this.selectedItem = {
             [item.value]: item
           }
-          this.isFocus = false
+          this.isOpen = false
           result = item.value
         }
       }
@@ -450,7 +458,6 @@ export default {
       if (this.vcFormItem) {
         this.vcFormItem.checkValidate('change')
       }
-      this.isChange = true
       this.$emit('update:value', result)
       this.$emit('change', result)
     },
