@@ -6,7 +6,8 @@
 
 ::: demo
 
-> 默认 `ref` `reactive` `watch` `inject` 都已经注入，使用时，无需导入。
+> 默认 `ref` `reactive` `watch` `inject` 都已经注入，使用时，无需导入。  
+> 更多内容访问：[Vue3 Composition API](https://composition-api.vuejs.org/)
 
 ```html
 <template>
