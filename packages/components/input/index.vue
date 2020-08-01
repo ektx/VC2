@@ -16,6 +16,7 @@
         :value="value"
         ref="input"
         @input="changeInput"
+        v-bind="$attrs"
         :disabled="disabled"
         :class="[disabled ? 'disabled' : '']"
         :placeholder="placeholder"
@@ -23,7 +24,7 @@
         @focus="handleFocus"
         @blur="handleBlur"
         @change="handleChange"
-        :maxlength="maxlength"
+        
       />
       <div class="vc-input__suffix-icon" v-if="suffixIcon">
         <i :class="suffixIcon"></i>
@@ -47,9 +48,6 @@
           <span>0</span><span>/100</span>
         </i>
       </div>
-      {{showWordLimit}}
-
-
     </div>
     <div v-else class="vc_input__textarea">
       <textarea
@@ -120,9 +118,7 @@ export default {
       type: [Boolean, Object],
       default: false
     },
-    maxlength: {
-      type: Number,
-    },
+   
     //show-word-limit
     showWordLimit: {
       type: Boolean,
@@ -187,7 +183,11 @@ export default {
     }
 
     const handleChange = event => {
+      console.log(111111111)
       context.emit('change', event);
+      if(props.showWordLimit){
+        //console.log(777,event)
+      }
     }
     // 动态获取文本域得方法
     const resizeTextarea = () => {
