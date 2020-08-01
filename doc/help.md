@@ -117,7 +117,7 @@ export default {
 
 ### 创建组件
 
-```js
+```bash
 # 启动，然后按提示输入名称，如：colorPicker
 yarn run create
 ```

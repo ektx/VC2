@@ -7,6 +7,7 @@ const path = require('path')
 const mdVue = require('./vue')
 
 require('prismjs/components/prism-diff')
+require('prismjs/components/prism-bash')
 
 let router = new Router()
 
