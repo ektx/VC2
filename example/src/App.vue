@@ -47,7 +47,7 @@ export default {
 
     return {
       htmlStr,
-      menu,
+      menu: ref(menu),
       getEvt,
       toggleThemeEvt
     }

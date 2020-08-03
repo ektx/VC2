@@ -72,7 +72,7 @@ const myPlugin = ({
 createServer({
   configureServer: [myPlugin],
   alias: {
-    vue: 'vue/dist/vue.esm-bundler.js'
+    // vue: 'vue/dist/vue.esm-bundler.js'
   }
 }).listen(3000, () => {
   console.log('App Running at: http://localhost:3000/')
