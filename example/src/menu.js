@@ -35,6 +35,10 @@ export default [{
             {
                 "label": "Input 输入框",
                 "file": "input.md"
+            },
+            {
+                "label": "Switch 开关",
+                "file": "switch.md"
             }
         ]
     },

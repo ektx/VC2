@@ -24,7 +24,6 @@
         @focus="handleFocus"
         @blur="handleBlur"
         @change="handleChange"
-        
       />
       <div class="vc-input__suffix-icon" v-if="suffixIcon">
         <i :class="suffixIcon"></i>
@@ -45,7 +44,7 @@
 
       <div class="vc-input__numLength" v-if="showWordLimit">
         <i class="">
-          <span>0</span><span>/100</span>
+          <span>{{nowLength}}</span><span>/{{maxLength}}</span>
         </i>
       </div>
     </div>
@@ -61,8 +60,9 @@
         :placeholder="placeholder"
         :rows="rows"
         :style="textareaCalcStyle"
-        @focus="focusing = true"
-        @blur="focusing = false"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @change="handleChange"
       ></textarea>
     </div>
   </div>
@@ -76,7 +76,9 @@ import {
   onMounted,
   getCurrentInstance,
   onUpdated,
-  watch
+  watch,
+  toRefs,
+  inject
 } from "vue";
 
 import calcTextareaHeight from "./calcTextareaHeight";
@@ -111,16 +113,19 @@ export default {
       default: "text"
     },
     rows: {
-      type: Number,
-      default: 1
+      type: [Number, String],
+      default: "1"
     },
     autosize: {
       type: [Boolean, Object],
       default: false
     },
-   
     //show-word-limit
     showWordLimit: {
+      type: Boolean,
+      default: false
+    },
+    validateEvent: {
       type: Boolean,
       default: false
     }
@@ -132,6 +137,13 @@ export default {
     let passwordVisible = ref(false);
     let content = ref("");
     let textareaCalcStyle = ref(null);
+
+    const vcFormItem = inject('vcFormItem', null);
+
+    const state = reactive({
+        maxLength: 0,
+        nowLength: 0,
+    });
 
     const textarea = ref(null);
     const input = ref(null)
@@ -154,17 +166,35 @@ export default {
     let { ctx } = getCurrentInstance();
 
     const changeInput = event => {
+      console.log('触发input')
       context.emit("update:value", event.target.value);
+      if(props.showWordLimit) {
+        state.maxLength = input.value.maxLength
+        state.nowLength = event.target.value.length
+      }else {
+
+      }
+      if(props.validateEvent){
+        vcFormItem.checkValidate('change')
+      }
     };
 
     const handleFocus = event => {
+      console.log('触发foucus')
+      event.preventDefault()
       focusing.value = true
       context.emit('focus', event)
     }
 
     const handleBlur = event => {
+      console.log('触发失焦')
+      event.preventDefault()
       focusing.value = false
       context.emit('blur', event)
+
+      if(props.validateEvent){
+        vcFormItem.checkValidate('blur')
+      }
     }
     // input 获取焦点得方法
     const focus = () =>{
@@ -183,10 +213,8 @@ export default {
     }
 
     const handleChange = event => {
-      console.log(111111111)
       context.emit('change', event);
       if(props.showWordLimit){
-        //console.log(777,event)
       }
     }
     // 动态获取文本域得方法
@@ -210,6 +238,10 @@ export default {
     
     onMounted(() => {
       resizeTextarea();
+      if(props.showWordLimit) {
+        state.maxLength = input.value.maxLength
+      }
+      
     });
     // 点击 清除图标 清除数据
     const clearMsg = () => {
@@ -235,7 +267,9 @@ export default {
       handleBlur,
       handleChange,
       focus,
-      input
+      input,
+       ...toRefs(state),
+       vcFormItem,
     };
   }
 };
@@ -243,18 +277,20 @@ export default {
 
 <style lang="less">
 .vc-input {
+  font-size: 14px;
+
   .vc-input__text {
     display: flex;
     align-items: center;
     border: 1px solid #dcdfe6;
     border-radius: 4px;
     width: 180px;
-    height: 40px;
+    
     box-sizing: border-box;
 
     &:hover {
-      box-shadow: 0 0 8px 0 rgba(232, 237, 250, 0.6),
-        0 2px 4px 0 rgba(232, 237, 250, 0.5);
+      // box-shadow: 0 0 2px 0 rgba(232, 237, 250, 0.6),
+      //   0 2px 2px 0 rgba(232, 237, 250, 0.5);
       cursor: pointer;
     }
 
@@ -267,7 +303,6 @@ export default {
     .vc-input__prefix-icon {
       height: 100%;
       padding-left: 6px;
-      line-height: 40px;
       text-align: center;
       transition: all 0.3s;
 
@@ -301,10 +336,9 @@ export default {
     }
 
     input {
-      width: calc(100% - 16px);
+      width: 100%;
       height: 100%;
-      font-size: 14px;
-      padding-left: 8px;
+      padding: .4em .5em .4em .5em;
       cursor: pointer;
     }
   }

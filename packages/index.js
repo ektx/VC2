@@ -1,4 +1,4 @@
-/* 以下代码自动生成于 Fri Jul 31 2020 16:44:26 GMT+0800 (GMT+08:00) */
+/* 以下代码自动生成于 Sat Aug 01 2020 10:46:33 GMT+0800 (GMT+08:00) */
 
 import vcButton from './components/button/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
@@ -11,6 +11,7 @@ import vcLayer from './components/layer/index.vue'
 import vcMessage from './components/message/index.js'
 import vcNotification from './components/notification/index.js'
 import vcSelect from './components/select/index.vue'
+import vcSwitch from './components/switch/index.vue'
 
 const components = [
   vcButton,
@@ -23,7 +24,8 @@ const components = [
   vcLayer,
   vcMessage,
   vcNotification,
-  vcSelect
+  vcSelect,
+  vcSwitch
 ]
 
 const install = app => {
@@ -48,5 +50,6 @@ export default {
   vcLayer,
   vcMessage,
   vcNotification,
-  vcSelect
+  vcSelect,
+  vcSwitch
 }

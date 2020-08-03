@@ -7,21 +7,24 @@
 ```html
 <template>
   <vc-input v-model:value="input" placeholder="请输入内容" ref="demo" @blur="changeNum" @focus="getFocus" @change="getChange" @input="getInput"></vc-input>
-  <vc-button @click="getFoucus">默认效果</vc-button>
+  <vc-button @click="getFoucus">获取焦点</vc-button>
 </template>
 
 <script>
 export default {
   setup() {
     let input = ref('');
+    
     const demo = ref(null);
 
+
     const changeNum = event => {
-      console.log('失去焦点',event)
+      console.log('失去焦点111',event)
     }
 
     const getFocus = event => {
-      console.log('获取焦点',event)
+      console.log('获取焦点1111',event)
+      
     }
 
     const getChange = event =>{
@@ -44,7 +47,7 @@ export default {
       getChange,
       getInput,
       getFoucus,
-      demo
+      demo,
     }
   }
 }
@@ -155,7 +158,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-input type="textarea" rows="2" placeholder="请输入内容" v-model:value="textarea1"></vc-input>
+  <vc-input type="textarea" rows=2 placeholder="请输入内容" v-model:value="textarea1"></vc-input>
 </template>
 
 <script>
@@ -208,7 +211,7 @@ export default {
 ```html
 <template>
   <div>
-    <vc-input v-model:value="input1" placeholder="请输入内容" maxlength="10"></vc-input>
+    <vc-input v-model:value="input1" placeholder="请输入内容" maxlength="10" show-word-limit></vc-input>
     <vc-input type="textarea" autosize v-model:value="textarea" placeholder="请输入内容"></vc-input>
   </div>
   
