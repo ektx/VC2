@@ -58,8 +58,8 @@ function getEvt (item) {
   let { file } = item
 
   // 如果是代理对象，则不是浏览器前进后退触事件
-  if (isProxy(item)) {
-    history.pushState({file: file}, '', file)
+  if (item.label) {
+    history.pushState({file: file, from: 'history'}, '', file)
   }
 
   fetch(`/api/doc?file=${file}`)
