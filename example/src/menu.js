@@ -33,9 +33,13 @@ export default [
         "file": "colorPicker.md"
       },
       {
+        "label": "tabsTabs 标签页",
+        "file": "tabs.md"
+      },
+      {
         "label": "Form 表单",
         "file": "form.md"
-      }
+      },
     ]
   },
   {
