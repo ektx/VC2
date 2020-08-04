@@ -57,14 +57,33 @@ export default {
     }
   },
   methods: {
-    addItem(item) {
-      let ids = this.list.map(child => child.id)
+    updatePanel () {
+      let slots = this.$slots.default()
+      if (slots) {
+        let paneSlots = []
+        this.list = []
 
-      if (!ids.includes(item.id)) {
-        this.list.push(item)
+        // 对于动态生成的 pane
+        if (typeof slots[0].type === 'symbol') {
+          slots = slots[0].children
+        }
+        
+        slots.forEach((vnode, i) => {
+          if (vnode.type.name === 'vcTabPane') {
+            const id = vnode.props.name || i
+            const item = {
+              label: vnode.props.label,
+              id,
+              active: id === this.value
+            }
+
+            this.list.push(item)
+            if (id === this.value) this.activeTab = item
+          }
+        })
+      } else {
+        this.list = []
       }
-
-      if (item.id === this.value) this.activeTab = item
     },
   }
 }

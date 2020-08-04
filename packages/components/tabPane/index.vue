@@ -19,11 +19,7 @@ export default {
   },
   inject: ['vcTabs'],
   mounted() {
-    this.vcTabs.addItem({
-      label: this.label,
-      id: this.name,
-      active: false
-    })
+    this.vcTabs.updatePanel()
   },
   computed: {
     visible () {
