@@ -166,13 +166,13 @@ export default {
     let { ctx } = getCurrentInstance();
 
     const changeInput = event => {
+      event.stopPropagation()
+
       console.log('触发input')
       context.emit("update:value", event.target.value);
       if(props.showWordLimit) {
         state.maxLength = input.value.maxLength
         state.nowLength = event.target.value.length
-      }else {
-
       }
       if(props.validateEvent){
         vcFormItem.checkValidate('change')
@@ -182,6 +182,8 @@ export default {
     const handleFocus = event => {
       console.log('触发foucus')
       event.preventDefault()
+      event.stopPropagation()
+
       focusing.value = true
       context.emit('focus', event)
     }
@@ -189,6 +191,8 @@ export default {
     const handleBlur = event => {
       console.log('触发失焦')
       event.preventDefault()
+      event.stopPropagation()
+      
       focusing.value = false
       context.emit('blur', event)
 
