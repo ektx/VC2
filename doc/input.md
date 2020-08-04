@@ -158,7 +158,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-input type="textarea" rows=2 placeholder="请输入内容" v-model:value="textarea1"></vc-input>
+  <vc-input type="textarea" rows='2' placeholder="请输入内容" v-model:value="textarea1"></vc-input>
 </template>
 
 <script>
@@ -232,3 +232,30 @@ export default {
 </script>
 ```
 :::
+
+
+
+## Input Attributes
+
+| 参数 | 类型 | 说明 | 可选值 | 默认值 |
+|---|---|---|---|---|
+| type | **string** | 类型 | text，textarea 和其他 原生 input 的 type 值 | text |
+| v-model:value | **string / number** | 绑定值 | -- | -- |
+| maxlength | **number** | 绑定值 | 原生属性，最大输入长度 | -- |
+| minlength | **number** | 原生属性，最小输入长度 | -- | -- |
+| show-word-limit | **boolean** | 是否显示输入字数统计，只在 type = "text" 或 type = "textarea" 时有效 | - | false |
+| placeholder | **string** | 输入框占位文本 | -- | -- |
+| clearable | **boolean** | 是否可清空 | -- | false |
+| show-password | **boolean** | 是否显示切换密码图标 | -- | false |
+| disabled | **boolean** | 禁用 | -- | false |
+| prefix-icon | **string** | 输入框头部图标 | -- | -- |
+| suffix-icon | **string** | 输入框尾部图标 | -- | -- |
+| rows | **number** | 输入框行数，只对 type="textarea" 有效 | -- | 2 |
+| autosize | **boolean / object** | 自适应内容高度，只对 type="textarea" 有效，可传入对象，如，{ minRows: 2, maxRows: 6 } | -- | false |
+| validate-event | **boolean** | 输入时是否触发表单的校验 | -- | true |
+
+
+## Input Events
+
+| 参数 | 类型 | 说明 | 可选值 | 默认值 |
+

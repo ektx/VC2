@@ -93,21 +93,26 @@ export default {
       type: [String, Number],
       default: ""
     },
+    // 
     disabled: {
       type: Boolean,
       default: false
     },
+    // input 清除按钮
     clearable: {
       type: Boolean,
       default: false
     },
+    // input placeholder属性
     placeholder: {
       type: String
     },
+    // 是否显示密码
     showPassword: {
       type: Boolean,
       default: false
     },
+    // input 类型
     type: {
       type: String,
       default: "text"
@@ -120,11 +125,12 @@ export default {
       type: [Boolean, Object],
       default: false
     },
-    //show-word-limit
+    // 显示长度
     showWordLimit: {
       type: Boolean,
       default: false
     },
+    // 是否开启验证
     validateEvent: {
       type: Boolean,
       default: false
@@ -171,8 +177,6 @@ export default {
       if(props.showWordLimit) {
         state.maxLength = input.value.maxLength
         state.nowLength = event.target.value.length
-      }else {
-
       }
       if(props.validateEvent){
         vcFormItem.checkValidate('change')
@@ -325,6 +329,11 @@ export default {
 
     .vc-input__numLength{
       padding-right: 6px;
+
+      span{
+        color: #909399;
+        font-size: 12px;
+      }
     }
 
     .int-icon-right {

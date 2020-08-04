@@ -20,9 +20,17 @@
       <span v-if="!inactiveIconClass && inactiveText" :aria-hidden="checked">{{ inactiveText }}</span>
     </span>
 
-    <span  :class="['el-switch__core',disabled ? 'opc' : '']" ref="core" :style="{ 'width': coreWidth + 'px' }">
-      <span>开始88</span>
-      <slot name="close"></slot>
+    <span
+      :class="['el-switch__core',disabled ? 'opc' : '']"
+      ref="core"
+      :style="{width: coreWidth + 'px', fontSize: r + 'px', height: (r+4) + 'px', borderRadius: r + 'px',}"
+      id="core"
+    >
+      <span class="vc-switch__core_open" v-show="checked">{{activeTextInside}}</span>
+      <span class="vc-switch__core_close" v-show="!checked">{{inactiveTextInside}}</span>
+
+      <span ref="textOpenWidth" style="visibility:hidden;">{{activeTextInside}}</span>
+      <span ref="textCloseWidth" style="visibility:hidden;">{{inactiveTextInside}}</span>
     </span>
 
     <span
@@ -56,7 +64,7 @@ export default {
     },
     // switch开关的长度
     width: {
-      type: Number,
+      type: [Number, String],
       default: 40
     },
     // switch 打开时的背景色
@@ -91,13 +99,28 @@ export default {
     },
     // switch 打开时的文字描述
     activeText: String,
+
+    activeTextInside: {
+      type: String,
+      default: ""
+    },
     // switch 关闭时的文字描述
     inactiveText: String,
+
+    inactiveTextInside: {
+      type: String,
+      default: ""
+    },
+
     // 是否禁用
     disabled: {
       type: Boolean,
       default: false
     },
+    r: {
+      type: Number,
+      default: 16
+    }
   },
 
   setup(props, context) {
@@ -105,10 +128,11 @@ export default {
     let checked = ref("");
 
     const core = ref(null);
+    const textOpenWidth = ref(null);
+    const textCloseWidth = ref(null);
 
     const changeStyle = () => {
-      console.log(props.disabled)
-      if (props.disabled === false || props.disabled===undefined) {
+      if (props.disabled === false || props.disabled === undefined) {
         checked.value = !checked.value;
         setBackgroundColor();
         handleChange();
@@ -130,16 +154,38 @@ export default {
       core.value.style.backgroundColor = newColor;
     };
 
+    const calcWidth = () => {
+      let w =
+        textCloseWidth.value.clientWidth > textOpenWidth.value.clientWidth
+          ? textCloseWidth.value.clientWidth
+          : textOpenWidth.value.clientWidth;
+      coreWidth.value = props.r + w + 15;
+    };
+
     onMounted(() => {
       coreWidth.value = props.width;
       checked.value = props.value;
       setBackgroundColor();
+      if(props.width !== 40){
+        return
+      } else if (props.inactiveTextInside === "" && props.activeTextInside === ""){
+
+      }else {
+        calcWidth();
+      }
+    
+      
     });
+
+    onUpdated(() => {});
 
     return {
       coreWidth,
       checked,
+
       core,
+      textOpenWidth,
+      textCloseWidth,
 
       changeStyle,
       changeInput,
@@ -155,7 +201,6 @@ export default {
   align-items: center;
   position: relative;
   font-size: 14px;
-  //line-height: 20px;
   height: 20px;
   vertical-align: middle;
   box-sizing: border-box;
@@ -168,36 +213,42 @@ export default {
     margin: 0;
     display: inline-block;
     position: relative;
-    width: 40px;
+    width: 45px;
     height: 20px;
     border: 1px solid #dcdfe6;
     outline: none;
-    border-radius: 10px;
+    
     box-sizing: border-box;
     background: #dcdfe6;
     transition: border-color 0.3s, background-color 0.3s;
     vertical-align: middle;
     cursor: pointer;
     
+
     span {
       color: #fff;
-      font-size: 12px;
+      font-size: 0.7em;
       position: absolute;
-      left: 7px;
-      
-      white-space:nowrap;
+      white-space: nowrap;
     }
-    
+
+    .vc-switch__core_open {
+      left: 7px;
+    }
+
+    .vc-switch__core_close {
+      right: 7px;
+    }
 
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       top: 1px;
       left: 1px;
       border-radius: 100%;
       transition: all 0.3s;
-      width: 16px;
-      height: 16px;
+      width: 1em;
+      height: 1em;
       background-color: #fff;
     }
   }
@@ -244,16 +295,18 @@ export default {
   .el-switch__core {
     &::after {
       left: 100%;
-      margin-left: -17px;
+      margin-left: -1.1em;
     }
   }
 }
 
-.el-switch.is-disabled .el-switch__core{
+.el-switch.is-disabled .el-switch__core {
   cursor: not-allowed;
 }
 
-*, :after, :before {
-    box-sizing: border-box;
+*,
+:after,
+:before {
+  box-sizing: border-box;
 }
 </style>

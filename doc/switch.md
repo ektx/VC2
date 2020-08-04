@@ -71,8 +71,8 @@ export default {
 ```html
 <template>
   <div>
-    <vc-switch v-model:value="switch1"></vc-switch>
-    <vc-switch v-model:value="switch2" disabled></vc-switch>
+    <vc-switch v-model:value="switch1" width="120"></vc-switch>
+    <vc-switch v-model:value="switch2" inactive-text-inside="关闭" active-text-inside="开启"></vc-switch>
   </div>
   
 </template>
@@ -152,3 +152,34 @@ export default {
 </script>
 ```
 :::
+
+## Attributes
+
+| 参数 | 类型 | 说明 | 可选值 | 默认值 | 
+|---|---|---|---|---|
+| v-model:value | **boolean / string / number** | 绑定值 | --- | --- |
+| r | **number** | 圆圈半径 | --- | 16 |
+| disabled | **boolean** | 是否禁用 | --- | false |
+| width | **number** | switch 的宽度（像素） | --- | 45 |
+| active-icon-class | **string** | switch 打开时所显示图标的类名，设置此项会忽略 active-text | --- | --- |
+| inactive-icon-class | **string** | switch 关闭时所显示图标的类名，设置此项会忽略 inactive-text | --- | --- |
+| active-text | **string** | switch 打开时的文字描述 | --- | --- |
+| inactive-text | **string** | switch 关闭时的文字描述 | --- | --- |
+| active-text-inside | **string** | switch 打开时的文字描述(switch内部) | --- | --- |
+| inactive-text-inside | **string** | switch 关闭时的文字描述(switch内部) | --- | --- |
+| active-value | **boolean / string / number** | switch 打开时的值 | --- | false |
+| inactive-value | **boolean / string / number** | switch 关闭时的值 | --- | false |
+| active-color | **string** | switch 打开时的背景色 | --- | #409EFF |
+| inactive-color | **string** | switch 关闭时的背景色 | --- | #C0CCDA |
+
+
+
+## Events
+
+| 事件名称 | 说明 | 回调参数 | 
+|---|---|---|---|---|
+| change | switch 状态发生变化时的回调函数 | 新状态的值 |
+
+
+
+
