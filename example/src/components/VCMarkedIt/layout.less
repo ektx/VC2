@@ -142,8 +142,13 @@
           vertical-align: top;
           border-bottom: 1px solid var(--gray95);
           transition: 
-            background-color .4s ease-in-out,
-            border-color .4s ease-in-out;
+          background-color .4s ease-in-out,
+          border-color .4s ease-in-out;
+          
+          &:nth-child(1),
+          &:nth-child(2) {
+            white-space: nowrap;
+          }
 
           .DARK_td {
             border-bottom-color: var(--gray75);
