@@ -1,31 +1,31 @@
-/* 以下代码自动生成于 Mon Aug 03 2020 16:19:04 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Wed Aug 05 2020 17:08:41 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
+import vcForm from './components/form/index.vue'
+import vcFormItem from './components/formItem/index.vue'
 import vcColorPicker from './components/colorPicker/index.vue'
 import vcLayer from './components/layer/index.vue'
 import vcIcon from './components/icon/index.vue'
-import vcFormItem from './components/formItem/index.vue'
-import vcForm from './components/form/index.vue'
 import vcMessage from './components/message/index.js'
+import vcNotification from './components/notification/index.js'
 import vcSelect from './components/select/index.vue'
 import vcTabPane from './components/tabPane/index.vue'
 import vcTabs from './components/tabs/index.vue'
-import vcNotification from './components/notification/index.js'
 
 const components = [
   vcButton,
   vcButtonGroup,
+  vcForm,
+  vcFormItem,
   vcColorPicker,
   vcLayer,
   vcIcon,
-  vcFormItem,
-  vcForm,
   vcMessage,
+  vcNotification,
   vcSelect,
   vcTabPane,
-  vcTabs,
-  vcNotification
+  vcTabs
 ]
 
 const install = app => {
@@ -42,14 +42,14 @@ export default {
   install,
   vcButton,
   vcButtonGroup,
+  vcForm,
+  vcFormItem,
   vcColorPicker,
   vcLayer,
   vcIcon,
-  vcFormItem,
-  vcForm,
   vcMessage,
+  vcNotification,
   vcSelect,
   vcTabPane,
-  vcTabs,
-  vcNotification
+  vcTabs
 }

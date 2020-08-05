@@ -33,7 +33,7 @@ export default [
         "file": "colorPicker.md"
       },
       {
-        "label": "tabsTabs 标签页",
+        "label": "Tabs 标签页",
         "file": "tabs.md"
       },
       {

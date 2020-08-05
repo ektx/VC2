@@ -45,7 +45,6 @@
       :name="tab.name"
     >{{ tab.content }}</vc-tab-pane>
   </vc-tabs>
-  {{ list }}
 </template>
 
 <script>
@@ -86,12 +85,19 @@
 
 
 
-## 基础效果
+## 动态控制
 
 ::: demo 
 ```html
 <template>
-  <vc-tabs v-model:value="activeName" is-flex-box>
+  <vc-button-group>
+    <vc-button round @click="click('first')">用户管理</vc-button>
+    <vc-button round @click="click('second')">配置管理</vc-button>
+    <vc-button round @click="click('third')">角色管理</vc-button>
+    <vc-button round @click="click('fourth')">定时任务补偿</vc-button>
+  </vc-button-group>
+
+  <vc-tabs v-model:value="activeName">
     <vc-tab-pane label="用户管理" name="first">用户管理</vc-tab-pane>
     <vc-tab-pane label="配置管理" name="second">配置管理</vc-tab-pane>
     <vc-tab-pane label="角色管理" name="third">角色管理</vc-tab-pane>
@@ -107,8 +113,8 @@
       };
     },
     methods: {
-      handleClick(tab, event) {
-        console.log(tab, event);
+      click(name) {
+        this.activeName = name
       }
     }
   };
@@ -117,13 +123,20 @@
 :::
 
 
-## Poprs
+## Tab Poprs
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
 |---|---|---|---|---|
-
+| value | `String, Number` | 选中对象 | - | - |
 
 ## Events
 
 | 事件名 | 说明 | 回调参数 |
 | --- | --- | --- |
+
+## TabPane Poprs
+
+| 参数 | 类型 | 说明 | 可选值 | 默认值 |
+|---|---|---|---|---|
+| label | `String` | 选项卡标题 | - | - |
+| name | `String, Number` | 与选项卡绑定值 value 对应的标识符，表示选项卡别名 | - | - |
