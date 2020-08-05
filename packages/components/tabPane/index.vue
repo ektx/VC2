@@ -17,7 +17,9 @@ export default {
     name: {
       type: [String, Number],
       default: ''
-    }
+    },
+    closable: Boolean,
+    disabled: Boolean
   },
   inject: ['vcTabs'],
   mounted() {
