@@ -34,6 +34,9 @@
 ## 禁用效果
 
 ::: demo 
+
+> 通过添加 `disabled`  来禁用单个 Tab
+
 ```html
 <template>
   <vc-tabs value="second">
