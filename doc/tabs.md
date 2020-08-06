@@ -48,6 +48,20 @@
 ```
 :::
 
+## 图标效果
+
+::: demo 
+```html
+<template>
+  <vc-tabs>
+    <vc-tab-pane icon="vc-icon-apple" label="MacOS">MacOS</vc-tab-pane>
+    <vc-tab-pane label="Windows">Windows</vc-tab-pane>
+    <vc-tab-pane label="Linux">Linux</vc-tab-pane>
+  </vc-tabs>
+</template>
+```
+:::
+
 ## 自定义增加标签页触发器
 
 ::: demo 
