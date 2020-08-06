@@ -11,6 +11,7 @@
           'is-disabled': tab.disabled
         }
       ]" 
+      :id="`tab-nav__${tab.id}`"
       @click="vcTabs.activeTab = tab"
     >
       <i v-if="tab.icon" :class="tab.icon"></i>

@@ -62,6 +62,25 @@
 ```
 :::
 
+## 自定义标签页
+
+::: demo 
+```html
+<template>
+  <vc-tabs>
+    <vc-tab-pane name="date">
+      <template #label>
+        <i class="vc-icon-date"></i>我的行程
+      </template>
+      我的行程
+    </vc-tab-pane>
+    <vc-tab-pane label="Windows">Windows</vc-tab-pane>
+    <vc-tab-pane label="Linux">Linux</vc-tab-pane>
+  </vc-tabs>
+</template>
+```
+:::
+
 ## 自定义增加标签页触发器
 
 ::: demo 

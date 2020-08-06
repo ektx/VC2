@@ -23,7 +23,9 @@
       </div>
 
       <div :class="['vc-tabs__scroll', {'is-over': isOver }]">
-        <Nav ref="nav" :list="list"/>
+        <Nav ref="nav" :list="list">
+          
+        </Nav>
       </div>
     </div>
     <div class="vc-tabs__body">
@@ -33,6 +35,7 @@
 </template>
 
 <script>
+import { h } from 'vue'
 import Nav from './tabNav.vue'
 
 export default {
@@ -114,7 +117,7 @@ export default {
               id,
               active: id === this.value,
               disabled: Reflect.has(vnode.props, 'disabled'),
-              closable: Reflect.has(vnode.props, 'closable')
+              closable: Reflect.has(vnode.props, 'closable'),
             }
 
             this.list.push(item)
