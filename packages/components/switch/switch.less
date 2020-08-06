@@ -1,4 +1,4 @@
-.el-switch {
+.vc-switch {
   display: inline-flex;
   align-items: center;
   position: relative;
@@ -8,7 +8,7 @@
   box-sizing: border-box;
 }
 
-.el-switch__core {
+.vc-switch__core {
   margin: 0;
   display: inline-block;
   position: relative;
@@ -41,15 +41,15 @@
     background-color: #fff;
   }
 }
-.el-switch__label.is-active {
+.vc-switch__label.is-active {
   color: #409eff;
 }
 
-.el-switch__label-right {
+.vc-switch__label-right {
   margin-left: 10px;
 }
 
-.el-switch__label-left {
+.vc-switch__label-left {
   margin-right: 10px;
 }
 
@@ -61,22 +61,22 @@
   right: 7px;
 }
 
-.el-switch__input {
+.vc-switch__input {
   position: absolute;
   width: 0;
   height: 0;
   opacity: 0;
   margin: 0;
 }
-.el-switch__core.opacity {
+.vc-switch__core.opacity {
   opacity: 0.5;
 }
 
-.el-switch__core.is-loading {
+.vc-switch__core.is-loading {
   font-size: 1em;
 }
 
-.el-switch__core.is-loading::before {
+.vc-switch__core.is-loading::before {
   content: "";
   display: block;
   width: 0.8em;
@@ -95,7 +95,7 @@
   animation-iteration-count: infinite;
 }
 
-.el-switch__label {
+.vc-switch__label {
   transition: 0.2s;
   height: 20px;
   display: inline-block;
@@ -113,7 +113,7 @@
 }
 
 .is-checked {
-  .el-switch__core {
+  .vc-switch__core {
     &::after {
       left: 100%;
       margin-left: -1.1em;
@@ -127,14 +127,8 @@
   }
 }
 
-.el-switch.is-disabled .el-switch__core {
+.vc-switch.is-disabled .vc-switch__core {
   cursor: not-allowed;
-}
-
-*,
-:after,
-:before {
-  box-sizing: border-box;
 }
 
 @keyframes switch-loading {
