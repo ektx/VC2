@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import { h } from 'vue'
 import Nav from './tabNav.vue'
 
 export default {
