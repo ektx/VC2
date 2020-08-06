@@ -7,9 +7,7 @@
 ::: demo
 ```html
 <template>
-  <div>
-    <vc-switch v-model:value="switch1" active-color="#13ce66" inactive-color="#ff4949" @change="change" active-value="100" inactive-value="0"></vc-switch>
-  </div>
+  <vc-switch v-model:value="switch1" active-color="#13ce66" inactive-color="#ff4949" @change="change" active-value="100" inactive-value="0"></vc-switch>
 </template>
 
 <script>
@@ -60,11 +58,8 @@ export default {
 ::: demo
 ```html
 <template>
-  <div>
-    <vc-switch v-model:value="switch1" inactive-icon-class-inside="vc-icon-search"></vc-switch>
-    <vc-switch v-model:value="switch2" inactive-icon-class-inside="vc-icon-search" inactive-text-inside="关闭" active-text-inside="开启"></vc-switch>
-  </div>
-  
+  <vc-switch v-model:value="switch1" inactive-icon-class-inside="vc-icon-search"></vc-switch>
+  <vc-switch v-model:value="switch2" inactive-icon-class-inside="vc-icon-search" inactive-text-inside="关闭" active-text-inside="开启"></vc-switch>
 </template>
 
 <script>
@@ -76,7 +71,6 @@ export default {
     return {
       switch1,
       switch2,
-      
     }
   }
 }
@@ -174,7 +168,7 @@ export default {
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 | 
 |---|---|---|---|---|
-| v-model:value | **boolean / string / number** | 绑定值 | --- | --- |
+| value | **boolean / string / number** | 绑定值 | --- | --- |
 | r | **number** | 圆圈半径 | --- | 16 |
 | disabled | **boolean** | 是否禁用 | --- | false |
 | width | **number** | switch 的宽度（像素） | --- | 45 |
