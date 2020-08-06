@@ -39,6 +39,10 @@ export default [{
             {
                 "label": "Switch 开关",
                 "file": "switch.md"
+            },
+            {
+                "label": "Radio 单选框",
+                "file": "radio.md"
             }
         ]
     },

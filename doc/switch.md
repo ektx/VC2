@@ -187,8 +187,12 @@ export default {
 | r | **number** | 圆圈半径 | --- | 16 |
 | disabled | **boolean** | 是否禁用 | --- | false |
 | width | **number** | switch 的宽度（像素） | --- | 45 |
-| active-icon-class | **string** | switch 打开时所显示图标的类名，设置此项会忽略 active-text | --- | --- |
-| inactive-icon-class | **string** | switch 关闭时所显示图标的类名，设置此项会忽略 inactive-text | --- | --- |
+| active-icon-class | **string** | switch 打开时所显示图标的类名，设置此项会忽略 active-text(外部) | --- | --- |
+| active-icon-class-inside | **string** | switch 打开时所显示图标的类名，设置此项会忽略 active-text-inside(内部) | --- | --- |
+| inactive-icon-class | **string** | switch 关闭时所显示图标的类名，设置此项会忽略 inactive-text(外部) | --- | --- |
+| inactive-icon-class-inside | **string** | switch 关闭时所显示图标的类名，设置此项会忽略 inactive-text-inside(内部) | --- | --- |
+
+
 | active-text | **string** | switch 打开时的文字描述 | --- | --- |
 | inactive-text | **string** | switch 关闭时的文字描述 | --- | --- |
 | active-text-inside | **string** | switch 打开时的文字描述(switch内部) | --- | --- |

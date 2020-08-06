@@ -13,7 +13,7 @@
     />
 
     <span
-      :class="['el-switch__label', 'el-switch__label--left', !checked ? 'is-active' : '']"
+      :class="['el-switch__label', 'el-switch__label-left', !checked ? 'is-active' : '']"
       v-if="inactiveIconClass || inactiveText"
     >
       <i :class="[inactiveIconClass]" v-if="inactiveIconClass"></i>
@@ -21,7 +21,7 @@
     </span>
 
     <span
-      :class="['el-switch__core',disabled ? 'opc' : '',loading ? 'is-loading' : '']"
+      :class="['el-switch__core',disabled ? 'opacity' : '',loading ? 'is-loading' : '']"
       ref="core"
       :style="{width: coreWidth + 'px', fontSize: r + 'px', height: (r+4) + 'px', borderRadius: r + 'px',}"
       id="core"
@@ -71,7 +71,7 @@
     </span>
 
     <span
-      :class="['el-switch__label', 'el-switch__label--right', checked ? 'is-active' : '']"
+      :class="['el-switch__label', 'el-switch__label-right', checked ? 'is-active' : '']"
       v-if="activeIconClass || activeText"
     >
       <i :class="[activeIconClass]" v-if="activeIconClass"></i>
@@ -274,113 +274,109 @@ export default {
   height: 20px;
   vertical-align: middle;
   box-sizing: border-box;
+}
 
-  .is-loading {
-    // display: block  !important;
-    font-size: 1em;
+.el-switch__core {
+  margin: 0;
+  display: inline-block;
+  position: relative;
+  width: 40px;
+  height: 20px;
+  border: 1px solid #dcdfe6;
+  outline: none;
+  box-sizing: border-box;
+  background: #dcdfe6;
+  transition: border-color 0.3s, background-color 0.3s;
+  vertical-align: middle;
+  cursor: pointer;
+
+  span {
+    color: #fff;
+    font-size: 0.7em;
+    position: absolute;
+    white-space: nowrap;
   }
 
-  .is-loading::before {
+  &::after {
     content: "";
-    display: block;
-    width: 0.8em;
-    height: 0.8em;
-    border-radius: 50%;
-    background-color: transparent;
     position: absolute;
-    left: 2px;
-    top: 3px;
-    z-index: 1;
-    border: 1px solid #2d8cf0;
-    border-color: transparent transparent transparent #2d8cf0;
-    -webkit-animation: switch-loading 1s linear;
-    animation: switch-loading 1s linear;
-    -webkit-animation-iteration-count: infinite;
-    animation-iteration-count: infinite;
+    top: 1px;
+    left: 1px;
+    border-radius: 100%;
+    transition: all 0.3s;
+    width: 1em;
+    height: 1em;
+    background-color: #fff;
   }
+}
+.el-switch__label.is-active {
+  color: #409eff;
+}
 
-  .opc {
-    opacity: 0.5;
-  }
+.el-switch__label-right {
+  margin-left: 10px;
+}
 
-  .el-switch__core {
-    margin: 0;
-    display: inline-block;
-    position: relative;
-    width: 40px;
-    height: 20px;
-    border: 1px solid #dcdfe6;
-    outline: none;
+.el-switch__label-left {
+  margin-right: 10px;
+}
 
-    box-sizing: border-box;
-    background: #dcdfe6;
-    transition: border-color 0.3s, background-color 0.3s;
-    vertical-align: middle;
-    cursor: pointer;
+.vc-switch__core-open {
+  left: 7px;
+}
 
-    span {
-      color: #fff;
-      font-size: 0.7em;
-      position: absolute;
-      white-space: nowrap;
-    }
+.vc-switch__core-close {
+  right: 7px;
+}
 
-    .vc-switch__core-open {
-      left: 7px;
-    }
+.el-switch__input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  margin: 0;
+}
+.el-switch__core.opacity {
+  opacity: 0.5;
+}
 
-    .vc-switch__core-close {
-      right: 7px;
-    }
+.el-switch__core.is-loading {
+  font-size: 1em;
+}
 
-    &::after {
-      content: "";
-      position: absolute;
-      top: 1px;
-      left: 1px;
-      border-radius: 100%;
-      transition: all 0.3s;
-      width: 1em;
-      height: 1em;
-      background-color: #fff;
-    }
-  }
+.el-switch__core.is-loading::before {
+  content: "";
+  display: block;
+  width: 0.8em;
+  height: 0.8em;
+  border-radius: 50%;
+  background-color: transparent;
+  position: absolute;
+  left: 2px;
+  top: 3px;
+  z-index: 1;
+  border: 1px solid #2d8cf0;
+  border-color: transparent transparent transparent #2d8cf0;
+  -webkit-animation: switch-loading 1s linear;
+  animation: switch-loading 1s linear;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
 
-  .el-switch__input {
-    position: absolute;
-    width: 0;
-    height: 0;
-    opacity: 0;
-    margin: 0;
-  }
+.el-switch__label {
+  transition: 0.2s;
+  height: 20px;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  vertical-align: middle;
+  color: #303133;
 
-  .el-switch__label {
-    transition: 0.2s;
-    height: 20px;
-    display: inline-block;
+  * {
+    line-height: 1;
     font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    vertical-align: middle;
-    color: #303133;
-
-    * {
-      line-height: 1;
-      font-size: 14px;
-      display: inline-block;
-    }
-  }
-
-  .is-active {
-    color: #409eff;
-  }
-
-  .el-switch__label--right {
-    margin-left: 10px;
-  }
-
-  .el-switch__label--left {
-    margin-right: 10px;
+    display: inline-block;
   }
 }
 

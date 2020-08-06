@@ -1,4 +1,4 @@
-/* 以下代码自动生成于 Sat Aug 01 2020 10:46:33 GMT+0800 (GMT+08:00) */
+/* 以下代码自动生成于 Thu Aug 06 2020 13:53:07 GMT+0800 (GMT+08:00) */
 
 import vcButton from './components/button/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
@@ -10,6 +10,7 @@ import vcInput from './components/input/index.vue'
 import vcLayer from './components/layer/index.vue'
 import vcMessage from './components/message/index.js'
 import vcNotification from './components/notification/index.js'
+import vcRadio from './components/radio/index.vue'
 import vcSelect from './components/select/index.vue'
 import vcSwitch from './components/switch/index.vue'
 
@@ -24,6 +25,7 @@ const components = [
   vcLayer,
   vcMessage,
   vcNotification,
+  vcRadio,
   vcSelect,
   vcSwitch
 ]
@@ -50,6 +52,7 @@ export default {
   vcLayer,
   vcMessage,
   vcNotification,
+  vcRadio,
   vcSelect,
   vcSwitch
 }
