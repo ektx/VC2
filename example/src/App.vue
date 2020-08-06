@@ -47,7 +47,7 @@ export default {
 
     return {
       htmlStr,
-      menu,
+      menu: ref(menu),
       getEvt,
       toggleThemeEvt
     }
@@ -58,8 +58,8 @@ function getEvt (item) {
   let { file } = item
 
   // 如果是代理对象，则不是浏览器前进后退触事件
-  if (isProxy(item)) {
-    history.pushState({file: file}, '', file)
+  if (item.label) {
+    history.pushState({file: file, from: 'history'}, '', file)
   }
 
   fetch(`/api/doc?file=${file}`)
@@ -84,7 +84,9 @@ function toggleThemeEvt () {
 html {
   background-color: var(--gray100);
 }
-
+body {
+  overscroll-behavior-y: none;
+}
 #app {
   transition: background-color .4s ease-in-out;
 }
@@ -115,6 +117,7 @@ header {
   padding: 0 30px;
   background: #fff;
   border-bottom: 1px solid var(--gray85);
+  box-sizing: border-box;
   transition: 
     background-color 0.3s ease-in-out,
     border-color .3s ease-in-out;
@@ -161,6 +164,7 @@ header {
 .content {
   display: flex;
   flex-direction: row;
+  padding: 0 2px 0 0;
 
   & > aside {
     padding: 80px 0 20px;
@@ -177,6 +181,30 @@ header {
     overflow: auto;
     box-sizing: border-box;
     scroll-behavior: smooth;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+      background-color: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--gray90);
+      border-radius: 5px;
+
+      .DARK_ScrollThumb {
+        background-color: var(--gray65);
+      }
+
+      .dark-scheme & {
+        .DARK_ScrollThumb;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .DARK_ScrollThumb;
+      }
+    }
+    &::-webkit-scrollbar-track {
+      margin: 60px 0 0 0;
+    }
   }
 }
 </style>

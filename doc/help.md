@@ -6,7 +6,8 @@
 
 ::: demo
 
-> 默认 `ref` `reactive` `watch` `inject` 都已经注入，使用时，无需导入。
+> 默认 `ref` `reactive` `watch` `inject` 都已经注入，使用时，无需导入。  
+> 更多内容访问：[Vue3 Composition API](https://composition-api.vuejs.org/)
 
 ```html
 <template>
@@ -104,20 +105,39 @@ export default {
 
 ## Poprs 格式示例
 
+**代码：**
+
+```
+| 参数 | 类型 | 说明 | 默认值 | 可选值 |
+|---|---|---|:---:|:---:|
+| type | **string** | 定义按钮的外形 | - | '' |
+```
+
+**效果：**
+
 | 参数 | 类型 | 说明 | 默认值 | 可选值 |
 |---|---|---|:---:|:---:|
 | type | **string** | 定义按钮的外形 | - | '' |
 
 ## Events 格式示例
+**代码：**
+```
+| 事件名 | 说明 | 回调参数 |
+| --- | --- | --- |
+| click | 点击事件 | - |
+```
+
+**效果：**
 
 | 事件名 | 说明 | 回调参数 |
 | --- | --- | --- |
+| click | 点击事件 | - |
 
 ## 辅助功能
 
 ### 创建组件
 
-```js
+```bash
 # 启动，然后按提示输入名称，如：colorPicker
 yarn run create
 ```

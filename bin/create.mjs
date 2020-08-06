@@ -14,6 +14,10 @@ async function main() {
       name: 'name',
       message: '组件名称',
       validate: async (name) => {
+        if (!name.trim()) return '名称不能为空'
+
+        if (!/^[a-z]/.test(name.trim())) return '首字必须为小写字母'
+
         let files = fs.readdirSync('./packages/components')
          
         return !files.includes(name) || `${name} 组件已经存在`

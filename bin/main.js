@@ -7,6 +7,9 @@ const path = require('path')
 const mdVue = require('./vue')
 
 require('prismjs/components/prism-diff')
+require('prismjs/components/prism-bash')
+require('prismjs/components/prism-less')
+require('prismjs/plugins/autolinker/prism-autolinker')
 
 let router = new Router()
 
@@ -18,7 +21,11 @@ router.get('/api/doc', async ctx => {
     html: true,
     highlight(str, lang) {
       if (Prism.languages[lang]) {
-        let code = Prism.highlight(str, Prism.languages[lang], lang)
+        let grammar = Prism.languages[lang]
+        // https://github.com/PrismJS/prism/issues/1171#issuecomment-631702602
+        // 解决 autolink 无法正常工作问题
+        Prism.hooks.run('before-highlight', { grammar })
+        let code = Prism.highlight(str, grammar, lang)
 
         return `<pre class="language-${lang}"><code>${code}</code></pre>`
       }
