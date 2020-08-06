@@ -4,7 +4,13 @@
     <li 
       v-for="tab in list" 
       :key="tab.label"
-      :class="['vc-tabs__item', {'is-active': tab.active}]" 
+      :class="[
+        'vc-tabs__item', 
+        {
+          'is-active': tab.active,
+          'is-disabled': tab.disabled
+        }
+      ]" 
       @click="vcTabs.activeTab = tab"
     >{{ tab.label }}</li>
   </ul>

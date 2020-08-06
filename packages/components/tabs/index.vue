@@ -113,8 +113,8 @@ export default {
               label: vnode.props.label,
               id,
               active: id === this.value,
-              disabled: vnode.props.disabled,
-              closable: vnode.props.closable
+              disabled: Reflect.has(vnode.props, 'disabled'),
+              closable: Reflect.has(vnode.props, 'closable')
             }
 
             this.list.push(item)

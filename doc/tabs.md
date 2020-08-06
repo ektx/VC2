@@ -36,22 +36,12 @@
 ::: demo 
 ```html
 <template>
-  <vc-tabs v-model:value="activeName">
+  <vc-tabs value="second">
     <vc-tab-pane label="用户管理" name="first">用户管理</vc-tab-pane>
     <vc-tab-pane label="配置管理" disabled name="second">配置管理</vc-tab-pane>
     <vc-tab-pane label="角色管理" name="third">角色管理</vc-tab-pane>
   </vc-tabs>
 </template>
-
-<script>
-  export default {
-    data() {
-      return {
-        activeName: 'second'
-      };
-    }
-  };
-</script>
 ```
 :::
 
