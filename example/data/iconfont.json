@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "16360457",
+      "name": "os-apple",
+      "font_class": "os-apple",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
+    },
+    {
+      "icon_id": "16360458",
+      "name": "os-windows",
+      "font_class": "os-windows",
+      "unicode": "e65e",
+      "unicode_decimal": 58974
+    },
+    {
+      "icon_id": "16360459",
+      "name": "os-linux",
+      "font_class": "os-linux",
+      "unicode": "e65f",
+      "unicode_decimal": 58975
+    },
+    {
+      "icon_id": "16360435",
+      "name": "os-linux-ubuntu",
+      "font_class": "os-linux-ubuntu",
+      "unicode": "e659",
+      "unicode_decimal": 58969
+    },
+    {
       "icon_id": "15824647",
       "name": "close-notification",
       "font_class": "close-notification",
@@ -529,13 +557,6 @@
       "font_class": "paperclip",
       "unicode": "e720",
       "unicode_decimal": 59168
-    },
-    {
-      "icon_id": "13519536",
-      "name": "platform-eleme",
-      "font_class": "platform-eleme",
-      "unicode": "e721",
-      "unicode_decimal": 59169
     },
     {
       "icon_id": "13519537",
@@ -1264,13 +1285,6 @@
       "font_class": "film",
       "unicode": "e687",
       "unicode_decimal": 59015
-    },
-    {
-      "icon_id": "13519391",
-      "name": "eleme",
-      "font_class": "eleme",
-      "unicode": "e689",
-      "unicode_decimal": 59017
     },
     {
       "icon_id": "13519392",
