@@ -1,15 +1,15 @@
-/* 以下代码自动生成于 Wed Aug 05 2020 17:08:41 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Thu Aug 06 2020 09:03:25 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
 import vcForm from './components/form/index.vue'
-import vcFormItem from './components/formItem/index.vue'
 import vcColorPicker from './components/colorPicker/index.vue'
-import vcLayer from './components/layer/index.vue'
+import vcFormItem from './components/formItem/index.vue'
 import vcIcon from './components/icon/index.vue'
+import vcLayer from './components/layer/index.vue'
 import vcMessage from './components/message/index.js'
-import vcNotification from './components/notification/index.js'
 import vcSelect from './components/select/index.vue'
+import vcNotification from './components/notification/index.js'
 import vcTabPane from './components/tabPane/index.vue'
 import vcTabs from './components/tabs/index.vue'
 
@@ -17,13 +17,13 @@ const components = [
   vcButton,
   vcButtonGroup,
   vcForm,
-  vcFormItem,
   vcColorPicker,
-  vcLayer,
+  vcFormItem,
   vcIcon,
+  vcLayer,
   vcMessage,
-  vcNotification,
   vcSelect,
+  vcNotification,
   vcTabPane,
   vcTabs
 ]
@@ -43,13 +43,13 @@ export default {
   vcButton,
   vcButtonGroup,
   vcForm,
-  vcFormItem,
   vcColorPicker,
-  vcLayer,
+  vcFormItem,
   vcIcon,
+  vcLayer,
   vcMessage,
-  vcNotification,
   vcSelect,
+  vcNotification,
   vcTabPane,
   vcTabs
 }
