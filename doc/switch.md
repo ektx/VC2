@@ -36,7 +36,7 @@ export default {
 :::
 
 
-#### 文字描述
+#### 文字描述(switch 外部)
 
 ::: demo
 ```html
@@ -65,14 +65,14 @@ export default {
 ```
 :::
 
-#### 文字描述
+#### 文字描述(switch内部)
 
 ::: demo
 ```html
 <template>
   <div>
-    <vc-switch v-model:value="switch1" width="120"></vc-switch>
-    <vc-switch v-model:value="switch2" inactive-text-inside="关闭" active-text-inside="开启"></vc-switch>
+    <vc-switch v-model:value="switch1" inactive-icon-class-inside="vc-icon-search"></vc-switch>
+    <vc-switch v-model:value="switch2" inactive-icon-class-inside="vc-icon-search" inactive-text-inside="关闭" active-text-inside="开启"></vc-switch>
   </div>
   
 </template>
@@ -87,6 +87,32 @@ export default {
       switch1,
       switch2,
       
+    }
+  }
+}
+</script>
+```
+:::
+
+
+#### 加载中
+
+::: demo
+```html
+<template>
+  <div>
+    <vc-switch v-model:value="switch1" loading></vc-switch>
+  </div>
+  
+</template>
+
+<script>
+export default {
+  setup() {
+    let switch1 = ref(true);
+  
+    return {
+      switch1,
     }
   }
 }

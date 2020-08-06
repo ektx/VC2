@@ -21,16 +21,53 @@
     </span>
 
     <span
-      :class="['el-switch__core',disabled ? 'opc' : '']"
+      :class="['el-switch__core',disabled ? 'opc' : '',loading ? 'is-loading' : '']"
       ref="core"
       :style="{width: coreWidth + 'px', fontSize: r + 'px', height: (r+4) + 'px', borderRadius: r + 'px',}"
       id="core"
     >
-      <span class="vc-switch__core_open" v-show="checked">{{activeTextInside}}</span>
-      <span class="vc-switch__core_close" v-show="!checked">{{inactiveTextInside}}</span>
+      <span
+        v-if="activeTextInside && !activeIconClassInside"
+        class="vc-switch__core-open"
+        v-show="checked"
+      >{{activeTextInside}}</span>
+      <span
+        v-if="checked && activeIconClassInside"
+        style="top: 0.3em"
+        :class="['vc-switch__core-open',activeIconClassInside]"
+      ></span>
 
-      <span ref="textOpenWidth" style="visibility:hidden;">{{activeTextInside}}</span>
-      <span ref="textCloseWidth" style="visibility:hidden;">{{inactiveTextInside}}</span>
+      <span
+        v-if="inactiveTextInside && !inactiveIconClassInside"
+        class="vc-switch__core-close"
+        v-show="!checked"
+      >{{inactiveTextInside}}</span>
+
+      <span
+        v-if="!checked && inactiveIconClassInside"
+        style="top: 0.3em"
+        :class="['vc-switch__core-close',inactiveIconClassInside]"
+      ></span>
+
+      <span
+        style="top: 0.32em;visibility:hidden;"
+        :class="['vc-switch__core-open',activeIconClassInside]"
+        ref="textOpenIconWidth"
+      ></span>
+      <span
+        style="top: 0.32em;visibility:hidden;"
+        :class="['vc-switch__core-close',inactiveIconClassInside]"
+        ref="textCloseIconWidth"
+      ></span>
+      <span
+        ref="textOpenWidth"
+        style="visibility:hidden;box-sizing: border-box"
+      >{{activeTextInside}}</span>
+      <span
+        ref="textCloseWidth"
+        :class="!inactiveTextInside ? 'inactiveTextInside' : ''"
+        style="visibility:hidden;"
+      >{{inactiveTextInside}}</span>
     </span>
 
     <span
@@ -92,8 +129,19 @@ export default {
       type: String,
       default: ""
     },
+
+    // switch 打开时所显示图标的类名，设置此项会忽略 active-text-inside
+    activeIconClassInside: {
+      type: String,
+      default: ""
+    },
     // switch 关闭时所显示图标的类名，设置此项会忽略 inactive-text
     inactiveIconClass: {
+      type: String,
+      default: ""
+    },
+    // switch 关闭时所显示图标的类名，设置此项会忽略 inactive-text（内部圖標）
+    inactiveIconClassInside: {
       type: String,
       default: ""
     },
@@ -117,9 +165,15 @@ export default {
       type: Boolean,
       default: false
     },
+    // 圓圈半徑
     r: {
       type: Number,
-      default: 16
+      default: 20
+    },
+    // 是否顯示加載動畫
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -130,6 +184,8 @@ export default {
     const core = ref(null);
     const textOpenWidth = ref(null);
     const textCloseWidth = ref(null);
+    const textOpenIconWidth = ref(null);
+    const textCloseIconWidth = ref(null);
 
     const changeStyle = () => {
       if (props.disabled === false || props.disabled === undefined) {
@@ -155,10 +211,20 @@ export default {
     };
 
     const calcWidth = () => {
-      let w =
+      let w3 =
         textCloseWidth.value.clientWidth > textOpenWidth.value.clientWidth
           ? textCloseWidth.value.clientWidth
           : textOpenWidth.value.clientWidth;
+
+      let w2 =
+        textOpenIconWidth.value.clientHeight >
+        textCloseIconWidth.value.clientHeight
+          ? textOpenIconWidth.value.clientHeight
+          : textCloseIconWidth.value.clientHeight;
+      console.log(222, textOpenIconWidth);
+
+      let w = w3 > w2 ? w3 : w2;
+      console.log(props.r, w3, w2);
       coreWidth.value = props.r + w + 15;
     };
 
@@ -166,15 +232,17 @@ export default {
       coreWidth.value = props.width;
       checked.value = props.value;
       setBackgroundColor();
-      if(props.width !== 40){
-        return
-      } else if (props.inactiveTextInside === "" && props.activeTextInside === ""){
-
-      }else {
+      if (props.width !== 40) {
+        return;
+      } else if (
+        props.inactiveTextInside === "" &&
+        props.activeTextInside === "" &&
+        props.activeIconClassInside == "" &&
+        props.inactiveIconClassInside == ""
+      ) {
+      } else {
         calcWidth();
       }
-    
-      
     });
 
     onUpdated(() => {});
@@ -186,6 +254,8 @@ export default {
       core,
       textOpenWidth,
       textCloseWidth,
+      textOpenIconWidth,
+      textCloseIconWidth,
 
       changeStyle,
       changeInput,
@@ -205,6 +275,30 @@ export default {
   vertical-align: middle;
   box-sizing: border-box;
 
+  .is-loading {
+    // display: block  !important;
+    font-size: 1em;
+  }
+
+  .is-loading::before {
+    content: "";
+    display: block;
+    width: 0.8em;
+    height: 0.8em;
+    border-radius: 50%;
+    background-color: transparent;
+    position: absolute;
+    left: 2px;
+    top: 3px;
+    z-index: 1;
+    border: 1px solid #2d8cf0;
+    border-color: transparent transparent transparent #2d8cf0;
+    -webkit-animation: switch-loading 1s linear;
+    animation: switch-loading 1s linear;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+  }
+
   .opc {
     opacity: 0.5;
   }
@@ -213,17 +307,16 @@ export default {
     margin: 0;
     display: inline-block;
     position: relative;
-    width: 45px;
+    width: 40px;
     height: 20px;
     border: 1px solid #dcdfe6;
     outline: none;
-    
+
     box-sizing: border-box;
     background: #dcdfe6;
     transition: border-color 0.3s, background-color 0.3s;
     vertical-align: middle;
     cursor: pointer;
-    
 
     span {
       color: #fff;
@@ -232,16 +325,16 @@ export default {
       white-space: nowrap;
     }
 
-    .vc-switch__core_open {
+    .vc-switch__core-open {
       left: 7px;
     }
 
-    .vc-switch__core_close {
+    .vc-switch__core-close {
       right: 7px;
     }
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       top: 1px;
       left: 1px;
@@ -298,6 +391,12 @@ export default {
       margin-left: -1.1em;
     }
   }
+  .is-loading {
+    &::before {
+      left: 100%;
+      margin-left: -1em;
+    }
+  }
 }
 
 .el-switch.is-disabled .el-switch__core {
@@ -308,5 +407,14 @@ export default {
 :after,
 :before {
   box-sizing: border-box;
+}
+
+@keyframes switch-loading {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
