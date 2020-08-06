@@ -18,8 +18,11 @@ export default {
       type: [String, Number],
       default: ''
     },
+    // 标签是否可关闭
     closable: Boolean,
+    // 是否禁用
     disabled: Boolean,
+    // 选项卡图标
     icon: String
   },
   inject: ['vcTabs'],
