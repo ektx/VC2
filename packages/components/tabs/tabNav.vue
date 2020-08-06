@@ -12,7 +12,10 @@
         }
       ]" 
       @click="vcTabs.activeTab = tab"
-    >{{ tab.label }}</li>
+    >
+      <i v-if="tab.icon" :class="tab.icon"></i>
+      {{ tab.label }}
+    </li>
   </ul>
 </template>
 

@@ -19,7 +19,8 @@ export default {
       default: ''
     },
     closable: Boolean,
-    disabled: Boolean
+    disabled: Boolean,
+    icon: String
   },
   inject: ['vcTabs'],
   mounted() {

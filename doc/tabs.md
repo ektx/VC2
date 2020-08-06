@@ -54,9 +54,9 @@
 ```html
 <template>
   <vc-tabs>
-    <vc-tab-pane icon="vc-icon-apple" label="MacOS">MacOS</vc-tab-pane>
-    <vc-tab-pane label="Windows">Windows</vc-tab-pane>
-    <vc-tab-pane label="Linux">Linux</vc-tab-pane>
+    <vc-tab-pane icon="vc-icon-os-apple" label="MacOS">MacOS</vc-tab-pane>
+    <vc-tab-pane icon="vc-icon-os-windows" label="Windows">Windows</vc-tab-pane>
+    <vc-tab-pane icon="vc-icon-os-linux" label="Linux">Linux</vc-tab-pane>
   </vc-tabs>
 </template>
 ```

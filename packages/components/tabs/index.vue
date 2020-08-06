@@ -110,6 +110,7 @@ export default {
           if (vnode.type.name === 'vcTabPane') {
             const id = vnode.props.name || i
             const item = {
+              icon: vnode.props.icon || '',
               label: vnode.props.label,
               id,
               active: id === this.value,
