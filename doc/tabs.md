@@ -65,6 +65,9 @@
 ## 自定义标签页
 
 ::: demo 
+
+> `label` 与 `name` 不可同时省略。
+
 ```html
 <template>
   <vc-tabs>
