@@ -26,12 +26,17 @@ export default {
     icon: String
   },
   inject: ['vcTabs'],
+  data() {
+    return {
+      id: null
+    }
+  },
   mounted() {
     this.vcTabs.updatePanel()
   },
   computed: {
     visible () {
-      return this.vcTabs.activeTab ? this.name === this.vcTabs.activeTab.id : false
+      return this.vcTabs.activeTab ? (this.name || this.label) === this.vcTabs.activeTab.id : false
     }
   }
 }

@@ -105,10 +105,9 @@ export default {
         if (typeof slots[0].type === 'symbol') {
           slots = slots[0].children
         }
-        
-        slots.forEach((vnode, i) => {
+        slots.forEach((vnode) => {
           if (vnode.type.name === 'vcTabPane') {
-            const id = vnode.props.name || i
+            const id = vnode.props.name || vnode.props.label
             const item = {
               icon: vnode.props.icon || '',
               label: vnode.props.label,
