@@ -23,9 +23,7 @@
       </div>
 
       <div :class="['vc-tabs__scroll', {'is-over': isOver }]">
-        <Nav ref="nav" :list="list">
-          
-        </Nav>
+        <Nav ref="nav" :list="list" :removeTab="removeTab"></Nav>
       </div>
     </div>
     <div class="vc-tabs__body">
@@ -98,6 +96,7 @@ export default {
   },
   methods: {
     updatePanel () {
+      console.log(111111)
       let slots = this.$slots.default()
       if (slots) {
         let paneSlots = []
@@ -136,6 +135,17 @@ export default {
       } else {
         this.$refs.nav.navStyle.x -= 100
       }
+    },
+
+    tabPaneUpdate (panel) {
+      console.log(panel)
+      let index = this.list.findIndex(item => item.id === panel.id)
+      this.list.splice(index, 1)
+      console.log(index)
+    },
+
+    removeTab (tab) {
+      this.$emit('removeTab', tab)
     }
   }
 }

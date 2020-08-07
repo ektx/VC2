@@ -66,6 +66,7 @@
 
 ::: demo 
 
+> 在 `vc-tab-pane` 中使用具名插槽可以自定义标签。  
 > `label` 与 `name` 不可同时省略。
 
 ```html
@@ -90,12 +91,13 @@
 ```html
 <template>
   <vc-button @click="handleClick">Add</vc-button>
-  <vc-tabs v-model:value="activeName">
+  <vc-tabs v-model:value="activeName" @removeTab="remove">
     <vc-tab-pane 
       v-for="tab in list"
       :key="tab.name"
       :label="tab.label" 
       :name="tab.name"
+      closable
     >{{ tab.content }}</vc-tab-pane>
   </vc-tabs>
 </template>
@@ -129,6 +131,13 @@
           content: `New Tab ${name}`
         })
         this.activeName = name
+      },
+      remove(tab) {
+        tab.visible = true
+        let index = this.list.findIndex(item => item.name === tab.id)
+        console.log(index)
+        this.list.splice(index, 1)
+        console.log(this.list)
       }
     }
   };
@@ -144,13 +153,13 @@
 ```html
 <template>
   <vc-button-group>
-    <vc-button round @click="click('first')">用户管理</vc-button>
-    <vc-button round @click="click('second')">配置管理</vc-button>
-    <vc-button round @click="click('third')">角色管理</vc-button>
-    <vc-button round @click="click('fourth')">定时任务补偿</vc-button>
+    <vc-button round @click="activeName = 'first'">用户管理</vc-button>
+    <vc-button round @click="activeName = 'second'">配置管理</vc-button>
+    <vc-button round @click="activeName = 'third'">角色管理</vc-button>
+    <vc-button round @click="activeName = 'fourth'">定时任务补偿</vc-button>
   </vc-button-group>
 
-  <vc-tabs v-model:value="activeName">
+  <vc-tabs :value="activeName">
     <vc-tab-pane label="用户管理" name="first">用户管理</vc-tab-pane>
     <vc-tab-pane label="配置管理" name="second">配置管理</vc-tab-pane>
     <vc-tab-pane label="角色管理" name="third">角色管理</vc-tab-pane>
@@ -160,14 +169,9 @@
 
 <script>
   export default {
-    data() {
+    setup() {
       return {
-        activeName: 'second'
-      };
-    },
-    methods: {
-      click(name) {
-        this.activeName = name
+        activeName: ref('first')
       }
     }
   };

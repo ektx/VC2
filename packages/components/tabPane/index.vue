@@ -1,7 +1,7 @@
 <template>
-    <teleport v-if="show" :to="`#tab-nav__${id}`">
-      <slot name="label"/>
-    </teleport>
+  <teleport v-if="show" :to="`#tab-nav__${id}`">
+    <slot name="label"/>
+  </teleport>
 
   <div class="vc-tab-pane" v-if="visible">
     <slot/>
@@ -32,12 +32,15 @@ export default {
   inject: ['vcTabs'],
   data() {
     return {
-      show: false
+      show: false,
     }
   },
   mounted() {
     this.show = true
     this.vcTabs.updatePanel()
+  },
+  updated() {
+    this.vcTabs.tabPaneUpdate(this)
   },
   computed: {
     id () {

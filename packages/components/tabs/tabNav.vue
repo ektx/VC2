@@ -11,11 +11,13 @@
           'is-disabled': tab.disabled
         }
       ]" 
-      :id="`tab-nav__${tab.id}`"
       @click="vcTabs.activeTab = tab"
     >
-      <i v-if="tab.icon" :class="tab.icon"></i>
-      {{ tab.label }}
+      <span :id="`tab-nav__${tab.id}`" class="vc-tabs__item-label">
+        <i v-if="tab.icon" :class="tab.icon"></i>
+        {{ tab.label }}
+      </span>
+      <i class="vc-icon-close" @click="evt => closeEvt(evt, tab)"></i>
     </li>
   </ul>
 </template>
@@ -29,6 +31,9 @@ export default {
       type: Array,
       default: () => ([])
     },
+    removeTab: {
+      type: Function,
+    }
   },
   inject: ['vcTabs'],
   data() {
@@ -98,6 +103,14 @@ export default {
           this.vcTabs.isOver = false
         }
       })
+    },
+
+    closeEvt(evt, tab) {
+      evt.stopPropagation()
+
+      if (tab.disabled) return
+
+      this.removeTab(tab)
     }
   },
   mounted() {
