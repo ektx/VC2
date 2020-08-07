@@ -16,12 +16,12 @@
       <input
         :value="value"
         ref="input"
-        @input="changeInput"
-        v-bind="$attrs"
-        :disabled="disabled"
+        v-bind="__attrs"
         :class="['vc-input__input',disabled ? 'disabled-input' : '']"
+        :disabled="disabled"
         :placeholder="placeholder"
         :type="showPassword ? (passwordVisible ? 'text': 'password') : type"
+        @input="changeInput"
         @focus="handleFocus"
         @blur="handleBlur"
         @change="handleChange"
@@ -75,17 +75,17 @@ import {
   reactive,
   watchEffect,
   onMounted,
-  getCurrentInstance,
   onUpdated,
   watch,
   toRefs,
   inject
 } from "vue";
-
+import { getAttrs } from '../../utils/index'
 import calcTextareaHeight from "./calcTextareaHeight";
 
 export default {
   name: "VcInput",
+  inheritAttrs: false,
   props: {
     //
     suffixIcon: String,
@@ -171,8 +171,6 @@ export default {
       }
     );
 
-    let { ctx } = getCurrentInstance();
-
     const changeInput = event => {
       event.stopPropagation();
       context.emit("update:value", event.target.value);
@@ -246,6 +244,7 @@ export default {
     };
 
     onMounted(() => {
+      
       resizeTextarea();
       if (props.showWordLimit) {
         state.maxLength = input.value.maxLength;
@@ -277,8 +276,9 @@ export default {
       focus,
       input,
       ...toRefs(state),
-      vcFormItem
+      vcFormItem,
+      __attrs: getAttrs(),
     };
   }
-};
+}
 </script>
