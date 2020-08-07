@@ -4,7 +4,7 @@ export default [
     "children": [
       {
         "label": "快速上手",
-        "file": "help.md"
+        "file": "welcome.md"
       }
     ]
   },
@@ -56,6 +56,15 @@ export default [
       {
         "label": "Layer 弹层",
         "file": "layer.md"
+      }
+    ]
+  },
+  {
+    "label": "开发指南",
+    "children": [
+      {
+        "label": "示例开发",
+        "file": "help.md"
       }
     ]
   }
