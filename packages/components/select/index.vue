@@ -28,9 +28,9 @@
     <transition name="vc-zoom-in-top" @after-leave="afterLeave">
       <DropDown v-show="isOpen">
         <ul v-if="_options.length">
-          <template v-for="item in _options" >
+          <template v-for="item in _options" :key="item.label">
             <template v-if="item.children">
-              <VCSGroup :item="item" :key="item.label">
+              <VCSGroup :item="item">
                 <template #label="item">
                   <slot name="label" v-bind="item">
                     <div class="vc-select-group__label">{{item.label}}</div>
@@ -44,7 +44,7 @@
                 </template>
               </VCSGroup>
             </template>
-            <VCSOption v-else :key="item.value" :item="item">
+            <VCSOption v-else :item="item">
               <template #default="item">
                 <slot v-bind="item">
                   <label>{{item.label}}</label>

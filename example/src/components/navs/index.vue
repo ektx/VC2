@@ -1,5 +1,5 @@
 <template>
-  <List :data="value" :level="1"/>
+  <List :data="value"/>
 </template>
 
 <script>
@@ -26,9 +26,6 @@ export default {
       }
 
       val.active = true
-
-      // 本地存储地址
-      localStorage.currentNav = JSON.stringify(val)
     }
   },
   provide () {
