@@ -1,19 +1,19 @@
 <template>
   <div
-    :class="['vc-switch',checked ? 'is-checked' : '',disabled ? 'is-disabled' : '']"
+    :class="['el-switch',checked ? 'is-checked' : '',disabled ? 'is-disabled' : '']"
     @click="changeStyle()"
   >
     <input
-      class="vc-switch__input"
-      type="checkbox"
-      ref="input"
+      class="el-switch__input"
       :value="value"
       @input="changeInput"
+      type="checkbox"
+      ref="input"
       @change="handleChange"
     />
 
     <span
-      :class="['vc-switch__label', 'vc-switch__label-left', !checked ? 'is-active' : '']"
+      :class="['el-switch__label', 'el-switch__label-left', !checked ? 'is-active' : '']"
       v-if="inactiveIconClass || inactiveText"
     >
       <i :class="[inactiveIconClass]" v-if="inactiveIconClass"></i>
@@ -21,7 +21,7 @@
     </span>
 
     <span
-      :class="['vc-switch__core',disabled ? 'opacity' : '',loading ? 'is-loading' : '']"
+      :class="['el-switch__core',disabled ? 'opacity' : '',loading ? 'is-loading' : '']"
       ref="core"
       :style="{width: coreWidth + 'px', fontSize: r + 'px', height: (r+4) + 'px', borderRadius: r + 'px',}"
       id="core"
@@ -71,7 +71,7 @@
     </span>
 
     <span
-      :class="['vc-switch__label', 'vc-switch__label-right', checked ? 'is-active' : '']"
+      :class="['el-switch__label', 'el-switch__label-right', checked ? 'is-active' : '']"
       v-if="activeIconClass || activeText"
     >
       <i :class="[activeIconClass]" v-if="activeIconClass"></i>
@@ -221,10 +221,8 @@ export default {
         textCloseIconWidth.value.clientHeight
           ? textOpenIconWidth.value.clientHeight
           : textCloseIconWidth.value.clientHeight;
-      console.log(222, textOpenIconWidth);
 
       let w = w3 > w2 ? w3 : w2;
-      console.log(props.r, w3, w2);
       coreWidth.value = props.r + w + 15;
     };
 
@@ -264,3 +262,4 @@ export default {
   }
 };
 </script>
+

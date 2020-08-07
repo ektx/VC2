@@ -37,7 +37,7 @@ export default {
 
     const getFoucus = () =>{
       console.log(demo.value)
-      //demo.value.focus()
+      demo.value.focus()
     }
 
     return {

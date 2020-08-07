@@ -175,8 +175,6 @@ export default {
 
     const changeInput = event => {
       event.stopPropagation();
-
-      console.log("触发input");
       context.emit("update:value", event.target.value);
       if (props.showWordLimit) {
         state.maxLength = input.value.maxLength;
@@ -188,7 +186,6 @@ export default {
     };
 
     const handleFocus = event => {
-      console.log("触发foucus");
       event.preventDefault();
       event.stopPropagation();
 
@@ -197,7 +194,6 @@ export default {
     };
 
     const handleBlur = event => {
-      console.log("触发失焦");
       event.preventDefault();
       event.stopPropagation();
 
@@ -210,7 +206,7 @@ export default {
     };
     // input 获取焦点得方法
     const focus = () => {
-      console.log(78788)
+      
       let arr = input.value || textarea.value;
       arr.focus();
     };
