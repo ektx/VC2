@@ -43,7 +43,8 @@ export default {
 <template>
   <div>
     <vc-switch v-model:value="switch1" active-icon-class="vc-icon-search" active-text="按月付费" inactive-text="按年付费"></vc-switch>
-    <vc-switch v-model:value="switch2" active-text="按月付费" inactive-text="按年付费"></vc-switch>
+    <br>
+    <vc-switch style="margin-top: 10px" v-model:value="switch2" active-text="按月付费" inactive-text="按年付费"></vc-switch>
   </div>
   
 </template>

@@ -1,0 +1,123 @@
+.vc-input {
+  font-size: 14px;
+}
+.vc_input__textarea {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  vertical-align: bottom;
+  font-size: 14px;
+  max-width: 414px;
+}
+
+.vc-input__inner {
+  display: block;
+  resize: vertical;
+  padding: 5px 10px;
+  line-height: 1.5;
+  box-sizing: border-box;
+  width: 100%;
+  font-size: inherit;
+  color: #606266;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+  &:hover {
+    box-shadow: 0 0 8px 0 rgba(232, 237, 250, 0.6),
+      0 2px 4px 0 rgba(232, 237, 250, 0.5);
+    cursor: pointer;
+  }
+}
+
+.vc-input__text.focus {
+  border-color: #409eff;
+}
+
+.vc-input__text {
+  display: flex;
+  align-items: center;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  width: 180px;
+  box-sizing: border-box;
+
+  &:hover {
+    // box-shadow: 0 0 2px 0 rgba(232, 237, 250, 0.6),
+    //   0 2px 2px 0 rgba(232, 237, 250, 0.5);
+    cursor: pointer;
+  }
+}
+.vc-input__input {
+  width: 100%;
+  height: 100%;
+  padding: 0.4em 0.5em 0.4em 0.5em;
+  cursor: pointer;
+  border: 0; // 去除未选中状态边框
+  outline: none; // 去除选中状态边框
+  background-color: rgba(0, 0, 0, 0); // 透明背景
+  -webkit-appearance: none;
+
+  input::-webkit-input-placeholder,
+  textarea::-webkit-input-placeholder {
+    color: #d9d9d9;
+  }
+}
+
+.int-icon-right {
+  margin-right: 5px;
+}
+.vc-input__inner.focus-textarea {
+  border-color: #409eff;
+}
+
+.vc-input__prefix-icon {
+  height: 100%;
+  padding-left: 6px;
+  text-align: center;
+  transition: all 0.3s;
+  color: #c0c4cc;
+
+  i {
+    line-height: 100%;
+  }
+}
+
+.vc-input__numLength {
+  padding-right: 6px;
+
+  span {
+    color: #909399;
+    font-size: 12px;
+    font-style: normal;
+  }
+}
+
+.vc-input__suffix-icon {
+  padding-right: 4px;
+  color: #c0c4cc;
+}
+
+.vc-input__clearable {
+  padding-right: 4px;
+  color: #c0c4cc;
+    
+}
+
+.vc-input__showPassword {
+  padding-right: 4px;
+  color: #c0c4cc;
+}
+
+.vc-input__input.disabled-input {
+  color: #c0c4cc;
+  border-color: #e4e7ed;
+  cursor: not-allowed !important;
+}
+
+.vc-input__text.disabled {
+  background-color: #f5f7fa;
+}

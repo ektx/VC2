@@ -37,7 +37,7 @@ export default {
 
     const getFoucus = () =>{
       console.log(demo.value)
-      demo.value.focus()
+      //demo.value.focus()
     }
 
     return {
@@ -257,5 +257,12 @@ export default {
 
 ## Input Events
 
-| 参数 | 类型 | 说明 | 可选值 | 默认值 |
+| 事件名称 | 说明 | 回调参数 |
+|---|---|---|---|---|
+| blur | 在 Input 失去焦点时触发 | (event: Event) |
+| focus | 在 Input 获得焦点时触发 | (event: Event) |
+| change | 仅在输入框失去焦点或用户按下回车时触发 | (event: Event) |
+| input | 在 Input 值改变时触发 | (event: Event) |
+| clear | 在点击由 clearable 属性生成的清空按钮时触发 | (event: Event) |
+
 
