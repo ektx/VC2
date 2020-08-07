@@ -19,11 +19,11 @@ export default {
 
 
     const changeNum = event => {
-      console.log('失去焦点111',event)
+      console.log('失去焦点',event)
     }
 
     const getFocus = event => {
-      console.log('获取焦点1111',event)
+      console.log('获取焦点',event)
       
     }
 
