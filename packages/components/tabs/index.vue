@@ -57,6 +57,12 @@ export default {
 
     activeTab (val, old) {
       if (old) old.active = false
+      if (!val) {
+        this.$emit('update:value', '')
+        this.barStyle.width = 0
+        return
+      }
+
       val.active = true
       this.$emit('update:value', val.id)
 
@@ -96,7 +102,6 @@ export default {
   },
   methods: {
     updatePanel () {
-      console.log(111111)
       let slots = this.$slots.default()
       if (slots) {
         let paneSlots = []
@@ -137,15 +142,13 @@ export default {
       }
     },
 
-    tabPaneUpdate (panel) {
-      console.log(panel)
-      let index = this.list.findIndex(item => item.id === panel.id)
-      this.list.splice(index, 1)
-      console.log(index)
-    },
-
     removeTab (tab) {
-      this.$emit('removeTab', tab)
+      let index = this.list.findIndex(item => item.id === tab.id)
+      this.list.splice(index, 1)
+      // 更新当前标签
+      if (this.activeTab && tab.id === this.activeTab.id) this.activeTab = null
+
+      this.$emit('removeTab', tab, index)
     }
   }
 }

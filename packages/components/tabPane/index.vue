@@ -39,9 +39,6 @@ export default {
     this.show = true
     this.vcTabs.updatePanel()
   },
-  updated() {
-    this.vcTabs.tabPaneUpdate(this)
-  },
   computed: {
     id () {
       return this.name || this.label

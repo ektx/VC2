@@ -132,12 +132,8 @@
         })
         this.activeName = name
       },
-      remove(tab) {
-        tab.visible = true
-        let index = this.list.findIndex(item => item.name === tab.id)
-        console.log(index)
+      remove(tab, index) {
         this.list.splice(index, 1)
-        console.log(this.list)
       }
     }
   };
@@ -184,19 +180,20 @@
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
 |---|---|---|---|---|
-| value | `String, Number` | 选中对象 | - | - |
+| value | `String/Number` | 选中对象 | - | - |
 
 ## Events
 
 | 事件名 | 说明 | 回调参数 |
 | --- | --- | --- |
+| removeTab | 关闭的标签 | 返回关闭标签相关属性及tab的索引 |
 
 ## TabPane Poprs
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
 |---|---|---|---|---|
 | label | `String` | 选项卡标题 | - | - |
-| name | `String, Number` | 与选项卡绑定值 value 对应的标识符，表示选项卡别名 | - | - |
+| name | `String/Number` | 与选项卡绑定值 value 对应的标识符，表示选项卡别名 | - | - |
 | closable | `Boolean` | 标签是否可关闭 | - | false |
 | disabled | `Boolean` | 是否禁用 | - | false |
 | icon | `String` | 选项卡图标 | - | - |

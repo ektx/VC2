@@ -17,7 +17,7 @@
         <i v-if="tab.icon" :class="tab.icon"></i>
         {{ tab.label }}
       </span>
-      <i class="vc-icon-close" @click="evt => closeEvt(evt, tab)"></i>
+      <i v-if="tab.closable" class="vc-icon-close" @click="evt => closeEvt(evt, tab)"></i>
     </li>
   </ul>
 </template>
