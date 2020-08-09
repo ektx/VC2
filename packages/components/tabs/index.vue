@@ -66,28 +66,9 @@ export default {
       val.active = true
       this.$emit('update:value', val.id)
 
-      this.$nextTick(() => {
-        let el = this.$el.querySelector('.is-active')
-        let { width, padding, paddingLeft } = window.getComputedStyle(el)
-        let { x } = this.$refs.nav.navStyle
-        let { width: elWidth } = this.$refs.nav.$el.getBoundingClientRect()
-
-        let moveX = el.offsetLeft + parseInt(paddingLeft)
-        
-        // 左右 tab 溢出修正
-        if (moveX < Math.abs(x)) {
-          this.$refs.nav.navStyle.x = - el.offsetLeft 
-        }
-
-        if (moveX + x + parseInt(width) > elWidth) {
-          this.$refs.nav.navStyle.x = elWidth - (moveX + parseInt(width) + parseInt(paddingLeft))
-        }
-
-        this.barStyle = {
-          width,
-          x: moveX
-        }
-      })
+      // this.$nextTick(() => {
+      //   this.updateBar()
+      // })
     }
   },
   data() {
@@ -146,9 +127,42 @@ export default {
       let index = this.list.findIndex(item => item.id === tab.id)
       this.list.splice(index, 1)
       // 更新当前标签
-      if (this.activeTab && tab.id === this.activeTab.id) this.activeTab = null
+      if (this.activeTab && tab.id === this.activeTab.id) {
+        this.activeTab = null
+      } 
+      
+      if (this.activeTab) {
+        this.$nextTick(() => {
+          this.updateBar()
+          // this.$refs.nav.update()
+        })
+      }
+
 
       this.$emit('removeTab', tab, index)
+    },
+
+    updateBar() {
+      let el = this.$el.querySelector('.is-active')
+      let { width, padding, paddingLeft } = window.getComputedStyle(el)
+      let { x } = this.$refs.nav.navStyle
+      let { width: elWidth } = this.$refs.nav.$el.getBoundingClientRect()
+
+      let moveX = el.offsetLeft + parseInt(paddingLeft)
+      
+      // 左右 tab 溢出修正
+      if (moveX < Math.abs(x)) {
+        this.$refs.nav.navStyle.x = - el.offsetLeft 
+      }
+
+      if (moveX + x + parseInt(width) > elWidth) {
+        this.$refs.nav.navStyle.x = elWidth - (moveX + parseInt(width) + parseInt(paddingLeft))
+      }
+
+      this.barStyle = {
+        width,
+        x: moveX
+      }
     }
   }
 }

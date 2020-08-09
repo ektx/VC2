@@ -1,5 +1,5 @@
 <template>
-  <ul :class="['vc-tabs__nav']" :style="comNavStyle">
+  <ul class="vc-tabs__nav" :style="comNavStyle">
     <li class="vc-tabs__active-bar" :style="barStyle"></li>
     <li 
       v-for="tab in list" 
@@ -45,6 +45,8 @@ export default {
   },
   computed: {
     comNavStyle () {
+      console.log(11111)
+      debugger
       let { x } = this.navStyle
       let { x: barX } = this.vcTabs.barStyle
       let width = 0
@@ -72,6 +74,8 @@ export default {
           this.vcTabs.isNextDisable = false
         }
       }
+
+      // this.$nextTick(this.update)
     
       return {
         transform: `translateX(${x}px)`
@@ -90,9 +94,14 @@ export default {
       }
     }
   },
+  updated() {
+    console.log('update')
+  },
   methods: {
     update() {
       this.$nextTick(() => {
+        debugger
+        console.log(100)
         let { width } = this.$el.getBoundingClientRect()
         let { scrollWidth } = this.$el
   
