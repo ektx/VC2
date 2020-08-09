@@ -63,7 +63,7 @@ export default [
     "label": "开发指南",
     "children": [
       {
-        "label": "示例开发",
+        "label": "组件示例开发指南",
         "file": "help.md"
       }
     ]
