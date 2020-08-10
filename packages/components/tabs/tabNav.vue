@@ -1,6 +1,6 @@
 <template>
   <ul class="vc-tabs__nav" :style="comNavStyle">
-    <li class="vc-tabs__active-bar" :style="barStyle"></li>
+    <li class="vc-tabs__active-bar" :style="comBarStyle"></li>
     <li 
       v-for="tab in list" 
       :key="tab.label"
@@ -11,7 +11,7 @@
           'is-disabled': tab.disabled
         }
       ]" 
-      @click="vcTabs.activeTab = tab"
+      @click="clickEvt(tab)"
     >
       <span :id="`tab-nav__${tab.id}`" class="vc-tabs__item-label">
         <i v-if="tab.icon" :class="tab.icon"></i>
@@ -38,52 +38,30 @@ export default {
   inject: ['vcTabs'],
   data() {
     return {
-      navStyle: {
-        x: 0
-      },
+      navStyle: {},
+      barStyle: {}
     }
   },
   computed: {
     comNavStyle () {
-      console.log(11111)
-      debugger
-      let { x } = this.navStyle
-      let { x: barX } = this.vcTabs.barStyle
-      let width = 0
-      let scrollWidth = 0
+      let { x = 0 } = this.navStyle
+
+      this.vcTabs.isNextDisable = x === 0
 
       if (this.$el) {
-        width = this.$el.getBoundingClientRect().width
-        scrollWidth = this.$el.scrollWidth
+        let { scrollWidth } = this.$el
+        let { width } = this.$el.parentNode.getBoundingClientRect()
+
+        this.vcTabs.isPrevDisable = width - x >= scrollWidth
       }
 
-      if (x > 0) {
-        this.navStyle.x = 0
-        x = 0
-        this.vcTabs.isPrevDisable = true
-      } else {
-        this.vcTabs.isPrevDisable = false
-      }
-
-      if (width && scrollWidth) {
-        if (scrollWidth <= width - x) {
-          x = width - scrollWidth
-          this.navStyle.x = x
-          this.vcTabs.isNextDisable = true
-        } else {
-          this.vcTabs.isNextDisable = false
-        }
-      }
-
-      // this.$nextTick(this.update)
-    
       return {
         transform: `translateX(${x}px)`
       }
     },
 
-    barStyle () {
-      let { x, width } = this.vcTabs.barStyle
+    comBarStyle () {
+      let { x, width } = this.barStyle
 
       x = x ? x : 0
       width= width ? width : 0
@@ -94,23 +72,18 @@ export default {
       }
     }
   },
-  updated() {
-    console.log('update')
-  },
   methods: {
     update() {
       this.$nextTick(() => {
-        debugger
-        console.log(100)
         let { width } = this.$el.getBoundingClientRect()
-        let { scrollWidth } = this.$el
-  
-        if (scrollWidth > width) {
-          this.vcTabs.isOver = true
-          this.navStyle.x = width - scrollWidth
-        } else {
-          this.vcTabs.isOver = false
+        let { width: _w } = this.$el.parentNode.getBoundingClientRect()
+        let activeEl = this.$el.querySelector('.is-active')
+        
+        if (activeEl) {
+          this.updateBar()
         }
+
+        this.vcTabs.isOver = width > _w
       })
     },
 
@@ -119,7 +92,61 @@ export default {
 
       if (tab.disabled) return
 
+      let { width } = evt.target.parentNode.getBoundingClientRect()
+
+      this.navStyle.x += width
+
+      if (this.navStyle.x > 0) this.navStyle.x = 0
+      if (tab.active) this.barStyle.width = 0
+
       this.removeTab(tab)
+    },
+
+    updateBar() {
+      let el = this.$el.querySelector('.is-active')
+
+      if (!el) return
+
+      let { width, paddingLeft } = window.getComputedStyle(el)
+      let { width: elWidth } = this.$el.parentNode.getBoundingClientRect()
+      let { x = 0 } = this.navStyle
+
+      let moveX = el.offsetLeft + parseInt(paddingLeft)
+      
+      // 左右 tab 溢出修正
+      if (moveX < Math.abs(x)) {
+        this.navStyle.x = - el.offsetLeft 
+      }
+
+      if (moveX + x + parseInt(width) > elWidth) {
+        this.navStyle.x = elWidth - (moveX + parseInt(width) + parseInt(paddingLeft))
+      }
+
+      this.barStyle = {
+        width,
+        x: moveX
+      }
+    },
+
+    clickEvt (tab) {
+      this.vcTabs.activeTab = tab
+      this.$nextTick(this.updateBar)
+    },
+
+    moveNav(step = 0) {
+      let { x = 0 } = this.navStyle
+      let { scrollWidth } = this.$el
+      let { width } = this.$el.parentNode.getBoundingClientRect()
+
+      x += step
+
+      if (width - x >= scrollWidth) {
+        x = width - scrollWidth
+      }
+
+      if (x > 0) x = 0
+
+      this.navStyle.x = x
     }
   },
   mounted() {
