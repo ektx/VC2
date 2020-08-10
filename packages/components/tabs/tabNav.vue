@@ -41,6 +41,7 @@ export default {
   data() {
     return {
       navStyle: {},
+      isStep: false
     }
   },
   computed: {
@@ -65,13 +66,9 @@ export default {
     update() {
       let { width } = this.$el.getBoundingClientRect()
       let { width: _w } = this.$el.parentNode.getBoundingClientRect()
-      let activeEl = this.$el.querySelector('.is-active')
       
       this.vcTabs.isOver = width > _w
-
-      if (activeEl) {
-        this.$refs.bar.updateBar()
-      }
+      this.$refs.bar.updateBar()
     },
 
     closeEvt(evt, tab) {
@@ -84,7 +81,6 @@ export default {
       this.navStyle.x += width
 
       if (this.navStyle.x > 0) this.navStyle.x = 0
-      // if (tab.active) this.barStyle.width = 0
 
       this.removeTab(tab)
     },
@@ -108,19 +104,18 @@ export default {
       if (x > 0) x = 0
 
       this.navStyle.x = x
+      this.isStep = true
     }
   },
   updated() {
-    // this.updateBar()
-    console.log('00')
-    this.update()
+    if (this.isStep) this.isStep = false
+    else this.update()
+  },
+  mounted() {
+    addResizeListener(this.$el.parentNode, this.update)
+  },
+  unmounted() {
+    removeResizeListener(this.$el.parentNode, this.update)
   }
-
-  // mounted() {
-  //   addResizeListener(this.$el, this.update)
-  // },
-  // unmounted() {
-  //   removeResizeListener(this.$el, this.update)
-  // }
 }
 </script>

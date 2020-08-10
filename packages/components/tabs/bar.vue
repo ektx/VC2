@@ -25,26 +25,29 @@ export default {
   },
   methods: {
     updateBar() {
-      console.log('1111')
       let el = this.vcTabs.$el.querySelector('.is-active')
 
-      if (!el) return
+      if (!el) {
+        this.barStyle = { window: 0, x: 0 }
+        return
+      }
 
+      let box = this.vcTabs.$el.querySelector('.vc-tabs__scroll')
       let { width, paddingLeft } = window.getComputedStyle(el)
-      let { width: elWidth } = this.$el.parentNode.getBoundingClientRect()
+      let { width: boxWidth } = box.getBoundingClientRect()
       let { x = 0 } = this.$parent.navStyle
-      // console.log(x)
+     
       let moveX = el.offsetLeft + parseInt(paddingLeft)
       
       // 左右 tab 溢出修正
       if (moveX < Math.abs(x)) {
         this.$parent.navStyle.x = - el.offsetLeft 
       }
-
-      if (moveX + x + parseInt(width) > elWidth) {
-        this.$parent.navStyle.x = elWidth - (moveX + parseInt(width) + parseInt(paddingLeft))
+      // 如果活动标签不可见时
+      if (moveX + x + parseInt(width) > boxWidth) {
+        this.$parent.navStyle.x = boxWidth - (moveX + parseInt(width) + parseInt(paddingLeft))
       }
-// this.$parent.navStyle.x = 100
+
       this.barStyle = {
         width,
         x: moveX
@@ -54,7 +57,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>
