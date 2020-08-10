@@ -64,6 +64,10 @@ export default {
 
       val.active = true
       this.$emit('update:value', val.id)
+    },
+
+    isOver(val) {
+      if (!val) this.$refs.nav.navStyle.x  = 0
     }
   },
   data() {

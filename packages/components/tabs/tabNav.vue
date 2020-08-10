@@ -1,6 +1,6 @@
 <template>
   <ul class="vc-tabs__nav" :style="comNavStyle">
-    <li class="vc-tabs__active-bar" :style="comBarStyle"></li>
+    <Bar ref="bar"/>
     <li 
       v-for="tab in list" 
       :key="tab.label"
@@ -24,8 +24,10 @@
 
 <script>
 import { addResizeListener, removeResizeListener } from '../../utils/resize-event'
+import Bar from './bar.vue'
 
 export default {
+  components: { Bar },
   props: {
     list: {
       type: Array,
@@ -39,7 +41,6 @@ export default {
   data() {
     return {
       navStyle: {},
-      barStyle: {}
     }
   },
   computed: {
@@ -59,32 +60,18 @@ export default {
         transform: `translateX(${x}px)`
       }
     },
-
-    comBarStyle () {
-      let { x, width } = this.barStyle
-
-      x = x ? x : 0
-      width= width ? width : 0
-
-      return {
-        width,
-        transform: `translateX(${x}px)`
-      }
-    }
   },
   methods: {
     update() {
-      this.$nextTick(() => {
-        let { width } = this.$el.getBoundingClientRect()
-        let { width: _w } = this.$el.parentNode.getBoundingClientRect()
-        let activeEl = this.$el.querySelector('.is-active')
-        
-        if (activeEl) {
-          this.updateBar()
-        }
+      let { width } = this.$el.getBoundingClientRect()
+      let { width: _w } = this.$el.parentNode.getBoundingClientRect()
+      let activeEl = this.$el.querySelector('.is-active')
+      
+      this.vcTabs.isOver = width > _w
 
-        this.vcTabs.isOver = width > _w
-      })
+      if (activeEl) {
+        this.$refs.bar.updateBar()
+      }
     },
 
     closeEvt(evt, tab) {
@@ -97,35 +84,9 @@ export default {
       this.navStyle.x += width
 
       if (this.navStyle.x > 0) this.navStyle.x = 0
-      if (tab.active) this.barStyle.width = 0
+      // if (tab.active) this.barStyle.width = 0
 
       this.removeTab(tab)
-    },
-
-    updateBar() {
-      let el = this.$el.querySelector('.is-active')
-
-      if (!el) return
-
-      let { width, paddingLeft } = window.getComputedStyle(el)
-      let { width: elWidth } = this.$el.parentNode.getBoundingClientRect()
-      let { x = 0 } = this.navStyle
-
-      let moveX = el.offsetLeft + parseInt(paddingLeft)
-      
-      // 左右 tab 溢出修正
-      if (moveX < Math.abs(x)) {
-        this.navStyle.x = - el.offsetLeft 
-      }
-
-      if (moveX + x + parseInt(width) > elWidth) {
-        this.navStyle.x = elWidth - (moveX + parseInt(width) + parseInt(paddingLeft))
-      }
-
-      this.barStyle = {
-        width,
-        x: moveX
-      }
     },
 
     clickEvt (tab) {
@@ -149,11 +110,17 @@ export default {
       this.navStyle.x = x
     }
   },
-  mounted() {
-    addResizeListener(this.$el, this.update)
-  },
-  unmounted() {
-    removeResizeListener(this.$el, this.update)
+  updated() {
+    // this.updateBar()
+    console.log('00')
+    this.update()
   }
+
+  // mounted() {
+  //   addResizeListener(this.$el, this.update)
+  // },
+  // unmounted() {
+  //   removeResizeListener(this.$el, this.update)
+  // }
 }
 </script>
