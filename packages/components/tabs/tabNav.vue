@@ -1,6 +1,6 @@
 <template>
-  <ul :class="['vc-tabs__nav']" :style="comNavStyle">
-    <li class="vc-tabs__active-bar" :style="barStyle"></li>
+  <ul class="vc-tabs__nav" :style="comNavStyle">
+    <Bar ref="bar"/>
     <li 
       v-for="tab in list" 
       :key="tab.label"
@@ -11,7 +11,7 @@
           'is-disabled': tab.disabled
         }
       ]" 
-      @click="vcTabs.activeTab = tab"
+      @click="clickEvt(tab)"
     >
       <span :id="`tab-nav__${tab.id}`" class="vc-tabs__item-label">
         <i v-if="tab.icon" :class="tab.icon"></i>
@@ -24,8 +24,10 @@
 
 <script>
 import { addResizeListener, removeResizeListener } from '../../utils/resize-event'
+import Bar from './bar.vue'
 
 export default {
+  components: { Bar },
   props: {
     list: {
       type: Array,
@@ -38,71 +40,35 @@ export default {
   inject: ['vcTabs'],
   data() {
     return {
-      navStyle: {
-        x: 0
-      },
+      navStyle: {},
+      isStep: false
     }
   },
   computed: {
     comNavStyle () {
-      let { x } = this.navStyle
-      let { x: barX } = this.vcTabs.barStyle
-      let width = 0
-      let scrollWidth = 0
+      let { x = 0 } = this.navStyle
+
+      this.vcTabs.isNextDisable = x === 0
 
       if (this.$el) {
-        width = this.$el.getBoundingClientRect().width
-        scrollWidth = this.$el.scrollWidth
+        let { scrollWidth } = this.$el
+        let { width } = this.$el.parentNode.getBoundingClientRect()
+
+        this.vcTabs.isPrevDisable = width - x >= scrollWidth
       }
 
-      if (x > 0) {
-        this.navStyle.x = 0
-        x = 0
-        this.vcTabs.isPrevDisable = true
-      } else {
-        this.vcTabs.isPrevDisable = false
-      }
-
-      if (width && scrollWidth) {
-        if (scrollWidth <= width - x) {
-          x = width - scrollWidth
-          this.navStyle.x = x
-          this.vcTabs.isNextDisable = true
-        } else {
-          this.vcTabs.isNextDisable = false
-        }
-      }
-    
       return {
         transform: `translateX(${x}px)`
       }
     },
-
-    barStyle () {
-      let { x, width } = this.vcTabs.barStyle
-
-      x = x ? x : 0
-      width= width ? width : 0
-
-      return {
-        width,
-        transform: `translateX(${x}px)`
-      }
-    }
   },
   methods: {
     update() {
-      this.$nextTick(() => {
-        let { width } = this.$el.getBoundingClientRect()
-        let { scrollWidth } = this.$el
-  
-        if (scrollWidth > width) {
-          this.vcTabs.isOver = true
-          this.navStyle.x = width - scrollWidth
-        } else {
-          this.vcTabs.isOver = false
-        }
-      })
+      let { width } = this.$el.getBoundingClientRect()
+      let { width: _w } = this.$el.parentNode.getBoundingClientRect()
+      
+      this.vcTabs.isOver = width > _w
+      this.$refs.bar.updateBar()
     },
 
     closeEvt(evt, tab) {
@@ -110,14 +76,46 @@ export default {
 
       if (tab.disabled) return
 
+      let { width } = evt.target.parentNode.getBoundingClientRect()
+
+      this.navStyle.x += width
+
+      if (this.navStyle.x > 0) this.navStyle.x = 0
+
       this.removeTab(tab)
+    },
+
+    clickEvt (tab) {
+      this.vcTabs.activeTab = tab
+      this.$nextTick(this.updateBar)
+    },
+
+    moveNav(step = 0) {
+      let { x = 0 } = this.navStyle
+      let { scrollWidth } = this.$el
+      let { width } = this.$el.parentNode.getBoundingClientRect()
+
+      x += step
+
+      if (width - x >= scrollWidth) {
+        x = width - scrollWidth
+      }
+
+      if (x > 0) x = 0
+
+      this.navStyle.x = x
+      this.isStep = true
     }
   },
+  updated() {
+    if (this.isStep) this.isStep = false
+    else this.update()
+  },
   mounted() {
-    addResizeListener(this.$el, this.update)
+    addResizeListener(this.$el.parentNode, this.update)
   },
   unmounted() {
-    removeResizeListener(this.$el, this.update)
+    removeResizeListener(this.$el.parentNode, this.update)
   }
 }
 </script>

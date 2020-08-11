@@ -180,7 +180,7 @@
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
 |---|---|---|---|---|
-| value | `String/Number` | 选中对象 | - | - |
+| value | **String/Number** | 选中对象 | - | - |
 
 ## Events
 
@@ -192,8 +192,8 @@
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
 |---|---|---|---|---|
-| label | `String` | 选项卡标题 | - | - |
-| name | `String/Number` | 与选项卡绑定值 value 对应的标识符，表示选项卡别名 | - | - |
-| closable | `Boolean` | 标签是否可关闭 | - | false |
-| disabled | `Boolean` | 是否禁用 | - | false |
-| icon | `String` | 选项卡图标 | - | - |
+| label | **String** | 选项卡标题 | - | - |
+| name | **String/Number** | 与选项卡绑定值 value 对应的标识符，表示选项卡别名 | - | - |
+| closable | **Boolean** | 标签是否可关闭 | - | false |
+| disabled | **Boolean** | 是否禁用 | - | false |
+| icon | **String** | 选项卡图标 | - | - |

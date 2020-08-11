@@ -7,7 +7,7 @@
           'vc-tabs__prev-btn', 
           {'is-disabled': isPrevDisable}
         ]" 
-        @click="moveNav(1)"
+        @click="moveNav(-100)"
       >
         <i class="vc-icon-arrow-left"/>
       </div>
@@ -17,7 +17,7 @@
           'vc-tabs__next-btn',
           {'is-disabled': isNextDisable}
         ]" 
-        @click="moveNav(0)"
+        @click="moveNav(100)"
       >
         <i class="vc-icon-arrow-right"></i>
       </div>
@@ -59,42 +59,17 @@ export default {
       if (old) old.active = false
       if (!val) {
         this.$emit('update:value', '')
-        this.barStyle.width = 0
         return
       }
 
       val.active = true
       this.$emit('update:value', val.id)
-
-      this.$nextTick(() => {
-        let el = this.$el.querySelector('.is-active')
-        let { width, padding, paddingLeft } = window.getComputedStyle(el)
-        let { x } = this.$refs.nav.navStyle
-        let { width: elWidth } = this.$refs.nav.$el.getBoundingClientRect()
-
-        let moveX = el.offsetLeft + parseInt(paddingLeft)
-        
-        // 左右 tab 溢出修正
-        if (moveX < Math.abs(x)) {
-          this.$refs.nav.navStyle.x = - el.offsetLeft 
-        }
-
-        if (moveX + x + parseInt(width) > elWidth) {
-          this.$refs.nav.navStyle.x = elWidth - (moveX + parseInt(width) + parseInt(paddingLeft))
-        }
-
-        this.barStyle = {
-          width,
-          x: moveX
-        }
-      })
-    }
+    },
   },
   data() {
     return {
       list: [],
       activeTab: null,
-      barStyle: {},
       isOver: false,
       isPrevDisable: false,
       isNextDisable: false,
@@ -130,23 +105,19 @@ export default {
       } else {
         this.list = []
       }
-
-      this.$refs.nav.update()
     },
 
-    moveNav (toLeft = 0) {
-      if (toLeft) {
-        this.$refs.nav.navStyle.x += 100
-      } else {
-        this.$refs.nav.navStyle.x -= 100
-      }
+    moveNav (step) {
+      this.$refs.nav.moveNav(step)
     },
 
     removeTab (tab) {
       let index = this.list.findIndex(item => item.id === tab.id)
       this.list.splice(index, 1)
       // 更新当前标签
-      if (this.activeTab && tab.id === this.activeTab.id) this.activeTab = null
+      if (this.activeTab && tab.id === this.activeTab.id) {
+        this.activeTab = null
+      } 
 
       this.$emit('removeTab', tab, index)
     }
