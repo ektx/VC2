@@ -139,6 +139,18 @@ export default {
 ```
 :::
 
+## 大小控制
+
+::: demo
+```html
+<template>
+  <vc-switch :value="true" :r="12"></vc-switch>
+  <vc-switch :value="true" :r="14"></vc-switch>
+  <vc-switch :value="true" :r="18"></vc-switch>
+</template>
+```
+:::
+
 ## Props
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 | 

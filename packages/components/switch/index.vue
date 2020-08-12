@@ -107,7 +107,7 @@ export default {
     // 圓圈半徑
     r: {
       type: Number,
-      default: 20
+      default: 16
     },
     // 是否顯示加載動畫
     loading: {
