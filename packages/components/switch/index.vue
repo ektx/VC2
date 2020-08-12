@@ -17,8 +17,7 @@
     </div>
 
     <div
-      :class="['vc-switch__core','',disabled ? 'opacity' : '','']"
-      ref="core"
+      class="vc-switch__core"
       :style="coreStyle"
     >
       <Inset v-if="inset" type="open" :icon="activeIcon" :text="activeText"/>
@@ -29,7 +28,7 @@
     </div>
 
     <span
-      :class="['vc-switch__label', 'vc-switch__label-right', {'is-active': checked}]"
+      :class="['vc-switch__label vc-switch__label-right', {'is-active': checked}]"
       v-if="!inset && (activeIcon || activeText)"
     >
       <i :class="activeIcon" v-if="activeIcon"></i>
@@ -77,7 +76,7 @@ export default {
       type: [Boolean, String, Number],
       default: false
     },
-    // switch 打开时所显示图标的类名，设置此项会忽略 active-text
+    // switch 打开时所显示图标的类名
     activeIcon: {
       type: String,
       default: ""
