@@ -49,7 +49,6 @@ function Notification (options) {
   visible.value = true
 
   notifyObj[id] = { id, visible, top, bottom, el, position }
-  console.log(notifyObj)
 }
 
 Notification.close = function (id) {

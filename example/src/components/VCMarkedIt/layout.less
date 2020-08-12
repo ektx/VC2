@@ -10,7 +10,7 @@
   h1, h2, h3, h4, h5, h6, strong {
     margin-top: 1em;
     color: var(--gray10);
-    font-weight: 600;
+    font-weight: 400;
     transition: 
       color .4s ease-in-out, 
       border-color .4s ease-in-out;
@@ -25,7 +25,10 @@
     @media (prefers-color-scheme: dark) {
       .DARK_headerColor
     }
+  }
 
+  strong {
+    font-weight: 600;
   }
 
   & > h1 {
