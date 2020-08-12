@@ -3,7 +3,7 @@
     :class="['vc-switch',
       { 
         'is-checked': checked,
-        'is-disabled': disabled 
+        'is-disabled': disabled || loading
       }
     ]"
     @click="changeStyle"
@@ -16,8 +16,6 @@
       <span v-if="inactiveText">{{ inactiveText }}</span>
     </div>
 
-    <span v-if="loading" :class="['vc-icon-loading',loading ? 'is-loading' : '']"></span>
-
     <div
       :class="['vc-switch__core','',disabled ? 'opacity' : '','']"
       ref="core"
@@ -26,6 +24,8 @@
       <Inset v-if="inset" type="open" :icon="activeIcon" :text="activeText"/>
 
       <Inset v-if="inset" type="close" :icon="inactiveIcon" :text="inactiveText"/>
+
+      <span v-if="loading" class="vc-icon-loading"></span>
     </div>
 
     <span
@@ -35,15 +35,12 @@
       <i :class="activeIcon" v-if="activeIcon"></i>
       <span v-if="activeText">{{ activeText }}</span>
     </span>
+
   </div>
 </template>
 
 <script>
-import {
-  ref,
-  onMounted,
-  computed
-} from "vue"
+import { ref, computed } from "vue"
 import Inset from './inset.vue'
 
 export default {
@@ -117,7 +114,7 @@ export default {
   },
 
   setup(props, { emit }) {
-    let checked = ref("");
+    let checked = ref(props.value);
     const coreStyleObj = ref({})
 
     const coreStyle = computed(() => {
@@ -139,7 +136,7 @@ export default {
 
 
     const changeStyle = () => {
-      if (props.disabled) return
+      if (props.disabled || props.loading) return
 
       checked.value = !checked.value;
       const val = checked.value ? props.activeValue : props.inactiveValue
@@ -147,10 +144,6 @@ export default {
       emit('change', val)
       emit('update:value', val)
     }
-
-    onMounted(() => {
-      checked.value = props.value
-    })
 
     return {
       checked,
@@ -162,16 +155,3 @@ export default {
 };
 </script>
 
-<style lang="less">
-.is-loading{
-  position: absolute;
-  left: 0.25em;
-  z-index: 2;
-}
-
-.is-checked .is-loading{
-  left: 100%;
-      margin-left: -1.4em;
-}
-
-</style>

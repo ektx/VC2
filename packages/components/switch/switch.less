@@ -5,6 +5,8 @@
   font-size: 14px;
   vertical-align: middle;
   box-sizing: border-box;
+  transition: opacity .35s;
+  cursor: pointer;
 
   &__inset {
     position: absolute;
@@ -42,6 +44,27 @@
       }
     }
   }
+
+  &__label {
+    font-size: 14px;
+    transition: color .35s;
+
+    &-left {
+      margin-right: 10px;
+    }
+    &-right {
+      margin-left: 10px;
+    }
+
+    &.is-active {
+      color: #409eff;
+    }
+  }
+
+  &.is-disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
 }
 
 .vc-switch__core {
@@ -56,82 +79,42 @@
   border: 2px solid;
   border-radius: 1em;
   vertical-align: middle;
-  cursor: pointer;
   transition: color .35s;
 
   .is-checked & {
     color: #0099ff;
   }
-
+  .vc-icon-loading,
   &::after {
-    content: "";
     position: absolute;
-    top: 50%;
     left: 0px;
     width: 1em;
     height: 1em;
+  }
+  
+  &::after {
+    top: 50%;
+    content: "";
     border-radius: 100%;
-    transition: all 0.3s;
     background-color: #fff;
     transform: translateY(-50%);
+    transition: transform .35s, left .35s;
 
     .is-checked & {
       left: 100%;  
       transform: translate(-100%, -50%);    
     }
   }
-}
-.vc-switch__label.is-active {
-  color: #409eff;
-}
 
-.vc-switch__label-right {
-  margin-left: 10px;
-}
+  .vc-icon-loading {
+    top: 0;
+    z-index: 2;
 
-.vc-switch__label-left {
-  margin-right: 10px;
-}
-
-.vc-switch__core-open {
-  left: 7px;
-}
-
-.vc-switch__core-close {
-  right: 7px;
-}
-
-.vc-switch__input {
-  position: absolute;
-  width: 0;
-  height: 0;
-  opacity: 0;
-  margin: 0;
-}
-.vc-switch__core.opacity {
-  opacity: 0.5;
-}
-
-.vc-switch__label {
-  transition: 0.2s;
-  height: 20px;
-  display: inline-block;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  vertical-align: middle;
-  color: #303133;
-
-  * {
-    line-height: 1;
-    font-size: 14px;
-    display: inline-block;
+    .is-checked & {
+      right: 0;
+      left: unset;
+    }
   }
 }
 
-
-
-.vc-switch.is-disabled .vc-switch__core {
-  cursor: not-allowed;
-}
 
