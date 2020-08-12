@@ -13,7 +13,7 @@
 <script>
 export default {
   setup() {
-    let switch1 = ref(null);
+    let switch1 = ref(100);
     let message = inject('vcMessage')
 
     const change = event =>{
@@ -33,7 +33,7 @@ export default {
 ```
 :::
 
-## 文字描述(switch 外部)
+## 外部文字描述
 
 ::: demo
 
@@ -41,40 +41,29 @@ export default {
 
 ```html
 <template>
-  <div>
-    <vc-switch :value="true" active-icon-class="vc-icon-search" active-text="按月付费" inactive-text="按年付费" />
-    
-    <br/>
+  <vc-switch :value="true" active-icon="vc-icon-sunny" active-text="白天" inactive-icon="vc-icon-moon" inactive-text="夜晚" />
+  
+  <br/>
+  <br/>
 
-    <vc-switch :value="false" active-text="按月付费" inactive-text="按年付费" />
-  </div>  
+  <vc-switch active-color="#13ce66" active-text="按月付费" inactive-color="#ff4949" inactive-text="按年付费" />
 </template>
 
 ```
 :::
 
-## 文字描述(switch内部)
+## 内部文字描述
 
 ::: demo
 ```html
 <template>
-  <vc-switch v-model:value="switch1" inactive-icon-class-inside="vc-icon-search"></vc-switch>
-  <vc-switch v-model:value="switch2" inactive-icon-class-inside="vc-icon-search" inactive-text-inside="关闭" active-text-inside="开启"></vc-switch>
-</template>
+  <vc-switch inset :value="false" active-icon="vc-icon-check" inactive-icon="vc-icon-close"></vc-switch>
 
-<script>
-export default {
-  setup() {
-    let switch1 = ref(true);
-    let switch2 = ref(false);
-    
-    return {
-      switch1,
-      switch2,
-    }
-  }
-}
-</script>
+  <br/>
+  <br/>
+
+  <vc-switch inset :value="true" active-icon="vc-icon-check" inactive-icon="vc-icon-close" inactive-text="关闭" active-text="开启" />
+</template>
 ```
 :::
 
@@ -104,36 +93,7 @@ export default {
 ```
 :::
 
-
-## 禁用
-
-::: demo
-```html
-<template>
-  <div>
-    <vc-switch v-model:value="switch1" disabled></vc-switch>
-    <vc-switch v-model:value="switch2" disabled></vc-switch>
-  </div>
-</template>
-
-<script>
-export default {
-  setup() {
-    let switch1 = ref(true);
-    let switch2 = ref(false);
-    
-    return {
-      switch1,
-      switch2,
-      
-    }
-  }
-}
-</script>
-```
-:::
-
-## 切换禁用状态
+## 禁用状态
 
 ::: demo
 ```html
@@ -161,6 +121,21 @@ export default {
   }
 }
 </script>
+```
+:::
+
+## 宽度控制
+
+::: demo
+```html
+<template>
+  <vc-switch inset :width="100" :value="true" inactive-text="关闭" active-text="opened!"></vc-switch>
+  
+  <br/>
+  <br/>
+
+  <vc-switch inset :value="false" inactive-text="去睡觉" active-text="😪zzzzzzz"></vc-switch>
+</template>
 ```
 :::
 

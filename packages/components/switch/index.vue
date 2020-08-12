@@ -1,84 +1,39 @@
 <template>
   <div
-    :class="['vc-switch',checked ? 'is-checked' : '',disabled ? 'is-disabled' : '']"
-    @click="changeStyle()"
+    :class="['vc-switch',
+      { 
+        'is-checked': checked,
+        'is-disabled': disabled 
+      }
+    ]"
+    @click="changeStyle"
   >
-    <input
-      class="vc-switch__input"
-      :value="value"
-      @input="changeInput"
-      type="checkbox"
-      ref="input"
-      @change="handleChange"
-    />
-
-    <span
-      :class="['vc-switch__label', 'vc-switch__label-left', !checked ? 'is-active' : '']"
-      v-if="inactiveIconClass || inactiveText"
+    <div
+      :class="['vc-switch__label vc-switch__label-left', {'is-active': !checked}]"
+      v-if="!inset && (inactiveIcon || inactiveText)"
     >
-      <i :class="[inactiveIconClass]" v-if="inactiveIconClass"></i>
-      <span v-if="!inactiveIconClass && inactiveText" :aria-hidden="checked">{{ inactiveText }}</span>
-    </span>
+      <i :class="inactiveIcon" v-if="inactiveIcon"></i>
+      <span v-if="inactiveText">{{ inactiveText }}</span>
+    </div>
 
     <span v-if="loading" :class="['vc-icon-loading',loading ? 'is-loading' : '']"></span>
 
-    <span
+    <div
       :class="['vc-switch__core','',disabled ? 'opacity' : '','']"
       ref="core"
-      :style="{width: coreWidth + 'px', fontSize: r + 'px', height: (r+4) + 'px', borderRadius: r + 'px',}"
-      id="core"
+      :style="coreStyle"
     >
-      
-      <span
-        v-if="activeTextInside && !activeIconClassInside"
-        class="vc-switch__core-open"
-        v-show="checked"
-      >{{activeTextInside}}</span>
-      <span
-        v-if="checked && activeIconClassInside"
-        style="top: 0.3em"
-        :class="['vc-switch__core-open',activeIconClassInside]"
-      ></span>
+      <Inset v-if="inset" type="open" :icon="activeIcon" :text="activeText"/>
 
-      <span
-        v-if="inactiveTextInside && !inactiveIconClassInside"
-        class="vc-switch__core-close"
-        v-show="!checked"
-      >{{inactiveTextInside}}</span>
-
-      <span
-        v-if="!checked && inactiveIconClassInside"
-        style="top: 0.3em"
-        :class="['vc-switch__core-close',inactiveIconClassInside]"
-      ></span>
-
-      <span
-        style="top: 0.32em;visibility:hidden;"
-        :class="['vc-switch__core-open',activeIconClassInside]"
-        ref="textOpenIconWidth"
-      ></span>
-      <span
-        style="top: 0.32em;visibility:hidden;"
-        :class="['vc-switch__core-close',inactiveIconClassInside]"
-        ref="textCloseIconWidth"
-      ></span>
-      <span
-        ref="textOpenWidth"
-        style="visibility:hidden;box-sizing: border-box"
-      >{{activeTextInside}}</span>
-      <span
-        ref="textCloseWidth"
-        :class="!inactiveTextInside ? 'inactiveTextInside' : ''"
-        style="visibility:hidden;"
-      >{{inactiveTextInside}}</span>
-    </span>
+      <Inset v-if="inset" type="close" :icon="inactiveIcon" :text="inactiveText"/>
+    </div>
 
     <span
-      :class="['vc-switch__label', 'vc-switch__label-right', checked ? 'is-active' : '']"
-      v-if="activeIconClass || activeText"
+      :class="['vc-switch__label', 'vc-switch__label-right', {'is-active': checked}]"
+      v-if="!inset && (activeIcon || activeText)"
     >
-      <i :class="[activeIconClass]" v-if="activeIconClass"></i>
-      <span v-if="!activeIconClass && activeText" :aria-hidden="!checked">{{ activeText }}</span>
+      <i :class="activeIcon" v-if="activeIcon"></i>
+      <span v-if="activeText">{{ activeText }}</span>
     </span>
   </div>
 </template>
@@ -86,16 +41,14 @@
 <script>
 import {
   ref,
-  reactive,
-  watchEffect,
   onMounted,
-  getCurrentInstance,
-  onUpdated,
-  watch
-} from "vue";
+  computed
+} from "vue"
+import Inset from './inset.vue'
 
 export default {
   name: "VcSwitch",
+  components: { Inset },
   props: {
     // 开关所绑定的值
     value: {
@@ -104,18 +57,18 @@ export default {
     },
     // switch开关的长度
     width: {
-      type: [Number, String],
-      default: 40
+      type: Number,
+      default: 0
     },
     // switch 打开时的背景色
     activeColor: {
       type: String,
-      default: "#409EFF"
+      default: ""
     },
     // switch 关闭时的背景色
     inactiveColor: {
       type: String,
-      default: "#C0CCDA"
+      default: ""
     },
     // switch 打开时的值
     activeValue: {
@@ -128,41 +81,24 @@ export default {
       default: false
     },
     // switch 打开时所显示图标的类名，设置此项会忽略 active-text
-    activeIconClass: {
+    activeIcon: {
       type: String,
       default: ""
     },
-
-    // switch 打开时所显示图标的类名，设置此项会忽略 active-text-inside
-    activeIconClassInside: {
+    // 关闭时所显示图标的类名
+    inactiveIcon: {
       type: String,
       default: ""
     },
-    // switch 关闭时所显示图标的类名，设置此项会忽略 inactive-text
-    inactiveIconClass: {
-      type: String,
-      default: ""
-    },
-    // switch 关闭时所显示图标的类名，设置此项会忽略 inactive-text（内部圖標）
-    inactiveIconClassInside: {
-      type: String,
-      default: ""
+    // 内部图标文字
+    inset: {
+      type: Boolean,
+      default: false
     },
     // switch 打开时的文字描述
     activeText: String,
-
-    activeTextInside: {
-      type: String,
-      default: ""
-    },
     // switch 关闭时的文字描述
     inactiveText: String,
-
-    inactiveTextInside: {
-      type: String,
-      default: ""
-    },
-
     // 是否禁用
     disabled: {
       type: Boolean,
@@ -180,90 +116,47 @@ export default {
     }
   },
 
-  setup(props, context) {
-    let coreWidth = ref("");
+  setup(props, { emit }) {
     let checked = ref("");
+    const coreStyleObj = ref({})
 
-    const core = ref(null);
-    const textOpenWidth = ref(null);
-    const textCloseWidth = ref(null);
-    const textOpenIconWidth = ref(null);
-    const textCloseIconWidth = ref(null);
+    const coreStyle = computed(() => {
+      let { width } = coreStyleObj.value
 
-    console.log(1111111111111111111111,props.value)
+      if (props.width) {
+        width = props.width
+      }
+
+      let color = checked.value ? props.activeColor : props.inactiveColor
+
+      return {
+        width: width + 'px',
+        fontSize: props.r + 'px',
+        height: props.r + 'px',
+        color
+      }
+    })
 
 
     const changeStyle = () => {
-      if (props.disabled === false || props.disabled === undefined) {
-        checked.value = !checked.value;
-        setBackgroundColor();
-        handleChange();
-      }
-    };
+      if (props.disabled) return
 
-    const changeInput = event => {
-      context.emit("update:value", event.target.value);
-    };
+      checked.value = !checked.value;
+      const val = checked.value ? props.activeValue : props.inactiveValue
 
-    const handleChange = event => {
-      const val = !checked.value ? props.inactiveValue : props.activeValue;
-      context.emit("change", val);
-    };
-
-    const setBackgroundColor = () => {
-      let newColor = checked.value ? props.activeColor : props.inactiveColor;
-      core.value.style.borderColor = newColor;
-      core.value.style.backgroundColor = newColor;
-    };
-
-    const calcWidth = () => {
-      let w3 =
-        textCloseWidth.value.clientWidth > textOpenWidth.value.clientWidth
-          ? textCloseWidth.value.clientWidth
-          : textOpenWidth.value.clientWidth;
-
-      let w2 =
-        textOpenIconWidth.value.clientHeight >
-        textCloseIconWidth.value.clientHeight
-          ? textOpenIconWidth.value.clientHeight
-          : textCloseIconWidth.value.clientHeight;
-
-      let w = w3 > w2 ? w3 : w2;
-      coreWidth.value = props.r + w + 15;
-    };
+      emit('change', val)
+      emit('update:value', val)
+    }
 
     onMounted(() => {
-      coreWidth.value = props.width;
-      checked.value = props.value;
-      setBackgroundColor();
-      if (props.width !== 40) {
-        return;
-      } else if (
-        props.inactiveTextInside === "" &&
-        props.activeTextInside === "" &&
-        props.activeIconClassInside == "" &&
-        props.inactiveIconClassInside == ""
-      ) {
-      } else {
-        calcWidth();
-      }
-    });
-
-    onUpdated(() => {});
+      checked.value = props.value
+    })
 
     return {
-      coreWidth,
       checked,
-
-      core,
-      textOpenWidth,
-      textCloseWidth,
-      textOpenIconWidth,
-      textCloseIconWidth,
-
+      coreStyle,
+      coreStyleObj,
       changeStyle,
-      changeInput,
-      handleChange
     };
   }
 };
