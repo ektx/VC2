@@ -1,10 +1,10 @@
 <template>
   <div
-    :class="['el-switch',checked ? 'is-checked' : '',disabled ? 'is-disabled' : '']"
+    :class="['vc-switch',checked ? 'is-checked' : '',disabled ? 'is-disabled' : '']"
     @click="changeStyle()"
   >
     <input
-      class="el-switch__input"
+      class="vc-switch__input"
       :value="value"
       @input="changeInput"
       type="checkbox"
@@ -13,19 +13,22 @@
     />
 
     <span
-      :class="['el-switch__label', 'el-switch__label-left', !checked ? 'is-active' : '']"
+      :class="['vc-switch__label', 'vc-switch__label-left', !checked ? 'is-active' : '']"
       v-if="inactiveIconClass || inactiveText"
     >
       <i :class="[inactiveIconClass]" v-if="inactiveIconClass"></i>
       <span v-if="!inactiveIconClass && inactiveText" :aria-hidden="checked">{{ inactiveText }}</span>
     </span>
 
+    <span v-if="loading" :class="['vc-icon-loading',loading ? 'is-loading' : '']"></span>
+
     <span
-      :class="['el-switch__core',disabled ? 'opacity' : '',loading ? 'is-loading' : '']"
+      :class="['vc-switch__core','',disabled ? 'opacity' : '','']"
       ref="core"
       :style="{width: coreWidth + 'px', fontSize: r + 'px', height: (r+4) + 'px', borderRadius: r + 'px',}"
       id="core"
     >
+      
       <span
         v-if="activeTextInside && !activeIconClassInside"
         class="vc-switch__core-open"
@@ -71,7 +74,7 @@
     </span>
 
     <span
-      :class="['el-switch__label', 'el-switch__label-right', checked ? 'is-active' : '']"
+      :class="['vc-switch__label', 'vc-switch__label-right', checked ? 'is-active' : '']"
       v-if="activeIconClass || activeText"
     >
       <i :class="[activeIconClass]" v-if="activeIconClass"></i>
@@ -187,6 +190,9 @@ export default {
     const textOpenIconWidth = ref(null);
     const textCloseIconWidth = ref(null);
 
+    console.log(1111111111111111111111,props.value)
+
+
     const changeStyle = () => {
       if (props.disabled === false || props.disabled === undefined) {
         checked.value = !checked.value;
@@ -263,3 +269,16 @@ export default {
 };
 </script>
 
+<style lang="less">
+.is-loading{
+  position: absolute;
+  left: 0.25em;
+  z-index: 2;
+}
+
+.is-checked .is-loading{
+  left: 100%;
+      margin-left: -1.4em;
+}
+
+</style>

@@ -1,17 +1,18 @@
 <template>
-  <div :class="['el-radio']">
-    <span class="el-radio__input">
-      <span class="el-radio__inner">
-        <input 
-        type="radio" 
-        class="el-radio__original"
-        :value="label"
-        v-model="model"
-       />
+  <label :class="['vc-radio',{'is-checked': model === label}]" ref="vcRadio">
+    <span :class="['vc-radio__input',{'is-checked': model === label}]">
+      <span :class="['vc-radio__inner']">
+        <input
+          type="radio"
+          class="vc-radio__original"
+          :value="label"
+          v-model="model"
+          @change="handleChange"
+        />
       </span>
     </span>
-    <span class="el-radio__label">备选项</span>
-  </div>
+    <span class="vc-radio__label">备选项</span>
+  </label>
 </template>
 
 <script>
@@ -22,30 +23,87 @@ import {
   onMounted,
   getCurrentInstance,
   onUpdated,
-  watch
+  watch,
+  computed
 } from "vue";
 export default {
   name: "VcRadio",
   props: {
     label: {},
-    value: {},
+    value: {}
   },
   setup(props, context) {
-    let model = ref("");
+    //let model = ref("");
+    let checked = ref("");
+    let { ctx } = getCurrentInstance();
 
+    const vcRadio = ref("");
 
-    onMounted(()=>{
-      console.log(1111,model)
+    
+
+    // 判断这是不是一个radio组
+    const isGroup = computed(() => {
+      let parent = ctx.$parent;
+      while (parent) {
+        if (parent.$options.name !== "ElRadioGroup") {
+          parent = parent.$parent;
+        } else {
+          this._radioGroup = parent;
+          return true;
+        }
+      }
+      return false;
+    });
+    
+    const model = computed({
+      get:() => {
+        return isGroup.value ? radioGroup.value : props.value;
+        
+      },
+      set: val =>{
+        if (isGroup.value) {
+            //this.dispatch('ElRadioGroup', 'input', [val]);
+          } else {
+            console.log('val',val)
+            context.emit("update:value", val);
+          } 
+      }
     })
+
+    console.log(222,model.value)
+
+    console.log(888888,ctx)
+
+    const handleChange = (event) =>{
+      setTimeout(()=>{
+        console.log(9,model.value)
+        context.emit("update:value", model.value);
+
+      },100)
+    }
+
+    const changeValue = event =>{
+      model.value = props.label
+    }
+
+    onMounted(() => {
+      
+    });
+
     return {
       model,
-    }
+
+      vcRadio,
+      handleChange,
+      changeValue
+      
+    };
   }
 };
 </script>
 
 <style lang="less">
-.el-radio {
+.vc-radio {
   color: #606266;
   font-weight: 500;
   line-height: 1;
@@ -60,10 +118,10 @@ export default {
   -webkit-user-select: none;
   -ms-user-select: none;
 }
-.el-radio:last-child {
-    margin-right: 0;
+.vc-radio:last-child {
+  margin-right: 0;
 }
-.el-radio__input {
+.vc-radio__input {
   white-space: nowrap;
   cursor: pointer;
   outline: none;
@@ -72,7 +130,7 @@ export default {
   position: relative;
   vertical-align: middle;
 }
-.el-radio__inner {
+.vc-radio__inner {
   border: 1px solid #dcdfe6;
   border-radius: 100%;
   width: 14px;
@@ -84,10 +142,10 @@ export default {
   box-sizing: border-box;
 }
 
-.el-radio__inner:after {
+.vc-radio__inner:after {
   width: 4px;
   height: 4px;
-  border-radius: 100%;
+  //border-radius: 100%;
   background-color: #fff;
   content: "";
   position: absolute;
@@ -96,7 +154,19 @@ export default {
   transform: translate(-50%, -50%) scale(0);
   transition: transform 0.15s ease-in;
 }
-.el-radio__original {
+.vc-radio__inner:hover {
+  border-color: #409eff;
+}
+
+.vc-radio__input.is-checked .vc-radio__inner:after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.vc-radio.is-checked .vc-radio__inner {
+  border-color: #409eff;
+  background: #409eff;
+}
+.vc-radio__original {
   opacity: 0;
   outline: none;
   position: absolute;
@@ -107,7 +177,8 @@ export default {
   bottom: 0;
   margin: 0;
 }
-.el-radio__label {
+
+.vc-radio__label {
   font-size: 14px;
   padding-left: 10px;
 }
