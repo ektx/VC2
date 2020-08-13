@@ -132,7 +132,8 @@ export default {
       this.clearValidate()
 
       if (this.prop) {
-        let val = this.vcForm.defaultValue[this.prop] || ''
+        let val = Reflect.has(this.vcForm.defaultValue, this.prop) ? this.vcForm.defaultValue[this.prop] : ''
+        
         this.vcForm.model[this.prop] = val
       }
     },
