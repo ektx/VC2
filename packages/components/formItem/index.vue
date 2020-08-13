@@ -98,8 +98,8 @@ export default {
   methods: {
     validate (trigger, cb) {
       const rules = this.getRules()
-
       const descriptor = {}
+
       descriptor[this.prop] = []
 
       if (rules.length > 0) {
