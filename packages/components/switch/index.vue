@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { ref, computed } from "vue"
+import { ref, computed, inject } from "vue"
 import Inset from './inset.vue'
 
 export default {
@@ -48,7 +48,7 @@ export default {
   props: {
     // 开关所绑定的值
     value: {
-      type: [Boolean, String, Number],
+      type: [String, Number, Boolean],
       default: false
     },
     // switch开关的长度
@@ -113,8 +113,9 @@ export default {
   },
 
   setup(props, { emit }) {
-    let checked = ref(props.value);
+    let checked = ref(Boolean(props.value))
     const coreStyleObj = ref({})
+    const vcFormItem = inject('vcFormItem', null)
 
     const coreStyle = computed(() => {
       let { width } = coreStyleObj.value
@@ -139,9 +140,10 @@ export default {
 
       checked.value = !checked.value;
       const val = checked.value ? props.activeValue : props.inactiveValue
-
+console.log(val)
       emit('change', val)
       emit('update:value', val)
+      vcFormItem && vcFormItem.checkValidate('change')
     }
 
     return {
