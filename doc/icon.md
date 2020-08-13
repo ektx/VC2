@@ -46,7 +46,7 @@ export default {
       const res = await navigator.permissions.query({ name: 'clipboard-write' })
 
       if (res.state === 'granted') {
-        let name = `vc-icon-${icon.name}`
+        let name = `vc-icon-${icon.font_class}`
         message.success(`${name} 复制成功`)
         return navigator.clipboard.writeText(name);
       }

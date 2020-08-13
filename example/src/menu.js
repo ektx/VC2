@@ -25,6 +25,10 @@ export default [
     "label": "表单",
     "children": [
       {
+        "label": "Input 输入框",
+        "file": "input.md"
+      },
+      {
         "label": "Select 选择器",
         "file": "select.md"
       },

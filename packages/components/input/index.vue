@@ -2,44 +2,49 @@
   <div class="vc-input">
     <div
       :class="[
-      'vc-input__text',
-      disabled ? 'disabled' : '',
-      focusing ? 'focus' : ''
-    ]"
+        'vc-input__text',
+        {'is-focus': focusing, 'is-disabled': disabled }
+      ]"
       v-if="type !== 'textarea'"
-      @mouseenter="hovering = true"
-      @mouseleave="hovering = false"
     >
-      <div class="vc-input__prefix-icon" v-if="prefixIcon">
-        <i :class="prefixIcon"></i>
+      <div class="vc-input__text--prefix-icon">
+        <slot name="prefixIcon">
+          <i v-if="prefixIcon" :class="prefixIcon"></i>
+        </slot>
       </div>
       <input
-        :value="value"
         ref="input"
+        :value="value"
         v-bind="__attrs"
-        :class="['vc-input__input',disabled ? 'disabled-input' : '']"
+        :class="['vc-input__text--input',disabled ? 'disabled-input' : '']"
         :disabled="disabled"
         :placeholder="placeholder"
-        :type="showPassword ? (passwordVisible ? 'text': 'password') : type"
+        :type="__type"
         @input="changeInput"
         @focus="handleFocus"
         @blur="handleBlur"
         @change="handleChange"
       />
-      <div class="vc-input__suffix-icon" v-if="suffixIcon">
-        <i :class="suffixIcon"></i>
+      <div class="vc-input__text--suffix-icon">
+        <slot name="suffixIcon">
+          <i v-if="suffixIcon" :class="suffixIcon"></i>
+        </slot>
       </div>
 
       <div
-        class="vc-input__clearable"
-        v-if="clearable && isMety || clearable && isMety && hovering || clearable && isMety && focusing"
+        class="vc-input__text--clearable"
+        v-if="clearable && value"
         @click="clearMsg"
       >
         <i class="vc-icon-circle-close"></i>
       </div>
 
-      <div class="vc-input__showPassword" v-if="showPassword && isMety" @click="closeMsg">
-        <i class="vc-icon-view"></i>
+      <div 
+        v-if="type === 'password' && value" 
+        class="vc-input__text--show-passwd" 
+        @click="togglePasswd"
+      >
+        <i :class="__type === 'text' ? 'vc-icon-not-view' : 'vc-icon-view'"></i>
       </div>
 
       <div class="vc-input__numLength" v-if="showWordLimit">
@@ -55,12 +60,12 @@
           'vc-input__inner',
           focusing ? 'focus-textarea' : ''
         ]"
-        @input="changeInput"
         :value="value"
         ref="textarea"
         :placeholder="placeholder"
         :rows="rows"
         :style="textareaCalcStyle"
+        @input="changeInput"
         @focus="handleFocus"
         @blur="handleBlur"
         @change="handleChange"
@@ -73,13 +78,12 @@
 import {
   ref,
   reactive,
-  watchEffect,
   onMounted,
   onUpdated,
   watch,
   toRefs,
-  inject
-} from "vue";
+  inject,
+} from "vue"
 import { getAttrs } from '../../utils/index'
 import calcTextareaHeight from "./calcTextareaHeight";
 
@@ -91,7 +95,7 @@ export default {
     suffixIcon: String,
     prefixIcon: String,
     value: {
-      type: [String, Number],
+      type: String,
       default: ""
     },
     //
@@ -138,13 +142,12 @@ export default {
       default: false
     }
   },
-  setup(props, context) {
+  setup(props, { attrs, emit }) {
     let hovering = ref(false);
     let focusing = ref(false);
-    let isMety = ref(false);
-    let passwordVisible = ref(false);
     let content = ref("");
     let textareaCalcStyle = ref(null);
+    let __type = ref(props.type)
 
     const vcFormItem = inject("vcFormItem", null);
 
@@ -156,24 +159,15 @@ export default {
     const textarea = ref(null);
     const input = ref(null);
 
-    watchEffect(() => {
-      if (props.value === "" || props.value === null) {
-        isMety.value = false;
-      } else {
-        isMety.value = true;
-      }
-    });
-
     watch(
       () => props.value,
       (count, prevCount) => {
         resizeTextarea();
       }
-    );
+    )
 
-    const changeInput = event => {
-      event.stopPropagation();
-      context.emit("update:value", event.target.value);
+    const changeInput = evt => {
+      emit("update:value", event.target.value);
       if (props.showWordLimit) {
         state.maxLength = input.value.maxLength;
         state.nowLength = event.target.value.length;
@@ -188,15 +182,15 @@ export default {
       event.stopPropagation();
 
       focusing.value = true;
-      context.emit("focus", event);
+      emit("focus", event);
     };
 
     const handleBlur = event => {
-      event.preventDefault();
-      event.stopPropagation();
+      event.preventDefault()
+      event.stopPropagation()
 
       focusing.value = false;
-      context.emit("blur", event);
+      emit("blur", event);
 
       if (props.validateEvent) {
         vcFormItem.checkValidate("blur");
@@ -204,9 +198,8 @@ export default {
     };
     // input 获取焦点得方法
     const focus = () => {
-      
       let arr = input.value || textarea.value;
-      arr.focus();
+      arr.focus()
     };
     // input 失去焦点得方法
     const blur = () => {
@@ -220,9 +213,7 @@ export default {
     };
 
     const handleChange = event => {
-      context.emit("change", event);
-      if (props.showWordLimit) {
-      }
+      emit("change", event.target.value)
     };
     // 动态获取文本域得方法
     const resizeTextarea = () => {
@@ -252,24 +243,25 @@ export default {
     });
     // 点击 清除图标 清除数据
     const clearMsg = () => {
-      context.emit("update:value", "");
-    };
+      emit('update:value', '')
+      emit('change', '')
+      emit('clear')
+      focus()
+    }
 
-    const closeMsg = () => {
-      passwordVisible.value = !passwordVisible.value;
-    };
+    const togglePasswd = () => {
+      __type.value = __type.value == 'text' ? 'password' : 'text'
+    }
 
     return {
       hovering,
       focusing,
       content,
-      isMety,
-      passwordVisible,
       textareaCalcStyle,
       textarea,
       changeInput,
       clearMsg,
-      closeMsg,
+      togglePasswd,
       handleFocus,
       handleBlur,
       handleChange,
@@ -278,6 +270,7 @@ export default {
       ...toRefs(state),
       vcFormItem,
       __attrs: getAttrs(),
+      __type
     };
   }
 }

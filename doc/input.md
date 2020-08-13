@@ -1,4 +1,4 @@
-# 输入框
+# Input 输入框
 
 通过鼠标或键盘输入字符
 
@@ -104,7 +104,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-input v-model:value="input" placeholder="请输入密码" clearable show-password></vc-input>
+  <vc-input v-model:value="input" placeholder="请输入密码" clearable type="password"></vc-input>
 </template>
 
 <script>
@@ -122,15 +122,30 @@ export default {
 :::
 
 
-#### 带 icon 的输入框
+## 带 icon 的输入框
+
 带有图标标记输入类型
 
 ::: demo
 ```html
 <template>
   <div>
-    <vc-input v-model:value="input1" placeholder="请输入内容" suffix-icon="vc-icon-date"></vc-input>
-    <vc-input v-model:value="input2" placeholder="请输入内容" prefix-icon="vc-icon-search"></vc-input>
+    <strong>属性方式</strong>
+    <vc-input v-model:value="value1" suffix-icon="vc-icon-date"></vc-input>
+    <vc-input v-model:value="value2" prefix-icon="vc-icon-search"></vc-input>
+  </div>
+  <div>
+    <strong>插槽方式</strong>
+    <vc-input v-model:value="value3">
+      <template #suffixIcon>
+        <i class="vc-icon-date"></i>
+      </template>
+    </vc-input>
+    <vc-input v-model:value="value4">
+      <template #prefixIcon>
+        <i class="vc-icon-search"></i>
+      </template>
+    </vc-input>
   </div>
   
 </template>
@@ -138,13 +153,12 @@ export default {
 <script>
 export default {
   setup() {
-    let input1 = ref(null);
-    let input2 = ref(null);
+    let value1 = ref('')
+    let value2 = ref('')
+    let value3 = ref('')
+    let value4 = ref('')
     
-    return {
-      input1,
-      input2
-    }
+    return { value1, value2, value3, value4 }
   }
 }
 </script>
