@@ -1,7 +1,8 @@
 .vc-form-item {
   display: flex;
-  margin-bottom: 22px;
+  margin-bottom: 18px;
   font-size: 14px;
+  line-height: 2.25em;
 
   &.is-column {
     flex-direction: column;
@@ -10,14 +11,43 @@
   &__content {
     position: relative;
     flex: 1;
-    min-height: 2em;
+    vertical-align: top;
   }
 
   &__error {
     position: absolute;
     left: 0;
     font-size: 12px;
+    line-height: 16px;
     color: #ff4d4f;
+  }
+
+  &__label {
+    padding: 0 5px 0 0;
+    color: @color-text-regular;
+    vertical-align: top;
+
+    label {
+      vertical-align: middle;
+    }
+  
+    .is-required &:not(.is-no-asterisk):before {
+      content: '*';
+      color: #ff4d4f;
+    }
+  
+    &.text-align {
+      &-right {
+        text-align: right;
+      }
+      &-left {
+        text-align: left;
+      }
+    }
+  
+    &-suffix {
+      padding: 0 2px;
+    }
   }
 }
 
@@ -30,27 +60,4 @@
 .vc-fade-in-enter-from,
 .vc-fade-in-leave-to {
   opacity: 0;
-}
-
-.vc-form-item__label {
-  color: @color-text-regular;
-  padding: 5px 5px 0 0;
-
-  .is-required &:not(.is-no-asterisk):before {
-    content: '*';
-    color: #ff4d4f;
-  }
-
-  &.text-align {
-    &-right {
-      text-align: right;
-    }
-    &-left {
-      text-align: left;
-    }
-  }
-
-  &-suffix {
-    padding: 0 2px;
-  }
 }
