@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { ref, computed, inject } from "vue"
+import { ref, computed, inject, watch } from "vue"
 import Inset from './inset.vue'
 
 export default {
@@ -117,6 +117,11 @@ export default {
     const coreStyleObj = ref({})
     const vcFormItem = inject('vcFormItem', null)
 
+    watch(
+      () => props.value,
+      (val) => checked.value = val
+    )
+
     const coreStyle = computed(() => {
       let { width } = coreStyleObj.value
 
@@ -134,13 +139,12 @@ export default {
       }
     })
 
-
     const changeStyle = () => {
       if (props.disabled || props.loading) return
 
       checked.value = !checked.value;
       const val = checked.value ? props.activeValue : props.inactiveValue
-console.log(val)
+
       emit('change', val)
       emit('update:value', val)
       vcFormItem && vcFormItem.checkValidate('change')
