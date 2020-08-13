@@ -31,3 +31,26 @@
 .vc-fade-in-leave-to {
   opacity: 0;
 }
+
+.vc-form-item__label {
+  color: @color-text-regular;
+  padding: 5px 5px 0 0;
+
+  .is-required &:not(.is-no-asterisk):before {
+    content: '*';
+    color: #ff4d4f;
+  }
+
+  &.text-align {
+    &-right {
+      text-align: right;
+    }
+    &-left {
+      text-align: left;
+    }
+  }
+
+  &-suffix {
+    padding: 0 2px;
+  }
+}
