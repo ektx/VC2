@@ -203,7 +203,7 @@ header {
       }
     }
     &::-webkit-scrollbar-track {
-      margin: 60px 0 0 0;
+      margin: 62px 0 2px 0;
     }
   }
 }

@@ -7,13 +7,35 @@
 ::: demo
 ```html
 <template>
-  <vc-switch v-model:value="switch1" active-color="#13ce66" inactive-color="#ff4949" @change="change" active-value="100" inactive-value="0"></vc-switch>
+  <vc-switch v-model:value="value"></vc-switch>
 </template>
 
 <script>
 export default {
   setup() {
-    let switch1 = ref(null);
+    let value = ref(true)
+
+    return {
+      value
+    }
+  }
+}
+</script>
+```
+:::
+
+## 自定义值
+
+::: demo
+```html
+<template>
+  <vc-switch v-model:value="value" @change="change" active-value="100" inactive-value="0"></vc-switch>
+</template>
+
+<script>
+export default {
+  setup() {
+    let value = ref(100);
     let message = inject('vcMessage')
 
     const change = event =>{
@@ -24,7 +46,7 @@ export default {
     }
 
     return {
-      switch1,
+      value,
       change,
     }
   }
@@ -33,7 +55,17 @@ export default {
 ```
 :::
 
-## 文字描述(switch 外部)
+## 自定义颜色
+
+::: demo
+```html
+<template>
+  <vc-switch :value="true" active-color="#13ce66" inactive-color="#ff4949"></vc-switch>
+</template>
+```
+:::
+
+## 外部文字描述
 
 ::: demo
 
@@ -41,40 +73,29 @@ export default {
 
 ```html
 <template>
-  <div>
-    <vc-switch :value="true" active-icon-class="vc-icon-search" active-text="按月付费" inactive-text="按年付费" />
-    
-    <br/>
+  <vc-switch :value="true" active-icon="vc-icon-sunny" active-text="白天" inactive-icon="vc-icon-moon" inactive-text="夜晚" />
+  
+  <br/>
+  <br/>
 
-    <vc-switch :value="false" active-text="按月付费" inactive-text="按年付费" />
-  </div>  
+  <vc-switch active-color="#13ce66" active-text="按月付费" inactive-color="#ff4949" inactive-text="按年付费" />
 </template>
 
 ```
 :::
 
-## 文字描述(switch内部)
+## 内部文字描述
 
 ::: demo
 ```html
 <template>
-  <vc-switch v-model:value="switch1" inactive-icon-class-inside="vc-icon-search"></vc-switch>
-  <vc-switch v-model:value="switch2" inactive-icon-class-inside="vc-icon-search" inactive-text-inside="关闭" active-text-inside="开启"></vc-switch>
-</template>
+  <vc-switch inset :value="false" active-icon="vc-icon-check" inactive-icon="vc-icon-close"></vc-switch>
 
-<script>
-export default {
-  setup() {
-    let switch1 = ref(true);
-    let switch2 = ref(false);
-    
-    return {
-      switch1,
-      switch2,
-    }
-  }
-}
-</script>
+  <br/>
+  <br/>
+
+  <vc-switch inset :value="true" active-icon="vc-icon-check" inactive-icon="vc-icon-close" inactive-text="关闭" active-text="开启" />
+</template>
 ```
 :::
 
@@ -84,56 +105,13 @@ export default {
 ::: demo
 ```html
 <template>
-  <div>
-    <vc-switch v-model:value="switch1" loading></vc-switch>
-  </div>
-  
+  <vc-switch loading></vc-switch>
+  <vc-switch :value="true" loading></vc-switch>
 </template>
-
-<script>
-export default {
-  setup() {
-    let switch1 = ref(true);
-  
-    return {
-      switch1,
-    }
-  }
-}
-</script>
 ```
 :::
 
-
-## 禁用
-
-::: demo
-```html
-<template>
-  <div>
-    <vc-switch v-model:value="switch1" disabled></vc-switch>
-    <vc-switch v-model:value="switch2" disabled></vc-switch>
-  </div>
-</template>
-
-<script>
-export default {
-  setup() {
-    let switch1 = ref(true);
-    let switch2 = ref(false);
-    
-    return {
-      switch1,
-      switch2,
-      
-    }
-  }
-}
-</script>
-```
-:::
-
-## 切换禁用状态
+## 禁用状态
 
 ::: demo
 ```html
@@ -164,27 +142,51 @@ export default {
 ```
 :::
 
+## 宽度控制
+
+::: demo
+```html
+<template>
+  <vc-switch inset :width="100" :value="true" inactive-text="关闭" active-text="opened!"></vc-switch>
+  
+  <br/>
+  <br/>
+
+  <vc-switch inset :value="false" inactive-text="去睡觉" active-text="😪zzzzzzz"></vc-switch>
+</template>
+```
+:::
+
+## 大小控制
+
+::: demo
+```html
+<template>
+  <vc-switch :value="true" :r="12"></vc-switch>
+  <vc-switch :value="true" :r="14"></vc-switch>
+  <vc-switch :value="true" :r="18"></vc-switch>
+</template>
+```
+:::
+
 ## Props
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 | 
 |---|---|---|---|---|
 | value | **boolean / string / number** | 绑定值 | --- | --- |
-| r | **number** | 圆圈半径 | --- | 16 |
-| disabled | **boolean** | 是否禁用 | --- | false |
-| width | **number** | switch 的宽度（像素） | --- | 45 |
-| active-icon-class | **string** | switch 打开时所显示图标的类名，设置此项会忽略 active-text(外部) | --- | --- |
-| active-icon-class-inside | **string** | switch 打开时所显示图标的类名，设置此项会忽略 active-text-inside(内部) | --- | --- |
-| inactive-icon-class | **string** | switch 关闭时所显示图标的类名，设置此项会忽略 inactive-text(外部) | --- | --- |
-| inactive-icon-class-inside | **string** | switch 关闭时所显示图标的类名，设置此项会忽略 inactive-text-inside(内部) | --- | --- |
-| active-text | **string** | switch 打开时的文字描述 | --- | --- |
-| inactive-text | **string** | switch 关闭时的文字描述 | --- | --- |
-| active-text-inside | **string** | switch 打开时的文字描述(switch内部) | --- | --- |
-| inactive-text-inside | **string** | switch 关闭时的文字描述(switch内部) | --- | --- |
-| active-value | **boolean / string / number** | switch 打开时的值 | --- | false |
-| inactive-value | **boolean / string / number** | switch 关闭时的值 | --- | false |
-| active-color | **string** | switch 打开时的背景色 | --- | #409EFF |
-| inactive-color | **string** | switch 关闭时的背景色 | --- | #C0CCDA |
-
+| r | **number** | 圆圈半径 | - | 16 |
+| disabled | **boolean** | 是否禁用 | - | false |
+| width | **number** | switch 的宽度（像素） | - | - |
+| active-icon | **string** | 打开时所显示图标的类名 | - | - |
+| inactive-icon | **string** | 关闭时所显示图标的类名 | - | - |
+| active-text | **string** | 打开时的文字描述 | - | - |
+| inactive-text | **string** | 关闭时的文字描述 | - | - |
+| inset | **Boolean** | 控制文字显示在内部 | - | - |
+| active-value | **boolean / string / number** | 打开时的值 | - | false |
+| inactive-value | **boolean / string / number** | 关闭时的值 | - | false |
+| active-color | **string** | switch 打开时的背景色 | - | - |
+| inactive-color | **string** | switch 关闭时的背景色 | - | - |
+| loading | **Boolean** | 加载状态，添加后，禁用不可点击 | - | - |
 
 
 ## Events
