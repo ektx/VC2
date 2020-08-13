@@ -29,7 +29,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-switch v-model:value="value" @change="change" active-value="100" inactive-value="0"></vc-switch>
+  <vc-switch v-model:value="value" @change="change" :active-value="100" :inactive-value="0"></vc-switch>
 </template>
 
 <script>
