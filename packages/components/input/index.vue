@@ -128,7 +128,7 @@ export default {
     // 是否开启验证
     validateEvent: {
       type: Boolean,
-      default: false
+      default: true
     }
   },
   setup(props, { attrs, emit }) {
@@ -168,16 +168,15 @@ export default {
     };
 
     const handleBlur = event => {
-      event.preventDefault()
-      event.stopPropagation()
 
-      focusing.value = false;
-      emit("blur", event);
+      focusing.value = false
+
+      emit("blur", event)
 
       if (props.validateEvent) {
         vcFormItem.checkValidate("blur");
       }
-    };
+    }
     // input 获取焦点得方法
     const focus = () => {
       let arr = input.value || textarea.value;

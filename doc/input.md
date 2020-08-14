@@ -1,53 +1,22 @@
 # Input 输入框
 
-通过鼠标或键盘输入字符
+通过鼠标或键盘输入字符。
 
-#### 使用方法
+## 基础方法
+
 ::: demo
 ```html
 <template>
-  <vc-input v-model:value="input" placeholder="请输入内容" ref="demo" @blur="changeNum" @focus="getFocus" @change="getChange" @input="getInput"></vc-input>
-  <vc-button @click="getFoucus">获取焦点</vc-button>
+  <vc-input v-model:value="input" placeholder="请输入内容" />
 </template>
 
 <script>
 export default {
   setup() {
-    let input = ref('');
+    let input = ref('')
     
-    const demo = ref(null);
-
-
-    const changeNum = event => {
-      console.log('失去焦点',event)
-    }
-
-    const getFocus = event => {
-      console.log('获取焦点',event)
-      
-    }
-
-    const getChange = event =>{
-      console.log('内容改变后',event)
-    }
-
-    const getInput = event =>{
-      console.log('内容实时变化', event.target.value)
-    }
-
-    const getFoucus = () =>{
-      console.log(demo.value)
-      demo.value.focus()
-    }
-
     return {
       input,
-      changeNum,
-      getFocus,
-      getChange,
-      getInput,
-      getFoucus,
-      demo,
     }
   }
 }
@@ -56,17 +25,21 @@ export default {
 :::
 
 
-#### 禁用状态
+## 禁用状态
+
 ::: demo
+
+> `disabled` 可禁用组件。
+
 ```html
 <template>
-  <vc-input v-model:value="input" placeholder="请输入内容" disabled ></vc-input>
+  <vc-input v-model:value="input" disabled />
 </template>
 
 <script>
 export default {
   setup() {
-    let input = ref(null);
+    let input = ref('')
     
     return {
       input,
@@ -81,15 +54,18 @@ export default {
 ## 可清空
 
 ::: demo
+
+> 使用 `clearable` 属性即可得到一个可清空的输入框
+
 ```html
 <template>
-  <vc-input v-model:value="input" placeholder="请输入内容" clearable></vc-input>
+  <vc-input v-model:value="input" clearable />
 </template>
 
 <script>
 export default {
   setup() {
-    let input = ref(null);
+    let input = ref('')
     
     return {
       input,
@@ -104,9 +80,12 @@ export default {
 ## 密码框
 
 ::: demo
+
+> 当 `type="password"` 时，可以显示一个密码框功能。
+
 ```html
 <template>
-  <vc-input v-model:value="input" placeholder="请输入密码" clearable type="password"></vc-input>
+  <vc-input v-model:value="input" type="password"/>
 </template>
 
 <script>
@@ -129,6 +108,8 @@ export default {
 带有图标标记输入类型
 
 ::: demo
+> 可以通过 `prefix-icon` 和 `suffix-icon` 属性在 `input` 组件首部和尾部增加显示图标，也可以通过 `slot` 来放置图标。
+
 ```html
 <template>
   <div>
@@ -149,7 +130,6 @@ export default {
       </template>
     </vc-input>
   </div>
-  
 </template>
 
 <script>
@@ -169,12 +149,16 @@ export default {
 
 
 ## 文本域
+
 用于输入多行文本信息，通过将 `type` 属性的值指定为 **textarea**。
 
 ::: demo
+
+> 文本域高度可通过 `rows` 原始属性控制
+
 ```html
 <template>
-  <vc-input type="textarea" v-model:value="val" />
+  <vc-input type="textarea" rows="2" v-model:value="val" />
 </template>
 
 <script>
@@ -223,11 +207,17 @@ export default {
 ## 输入长度限制
 
 ::: demo
+
+> `maxlength` 和 `minlength` 是原生属性，用来限制输入框的字符长度，其中字符长度是用 Javascript 的字符串长度统计的。  
+> 在使用 `maxlength` 属性限制最大输入长度的同时，可通过设置 `show-word-limit` 属性来展示字数统计。
+
 ```html
 <template>
   <div>
     <vc-input v-model:value="input1" maxlength="10" show-word-limit />
-    <vc-input type="textarea" autosize maxlength="120" v-model:value="textarea" show-word-limit />
+    <vc-input type="password" v-model:value="input1" maxlength="10" show-word-limit />
+    
+    <vc-input type="textarea" maxlength="120" rows="2" v-model:value="textarea" show-word-limit />
   </div>
   
 </template>
@@ -235,8 +225,8 @@ export default {
 <script>
 export default {
   setup() {
-    let input1 = ref(null);
-    let textarea = ref(null);
+    let input1 = ref('')
+    let textarea = ref('')
     
     return {
       input1,
@@ -248,6 +238,66 @@ export default {
 ```
 :::
 
+
+## 事件监听
+
+::: demo
+```html
+<template>
+  <vc-input 
+    v-model:value="input" 
+    placeholder="请输入内容" 
+    ref="demo" 
+    @blur="changeNum" 
+    @focus="getFocus" 
+    @change="getChange" 
+    @input="getInput"
+  />
+  <br/>
+  <vc-button @click="getFoucus">手动获取焦点</vc-button>
+</template>
+
+<script>
+export default {
+  setup() {
+    let input = ref('');
+    const demo = ref(null);
+
+    const changeNum = event => {
+      console.log('失去焦点',event)
+    }
+
+    const getFocus = event => {
+      console.log('获取焦点',event)
+      
+    }
+
+    const getChange = event =>{
+      console.log('内容改变后',event)
+    }
+
+    const getInput = event =>{
+      console.log('内容实时变化', event.target.value)
+    }
+
+    const getFoucus = () =>{
+      demo.value.focus()
+    }
+
+    return {
+      input,
+      changeNum,
+      getFocus,
+      getChange,
+      getInput,
+      getFoucus,
+      demo,
+    }
+  }
+}
+</script>
+```
+:::
 
 
 ## Input Attributes
