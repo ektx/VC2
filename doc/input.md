@@ -310,17 +310,13 @@ export default {
 |---|---|---|---|---|
 | type | **string** | 类型 | text / password / textarea | text |
 | value | **string / number** | 绑定值 | -- | -- |
-| maxlength | **number** | 绑定值 | 原生属性，最大输入长度 | -- |
-| minlength | **number** | 原生属性，最小输入长度 | -- | -- |
-| show-word-limit | **boolean** | 是否显示输入字数统计，只在 type = "text" 或 type = "textarea" 时有效 | - | false |
-| placeholder | **string** | 输入框占位文本 | -- | -- |
+| show-word-limit | **boolean** | 是否显示输入字数统计 | - | false |
 | clearable | **boolean** | 是否可清空 | -- | false |
 | show-password | **boolean** | 是否显示切换密码图标 | -- | false |
 | disabled | **boolean** | 禁用 | -- | false |
 | prefix-icon | **string** | 输入框头部图标 | -- | -- |
 | suffix-icon | **string** | 输入框尾部图标 | -- | -- |
-| rows | **number** | 输入框行数，只对 type="textarea" 有效 | -- | 2 |
-| autosize | **boolean / object** | 自适应内容高度，只对 type="textarea" 有效，可传入对象，如，{ minRows: 2, maxRows: 6 } | -- | false |
+| autosize | **boolean / object** | 自适应内容高度，只对 `textarea` 有效，<br/>可传入对象，如`{ minRows: 2, maxRows: 6 }` | -- | false |
 | validate-event | **boolean** | 输入时是否触发表单的校验 | -- | true |
 
 
@@ -340,3 +336,4 @@ export default {
 |---|---|---|---|---|
 | focus | 使 input 获取焦点 | - |
 | blur | 使 input 失去焦点 | - |
+| select | 选中 input 中的文字 | - |
