@@ -113,7 +113,7 @@ export default {
   },
 
   setup(props, { emit }) {
-    let checked = ref(Boolean(props.value))
+    let checked = ref(props.value === props.activeValue)
     const coreStyleObj = ref({})
     const vcFormItem = inject('vcFormItem', null)
 
@@ -142,7 +142,7 @@ export default {
     const changeStyle = () => {
       if (props.disabled || props.loading) return
 
-      checked.value = !checked.value;
+      checked.value = !checked.value
       const val = checked.value ? props.activeValue : props.inactiveValue
 
       emit('change', val)
