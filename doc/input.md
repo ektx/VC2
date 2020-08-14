@@ -248,10 +248,10 @@ export default {
     v-model:value="input" 
     placeholder="请输入内容" 
     ref="demo" 
+    @input="getInput"
     @blur="changeNum" 
     @focus="getFocus" 
     @change="getChange" 
-    @input="getInput"
   />
   <br/>
   <vc-button @click="setFocus">手动获取焦点</vc-button>
@@ -266,20 +266,20 @@ export default {
     const demo = ref(null);
 
     const changeNum = event => {
-      console.log('失去焦点',event)
+      console.log('blur:',event)
     }
 
     const getFocus = event => {
-      console.log('获取焦点',event)
+      console.log('focus:',event)
       
     }
 
-    const getChange = event =>{
-      console.log('内容改变后',event)
+    const getChange = event => {
+      console.log('change:', event)
     }
 
     const getInput = event =>{
-      console.log('内容实时变化', event.target.value)
+      console.log('input:', event.target.value)
     }
 
     const setFocus = () => demo.value.focus()

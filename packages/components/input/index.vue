@@ -20,7 +20,7 @@
       :disabled="disabled"
       :placeholder="placeholder"
       :type="__type"
-      @input="changeInputEvt"
+      @input="handleInputEvt"
       @focus="handleFocus"
       @blur="handleBlur"
       @change="handleChange"
@@ -34,7 +34,7 @@
       :placeholder="placeholder"
       :disabled="disabled"
       :style="textareaCalcStyle"
-      @input="changeInputEvt"
+      @input="handleInputEvt"
       @focus="handleFocus"
       @blur="handleBlur"
       @change="handleChange"
@@ -146,33 +146,39 @@ export default {
       nowLength: 0
     })
 
-    const changeInputEvt = evt => {
-      emit("update:value", event.target.value);
+    const handleInputEvt = evt => {
+      let { value  = '' } = evt.target
 
+      emit('input', evt)
+      emit('update:value', value)
+
+      // 时时更新统计字数
       if (props.showWordLimit) {
         state.maxLength = inputEl.maxLength
         state.nowLength = event.target.value.length
       }
 
       if (props.validateEvent && vcFormItem) {
-        vcFormItem.checkValidate("change")
+        vcFormItem.checkValidate('change')
       }
-    };
+    }
 
     const handleFocus = event => {
       focusing.value = true
-      emit("focus", event)
+      emit('focus', event)
     }
 
     const handleBlur = event => {
-
       focusing.value = false
-
       emit("blur", event)
 
       if (props.validateEvent && vcFormItem) {
+        console.warn(1)
         vcFormItem.checkValidate("blur")
       }
+    }
+    const handleChange = event => {
+      emit("change", event)
     }
 
     // 获取焦点
@@ -181,10 +187,6 @@ export default {
     const blur = () => { inputEl.blur() }
     // 选中文字
     const select = () => { inputEl.select() }
-
-    const handleChange = event => {
-      emit("change", event.target.value)
-    };
     
     // 动态获取文本域
     watch(
@@ -235,7 +237,7 @@ export default {
       textareaCalcStyle,
       input,
       textarea,
-      changeInputEvt,
+      handleInputEvt,
       clearMsg,
       togglePasswd,
       handleFocus,
