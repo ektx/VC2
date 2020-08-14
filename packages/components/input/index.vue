@@ -154,18 +154,15 @@ export default {
         state.nowLength = event.target.value.length
       }
 
-      if (props.validateEvent) {
+      if (props.validateEvent && vcFormItem) {
         vcFormItem.checkValidate("change")
       }
     };
 
     const handleFocus = event => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      focusing.value = true;
-      emit("focus", event);
-    };
+      focusing.value = true
+      emit("focus", event)
+    }
 
     const handleBlur = event => {
 
@@ -173,25 +170,17 @@ export default {
 
       emit("blur", event)
 
-      if (props.validateEvent) {
-        vcFormItem.checkValidate("blur");
+      if (props.validateEvent && vcFormItem) {
+        vcFormItem.checkValidate("blur")
       }
     }
-    // input 获取焦点得方法
-    const focus = () => {
-      let arr = input.value || textarea.value;
-      arr.focus()
-    };
-    // input 失去焦点得方法
-    const blur = () => {
-      let arr = input.value || textarea.value;
-      arr.blur();
-    };
-    // 选中 input 中的文字
-    const select = () => {
-      let arr = input.value || textarea.value;
-      arr.select();
-    };
+
+    // 获取焦点
+    const focus = () => { inputEl.focus() }
+    // 失去焦点
+    const blur = () => { inputEl.blur() }
+    // 选中文字
+    const select = () => { inputEl.select() }
 
     const handleChange = event => {
       emit("change", event.target.value)
@@ -253,7 +242,9 @@ export default {
       handleBlur,
       handleChange,
       focus,
+      blur,
       state,
+      select,
       __attrs: getAttrs(),
       __type
     };

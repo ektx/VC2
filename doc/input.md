@@ -254,7 +254,9 @@ export default {
     @input="getInput"
   />
   <br/>
-  <vc-button @click="getFoucus">手动获取焦点</vc-button>
+  <vc-button @click="setFocus">手动获取焦点</vc-button>
+  <vc-button @click="setBlur">手动失去焦点</vc-button>
+  <vc-button @click="setSelect">手动选中文字</vc-button>
 </template>
 
 <script>
@@ -280,9 +282,9 @@ export default {
       console.log('内容实时变化', event.target.value)
     }
 
-    const getFoucus = () =>{
-      demo.value.focus()
-    }
+    const setFocus = () => demo.value.focus()
+    const setBlur = () => demo.value.blur()
+    const setSelect = () => demo.value.select()
 
     return {
       input,
@@ -290,7 +292,9 @@ export default {
       getFocus,
       getChange,
       getInput,
-      getFoucus,
+      setFocus,
+      setBlur,
+      setSelect,
       demo,
     }
   }
@@ -331,3 +335,8 @@ export default {
 | clear | 在点击由 clearable 属性生成的清空按钮时触发 | (event: Event) |
 
 
+## Input Methods
+| 事件名称 | 说明 | 参数 |
+|---|---|---|---|---|
+| focus | 使 input 获取焦点 | - |
+| blur | 使 input 失去焦点 | - |
