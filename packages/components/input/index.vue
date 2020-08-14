@@ -1,76 +1,71 @@
 <template>
-  <div class="vc-input">
-    <div
-      :class="[
-        'vc-input__text',
-        {'is-focus': focusing, 'is-disabled': disabled }
-      ]"
+  <div 
+    :class="[
+      'vc-input', `is-${type}`,
+      {'is-focus': focusing, 'is-disabled': disabled }
+    ]"
+  >
+    <div class="vc-input__prefix-icon">
+      <slot name="prefixIcon">
+        <i v-if="prefixIcon" :class="prefixIcon"></i>
+      </slot>
+    </div>
+
+    <input
       v-if="type !== 'textarea'"
+      ref="input"
+      class="vc-input__text"
+      v-bind="__attrs"
+      :value="value"
+      :disabled="disabled"
+      :placeholder="placeholder"
+      :type="__type"
+      @input="changeInputEvt"
+      @focus="handleFocus"
+      @blur="handleBlur"
+      @change="handleChange"
+    />
+    <textarea
+      v-else
+      ref="textarea"
+      class="vc-input__textarea"
+      v-bind="__attrs"
+      :value="value"
+      :placeholder="placeholder"
+      :disabled="disabled"
+      :style="textareaCalcStyle"
+      @input="changeInputEvt"
+      @focus="handleFocus"
+      @blur="handleBlur"
+      @change="handleChange"
+    ></textarea>
+
+    <div class="vc-input__suffix-icon">
+      <slot name="suffixIcon">
+        <i v-if="suffixIcon" :class="suffixIcon"></i>
+      </slot>
+    </div>
+
+    <div
+      class="vc-input__clearable"
+      v-if="clearable && value"
+      @click="clearMsg"
     >
-      <div class="vc-input__text--prefix-icon">
-        <slot name="prefixIcon">
-          <i v-if="prefixIcon" :class="prefixIcon"></i>
-        </slot>
-      </div>
-      <input
-        ref="input"
-        :value="value"
-        v-bind="__attrs"
-        :class="['vc-input__text--input',disabled ? 'disabled-input' : '']"
-        :disabled="disabled"
-        :placeholder="placeholder"
-        :type="__type"
-        @input="changeInput"
-        @focus="handleFocus"
-        @blur="handleBlur"
-        @change="handleChange"
-      />
-      <div class="vc-input__text--suffix-icon">
-        <slot name="suffixIcon">
-          <i v-if="suffixIcon" :class="suffixIcon"></i>
-        </slot>
-      </div>
-
-      <div
-        class="vc-input__text--clearable"
-        v-if="clearable && value"
-        @click="clearMsg"
-      >
-        <i class="vc-icon-circle-close"></i>
-      </div>
-
-      <div 
-        v-if="type === 'password' && value" 
-        class="vc-input__text--show-passwd" 
-        @click="togglePasswd"
-      >
-        <i :class="__type === 'text' ? 'vc-icon-not-view' : 'vc-icon-view'"></i>
-      </div>
-
-      <div class="vc-input__numLength" v-if="showWordLimit">
-        <i class>
-          <span>{{nowLength}}</span>
-          <span>/{{maxLength}}</span>
-        </i>
-      </div>
+      <i class="vc-icon-circle-close"></i>
     </div>
-    <div v-else class="vc_input__textarea">
-      <textarea
-        :class="[
-          'vc-input__inner',
-          focusing ? 'focus-textarea' : ''
-        ]"
-        :value="value"
-        ref="textarea"
-        :placeholder="placeholder"
-        :rows="rows"
-        :style="textareaCalcStyle"
-        @input="changeInput"
-        @focus="handleFocus"
-        @blur="handleBlur"
-        @change="handleChange"
-      ></textarea>
+
+    <div 
+      v-if="type === 'password' && value" 
+      class="vc-input__show-passwd" 
+      @click="togglePasswd"
+    >
+      <i :class="__type === 'text' ? 'vc-icon-not-view' : 'vc-icon-view'"></i>
     </div>
+
+      <div v-if="showWordLimit" class="vc-input__num-length">
+        <span>{{state.nowLength}}</span>
+        <span>/{{state.maxLength}}</span>
+      </div>
   </div>
 </template>
 
@@ -79,13 +74,11 @@ import {
   ref,
   reactive,
   onMounted,
-  onUpdated,
   watch,
-  toRefs,
   inject,
-} from "vue"
+} from 'vue'
 import { getAttrs } from '../../utils/index'
-import calcTextareaHeight from "./calcTextareaHeight";
+import calcTextareaHeight from "./calcTextareaHeight"
 
 export default {
   name: "VcInput",
@@ -123,10 +116,6 @@ export default {
       type: String,
       default: "text"
     },
-    rows: {
-      type: [Number, String],
-      default: "1"
-    },
     autosize: {
       type: [Boolean, Object],
       default: false
@@ -143,37 +132,30 @@ export default {
     }
   },
   setup(props, { attrs, emit }) {
-    let hovering = ref(false);
+    const textarea = ref(null)
+    const input = ref(null)
     let focusing = ref(false);
-    let content = ref("");
     let textareaCalcStyle = ref(null);
     let __type = ref(props.type)
+    let inputEl = null
 
     const vcFormItem = inject("vcFormItem", null);
 
     const state = reactive({
       maxLength: 0,
       nowLength: 0
-    });
+    })
 
-    const textarea = ref(null);
-    const input = ref(null);
-
-    watch(
-      () => props.value,
-      (count, prevCount) => {
-        resizeTextarea();
-      }
-    )
-
-    const changeInput = evt => {
+    const changeInputEvt = evt => {
       emit("update:value", event.target.value);
+
       if (props.showWordLimit) {
-        state.maxLength = input.value.maxLength;
-        state.nowLength = event.target.value.length;
+        state.maxLength = inputEl.maxLength
+        state.nowLength = event.target.value.length
       }
+
       if (props.validateEvent) {
-        vcFormItem.checkValidate("change");
+        vcFormItem.checkValidate("change")
       }
     };
 
@@ -215,32 +197,39 @@ export default {
     const handleChange = event => {
       emit("change", event.target.value)
     };
-    // 动态获取文本域得方法
+    
+    // 动态获取文本域
+    watch(
+      () => props.value,
+      () => {resizeTextarea()}
+    )
     const resizeTextarea = () => {
-      if (props.type !== "textarea") return;
-      if (!props.autosize) {
-        textareaCalcStyle.value = {
-          minHeight: calcTextareaHeight(textarea.value).minHeight
-        };
-        return;
+      if (props.type !== "textarea" || !props.autosize) return
+      
+      let minRows = 1
+      let maxRows = null
+      
+      if (typeof props.autosize === 'object') {
+        ({minRows, maxRows} = props.autosize)
       }
-      const minRows = props.autosize.minRows;
-      const maxRows = props.autosize.maxRows;
 
       textareaCalcStyle.value = calcTextareaHeight(
         textarea.value,
         minRows,
         maxRows
-      );
-    };
+      )
+    }
 
     onMounted(() => {
+      inputEl = input.value || textarea.value
+
+      resizeTextarea()
       
-      resizeTextarea();
       if (props.showWordLimit) {
-        state.maxLength = input.value.maxLength;
+        state.maxLength = inputEl.maxLength
       }
-    });
+    })
+
     // 点击 清除图标 清除数据
     const clearMsg = () => {
       emit('update:value', '')
@@ -254,21 +243,18 @@ export default {
     }
 
     return {
-      hovering,
       focusing,
-      content,
       textareaCalcStyle,
+      input,
       textarea,
-      changeInput,
+      changeInputEvt,
       clearMsg,
       togglePasswd,
       handleFocus,
       handleBlur,
       handleChange,
       focus,
-      input,
-      ...toRefs(state),
-      vcFormItem,
+      state,
       __attrs: getAttrs(),
       __type
     };
