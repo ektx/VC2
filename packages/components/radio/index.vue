@@ -81,8 +81,8 @@ export default {
     };
 
     const handleChange = event => {
-      console.log(isDisabled())
-      if(isDisabled()) return
+      console.log(isDisabled());
+      if (isDisabled()) return;
       setTimeout(() => {
         if (isGroup.value) {
           radioGroup.value.$emit("update:value", model.value);
@@ -132,15 +132,18 @@ export default {
   vertical-align: middle;
 }
 
-.vc-radio__input.is-disabled+span.vc-radio__label {
+.vc-radio__input.is-disabled + span.vc-radio__label {
   color: #c0c4cc;
+  cursor: not-allowed;
+}
+
+.vc-radio__input.is-disabled .vc-radio__inner {
   cursor: not-allowed;
 }
 
 .vc-radio__input.is-disabled.is-checked .vc-radio__inner {
   background-color: #f5f7fa;
   border-color: #e4e7ed;
-  cursor: not-allowed;
 }
 
 .vc-radio__inner {

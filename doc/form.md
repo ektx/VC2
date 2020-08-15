@@ -19,6 +19,10 @@
       <vc-color-picker v-model:value="formData.color" round/>
     </vc-form-item>
 
+    <vc-form-item label="费用方式" prop="isOwnExpense">
+      <vc-switch v-model:value="formData.isOwnExpense" active-text="备用金" inactive-text="报销"/>
+    </vc-form-item>
+    
     <vc-form-item label="活动区域" prop="region">
       <vc-select v-model:value="formData.region" :options="options" multiple/>
     </vc-form-item>
@@ -46,6 +50,7 @@ export default {
       formData: {
         name: '',
         color: '',
+        isOwnExpense: false,
         region: [],
         desc: 'text'
       },
@@ -63,6 +68,9 @@ export default {
         ],
         color: [
           { required: true, message: '队旗颜色不能为空', trigger: 'blur' },
+        ],
+        isOwnExpense: [
+          {required: true, type: 'boolean', message: '费用方式不可为空', trigger: 'change'}
         ],
         region: [
           { required: true, type: 'array', message: '请选择活动区域', trigger: ['blur', 'change'] }
