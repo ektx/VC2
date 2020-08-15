@@ -5,12 +5,11 @@
 #### 基础用法
 由于选项默认可见，不宜过多，若选项过多，建议使用 Select 选择器。
 
-
 ::: demo
 ```html
 <template>
   <div>
-    <vc-form class="aa" label-width="80px" :labelPosition="labelPosition">
+    <vc-form class="aa" label-width="80px">
       <vc-radio v-model:value="radio" label="1"></vc-radio>
       <vc-radio v-model:value="radio" label="2"></vc-radio>
     </vc-form>
@@ -22,16 +21,37 @@ export default {
   setup() {
     let radio = ref('1')
 
-    watch(
-      () => radio.value,
-        (count, prevCount) => {
-        console.log(11111,count)
-     }
-)
-    
-
     return {
       radio
+    }
+  }
+}
+</script>
+```
+:::
+
+#### radio组
+由于选项默认可见，不宜过多，若选项过多，建议使用 Select 选择器。
+
+::: demo
+```html
+<template>
+  <div>
+    <vc-radio-group v-model:value="radio" class="aa" label-width="80px">
+      <vc-radio label="1"></vc-radio>
+      <vc-radio label="2"></vc-radio>
+      <vc-radio label="9"></vc-radio>
+    </vc-radio-group>
+  </div>
+</template>
+
+<script>
+export default {
+  setup() {
+    let radio = ref('9')
+    
+    return {
+      radio,
     }
   }
 }
@@ -45,13 +65,12 @@ export default {
 #### 禁用状态
 单选框不可用的状态。
 
-
 ::: demo
 ```html
 <template>
   <div>
-    <vc-radio v-model:value="radio" label="1"></vc-radio>
-    <vc-radio v-model:value="radio" label="2"></vc-radio>
+    <vc-radio disabled v-model:value="radio" label="1"></vc-radio>
+    <vc-radio disabled v-model:value="radio" label="2"></vc-radio>
   </div>
 </template>
 
@@ -59,14 +78,6 @@ export default {
 export default {
   setup() {
     let radio = ref('1')
-
-    watch(
-      () => radio.value,
-        (count, prevCount) => {
-        console.log(11111,count)
-     }
-)
-    
 
     return {
       radio

@@ -1,6 +1,8 @@
 <template>
   <label :class="['vc-radio',{'is-checked': model === label}]" ref="vcRadio">
-    <span :class="['vc-radio__input',{'is-checked': model === label}]">
+    <span
+      :class="['vc-radio__input',{'is-checked': model === label}, isDisabled() ? 'is-disabled':'']"
+    >
       <span :class="['vc-radio__inner']">
         <input
           type="radio"
@@ -8,10 +10,14 @@
           :value="label"
           v-model="model"
           @change="handleChange"
+          :disabled="isDisabled"
         />
       </span>
     </span>
-    <span class="vc-radio__label">备选项</span>
+    <span class="vc-radio__label">
+      <slot></slot>
+      <template v-if="!$slots.default">备选项</template>
+    </span>
   </label>
 </template>
 
@@ -28,75 +34,70 @@ import {
 } from "vue";
 export default {
   name: "VcRadio",
+  componentName: "vcRadio",
   props: {
     label: {},
-    value: {}
+    value: {},
+    // 是否禁用
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   },
   setup(props, context) {
-    //let model = ref("");
     let checked = ref("");
+    let radioGroup = ref("");
     let { ctx } = getCurrentInstance();
-
     const vcRadio = ref("");
-
-    
-
     // 判断这是不是一个radio组
     const isGroup = computed(() => {
       let parent = ctx.$parent;
       while (parent) {
-        if (parent.$options.name !== "ElRadioGroup") {
+        if (parent.$options.name !== "VcRadioGroup") {
           parent = parent.$parent;
         } else {
-          this._radioGroup = parent;
+          radioGroup.value = parent;
           return true;
         }
       }
       return false;
     });
-    
+
     const model = computed({
-      get:() => {
-        return isGroup.value ? radioGroup.value : props.value;
-        
+      get: () => {
+        return isGroup.value ? radioGroup.value.value : props.value;
       },
-      set: val =>{
+      set: val => {
         if (isGroup.value) {
-            //this.dispatch('ElRadioGroup', 'input', [val]);
-          } else {
-            console.log('val',val)
-            context.emit("update:value", val);
-          } 
+          radioGroup.value.$emit("update:value", val);
+        } else {
+          context.emit("update:value", val);
+        }
       }
-    })
-
-    console.log(222,model.value)
-
-    console.log(888888,ctx)
-
-    const handleChange = (event) =>{
-      setTimeout(()=>{
-        console.log(9,model.value)
-        context.emit("update:value", model.value);
-
-      },100)
-    }
-
-    const changeValue = event =>{
-      model.value = props.label
-    }
-
-    onMounted(() => {
-      
     });
 
-    return {
-      model,
+    const isDisabled = () => {
+      return isGroup.value ? radioGroup.value.disabled : props.disabled;
+    };
 
+    const handleChange = event => {
+      console.log(isDisabled())
+      if(isDisabled()) return
+      setTimeout(() => {
+        if (isGroup.value) {
+          radioGroup.value.$emit("update:value", model.value);
+        } else {
+          context.emit("update:value", model.value);
+        }
+      }, 100);
+    };
+
+    return {
+      isDisabled,
+
+      model,
       vcRadio,
-      handleChange,
-      changeValue
-      
+      handleChange
     };
   }
 };
@@ -130,6 +131,18 @@ export default {
   position: relative;
   vertical-align: middle;
 }
+
+.vc-radio__input.is-disabled+span.vc-radio__label {
+  color: #c0c4cc;
+  cursor: not-allowed;
+}
+
+.vc-radio__input.is-disabled.is-checked .vc-radio__inner {
+  background-color: #f5f7fa;
+  border-color: #e4e7ed;
+  cursor: not-allowed;
+}
+
 .vc-radio__inner {
   border: 1px solid #dcdfe6;
   border-radius: 100%;

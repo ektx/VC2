@@ -15,50 +15,53 @@ import vcSelect from './components/select/index.vue'
 import vcSwitch from './components/switch/index.vue'
 import vcTabs from './components/tabs/index.vue'
 import vcTabPane from './components/tabPane/index.vue'
+import vcRadioGroup from './components/radio-group/index.vue'
 
 const components = [
-  vcButton,
-  vcButtonGroup,
-  vcColorPicker,
-  vcIcon,
-  vcLayer,
-  vcMessage,
-  vcNotification,
-  vcFormItem,
-  vcInput,
-  vcForm,
-  vcRadio,
-  vcSelect,
-  vcSwitch,
-  vcTabs,
-  vcTabPane
+    vcButton,
+    vcButtonGroup,
+    vcColorPicker,
+    vcIcon,
+    vcLayer,
+    vcMessage,
+    vcNotification,
+    vcFormItem,
+    vcInput,
+    vcForm,
+    vcRadio,
+    vcSelect,
+    vcSwitch,
+    vcTabs,
+    vcTabPane,
+    vcRadioGroup
 ]
 
 const install = app => {
-  components.forEach(item => {
-    if (item.__file) {
-      app.component(item.name, item)
-    } else {
-      app.provide(item.name, item.function)  
-    }
-  })
+    components.forEach(item => {
+        if (item.__file) {
+            app.component(item.name, item)
+        } else {
+            app.provide(item.name, item.function)
+        }
+    })
 }
 
 export default {
-  install,
-  vcButton,
-  vcButtonGroup,
-  vcColorPicker,
-  vcIcon,
-  vcLayer,
-  vcMessage,
-  vcNotification,
-  vcFormItem,
-  vcInput,
-  vcForm,
-  vcRadio,
-  vcSelect,
-  vcSwitch,
-  vcTabs,
-  vcTabPane
+    install,
+    vcButton,
+    vcButtonGroup,
+    vcColorPicker,
+    vcIcon,
+    vcLayer,
+    vcMessage,
+    vcNotification,
+    vcFormItem,
+    vcInput,
+    vcForm,
+    vcRadio,
+    vcSelect,
+    vcSwitch,
+    vcTabs,
+    vcTabPane,
+    vcRadioGroup
 }
