@@ -86,7 +86,8 @@ export default {
         if (typeof slots[0].type === 'symbol') {
           slots = slots[0].children
         }
-        slots.forEach((vnode) => {
+        slots.forEach((vnode, index) => {
+          console.log(index, this.value)
           if (vnode.type.name === 'vcTabPane') {
             const id = vnode.props.name || vnode.props.label
             const item = {
@@ -99,7 +100,14 @@ export default {
             }
 
             this.list.push(item)
-            if (id === this.value) this.activeTab = item
+
+            // 如果不存在默认值
+            if (!this.value) {
+              // 设置第一个tab为活动值
+              if (index === 0) this.activeTab = item
+            } else {
+              if (id === this.value) this.activeTab = item
+            }
           }
         })
       } else {
