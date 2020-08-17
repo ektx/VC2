@@ -87,7 +87,6 @@ export default {
           slots = slots[0].children
         }
         slots.forEach((vnode, index) => {
-          console.log(index, this.value)
           if (vnode.type.name === 'vcTabPane') {
             const id = vnode.props.name || vnode.props.label
             const item = {
