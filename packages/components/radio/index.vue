@@ -1,7 +1,12 @@
 <template>
-  <label :class="['vc-radio',{'is-checked': model === label}]" ref="vcRadio">
+  <label
+    :class="['vc-radio',{'is-checked': model === label}, isBorder ? 'is-border' : '', isButton() ? '' : 'is-button',isDisabled() ? 'is-disabled':'']"
+    ref="vcRadio"
+    :style="[sizeStyle,coreStyle]"
+  >
     <span
       :class="['vc-radio__input',{'is-checked': model === label}, isDisabled() ? 'is-disabled':'']"
+      v-show="isButton()"
     >
       <span :class="['vc-radio__inner']">
         <input
@@ -10,7 +15,7 @@
           :value="label"
           v-model="model"
           @change="handleChange"
-          :disabled="isDisabled"
+          :disabled="isDisabled()"
         />
       </span>
     </span>
@@ -24,31 +29,39 @@
 <script>
 import {
   ref,
-  reactive,
-  watchEffect,
-  onMounted,
   getCurrentInstance,
-  onUpdated,
+  onMounted,
   watch,
   computed
 } from "vue";
 export default {
   name: "VcRadio",
   componentName: "vcRadio",
-  props: {
+  props: { 
     label: {},
     value: {},
     // 是否禁用
     disabled: {
       type: Boolean,
       default: false
+    },
+    // 是否顯示边框
+    border: {
+      type: Boolean,
+      default: false
+    },
+    // 文字大小
+    size: {
+      type: Number,
+      default: 14
     }
   },
   setup(props, context) {
-    let checked = ref("");
     let radioGroup = ref("");
+    let isBorder = ref("");
     let { ctx } = getCurrentInstance();
     const vcRadio = ref("");
+
     // 判断这是不是一个radio组
     const isGroup = computed(() => {
       let parent = ctx.$parent;
@@ -76,28 +89,73 @@ export default {
       }
     });
 
+    const isButton = () => {
+      if (isGroup.value && radioGroup.value.type == "button") {
+        return false;
+      }
+      return true;
+    };
+
+    const isShowBorder = () => {
+      if (isGroup.value && radioGroup.value.type == "button") {
+        isBorder.value = true;
+      } else {
+        isBorder.value = props.border;
+      }
+    };
+
+    const coreStyle = computed(() => {
+      if (isGroup.value && radioGroup.value.type == "button" && model.value == props.label) {
+        return {
+          background: radioGroup.value.fill || '',
+          color: radioGroup.value.textColor || '',
+          boxShadow: "-1px 0 0 0 "+ radioGroup.value.fill || '',
+        };
+      }
+    });
+
     const isDisabled = () => {
+      if (isGroup.value && !radioGroup.value.disabled) {
+        return props.disabled;
+      }
       return isGroup.value ? radioGroup.value.disabled : props.disabled;
     };
 
+    const sizeStyle = computed(() => {
+      if (isGroup.value && radioGroup.value.size != undefined) {
+        return {
+          fontSize: radioGroup.value.size + "px"
+        };
+      }
+      return {
+        fontSize: props.size + "px"
+      };
+    });
+
     const handleChange = event => {
-      console.log(isDisabled());
       if (isDisabled()) return;
       setTimeout(() => {
         if (isGroup.value) {
-          radioGroup.value.$emit("update:value", model.value);
+          radioGroup.value.$emit("update:value",model.value);
         } else {
           context.emit("update:value", model.value);
         }
       }, 100);
     };
 
+    onMounted(() => {
+      isShowBorder();
+    });
+
     return {
       isDisabled,
-
+      sizeStyle,
       model,
       vcRadio,
-      handleChange
+      handleChange,
+      isButton,
+      isBorder,
+      coreStyle
     };
   }
 };
@@ -119,6 +177,46 @@ export default {
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+.vc-radio.is-disabled {
+  cursor: not-allowed;
+}
+.vc-radio.is-border {
+  padding: 0.6em 0.9em 0.5em 0.8em;
+  border-radius: 4px;
+  border: 1px solid #dcdfe6;
+  box-sizing: border-box;
+}
+.vc-radio.is-button.is-border {
+  padding: 0.5em 0.9em 0.5em 0.75em;
+}
+.vc-radio.is-button {
+  margin-right: 0;
+  border-radius: 0;
+  border-left-color: transparent;
+}
+.vc-radio.is-button .vc-radio__label {
+  padding-left: 0;
+}
+.vc-radio.is-checked {
+  color: #409eff;
+  border-color: #409eff;
+}
+.vc-radio.is-button:nth-child(1) {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-left-color: #dcdfe6;
+}
+.vc-radio.is-button.is-checked {
+  color: #fff;
+  background-color: #409eff;
+  border-color: transparent;
+}
+.vc-radio.is-button:last-child {
+  margin-right: 0;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
 .vc-radio:last-child {
   margin-right: 0;
 }
@@ -161,7 +259,7 @@ export default {
 .vc-radio__inner:after {
   width: 4px;
   height: 4px;
-  //border-radius: 100%;
+  border-radius: 100%;
   background-color: #fff;
   content: "";
   position: absolute;
@@ -170,6 +268,7 @@ export default {
   transform: translate(-50%, -50%) scale(0);
   transition: transform 0.15s ease-in;
 }
+
 .vc-radio__inner:hover {
   border-color: #409eff;
 }
@@ -195,7 +294,7 @@ export default {
 }
 
 .vc-radio__label {
-  font-size: 14px;
+  font-size: 1em;
   padding-left: 10px;
 }
 </style>

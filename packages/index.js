@@ -11,6 +11,8 @@ import vcLayer from './components/layer/index.vue'
 import vcMessage from './components/message/index.js'
 import vcNotification from './components/notification/index.js'
 import vcRadio from './components/radio/index.vue'
+import vcRadioGroup from './components/radioGroup/index.vue'
+
 import vcSelect from './components/select/index.vue'
 import vcSwitch from './components/switch/index.vue'
 import vcTabPane from './components/tabPane/index.vue'
@@ -31,7 +33,8 @@ const components = [
     vcSelect,
     vcSwitch,
     vcTabPane,
-    vcTabs
+    vcTabs,
+    vcRadioGroup
 ]
 
 const install = app => {
@@ -60,5 +63,6 @@ export default {
     vcSelect,
     vcSwitch,
     vcTabPane,
-    vcTabs
+    vcTabs,
+    vcRadioGroup
 }
