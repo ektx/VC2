@@ -1,6 +1,6 @@
 <template>
   <label
-    :class="['vc-radio',{'is-checked': model === label}, isBorder ? 'is-border' : '', isButton() ? '' : 'is-button',isDisabled() ? 'is-disabled':'']"
+    :class="['vc-radio',{'is-checked': model === label}, isBorder ? 'is-border' : '', isButton() ? '' : 'is-button',isDisabled() ? 'is-disabled':'',labelFocus ? 'is-label-focus' : '']"
     ref="vcRadio"
     :style="[sizeStyle,coreStyle]"
   >
@@ -8,7 +8,7 @@
       :class="['vc-radio__input',{'is-checked': model === label}, isDisabled() ? 'is-disabled':'']"
       v-show="isButton()"
     >
-      <span :class="['vc-radio__inner']">
+      <span :class="['vc-radio__inner', focus ? 'is-focus' : '']">
         <input
           type="radio"
           class="vc-radio__original"
@@ -16,6 +16,8 @@
           v-model="model"
           @change="handleChange"
           :disabled="isDisabled()"
+          @blur="handleBlur"
+          @focus="handleFocus"
         />
       </span>
     </span>
@@ -32,12 +34,13 @@ import {
   getCurrentInstance,
   onMounted,
   watch,
-  computed
+  computed,
+  inject
 } from "vue";
 export default {
   name: "VcRadio",
   componentName: "vcRadio",
-  props: { 
+  props: {
     label: {},
     value: {},
     // 是否禁用
@@ -60,7 +63,10 @@ export default {
     let radioGroup = ref("");
     let isBorder = ref("");
     let { ctx } = getCurrentInstance();
+    let focus = ref(false)
+    let labelFocus = ref(false)
     const vcRadio = ref("");
+    const vcFormItem = inject("vcFormItem", null);
 
     // 判断这是不是一个radio组
     const isGroup = computed(() => {
@@ -105,11 +111,17 @@ export default {
     };
 
     const coreStyle = computed(() => {
-      if (isGroup.value && radioGroup.value.type == "button" && model.value == props.label) {
+      if (
+        isGroup.value &&
+        radioGroup.value.type == "button" &&
+        model.value == props.label
+      ) {
         return {
-          background: radioGroup.value.fill || '',
-          color: radioGroup.value.textColor || '',
-          boxShadow: "-1px 0 0 0 "+ radioGroup.value.fill || '',
+          background: radioGroup.value.fill || "",
+          color: radioGroup.value.textColor || "",
+          boxShadow: radioGroup.value.fill
+            ? "-1px 0 0 0 " + radioGroup.value.fill
+            : ""
         };
       }
     });
@@ -122,25 +134,66 @@ export default {
     };
 
     const sizeStyle = computed(() => {
-      if (isGroup.value && radioGroup.value.size != undefined) {
+      if (
+        isGroup.value &&
+        radioGroup.value.size != undefined &&
+        radioGroup.value.size != 14
+      ) {
         return {
           fontSize: radioGroup.value.size + "px"
         };
       }
-      return {
-        fontSize: props.size + "px"
-      };
+      if (props.size != 14) {
+        return {
+          fontSize: props.size + "px"
+        };
+      }
     });
 
     const handleChange = event => {
+      console.log(11111111111)
       if (isDisabled()) return;
       setTimeout(() => {
         if (isGroup.value) {
-          radioGroup.value.$emit("update:value",model.value);
+          radioGroup.value.$emit("update:value", model.value);
+          if (vcFormItem != null) {
+            vcFormItem.checkValidate("change");
+          }
         } else {
           context.emit("update:value", model.value);
+          if (vcFormItem != null) {
+            vcFormItem.checkValidate("change");
+          }
         }
       }, 100);
+    };
+
+    const handleBlur = event => {
+      console.log('blur')
+      event.preventDefault();
+      event.stopPropagation();
+      if(isBorder.value == false){
+        focus.value = false
+      }else {
+        labelFocus.value = false
+      }
+      if (vcFormItem != null) {
+        vcFormItem.checkValidate("blur");
+      }
+    };
+
+    const handleFocus = event => {
+      console.log('focus')
+      event.preventDefault();
+      event.stopPropagation();
+      if(isBorder.value == false){
+       focus.value = true
+      }else {
+        labelFocus.value = true
+      }
+      if (vcFormItem != null) {
+        vcFormItem.checkValidate("focus");
+      }
     };
 
     onMounted(() => {
@@ -155,7 +208,11 @@ export default {
       handleChange,
       isButton,
       isBorder,
-      coreStyle
+      coreStyle,
+      handleFocus,
+      handleBlur,
+      focus,
+      labelFocus
     };
   }
 };
@@ -186,8 +243,19 @@ export default {
   border: 1px solid #dcdfe6;
   box-sizing: border-box;
 }
+.vc-radio.is-border.is-label-focus {
+  box-shadow: 0 0 0 2px rgba(64,158,255,.2);
+  transition: all .2s ease-in-out;
+}
+.vc-radio.is-border.is-disabled {
+  border-color: #ebeef5;
+}
 .vc-radio.is-button.is-border {
   padding: 0.5em 0.9em 0.5em 0.75em;
+}
+.vc-radio.is-button.is-border.is-checked.is-disabled {
+  background-color: #f2f6fc;
+  box-shadow: -1px 0 0 0 #f2f6fc;
 }
 .vc-radio.is-button {
   margin-right: 0;
@@ -210,6 +278,7 @@ export default {
   color: #fff;
   background-color: #409eff;
   border-color: transparent;
+  box-shadow: -1px 0 0 0 #409eff;
 }
 .vc-radio.is-button:last-child {
   margin-right: 0;
@@ -240,7 +309,7 @@ export default {
 }
 
 .vc-radio__input.is-disabled.is-checked .vc-radio__inner {
-  background-color: #f5f7fa;
+  background-color: #e4e7ed;
   border-color: #e4e7ed;
 }
 
@@ -280,6 +349,13 @@ export default {
 .vc-radio.is-checked .vc-radio__inner {
   border-color: #409eff;
   background: #409eff;
+}
+
+.vc-radio.is-checked .is-focus {
+  box-shadow: 0 0 0 2px rgba(64,158,255,.2);
+}
+.vc-radio.is-checked.is-labelFocus .is-focus {
+  box-shadow: none;
 }
 .vc-radio__original {
   opacity: 0;

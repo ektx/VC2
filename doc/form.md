@@ -19,6 +19,15 @@
       <vc-color-picker v-model:value="formData.color" round/>
     </vc-form-item>
 
+    <vc-form-item label="活动地点" prop="color">
+      <vc-radio-group v-model:value="formData.radio" @change="change">
+        <vc-radio label="北京"></vc-radio>
+        <vc-radio label="上海"></vc-radio>
+        <vc-radio label="杭州"></vc-radio>
+      </vc-radio-group>
+    </vc-form-item>
+
+
     <vc-form-item label="费用方式" prop="isOwnExpense">
       <vc-switch v-model:value="formData.isOwnExpense" active-text="备用金" inactive-text="报销"/>
     </vc-form-item>
@@ -52,7 +61,8 @@ export default {
         color: '',
         isOwnExpense: false,
         region: [],
-        desc: 'text'
+        desc: 'text',
+        radio: '1'
       },
       options: [{
         value: 'Beijing',
@@ -108,6 +118,9 @@ export default {
     resetForm() {
       console.log('reset...')
       this.$refs.form.resetFields()
+    },
+    change(event) {
+      console.log(event.target.value)
     },
     clearForm() {
       this.$refs.form.clearValidate()

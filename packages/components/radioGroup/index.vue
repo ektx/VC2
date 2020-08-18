@@ -24,7 +24,7 @@ export default {
     },
     size: {
       type: Number,
-      default: 1
+      default: 14
     },
     textColor: {
       type: String,
