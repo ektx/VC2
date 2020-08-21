@@ -173,7 +173,6 @@ export default {
       emit("blur", event)
 
       if (props.validateEvent && vcFormItem) {
-        console.warn(1)
         vcFormItem.checkValidate("blur")
       }
     }
