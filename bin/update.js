@@ -63,6 +63,8 @@ const install = app => {
       app.component(item.name, item)
     } else {
       app.provide(item.name, item.function)  
+      // 绑定 ctx 上
+      app.config.globalProperties[item.name] = item.function
     }
   })
 }`
