@@ -94,6 +94,9 @@
   <vc-button icon="vc-icon-star-off" />
   <vc-button color="primary" icon="vc-icon-bell" />
   <vc-button color="success" icon="vc-icon-success" />
+  <vc-button round icon="vc-icon-star-off" />
+  <vc-button round color="primary" icon="vc-icon-bell" />
+  <vc-button round color="success" icon="vc-icon-success" />
   <vc-button color="warn" icon="vc-icon-warning">警告</vc-button>
   <vc-button color="error" icon="vc-icon-close">错误</vc-button>
 </template>

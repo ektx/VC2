@@ -3,7 +3,7 @@
     :class="[
       'vc-button', 
       color, 
-      {plain, animate, round}
+      {plain, animate, round, 'is-icon': !_hasSlot}
     ]" 
     type="button"
     :disabled="loading || disabled"
@@ -45,6 +45,9 @@ export default {
   computed: {
     _icon () {
       return this.loading ? 'vc-icon-loading' : this.icon
+    },
+    _hasSlot () {
+      return this.$slots.default
     }
   },
   methods: {
