@@ -11,7 +11,7 @@
           'is-disabled': tab.disabled
         }
       ]" 
-      @click="clickEvt(tab)"
+      @click="evt => clickEvt(evt, tab)"
     >
       <span :id="`tab-nav__${tab.id}`" class="vc-tabs__item-label">
         <i v-if="tab.icon" :class="tab.icon"></i>
@@ -85,8 +85,9 @@ export default {
       this.removeTab(tab)
     },
 
-    clickEvt (tab) {
+    clickEvt (evt, tab) {
       this.vcTabs.activeTab = tab
+      this.vcTabs.$emit('tab-click', tab, evt)
       this.$nextTick(this.updateBar)
     },
 
