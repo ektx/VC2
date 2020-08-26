@@ -88,6 +88,7 @@ export default {
     clickEvt (evt, tab) {
       this.vcTabs.activeTab = tab
       this.vcTabs.$emit('tab-click', tab, evt)
+      this.vcTabs.$emit('tabClick', tab, evt)
       this.$nextTick(this.updateBar)
     },
 

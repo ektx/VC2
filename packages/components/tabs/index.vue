@@ -126,7 +126,8 @@ export default {
         this.activeTab = null
       } 
 
-      this.$emit('removeTab', tab, index)
+      this.$emit('tab-remove', tab, index)
+      this.$emit('tabRemove', tab, index)
     }
   }
 }

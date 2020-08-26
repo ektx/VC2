@@ -91,7 +91,7 @@
 ```html
 <template>
   <vc-button @click="handleClick">Add</vc-button>
-  <vc-tabs v-model:value="activeName" @removeTab="remove">
+  <vc-tabs v-model:value="activeName" @tabRemove="remove">
     <vc-tab-pane 
       v-for="tab in list"
       :key="tab.name"
@@ -186,7 +186,8 @@
 
 | 事件名 | 说明 | 回调参数 |
 | --- | --- | --- |
-| removeTab | 关闭的标签 | 返回关闭标签相关属性及tab的索引 |
+| tab-click | tab 被选中时触发 | 被选中的标签 tab 实例 |
+| tab-remove | 关闭的标签 | 返回关闭标签相关属性及tab的索引 |
 
 ## TabPane Poprs
 
