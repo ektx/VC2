@@ -35,7 +35,7 @@ export default {
 | title | `String` | 弹层的标题 | 标题 | - |
 | width | `String` | 调整弹层的宽度<br>eg: `width="200px"` | - | - |
 | closeModal | `Boolean` | 点击背景不消失 | false | - |
-
+| append-to-body | `Boolean` | Dialog 自身是否插入至 body 元素上 | false | - |
 ## Events
 
 | 事件名 | 说明 | 回调参数 |
