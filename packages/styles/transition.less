@@ -15,29 +15,29 @@
 }
 
 
-.vc-fade-down-enter-active {
-  animation: vc-ani-fade-in .4s;
+.vc-fade-animate-enter-active {
+  animation: vc-animate-fade-in .4s;
 }
 
-.vc-fade-down-leave-active {
-  animation: vc-ani-fade-out .4s;
+.vc-fade-animate-leave-active {
+  animation: vc-animate-fade-out .4s;
 }
 
-@keyframes vc-ani-fade-in {
+@keyframes vc-animate-fade-in {
   0% {
-      opacity: 0;
+    opacity: 0;
   }
   100% {
-      opacity: 1;
+    opacity: 1;
   }
 }
 
-@keyframes vc-ani-fade-out {
+@keyframes vc-animate-fade-out {
   0% {
-      opacity: 1;
+    opacity: 1;
   }
   100% {
-      opacity: 0;
+    opacity: 0;
   }
 }
 
@@ -52,27 +52,27 @@
   }
 }
 // 动画
-.scale-enter-active {
-  animation: vc-ani-scale-in .4s;
+.vc-scale-enter-active {
+  animation: vc-animate-scale-in .4s;
 } 
-.scale-leave-active {
-  animation: vc-ani-scale-out .4s;
+.vc-scale-leave-active {
+  animation: vc-animate-scale-out .4s;
 }
 
-@keyframes vc-ani-scale-in {
+@keyframes vc-animate-scale-in {
   0% {
-      transform: scale(0)
+    transform: scale(.15)
   }
   100% {
-      transform: scale(1)
+    transform: scale(1)
   }
 }
 
-@keyframes vc-ani-scale-out {
+@keyframes vc-animate-scale-out {
   0% {
-      transform: scale(1)
+    transform: scale(1)
   }
   100% {
-      transform: scale(0)
+    transform: scale(.15)
   }
 }
