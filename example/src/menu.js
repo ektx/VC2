@@ -47,7 +47,7 @@ export default [
       {
         "label": "Form 表单",
         "file": "form.md"
-      },
+      }
     ]
   },
   {
@@ -64,6 +64,10 @@ export default [
       {
         "label": "Layer 弹层",
         "file": "layer.md"
+      },
+      {
+        "label": "confirm",
+        "file": "confirm.md"
       }
     ]
   },
