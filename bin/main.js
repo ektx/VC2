@@ -1,5 +1,5 @@
 const { createServer } = require('vite')
-const Router = require('koa-router')
+const Router = require('@koa/router')
 const MarkdownIt = require('markdown-it')
 const Prism = require('prismjs')
 const fs = require('fs')
