@@ -86,17 +86,19 @@
     color: #0099ff;
   }
   .vc-icon-loading,
-  &::after {
+  &-dot {
     position: absolute;
     left: 0px;
-    width: 1em;
-    height: 1em;
+    // width: 1em;
+    // height: 1em;
+    word-break: keep-all;
   }
   
-  &::after {
+  &-dot {
     top: 50%;
     content: "";
-    border-radius: 100%;
+    font-style: inherit;
+    border-radius: 1em;
     background-color: #fff;
     transform: translateY(-50%);
     transition: transform .35s, left .35s;

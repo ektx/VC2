@@ -25,6 +25,8 @@
       <Inset v-if="inset" type="close" :icon="inactiveIcon" :text="inactiveText"/>
 
       <span v-if="loading" class="vc-icon-loading"></span>
+
+      <i class="vc-switch__core-dot">{{btnText}}</i>
     </div>
 
     <span
@@ -109,7 +111,9 @@ export default {
     loading: {
       type: Boolean,
       default: false
-    }
+    },
+    // 按钮文字
+    btnText: String
   },
 
   setup(props, { emit }) {

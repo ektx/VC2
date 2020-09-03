@@ -169,6 +169,16 @@ export default {
 ```
 :::
 
+## 按钮文字
+
+::: demo
+```html
+<template>
+  <vc-switch :value="true" btn-text="弹幕"></vc-switch>
+</template>
+```
+:::
+
 ## Props
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 | 
