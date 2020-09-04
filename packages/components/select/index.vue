@@ -88,21 +88,24 @@ export default {
     }
   },
   props: {
+    // 值
     value: {
       type: [String, Number, Array],
       default: ''
     },
+    // 选项列表
     options: {
       type: Array,
-      default: []
+      default: () => ([])
     },
+    // [TODO]弹层是否追加到body
     popperAppendToBody: {
       type: Boolean,
       default: true
     },
     // 是否多选
     multiple: Boolean,
-    // 多选时是否将选中值按文字的形式展示	
+    // [TODO]多选时是否将选中值按文字的形式展示	
     collapseTags: Boolean,
     // 多选时最多显示多少个 tag
     maxTagCount: {
@@ -114,7 +117,9 @@ export default {
       type: String,
       default: '请选择'
     },
+    // 是否禁用
     disabled: Boolean,
+    // 是否可清空
     clearable: Boolean,
     // 是否可搜索
     filterable: Boolean,

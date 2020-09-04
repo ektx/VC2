@@ -593,7 +593,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" @change="change" @blur="blur"/>
+  <vc-select v-model:value="value" :options="options" @change="change" @focus="focus" @blur="blur"/>
 </template>
 
 <script>
@@ -625,11 +625,16 @@ export default {
       console.log('blur')
     }
 
+    function focus(val) {
+      console.log(val)
+    }
+
     return {
       value,
       options,
       change,
-      blur
+      blur,
+      focus,
     }
   }
 }
@@ -713,3 +718,30 @@ export default {
 </script>
 ```
 :::
+
+## Poprs
+
+| 参数 | 类型 | 说明 | 可选值 | 默认值 |
+|---|---|---|---|---|
+| value | **String/Number/Array** | 值 | - | - |
+| options | **Array** | 选项列表 | - | [] |
+| multiple | **Boolean** | 弹层是否追加到body | - | false |
+| maxTagCount | **Number** | 多选时最多显示多少个 tag | - | 1 |
+| placeholder | **String** | 占位符 | - | 请选择 |
+| disabled | **Boolean** | 占位符 | - | false |
+| clearable | **Boolean** | 是否可清空 | - | false |
+| filterable | **Boolean** | 是否可搜索 | - | false |
+| filterMethod | **Function** | 自定义搜索方法 | - | - |
+| createTags | **Boolean** | 是否允许用户创建新条目 | - | false |
+| remoteMethod | **Function** | 自定义远程搜索功能 | - | - |
+| valueAlias | **String** | 值别名 | - | value |
+| labelAlias | **String** | 标签别名 | - | label |
+
+## Events
+
+| 事件名 | 说明 | 回调参数 |
+| --- | --- | --- |
+| focus | 获取焦点时 | - |
+| blur | 失去焦点时 | - |
+| closed | 选项层消失时 | - |
+| change | 值发生变化时 | 当前值 |
