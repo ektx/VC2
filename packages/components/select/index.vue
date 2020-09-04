@@ -38,7 +38,7 @@
                 </template>
                 <template #default="item">
                   <slot v-bind="item">
-                    <label>{{item.label}}</label>
+                    <label>{{item[labelAlias]}}</label>
                     <i v-if="item.selected" class="vc-icon-check"></i>
                   </slot>
                 </template>
@@ -47,7 +47,7 @@
             <VCSOption v-else :item="item">
               <template #default="item">
                 <slot v-bind="item">
-                  <label>{{item.label}}</label>
+                  <label>{{item[labelAlias]}}</label>
                   <i v-if="item.selected" class="vc-icon-check"></i>
                 </slot>
               </template>
@@ -123,7 +123,17 @@ export default {
     // 是否允许用户创建新条目
     createTags: Boolean, 
     // 自定义远程搜索功能
-    remoteMethod: Function
+    remoteMethod: Function,
+    // 值别名
+    valueAlias: {
+      type: String,
+      default: 'value'
+    },
+    // 标签别名
+    labelAlias: {
+      type: String,
+      default: 'label'
+    }
   },
   setup(props, { emit }) {
     const { ctx } = getCurrentInstance()
@@ -178,8 +188,6 @@ export default {
     watch(
       () => props.value,
       (val, old) => {
-        // console.log('val:', val)
-        // console.log('old:', old)
         if (props.multiple) {
           old = old ? old : []
           val = [].concat(val)
@@ -208,19 +216,19 @@ export default {
                 if (diff.includes(child.value)) option.push(child)
               })
             } else {
-              if (diff.includes(item.value)) option.push(item)
+              if (diff.includes(item[props.valueAlias])) option.push(item)
             }
           })
 
           if (type === 'add') {
             option.forEach(item => {
               item.selected = true
-              selectedItem.value[item.value] = item
+              selectedItem.value[item[props.valueAlias]] = item
             })
           } else {
             option.forEach(item => {
               item.selected = false
-              delete selectedItem.value[item.value]
+              delete selectedItem.value[item[props.valueAlias]]
             })
           }
         } else {
@@ -245,12 +253,19 @@ export default {
 
           if (item) {
             item.selected = true
-            selectedItem.value[item.value] = item
+            selectedItem.value[item[props.valueAlias]] = item
           }
         }
       },
       {
         immediate: true
+      }
+    )
+
+    watch(
+      () => props.options,
+      (val) => {
+        _options.value = val
       }
     )
 
@@ -396,7 +411,7 @@ export default {
 
       tooltipEl.style.width = width + 'px'
 
-      setHoverItem(this.value, this.options, this.hoverItem)
+      setHoverItem(this.value, this.options, this.hoverItem, this.$props)
 
       this.tooltip = createPopper(this.$refs.inputArea, tooltipEl, {
         placement: 'bottom',
@@ -421,6 +436,7 @@ export default {
 
     selectedEvt(evt, item) {
       evt.stopPropagation()
+          debugger
 
       if (item.disabled) return
       let result = ''
@@ -429,14 +445,14 @@ export default {
       if (item.selected) {
         if (this.multiple || this.createTags) {
           item.selected = false
-          delete this.selectedItem[item.value]
+          delete this.selectedItem[item[this.valueAlias]]
           result = Object.keys(this.selectedItem)
         }
       } else {
         item.selected = true
 
         if (this.multiple || this.createTags) {
-          this.selectedItem[item.value] = item
+          this.selectedItem[item[this.valueAlias]] = item
           result = Object.keys(this.selectedItem)
           this.$refs.tags.focusEvt()
         } else {
@@ -448,10 +464,10 @@ export default {
           }
 
           this.selectedItem = {
-            [item.value]: item
+            [item[this.valueAlias]]: item
           }
           this.isOpen = false
-          result = item.value
+          result = item[this.valueAlias]
         }
       }
 
@@ -472,12 +488,12 @@ function optionMouseOver (hover, item) {
 }
 
 // 展开时，显示第一个选中的选项
-function setHoverItem (value, options, hover) {
+function setHoverItem (value, options, hover, props) {
   let hasFrist = false
   value = [].concat(value)
   
   options.forEach(item => {
-    if (value.includes(item.value) && !hasFrist) {
+    if (value.includes(item[props.valueAlias]) && !hasFrist) {
       item.hover = true
       hasFrist = true
       hover.value = item
