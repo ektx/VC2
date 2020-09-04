@@ -637,19 +637,25 @@ export default {
 ```
 :::
 
+
 ## 别名用法
 
 ::: demo
+
+> `label-alias` 设置名称别名  
+> `value-alias` 设置值的别名  
+
 ```html
 <template>
   <vc-select v-model:value="value" :options="options" label-alias="name" value-alias="result"/>
-  <vc-select v-model:value="value" :options="groupOptions" label-alias="name" value-alias="result"/>
+  <vc-select v-model:value="groupValue" :options="groupOptions" label-alias="name" value-alias="result"/>
 </template>
 
 <script>
 export default {
   setup() {
     const value = ref('')
+    const groupValue = ref('')
     const options = [{
       result: '选项1',
       name: '黄金糕'
@@ -698,6 +704,7 @@ export default {
 
     return {
       value,
+      groupValue,
       options,
       groupOptions
     }

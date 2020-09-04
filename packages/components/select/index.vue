@@ -158,8 +158,8 @@ export default {
         let item = selectedItem.value[props.value]
 
         if (props.value && item) {
-          result = item.label
-          intValue.value = item.label
+          result = item[props.labelAlias]
+          intValue.value = item[props.labelAlias]
         } else {
           result = props.placeholder
           intValue.value = ''
@@ -436,7 +436,6 @@ export default {
 
     selectedEvt(evt, item) {
       evt.stopPropagation()
-          debugger
 
       if (item.disabled) return
       let result = ''
