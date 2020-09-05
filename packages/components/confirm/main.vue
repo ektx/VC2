@@ -1,14 +1,26 @@
 <template>
   <transition
     name="vc-fade-animate"
+    @after-leave="handlerAfterLeave"
   >
     <div v-show="visible.value" class="vc-confirm">
-      <div class="vc-confirm-box">
-        <div class="vc-confirm-box__header">
-          <div class="vc-confirm-box__title">{{title}}</div>
-          <i class="vc-confirm-box__close-btn vc-icon-close"></i>
+      <transition name="vc-fade-down-animate">
+        <div v-show="visible.value" class="vc-confirm-box">
+          <div class="vc-confirm-box__header">
+            <div class="vc-confirm-box__title">{{title}}</div>
+            <i 
+              class="vc-confirm-box__close-btn vc-icon-close" 
+              @click="closeEvt"
+            ></i>
+          </div>
+          <div class="vc-confirm-box__content">
+            {{ message }}
+          </div>
+          <div class="vc-confirm-box__footer">
+
+          </div>
         </div>
-      </div>
+      </transition>
     </div>
   </transition>
 </template>
@@ -21,23 +33,25 @@ export default {
     title: {
       type: String,
       default: '标题'
+    },
+    message: String,
+    type: {
+      type: String,
+      default: 'alert'
+    },
+
+    // === 功能字段
+    close: Function,
+    closed: Function,
+  },
+  methods: {
+    closeEvt () {
+      this.close()
+    },
+    handlerAfterLeave() {
+      this.$emit('closed')
+      this.closed()
     }
   }
 }
 </script>
-
-<style lang="less">
-.vc-confirm {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 2000;
-  background-color: rgba(0, 0, 0, .3);
-
-  h1 {
-    color: red;
-  }
-}
-</style>

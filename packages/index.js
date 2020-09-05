@@ -1,36 +1,36 @@
-/* 以下代码自动生成于 Sat Sep 05 2020 18:02:09 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Sat Sep 05 2020 22:22:59 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
-import vcButtonGroup from './components/buttonGroup/index.vue'
-import vcConfirm from './components/confirm/index.js'
-import vcIcon from './components/icon/index.vue'
-import vcForm from './components/form/index.vue'
-import vcFormItem from './components/formItem/index.vue'
 import vcColorPicker from './components/colorPicker/index.vue'
+import vcConfirm from './components/confirm/index.js'
+import vcButtonGroup from './components/buttonGroup/index.vue'
+import vcForm from './components/form/index.vue'
+import vcIcon from './components/icon/index.vue'
 import vcInput from './components/input/index.vue'
-import vcLayer from './components/layer/index.vue'
 import vcMessage from './components/message/index.js'
-import vcNotification from './components/notification/index.js'
+import vcFormItem from './components/formItem/index.vue'
 import vcRadio from './components/radio/index.vue'
 import vcSelect from './components/select/index.vue'
+import vcNotification from './components/notification/index.js'
+import vcLayer from './components/layer/index.vue'
 import vcSwitch from './components/switch/index.vue'
 import vcTabPane from './components/tabPane/index.vue'
 import vcTabs from './components/tabs/index.vue'
 
 const components = [
   vcButton,
-  vcButtonGroup,
-  vcConfirm,
-  vcIcon,
-  vcForm,
-  vcFormItem,
   vcColorPicker,
+  vcConfirm,
+  vcButtonGroup,
+  vcForm,
+  vcIcon,
   vcInput,
-  vcLayer,
   vcMessage,
-  vcNotification,
+  vcFormItem,
   vcRadio,
   vcSelect,
+  vcNotification,
+  vcLayer,
   vcSwitch,
   vcTabPane,
   vcTabs
@@ -51,18 +51,18 @@ const install = app => {
 export default {
   install,
   vcButton,
-  vcButtonGroup,
-  vcConfirm,
-  vcIcon,
-  vcForm,
-  vcFormItem,
   vcColorPicker,
+  vcConfirm,
+  vcButtonGroup,
+  vcForm,
+  vcIcon,
   vcInput,
-  vcLayer,
   vcMessage,
-  vcNotification,
+  vcFormItem,
   vcRadio,
   vcSelect,
+  vcNotification,
+  vcLayer,
   vcSwitch,
   vcTabPane,
   vcTabs

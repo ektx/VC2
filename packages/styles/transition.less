@@ -41,14 +41,32 @@
   }
 }
 
-@keyframes vc-ani-fade-up-in {
+.vc-fade-down-animate-enter-active {
+  animation: vc-animate-fade-down-in .3s;
+}
+
+.vc-fade-down-animate-leave-active {
+  animation: vc-animate-fade-down-out .3s;
+}
+
+@keyframes vc-animate-fade-down-in {
   0% {
-      opacity: 0;
-      transform: translateY(30px)
+    opacity: 0;
+    transform: translateY(-30px)
   }
   100% {
-      opacity: 1;
-      transform: translateY(0px)
+    opacity: 1;
+    transform: translateY(0px)
+  }
+}
+@keyframes vc-animate-fade-down-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0px)
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px)
   }
 }
 // 动画
