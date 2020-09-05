@@ -66,7 +66,7 @@ export default [
         "file": "layer.md"
       },
       {
-        "label": "confirm",
+        "label": "Confirm 确认框",
         "file": "confirm.md"
       }
     ]
