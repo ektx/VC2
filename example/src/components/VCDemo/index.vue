@@ -73,8 +73,25 @@ export default {
     let __userData = setupFun(ref, watch, reactive, inject)
 
     if (__userData) {
+      // Composition API
+      if (Reflect.has(__userData, 'setup')) {
+        componentOpts = {
+          setup() {
+            return {
+              ...__userData.setup(),
+              STATE__: state,
+              CODE_EL__: codeEl
+            }
+          }
+        }
+      } 
       // options api
-      if (Reflect.has(__userData, 'data')) {
+      else {
+        // 如果用户并没有设置 data
+        if (typeof __userData.data !== 'function') {
+          __userData.data = function() { return {}}
+        }
+
         componentOpts = {
           ...__userData,
           data () {
@@ -89,18 +106,6 @@ export default {
 
             // 绑定 code 展示区 dom
             codeEl.value = this.$refs.CODE_EL__
-          }
-        }
-      } 
-      // Composition API
-      else {
-        componentOpts = {
-          setup() {
-            return {
-              ...__userData.setup(),
-              STATE__: state,
-              CODE_EL__: codeEl
-            }
           }
         }
       }

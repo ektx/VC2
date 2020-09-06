@@ -6,25 +6,22 @@
 ::: demo 
 ```html
 <template>
-  <vc-button @click="open()">点击打开 Confirm Alert 提示</vc-button>
+  <vc-button @click="open">点击打开 Confirm Alert 提示</vc-button>
 </template>
 
 <script>
 export default {
-  setup() {
-    function open() {
-      console.log(this)
+  methods: {
+    open() {
       this.VcConfirm({
         title: '标题名称',
         message: '这是一段内容',
         type: 'alert'
-      // }).then(data => {
-      //   console.log(data)
+      }).then(data => {
+        alert('确认了消息:'+data)
+      }).catch(err => {
+        alert('关闭了消息:'+err)
       })
-    }
-
-    return {
-      open
     }
   }
 }
@@ -49,8 +46,10 @@ export default {
         title: '标题名称',
         message: '这是一段内容',
         type: 'confirm'
-      // }).then(data => {
-      //   console.log(data)
+      }).then(data => {
+        alert('确认了消息:'+data)
+      }).catch(err => {
+        alert('关闭了消息:'+err)
       })
     }
 
