@@ -3,12 +3,17 @@
     name="vc-fade-animate"
     @after-leave="handlerAfterLeave"
   >
-    <div v-show="visible.value" class="vc-confirm">
+    <div 
+      v-show="visible.value" 
+      class="vc-confirm" 
+      @click="closeEvt('close')"
+    >
       <transition name="vc-fade-down-animate">
         <div v-show="visible.value" class="vc-confirm-box">
           <div class="vc-confirm-box__header">
             <div class="vc-confirm-box__title">{{title}}</div>
             <i 
+              v-if="showClose"
               class="vc-confirm-box__close-btn vc-icon-close" 
               @click="closeEvt('close')"
             ></i>
@@ -53,6 +58,11 @@ export default {
     buttons: {
       type: Array,
       default: () => ([])
+    },
+    // 是否显示右上角关闭按钮
+    showClose: {
+      type: Boolean,
+      default: true
     },
     // === 功能字段
     visible: Object,

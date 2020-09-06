@@ -16,7 +16,7 @@ export default {
       this.VcConfirm({
         title: '标题名称',
         message: '这是一段内容',
-        type: 'alert'
+        type: 'alert',
       }).then(data => {
         alert('确认了消息:'+data)
       }).catch(err => {
