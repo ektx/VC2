@@ -6,7 +6,7 @@
     <div 
       v-show="visible.value" 
       class="vc-confirm" 
-      @click="closeEvt('close')"
+      @click="closeEvt('close', 'modal')"
     >
       <transition name="vc-fade-down-animate">
         <div v-show="visible.value" class="vc-confirm-box">
@@ -15,7 +15,7 @@
             <i 
               v-if="showClose"
               class="vc-confirm-box__close-btn vc-icon-close" 
-              @click="closeEvt('close')"
+              @click="closeEvt('close', 'icoBtn')"
             ></i>
           </div>
           <div class="vc-confirm-box__content">
@@ -64,6 +64,11 @@ export default {
       type: Boolean,
       default: true
     },
+    // 是否可以通过点击 modal 关闭
+    closeOnClickModal: {
+      type: Boolean,
+      default: true
+    },
     // === 功能字段
     visible: Object,
     close: Function,
@@ -96,7 +101,10 @@ export default {
     }
   },
   methods: {
-    closeEvt (data = '') {
+    closeEvt (data = '', el) {
+      // 点击的是背景，同时不允许点击背景关闭时
+      if (el === 'modal' && !this.closeOnClickModal) return
+
       this.reject(data)
     },
     handlerAfterLeave() {
