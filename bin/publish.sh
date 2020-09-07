@@ -11,4 +11,9 @@ yarn run update
 yarn run build
 
 # 提交到公司 NPM
+VERSION=$(awk '/version/ {print $2}' ./package.json)
+
+echo $VERSION
+
+# 发布
 npm publish --registry http://47.111.127.77:4873
