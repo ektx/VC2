@@ -19,10 +19,6 @@ export default [
         "label": "Button 按钮",
         "file": "button.md"
       },
-      {
-        "label": "Collapse 折叠面板",
-        "file": "collapse.md"
-      }
     ]
   },
   {
@@ -55,6 +51,19 @@ export default [
     ]
   },
   {
+    "label": "容器",
+    "children": [
+      {
+        "label": "Collapse 折叠面板",
+        "file": "collapse.md"
+      },
+      {
+        "label": "Layer 弹层",
+        "file": "layer.md"
+      },
+    ]
+  },
+  {
     "label": "公告通知",
     "children": [
       {
@@ -65,10 +74,6 @@ export default [
         "label": "Notification 通知",
         "file": "notification.md"
       },
-      {
-        "label": "Layer 弹层",
-        "file": "layer.md"
-      }
     ]
   },
   {
