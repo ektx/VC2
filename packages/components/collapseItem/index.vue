@@ -7,7 +7,7 @@
       <i class="vc-collapse-item__icon vc-icon-arrow-right"></i>
     </div>
 
-    <div class="vc-collapse-item__wrap" :style="_contentStyle">
+    <div class="vc-collapse-item__wrap" :style="_contentStyle" @transitionend="transitionend">
       <div class="vc-collapse-item__content">
         <slot/>
       </div>
@@ -46,12 +46,14 @@ export default {
     isOpen: {
       handler (val) {
         this.$nextTick(() => {
-          if (val) {
-            let { scrollHeight: H } = this.$el.querySelector('.vc-collapse-item__content')
+          let { scrollHeight: H } = this.$el.querySelector('.vc-collapse-item__content')
     
-            this._contentStyle.height = H + 'px'
-          } else {
-            this._contentStyle.height = '0px'
+          this._contentStyle.height = H + 'px'
+
+          if (!val) {
+            requestAnimationFrame(() => {
+              this._contentStyle.height = '0px'
+            })
           }
         })
       },
@@ -62,6 +64,10 @@ export default {
     toggleEvt () {
       if (this.disabled) return
       this.vcCollapse.itemClick(this)
+    },
+    transitionend() {
+      if (this.isOpen)
+        this._contentStyle.height = 'auto'
     }
   }
 }
