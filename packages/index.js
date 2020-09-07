@@ -1,4 +1,4 @@
-/* 以下代码自动生成于 Mon Sep 07 2020 09:44:42 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Mon Sep 07 2020 09:46:53 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
@@ -12,8 +12,8 @@ import vcMessage from './components/message/index.js'
 import vcNotification from './components/notification/index.js'
 import vcRadio from './components/radio/index.vue'
 import vcSelect from './components/select/index.vue'
-import vcTabPane from './components/tabPane/index.vue'
 import vcSwitch from './components/switch/index.vue'
+import vcTabPane from './components/tabPane/index.vue'
 import vcTabs from './components/tabs/index.vue'
 
 const components = [
@@ -29,8 +29,8 @@ const components = [
   vcNotification,
   vcRadio,
   vcSelect,
-  vcTabPane,
   vcSwitch,
+  vcTabPane,
   vcTabs
 ]
 
@@ -60,7 +60,7 @@ export default {
   vcNotification,
   vcRadio,
   vcSelect,
-  vcTabPane,
   vcSwitch,
+  vcTabPane,
   vcTabs
 }
