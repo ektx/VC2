@@ -240,7 +240,7 @@ export default {
           let item = ''
           let oldItem = selectedItem.value[old]
 
-          if (oldItem) oldItem.selected = false
+          if (oldItem && !props.createTags) oldItem.selected = false
 
           for (let i = 0, l = props.options.length; i < l; i++) {
             let data = props.options[i]
@@ -441,7 +441,6 @@ export default {
 
     selectedEvt(evt, item) {
       evt.stopPropagation()
-
       if (item.disabled) return
       let result = ''
       this.query = ''
