@@ -1,11 +1,11 @@
 .vc-collapse-item {
+color: @color-text-primary;
   border-top: 1px solid #ebeef5;
 
   &__header {
     display: flex;
     font-size: 14px;
     font-weight: bold;
-    color: @color-text-primary;
     line-height: 3;
     align-items: center;
   }
@@ -29,6 +29,11 @@
 
   &__content {
     padding: 0 0 10px;
+  }
+
+  &.is-disabled {
+    color: @color-text-secondary;
+    cursor: not-allowed;
   }
   
 }

@@ -40,9 +40,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-.vc-collapse {
-  border-bottom: 1px solid #ebeef5;
-}
-</style>

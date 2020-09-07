@@ -1,7 +1,9 @@
 <template>
-  <div :class="['vc-collapse-item', {'is-open': isOpen}]">
+  <div :class="['vc-collapse-item', {'is-open': isOpen, 'is-disabled': disabled}]">
     <div class="vc-collapse-item__header" @click="toggleEvt">
-      <div class="vc-collapse-item__title">{{ title }}</div>
+      <div class="vc-collapse-item__title">
+        <slot name="title">{{ title }}</slot>
+      </div>
       <i class="vc-collapse-item__icon vc-icon-arrow-right"></i>
     </div>
 
@@ -23,6 +25,7 @@ export default {
     },
     title: String,
     open: Boolean,
+    disabled: Boolean
   },
   inject: ['vcCollapse'],
   data() {
@@ -55,6 +58,7 @@ export default {
   },
   methods: {
     toggleEvt () {
+      if (this.disabled) return
       this.vcCollapse.itemClick(this)
     }
   }
