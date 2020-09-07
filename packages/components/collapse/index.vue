@@ -8,11 +8,12 @@
 export default {
   name: 'VcCollapse',
   props: {
+    // 当前激活的面板
     value: {
       type: Array,
       default: () => ([])
     },
-    // 手风琴效果
+    // 是否手风琴模式
     accordion: Boolean,
   },
   provide() {

@@ -19,12 +19,14 @@
 export default {
   name: 'VcCollapseItem',
   props: {
+    // 唯一标志符
     value: {
       type: [String, Number],
       default: ''
     },
+    // 面板标题
     title: String,
-    open: Boolean,
+    // 是否禁用
     disabled: Boolean
   },
   inject: ['vcCollapse'],

@@ -177,3 +177,11 @@ export default {
 | 事件名 | 说明 | 回调参数 |
 | --- | --- | --- |
 | change | 当前激活面板改变时触发 | (Array) => {} |
+
+## Item Poprs
+
+| 参数 | 类型 | 说明 | 可选值 | 默认值 |
+|---|---|---|---|---|
+| value | **String/Number** | 唯一标志符 | - | - |
+| title | **String** | 面板标题 | - | - |
+| disabled | **Boolean** | 是否禁用 | - | - |
