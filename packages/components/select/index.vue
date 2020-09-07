@@ -193,6 +193,7 @@ export default {
     watch(
       () => props.value,
       (val, old) => {
+        debugger
         if (props.multiple) {
           old = old ? old : []
           val = [].concat(val)
@@ -246,10 +247,10 @@ export default {
             let data = props.options[i]
 
             if (data.children) {
-              item = data.children.find(child => child.value === val)
+              item = data.children.find(child => child[props.valueAlias] === val)
               break
             } else {
-              if (data.value === val) {
+              if (data[props.valueAlias] === val) {
                 item = data
                 break
               }
