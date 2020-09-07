@@ -193,7 +193,6 @@ export default {
     watch(
       () => props.value,
       (val, old) => {
-        debugger
         if (props.multiple) {
           old = old ? old : []
           val = [].concat(val)

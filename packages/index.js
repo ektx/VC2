@@ -1,4 +1,4 @@
-/* 以下代码自动生成于 Mon Sep 07 2020 09:46:53 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Mon Sep 07 2020 11:04:36 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
@@ -6,10 +6,10 @@ import vcColorPicker from './components/colorPicker/index.vue'
 import vcForm from './components/form/index.vue'
 import vcFormItem from './components/formItem/index.vue'
 import vcIcon from './components/icon/index.vue'
-import vcInput from './components/input/index.vue'
 import vcLayer from './components/layer/index.vue'
-import vcMessage from './components/message/index.js'
+import vcInput from './components/input/index.vue'
 import vcNotification from './components/notification/index.js'
+import vcMessage from './components/message/index.js'
 import vcRadio from './components/radio/index.vue'
 import vcSelect from './components/select/index.vue'
 import vcSwitch from './components/switch/index.vue'
@@ -23,10 +23,10 @@ const components = [
   vcForm,
   vcFormItem,
   vcIcon,
-  vcInput,
   vcLayer,
-  vcMessage,
+  vcInput,
   vcNotification,
+  vcMessage,
   vcRadio,
   vcSelect,
   vcSwitch,
@@ -54,10 +54,10 @@ export default {
   vcForm,
   vcFormItem,
   vcIcon,
-  vcInput,
   vcLayer,
-  vcMessage,
+  vcInput,
   vcNotification,
+  vcMessage,
   vcRadio,
   vcSelect,
   vcSwitch,
