@@ -9,7 +9,7 @@ export default [
     ]
   },
   {
-    "label": "组件",
+    "label": "基础",
     "children": [
       {
         "label": "Icon 图标",
@@ -18,6 +18,10 @@ export default [
       {
         "label": "Button 按钮",
         "file": "button.md"
+      },
+      {
+        "label": "Collapse 折叠面板",
+        "file": "collapse.md"
       }
     ]
   },
@@ -47,11 +51,11 @@ export default [
       {
         "label": "Form 表单",
         "file": "form.md"
-      },
+      }
     ]
   },
   {
-    "label": "公告",
+    "label": "公告通知",
     "children": [
       {
         "label": "Message 消息提示",
