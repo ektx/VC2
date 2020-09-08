@@ -19,8 +19,13 @@ export default [
         "label": "Button 按钮",
         "file": "button.md"
       },
+    ]
+  },
+  {
+    "label": "数据",
+    "children": [
       {
-        "label": "pagination",
+        "label": "Pagination 分页",
         "file": "pagination.md"
       }
     ]
