@@ -18,7 +18,7 @@ export default [
       {
         "label": "Button 按钮",
         "file": "button.md"
-      },
+      }
     ]
   },
   {
@@ -27,6 +27,10 @@ export default [
       {
         "label": "Pagination 分页",
         "file": "pagination.md"
+      },
+      {
+        "label": "table",
+        "file": "table.md"
       }
     ]
   },

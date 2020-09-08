@@ -1,43 +1,45 @@
-/* 以下代码自动生成于 Tue Sep 08 2020 10:53:30 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Tue Sep 08 2020 16:40:01 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
+import vcButtonGroup from './components/buttonGroup/index.vue'
 import vcCollapse from './components/collapse/index.vue'
 import vcCollapseItem from './components/collapseItem/index.vue'
+import vcColorPicker from './components/colorPicker/index.vue'
 import vcForm from './components/form/index.vue'
 import vcFormItem from './components/formItem/index.vue'
 import vcIcon from './components/icon/index.vue'
+import vcLayer from './components/layer/index.vue'
 import vcInput from './components/input/index.vue'
 import vcMessage from './components/message/index.js'
-import vcButtonGroup from './components/buttonGroup/index.vue'
-import vcColorPicker from './components/colorPicker/index.vue'
-import vcLayer from './components/layer/index.vue'
+import vcNotification from './components/notification/index.js'
 import vcPagination from './components/pagination/index.vue'
 import vcRadio from './components/radio/index.vue'
 import vcSelect from './components/select/index.vue'
 import vcSwitch from './components/switch/index.vue'
 import vcTabPane from './components/tabPane/index.vue'
+import vcTable from './components/table/index.vue'
 import vcTabs from './components/tabs/index.vue'
-import vcNotification from './components/notification/index.js'
 
 const components = [
   vcButton,
+  vcButtonGroup,
   vcCollapse,
   vcCollapseItem,
+  vcColorPicker,
   vcForm,
   vcFormItem,
   vcIcon,
+  vcLayer,
   vcInput,
   vcMessage,
-  vcButtonGroup,
-  vcColorPicker,
-  vcLayer,
+  vcNotification,
   vcPagination,
   vcRadio,
   vcSelect,
   vcSwitch,
   vcTabPane,
-  vcTabs,
-  vcNotification
+  vcTable,
+  vcTabs
 ]
 
 const install = app => {
@@ -55,21 +57,22 @@ const install = app => {
 export default {
   install,
   vcButton,
+  vcButtonGroup,
   vcCollapse,
   vcCollapseItem,
+  vcColorPicker,
   vcForm,
   vcFormItem,
   vcIcon,
+  vcLayer,
   vcInput,
   vcMessage,
-  vcButtonGroup,
-  vcColorPicker,
-  vcLayer,
+  vcNotification,
   vcPagination,
   vcRadio,
   vcSelect,
   vcSwitch,
   vcTabPane,
-  vcTabs,
-  vcNotification
+  vcTable,
+  vcTabs
 }
