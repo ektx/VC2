@@ -103,10 +103,10 @@ export default {
       return this.list.slice(start, start +5)
     },
     next5 () {
-      return this.currentList[0].label + 5 <= this.pages
+      return this.currentList.length ? this.currentList[0].label + 5 <= this.pages : false
     },
     prev5() {
-      return this.currentList[0].label > 1
+      return this.currentList.length ? this.currentList[0].label > 1 : false
     }
   },
   methods: {
