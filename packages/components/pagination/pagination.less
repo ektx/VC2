@@ -3,32 +3,14 @@
   align-items: center;
   margin: 0;
   padding: 0;
-
-  li {
-    display: inline-block;
-    padding: 0 .5em;
-    font-size: 14px;
-    color: #333;
-    cursor: pointer;
-    user-select: none;
-    transition: color .35s;
-
-    &.hold {
-      font-weight: bold;
-      color: #09f;
-    }
-
-    &:hover {
-      color: #09f;
-    }
-  }
+  color: #09f;
 
   .btn {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 1em;
-    height: 1em;
+    height: 2em;
 
     &::after {
       content: '';
@@ -48,11 +30,10 @@
     }
 
     &:hover::after {
-      border-color: #09f;
+      border-color: currentColor;
     }
 
     &.is-disabled {
-      // pointer-events: none;
       cursor: not-allowed;
 
       &::after {
@@ -77,6 +58,44 @@
 
     &:hover::before {
       content: "\e619";
+    }
+  }
+
+  &.has-color {
+    li {
+      color: #606266;
+      border-radius: 3px;
+      background-color: #f5f5f5;
+      transition: none;
+
+      &.is-active {
+        color: #fff;
+        background-color: #09f;
+      }
+    }
+  }
+
+  li {
+    display: inline-block;
+    min-width: 2em;
+    padding: 0 .5em;
+    margin: 0 3px;
+    font-size: 14px;
+    line-height: 2em;
+    color: #333;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    box-sizing: border-box;
+    transition: color .35s;
+
+    &.is-active {
+      font-weight: bold;
+      color: currentColor;
+    }
+
+    &:hover {
+      color: currentColor;
     }
   }
 }

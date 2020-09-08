@@ -1,7 +1,14 @@
 <template>
-  <ul class="vc-pagination">
+  <ul 
+    :class="['vc-pagination', {'has-color': background}]"
+      :style="{color: background ? background : ''}"
+  >
     <li 
-      :class="['btn prev-btn', {'is-disabled': index === 1}]" 
+      :class="[
+        'btn prev-btn', 
+        {
+          'is-disabled': index === 1,
+        }]" 
       @click="changeEvt(-1)"
     ></li>
 
@@ -16,7 +23,8 @@
     <li 
       v-for="item in currentList" 
       :key="item.label"
-      :class="[{hold: item.hold}]"
+      :class="[{'is-active': item.hold}]"
+      :style="{backgroundColor: background && item.hold ? background : ''}"
       @click="goto(item.label)"
     >{{item.label}}</li>
 
@@ -61,6 +69,11 @@ export default {
     step: {
       type: Number,
       default: 5
+    },
+    // 背景色
+    background: {
+      type: [Boolean, String],
+      default: false
     }
   },
   computed: {

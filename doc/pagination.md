@@ -39,7 +39,7 @@ export default {
 
 ::: demo 
 
-> 默认情况下，当总页数超过 **7** 页时，Pagination 会折叠多余的页码按钮。通过pager-count属性可以设置最大页码按钮数。
+> 默认情况下，当总页数超过 **7** 页时，Pagination 会折叠多余的页码按钮。通过 `step` 属性可以设置最大页码按钮数。
 
 ```html
 <template>
@@ -52,6 +52,32 @@ export default {
     return {
       index: 3,
       total: 1000
+    }
+  }
+}
+</script>
+```
+:::
+
+## 带有背景色的分页
+
+::: demo 
+
+> 默认情况下，当总页数超过 **7** 页时，Pagination 会折叠多余的页码按钮。通过 `step` 属性可以设置最大页码按钮数。
+
+```html
+<template>
+  <vc-pagination v-model:index="index" :total="total" background/>
+  <br/>
+  <vc-pagination v-model:index="index" :total="total" background="#f90"/>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      index: 1,
+      total: 100
     }
   }
 }
