@@ -17,3 +17,7 @@ echo $VERSION
 
 # 发布
 npm publish --registry http://47.111.127.77:4873
+
+# git tag 0.0.0
+
+# git tag -l
