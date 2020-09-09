@@ -593,7 +593,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" @change="change" @blur="blur"/>
+  <vc-select v-model:value="value" :options="options" @change="change" @focus="focus" @blur="blur"/>
 </template>
 
 <script>
@@ -625,14 +625,123 @@ export default {
       console.log('blur')
     }
 
+    function focus(val) {
+      console.log(val)
+    }
+
     return {
       value,
       options,
       change,
-      blur
+      blur,
+      focus,
     }
   }
 }
 </script>
 ```
 :::
+
+
+## 别名用法
+
+::: demo
+
+> `label-alias` 设置名称别名  
+> `value-alias` 设置值的别名  
+
+```html
+<template>
+  <vc-select v-model:value="value" :options="options" label-alias="name" value-alias="result"/>
+  <vc-select v-model:value="groupValue" :options="groupOptions" label-alias="name" value-alias="result"/>
+</template>
+
+<script>
+export default {
+  setup() {
+    const value = ref('选项2')
+    const groupValue = ref('Shanghai')
+    const options = [{
+      result: '选项1',
+      name: '黄金糕'
+    }, {
+      result: '选项2',
+      name: '双皮奶'
+    }, {
+      result: '选项3',
+      name: '蚵仔煎'
+    }, {
+      result: '选项4',
+      name: '龙须面'
+    }, {
+      result: '选项5',
+      name: '北京烤鸭'
+    }]
+
+    const groupOptions = [
+      {
+        label: '热门城市',
+        children: [{
+          result: 'Shanghai',
+          name: '上海'
+        }, {
+          result: 'Beijing',
+          name: '北京'
+        }]
+      }, 
+      {
+        label: '城市名',
+        children: [{
+          result: 'Chengdu',
+          name: '成都'
+        }, {
+          result: 'Shenzhen',
+          name: '深圳'
+        }, {
+          result: 'Guangzhou',
+          name: '广州'
+        }, {
+          result: 'Dalian',
+          name: '大连'
+        }]
+      }
+    ]
+
+    return {
+      value,
+      groupValue,
+      options,
+      groupOptions
+    }
+  }
+}
+</script>
+```
+:::
+
+## Poprs
+
+| 参数 | 类型 | 说明 | 可选值 | 默认值 |
+|---|---|---|---|---|
+| value | **String/Number/Array** | 值 | - | - |
+| options | **Array** | 选项列表 | - | [] |
+| multiple | **Boolean** | 弹层是否追加到body | - | false |
+| maxTagCount | **Number** | 多选时最多显示多少个 tag | - | 1 |
+| placeholder | **String** | 占位符 | - | 请选择 |
+| disabled | **Boolean** | 占位符 | - | false |
+| clearable | **Boolean** | 是否可清空 | - | false |
+| filterable | **Boolean** | 是否可搜索 | - | false |
+| filterMethod | **Function** | 自定义搜索方法 | - | - |
+| createTags | **Boolean** | 是否允许用户创建新条目 | - | false |
+| remoteMethod | **Function** | 自定义远程搜索功能 | - | - |
+| valueAlias | **String** | 值别名 | - | value |
+| labelAlias | **String** | 标签别名 | - | label |
+
+## Events
+
+| 事件名 | 说明 | 回调参数 |
+| --- | --- | --- |
+| focus | 获取焦点时 | - |
+| blur | 失去焦点时 | - |
+| closed | 选项层消失时 | - |
+| change | 值发生变化时 | 当前值 |
