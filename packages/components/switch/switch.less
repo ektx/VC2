@@ -97,7 +97,7 @@
     font-style: inherit;
     border-radius: 1em;
     background-color: #fff;
-    transition: transform .35s, left .35s;
+    transition: padding .35s, transform .35s, left .35s;
 
     &:empty {
       padding: 0;
@@ -112,6 +112,9 @@
       left: 100%;  
       transform: translate(-100%, 0%);    
     }
+    .vc-switch__core:active & {
+      padding: 0 .6em;   
+    }
     .vc-icon-loading {
       position: absolute;
       font-size: 12px;
@@ -125,7 +128,6 @@
     font-size: 0.8em;
     vertical-align: top;
   }
-
 }
 
 
