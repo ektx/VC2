@@ -66,10 +66,10 @@ export default {
 <template>
   <vc-table :header="header" :data="data" :index.sync="index" :total="data.length">
     <template v-slot:setting="{item, index}">
-      <vc-btn @click="showDetail(item, index)">详情</vc-btn>
+      <vc-button @click="showDetail(item, index)">详情</vc-button>
     </template>
   </vc-table>
-  <vc-btn @click="add">添加数据</vc-btn>
+  <vc-button @click="add">添加数据</vc-button>
 </template>
 
 <script>
