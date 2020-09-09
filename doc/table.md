@@ -244,6 +244,9 @@ export default {
 可将表格内容高亮显示，方便区分「成功、信息、警告、危险」等内容。
 
 ::: demo 
+
+> 通过在 data 中添加 `classes` 属性，可以自定义当前行的颜色。
+
 ```html
 <template>
   <vc-table :header="header" :data="data" :index.sync="index" :total="data.length">
@@ -291,6 +294,94 @@ export default {
           name: "王小虎",
           address: "上海市普陀区金沙江路 1519 弄",
           classes: "error"
+        },
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1516 弄"
+        }
+      ],
+      index: 1
+    }
+  },
+}
+</script>
+<style>
+.vc-table .warning td {
+  color: #fff;
+  background: #f90;
+}
+.vc-table .success td {
+  color: #fff;
+  background: green;
+}
+.vc-table .error td {
+  color: #fff;
+  background: red;
+}
+</style>
+```
+:::
+
+
+## 自定义列模板
+
+自定义列的显示内容，可组合其他组件使用。
+
+::: demo 
+
+> 通过在 header 的数组对象中，添加 `slot` 具名插槽可以自定义显示内容。
+
+```html
+<template>
+  <vc-table :header="header" :data="data" :index.sync="index" :total="data.length">
+    <template #name="{item, index}">
+      {{index +1}}.<vc-button>{{item.name}}</vc-button>
+    </template>
+    <template #date="{item, index}">
+      <i class="vc-icon-time"></i>{{item.date}}
+    </template>
+    <template v-slot:setting="{item, index}">
+      <vc-button @click="showDetail(item, index)">详情</vc-button>
+    </template>
+  </vc-table>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      header: [
+        {
+          label: '姓名',
+          key: 'name',
+          slot: 'name'
+        },
+        {
+          label: '时间',
+          key: 'date',
+          slot: 'date'
+        },
+        {
+          label: '地址',
+          key: 'address',
+        },
+      ],
+      data: [
+        {
+          date: "2016-05-02",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄",
+        },
+        {
+          date: "2016-05-04",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1517 弄",
+        },
+        {
+          date: "2016-05-01",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1519 弄",
         },
         {
           date: "2016-05-03",

@@ -18,7 +18,7 @@
       </thead>
       <tbody>
         <template v-if="currentData.length">
-          <tr v-for="(tr, i) in currentData" :key="i">
+          <tr v-for="(tr, i) in currentData" :key="i" :class="tr.classes">
             <td v-for="td in header" :key="td.label">
               <slot :name="td.slot" v-bind:item="tr" v-bind:index="i">
                 <span>{{tr[td.key]}}</span>
