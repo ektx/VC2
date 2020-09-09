@@ -19,14 +19,19 @@
     <div
       class="vc-switch__core"
       :style="coreStyle"
+      ref="coreEl"
     >
       <Inset v-if="inset" type="open" :icon="activeIcon" :text="activeText"/>
 
       <Inset v-if="inset" type="close" :icon="inactiveIcon" :text="inactiveText"/>
 
-      <span v-if="loading" class="vc-icon-loading"></span>
-
-      <i class="vc-switch__core-dot">{{btnText}}</i>
+      <span 
+        :class="['vc-switch__core-dot', {'has-text': btnText}]"
+        :style="{fontSize: r + 'px'}"
+      >
+        <span v-if="loading" class="vc-icon-loading"></span>
+        <i v-else>{{btnText}}</i>
+      </span>
     </div>
 
     <span
@@ -41,7 +46,7 @@
 </template>
 
 <script>
-import { ref, computed, inject, watch } from "vue"
+import { ref, computed, inject, watch, nextTick } from "vue"
 import Inset from './inset.vue'
 
 export default {
@@ -107,7 +112,7 @@ export default {
       type: Number,
       default: 16
     },
-    // 是否顯示加載動畫
+    // 加载状态，添加后，禁用不可点击
     loading: {
       type: Boolean,
       default: false
@@ -119,11 +124,26 @@ export default {
   setup(props, { emit }) {
     let checked = ref(props.value === props.activeValue)
     const coreStyleObj = ref({})
+    const coreEl = ref(null)
     const vcFormItem = inject('vcFormItem', null)
 
     watch(
       () => props.value,
       (val) => checked.value = val
+    )
+
+    watch(
+      () => props.btnText,
+      (val) => {
+        if (val) {
+          nextTick(() => {
+            coreEl.value.style.width = (val.length + 1) + 'em'
+          })
+        }
+      },
+      {
+        immediate: true
+      }
     )
 
     const coreStyle = computed(() => {
@@ -159,7 +179,8 @@ export default {
       coreStyle,
       coreStyleObj,
       changeStyle,
-    };
+      coreEl,
+    }
   }
 };
 </script>
