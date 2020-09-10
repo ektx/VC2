@@ -12,7 +12,7 @@
   <vc-form ref="form" label-width="80px" :model="formData" :rules="rules">
 
     <vc-form-item label="活动名称" prop="name">
-      <vc-input type="text" v-model:value="formData.name" validate-event/>
+      <vc-input v-model:value="formData.name"/>
     </vc-form-item>
 
     <vc-form-item label="队旗颜色" prop="color">
@@ -29,7 +29,7 @@
 
     <vc-form-item label="活动形式" prop="desc">
      
-      <vc-input style="height: 100px" type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model:value="formData.desc"></vc-input>
+      <vc-input style="height: 100px" type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model:value="formData.desc"/>
     </vc-form-item>
 
     <vc-form-item>
