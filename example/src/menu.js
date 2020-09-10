@@ -29,7 +29,7 @@ export default [
         "file": "pagination.md"
       },
       {
-        "label": "table",
+        "label": "Table 表格",
         "file": "table.md"
       }
     ]
