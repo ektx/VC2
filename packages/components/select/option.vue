@@ -2,11 +2,9 @@
   <li 
     :class="['vc-select-option', {
       'selected': isActive,
-      'hover': item.hover
     }]"
     :disabled="item.disabled"
     @click="evt => vcSelect.selectedEvt(evt, item)"
-    @mouseover="vcSelect.optionMouseOver(vcSelect.hoverItem, item)"
   >
     <slot v-bind="item" />
   </li>  

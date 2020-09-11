@@ -281,8 +281,6 @@ export default {
 
       vcFormItem,
 
-      optionMouseOver,
-      setHoverItem,
       afterLeave
     }
   },
@@ -312,8 +310,6 @@ export default {
       }
 
       tooltipEl.style.width = width + 'px'
-
-      setHoverItem(this.value, this.options, this.hoverItem, this.$props)
 
       this.tooltip = createPopper(this.$refs.inputArea, tooltipEl, {
         placement: 'bottom',
@@ -406,28 +402,4 @@ export default {
     }
   }
 }
-
-
-function optionMouseOver (hover, item) {
-  if (hover.value) hover.value.hover = false
-  item.hover = true
-  hover.value = item
-}
-
-// 展开时，显示第一个选中的选项
-function setHoverItem (value, options, hover, props) {
-  let hasFrist = false
-  value = [].concat(value)
-  
-  options.forEach(item => {
-    if (value.includes(item[props.valueAlias]) && !hasFrist) {
-      item.hover = true
-      hasFrist = true
-      hover.value = item
-    } else {
-      item.hover = false
-    }
-  })
-}
-
 </script>
