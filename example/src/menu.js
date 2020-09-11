@@ -86,6 +86,10 @@ export default [
       {
         "label": "Notification 通知",
         "file": "notification.md"
+      },
+      {
+        "label": "Confirm 确认框",
+        "file": "confirm.md"
       }
     ]
   },
