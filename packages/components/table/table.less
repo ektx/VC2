@@ -1,0 +1,63 @@
+.vc-table {
+  position: relative;
+
+  table {
+    width: 100%;
+  }
+  
+  thead {
+    th {
+      padding: 10px 5px;
+      font-size: 14px;
+      text-align: left;
+      color: #666;
+      border-bottom: 2px solid #eee;
+    }
+  }
+  tbody {
+    td, th {
+      padding: 10px 5px;
+      font-size: 14px;
+      color: #666;
+      border-bottom: 1px solid #eee;
+      background-color: transparent;
+      transition: background-color .3s ease-in-out;
+    }
+
+    tr:hover {
+      td, th {
+        background-color: #eee;
+      }
+
+    }
+    
+    .empty td {
+      line-height: 100px;
+      text-align: center;
+    }
+  }
+
+  &__loading-mod {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: @color-text-regular;
+    background: rgba(255, 255, 255, .5);
+
+    .inner {
+      text-align: center;
+      p {
+        color: @color-text-regular;
+      }
+    }
+
+    i {
+      font-size: 14px;
+    }
+  }
+}

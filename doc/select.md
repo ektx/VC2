@@ -659,8 +659,8 @@ export default {
 <script>
 export default {
   setup() {
-    const value = ref('')
-    const groupValue = ref('')
+    const value = ref('选项2')
+    const groupValue = ref('Shanghai')
     const options = [{
       result: '选项1',
       name: '黄金糕'

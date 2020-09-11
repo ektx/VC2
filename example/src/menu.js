@@ -9,7 +9,7 @@ export default [
     ]
   },
   {
-    "label": "组件",
+    "label": "基础",
     "children": [
       {
         "label": "Icon 图标",
@@ -18,6 +18,19 @@ export default [
       {
         "label": "Button 按钮",
         "file": "button.md"
+      }
+    ]
+  },
+  {
+    "label": "数据",
+    "children": [
+      {
+        "label": "Pagination 分页",
+        "file": "pagination.md"
+      },
+      {
+        "label": "Table 表格",
+        "file": "table.md"
       }
     ]
   },
@@ -51,7 +64,20 @@ export default [
     ]
   },
   {
-    "label": "公告",
+    "label": "容器",
+    "children": [
+      {
+        "label": "Collapse 折叠面板",
+        "file": "collapse.md"
+      },
+      {
+        "label": "Layer 弹层",
+        "file": "layer.md"
+      }
+    ]
+  },
+  {
+    "label": "公告通知",
     "children": [
       {
         "label": "Message 消息提示",
@@ -60,14 +86,6 @@ export default [
       {
         "label": "Notification 通知",
         "file": "notification.md"
-      },
-      {
-        "label": "Layer 弹层",
-        "file": "layer.md"
-      },
-      {
-        "label": "Confirm 确认框",
-        "file": "confirm.md"
       }
     ]
   },
