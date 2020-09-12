@@ -1,12 +1,13 @@
+# Confirm 确认框
 
-# confirm
+## 消息提示
 
-## Alert 效果
+当用户进行操作时会被触发，该对话框中断用户操作，直到用户确认知晓后才可关闭。
 
 ::: demo 
 ```html
 <template>
-  <vc-button @click="open">点击打开 Confirm Alert 提示</vc-button>
+  <vc-button @click="open">点击打开</vc-button>
 </template>
 
 <script>
@@ -18,9 +19,9 @@ export default {
         message: '这是一段内容',
         type: 'alert',
       }).then(data => {
-        alert('确认了消息:'+data)
+        console.log('确认了消息:'+data)
       }).catch(err => {
-        alert('关闭了消息:'+err)
+        console.log('关闭了消息:'+err)
       })
     }
   }
@@ -29,27 +30,28 @@ export default {
 ```
 :::
 
-## Confirm 效果
+## 确认消息
+
+提示用户确认其已经触发的动作，并询问是否进行此操作时会用到此对话框。
 
 ::: demo 
 ```html
 <template>
-  <vc-button @click="open()">点击打开 Confirm Alert 提示</vc-button>
+  <vc-button @click="open()">点击打开</vc-button>
 </template>
 
 <script>
 export default {
   setup() {
     function open() {
-      console.log(this)
       this.VcConfirm({
         title: '标题名称',
         message: '这是一段内容',
         type: 'confirm'
       }).then(data => {
-        alert('确认了消息:'+data)
+        console.log('确认了消息:'+data)
       }).catch(err => {
-        alert('关闭了消息:'+err)
+        console.log('关闭了消息:'+err)
       })
     }
 
