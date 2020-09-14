@@ -862,4 +862,4 @@ export default {
 | focus | 获取焦点时 | - |
 | blur | 失去焦点时 | - |
 | closed | 选项层消失时 | - |
-| change | 值发生变化时 | 当前值 |
+| change | 值发生变化时<br/>返回`value`当前值与`item`当前项 | (value, item) => {} |

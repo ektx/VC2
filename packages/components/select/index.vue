@@ -366,10 +366,8 @@ export default {
         this.vcFormItem.checkValidate('change')
       }
 
-      if (evt) {
-        this.$emit('update:value', result)
-        this.$emit('change', result)
-      }
+      this.$emit('update:value', result)
+      this.$emit('change', result, item)
     },
 
     updateSelectedItem (item, isAdd) {
