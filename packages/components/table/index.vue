@@ -21,7 +21,7 @@
           <tr v-for="(tr, i) in currentData" :key="i" :class="tr.classes">
             <td v-for="td in header" :key="td.label">
               <slot :name="td.slot" v-bind:item="tr" v-bind:index="i">
-                <span>{{tr[td.key]}}</span>
+                {{getTDHTML(tr, td)}}
               </slot>
             </td>
           </tr>
@@ -109,6 +109,14 @@ export default {
       this.$emit('update:pageIndex', index)
       this.$emit('pageChange', index)
       this.$emit('page-change', index)
+    },
+
+    getTDHTML (tr, td) {
+      if (typeof td.key === 'function') {
+        return td.key(tr)
+      } else {
+        return tr[td.key]
+      }
     }
   }
 };
