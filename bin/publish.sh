@@ -24,7 +24,7 @@ echo $VERSION
 ONLINE_VERSION=$(npm show vc2 --registry http://47.111.127.77:4873 | grep 'latest')
 ONLINE_VERSION=${ONLINE_VERSION#*:}
 
-if [$ONLINE_VERSION == VERSION]
+if [ONLINE_VERSION == VERSION]
 then 
   echo '此版本已经发布过'
   exit 0
