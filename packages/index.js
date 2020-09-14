@@ -1,19 +1,19 @@
-/* 以下代码自动生成于 Mon Sep 14 2020 09:34:24 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Mon Sep 14 2020 13:16:49 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
-import vcCollapse from './components/collapse/index.vue'
 import vcCollapseItem from './components/collapseItem/index.vue'
 import vcColorPicker from './components/colorPicker/index.vue'
+import vcCollapse from './components/collapse/index.vue'
 import vcForm from './components/form/index.vue'
 import vcFormItem from './components/formItem/index.vue'
 import vcIcon from './components/icon/index.vue'
-import vcInput from './components/input/index.vue'
 import vcLayer from './components/layer/index.vue'
-import vcMessage from './components/message/index.js'
-import vcPagination from './components/pagination/index.vue'
+import vcInput from './components/input/index.vue'
 import vcNotification from './components/notification/index.js'
+import vcMessage from './components/message/index.js'
 import vcRadio from './components/radio/index.vue'
+import vcPagination from './components/pagination/index.vue'
 import vcSelect from './components/select/index.vue'
 import vcSwitch from './components/switch/index.vue'
 import vcTabPane from './components/tabPane/index.vue'
@@ -23,18 +23,18 @@ import vcTabs from './components/tabs/index.vue'
 const components = [
   vcButton,
   vcButtonGroup,
-  vcCollapse,
   vcCollapseItem,
   vcColorPicker,
+  vcCollapse,
   vcForm,
   vcFormItem,
   vcIcon,
-  vcInput,
   vcLayer,
-  vcMessage,
-  vcPagination,
+  vcInput,
   vcNotification,
+  vcMessage,
   vcRadio,
+  vcPagination,
   vcSelect,
   vcSwitch,
   vcTabPane,
@@ -58,18 +58,18 @@ export default {
   install,
   vcButton,
   vcButtonGroup,
-  vcCollapse,
   vcCollapseItem,
   vcColorPicker,
+  vcCollapse,
   vcForm,
   vcFormItem,
   vcIcon,
-  vcInput,
   vcLayer,
-  vcMessage,
-  vcPagination,
+  vcInput,
   vcNotification,
+  vcMessage,
   vcRadio,
+  vcPagination,
   vcSelect,
   vcSwitch,
   vcTabPane,
