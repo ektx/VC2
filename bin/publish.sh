@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 
 # 合并分支
+
+GIT_STATUS=$(git branch --show-current)
+
+if [ $GIT_STATUS != 'dev' ]; then 
+  echo "请选择 Dev 分支进行发布"
+  exit 0
+fi
+
 git checkout master
 git merge dev
 
