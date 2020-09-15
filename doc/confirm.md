@@ -163,7 +163,7 @@ export default {
 ```
 :::
 
-## 自定义按钮使用 HTML 片段
+## 使用 HTML 片段
 
 message 属性支持传入 HTML 片段。
 
