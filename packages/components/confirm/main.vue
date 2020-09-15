@@ -19,7 +19,9 @@
             ></i>
           </div>
           <div class="vc-confirm-box__content">
-            <p>{{ message }}</p>
+            <div v-if="useHTML" v-html="message"></div>
+            <div v-else>{{ message }}</div>
+
             <div v-if="type === 'prompt'" class="vc-confirm-box__prompt">
               <input 
                 :class="['vc-confirm-box__prompt-input', {'is-error': errorMsg.length}]" 
@@ -79,6 +81,8 @@ export default {
     },
     // prompt 时，输入时调用方法
     update: Function,
+    // 使用HTML
+    useHTML: Boolean,
     // === 功能字段
     visible: Object,
     close: Function,
