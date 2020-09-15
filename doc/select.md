@@ -530,6 +530,7 @@ export default {
           }
         })
         cb(result)
+        options.value = result
       }, 1000)
     }
 
@@ -561,19 +562,19 @@ export default {
     const value = ref('')
 
     const options = [{
-      value: '1',
+      value: '选项1',
       label: '黄金糕'
     }, {
-      value: '2',
-      label: '双皮奶'
+      value: '选项2',
+      label: '双皮奶',
     }, {
-      value: '3',
+      value: '选项3',
       label: '蚵仔煎'
     }, {
-      value: '4',
+      value: '选项4',
       label: '龙须面'
     }, {
-      value: '5',
+      value: '选项5',
       label: '北京烤鸭'
     }]
 
@@ -719,6 +720,123 @@ export default {
 ```
 :::
 
+
+## 显示内容更新
+
+::: demo
+```html
+<template>
+  <vc-select v-model:value="value" :options="options"/>
+</template>
+
+<script>
+export default {
+  setup() {
+    const value = ref('选项1')
+    const options = ref([{
+      value: '选项1',
+      label: '黄金糕'
+    }, {
+      value: '选项2',
+      label: '双皮奶'
+    }, {
+      value: '选项3',
+      label: '蚵仔煎'
+    }, {
+      value: '选项4',
+      label: '龙须面'
+    }, {
+      value: '选项5',
+      label: '北京烤鸭'
+    }])
+
+    setTimeout(() => {
+      options.value = [{
+        value: '选项1',
+        label: '黄金糕11'
+      }, {
+        value: '选项2',
+        label: '双皮奶11'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎11'
+      }, {
+        value: '选项4',
+        label: '龙须面11'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭11'
+      }]
+    }, 1000)
+
+    return {
+      value,
+      options
+    }
+  }
+}
+</script>
+```
+:::
+
+
+::: demo
+```html
+<template>
+  <vc-select v-model:value="value" :options="options" multiple clearable/>
+</template>
+
+<script>
+export default {
+  setup() {
+    const value = ref(['选项1','选项2'])
+    const options = ref([{
+      value: '选项1',
+      label: '黄金糕'
+    }, {
+      value: '选项2',
+      label: '双皮奶',
+    }, {
+      value: '选项3',
+      label: '蚵仔煎'
+    }, {
+      value: '选项4',
+      label: '龙须面'
+    }, {
+      value: '选项5',
+      label: '北京烤鸭'
+    }])
+
+    setTimeout(() => {
+
+      options.value = [{
+        value: '选项1',
+        label: '黄金糕V2'
+      }, {
+        value: '选项2',
+        label: '双皮奶V2',
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }]
+    }, 1000)
+
+    return {
+      value,
+      options
+    }
+  }
+}
+</script>
+```
+:::
+
 ## Poprs
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
@@ -744,4 +862,4 @@ export default {
 | focus | 获取焦点时 | - |
 | blur | 失去焦点时 | - |
 | closed | 选项层消失时 | - |
-| change | 值发生变化时 | 当前值 |
+| change | 值发生变化时<br/>返回`value`当前值与`item`当前项 | (value, item) => {} |

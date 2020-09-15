@@ -61,6 +61,66 @@ export default {
 ```
 :::
 
+## 函数式表头
+
+通过函数方法来指定列有渲染内容。
+
+::: demo 
+```html
+<template>
+  <vc-table :data="data" :header="header"/>
+</template>
+
+<script>
+export default {
+  data () {
+    let nameList = ['秦一世', '秦二世', '秦三世', '秦四世']
+    return {
+      header: [
+        {
+          label: '姓名',
+          key: (item) => nameList[item.name],
+          width: '100px'
+        },
+        {
+          label: '时间',
+          key: 'date',
+          width: '100px'
+        },
+        {
+          label: '地址',
+          key: 'address',
+        }
+      ],
+      data: [
+        {
+          date: "2020-9-14",
+          name: 0,
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2020-9-15",
+          name: 1,
+          address: "上海市普陀区金沙江路 1517 弄"
+        },
+        {
+          date: "2020-9-16",
+          name: 2,
+          address: "上海市普陀区金沙江路 1519 弄"
+        },
+        {
+          date: "2020-9-17",
+          name: 3,
+          address: "上海市普陀区金沙江路 1516 弄"
+        }
+      ],
+    }
+  }
+}
+</script>
+```
+:::
+
 ## 带有分页
 
 ### 同步模式

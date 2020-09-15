@@ -8,16 +8,17 @@
         'is-disabled': disabled, 
         clearable,
       }
-    ]" @click="focusEvt">
+    ]" 
+    @click="focusEvt"
+  >
     <VS_Tags ref="tags" :selectedItem="selectedItem"/>
     <div ref="inputArea" class="vc-select__input">
       <input 
-        :readonly="!filterable" 
         type="text" 
         autocomplete="off" 
+        :readonly="!filterable" 
         :placeholder="_placeholder"
         v-model="intValue"
-        @input="setQuery"
       >
       <span v-if="isLoading">
         <i class="vc-icon-loading"/>
@@ -74,6 +75,7 @@ import {
   inject,
 } from 'vue'
 import { createPopper } from '@popperjs/core'
+import { copyArray } from '../../utils/copy'
 import DropDown from './dropDown.vue'
 import VS_Tags from './tags.vue'
 import VCSOption from './option.vue'
@@ -150,30 +152,23 @@ export default {
     const query = ref('')
     const isLoading = ref(false)
     const vcFormItem = inject('vcFormItem', null)
-    const _options = ref([])
 
     const _placeholder = computed(() => {
-      let result = ''
+      let result = props.placeholder
+
       if (props.multiple || props.createTags) {
-        result = props.value.length ? '' : props.placeholder
-        result = props.filterable ? '' : result
-        intValue.value = ''
-      }
-      else {
-        let item = selectedItem.value[props.value]
-
-        if (props.value && item) {
-          result = item[props.labelAlias]
-          intValue.value = item[props.labelAlias]
+        // 在可筛选时
+        if (props.filterable) {
+          result = ''
         } else {
-          result = props.placeholder
-          intValue.value = ''
+          result = props.value.length ? '' : props.placeholder 
         }
-
-        if (props.filterable && isOpen.value) intValue.value = ''
+      } else {
+        if (isFocus.value && Object.keys(selectedItem.value).length) {
+          result = Object.values(selectedItem.value)[0][props.labelAlias]
+        }
       }
-
-      return result
+      return  result
     })
 
     let tooltip = null
@@ -190,97 +185,64 @@ export default {
       document.addEventListener('click', hideDropdown, false)
     })
 
-    watch(
-      () => props.value,
-      (val, old) => {
-        if (props.multiple) {
-          old = old ? old : []
-          val = [].concat(val)
-          old = [].concat(old)
+    const _options = computed(() => {
+      let list = copyArray(props.options)
 
-          if (old.length === val.length) return
+      if (props.filterable) {
+        let val = intValue.value || query.value
+        let result = []
 
-          let type = 'add'
-          let max = val
-          let filter = old
-
-          if (val.length < old.length) {
-            type = 'remove'
-            max = old
-            filter = val
-          }
-
-          let diff = []
-          max.forEach(item => {
-            if (!filter.includes(item)) diff.push(item)
-          })
-          let option = []
-          props.options.forEach(item => {
-            if (item.children) {
-              item.children.forEach(child => {
-                if (diff.includes(child.value)) option.push(child)
-              })
-            } else {
-              if (diff.includes(item[props.valueAlias])) option.push(item)
-            }
-          })
-
-          if (type === 'add') {
-            option.forEach(item => {
-              item.selected = true
-              selectedItem.value[item[props.valueAlias]] = item
-            })
-          } else {
-            option.forEach(item => {
-              item.selected = false
-              delete selectedItem.value[item[props.valueAlias]]
-            })
-          }
+        if (props.filterMethod) {
+          result = props.filterMethod(val, list)
         } else {
-          let item = ''
-          let oldItem = selectedItem.value[old]
-
-          if (oldItem && !props.createTags) oldItem.selected = false
-
-          for (let i = 0, l = props.options.length; i < l; i++) {
-            let data = props.options[i]
-
-            if (data.children) {
-              item = data.children.find(child => child[props.valueAlias] === val)
-              break
+          list.forEach(option => {
+            if (option.children) {
+              let _arr = []
+  
+              option.children.forEach(item => {
+                if (item[props.labelAlias].includes( val )) {
+                  _arr.push( item )
+                }
+              })
+  
+              if (_arr.length)
+                result.push({...option, children: _arr})
             } else {
-              if (data[props.valueAlias] === val) {
-                item = data
-                break
-              }
+              if (option[props.labelAlias].includes( val ))
+                result.push(option)
             }
-          }
+          })
+        }
 
-          if (item) {
-            item.selected = true
-            selectedItem.value[item[props.valueAlias]] = item
+        if (props.createTags) {
+          let key = query.value.trim()
+          if (key && !Reflect.has(selectedItem, key)) {
+            result.unshift({
+              [props.valueAlias]: key,
+              [props.labelAlias]: key,
+            })
           }
         }
-      },
-      {
-        immediate: true
+
+        list = result
       }
-    )
+
+      return list
+    })
 
     watch(
-      () => props.options,
+      () => intValue.value,
       (val) => {
-        _options.value = val
+        if (val) {
+          let done = () => isLoading.value = false
+
+          if (props.remoteMethod) {
+            isLoading.value = true
+            props.remoteMethod(val, done)
+          }
+        }
       }
     )
-
-    function setQuery(evt) {
-      let { value } = evt.target
-
-      query.value = value
-      intValue.value = value
-      if (ctx.tooltip) ctx.tooltip.update()
-    }
 
     watch(
       () => isFocus.value,
@@ -289,87 +251,15 @@ export default {
           emit('focus', val)
         } else {
           emit('blur')
+
+          if (!props.multiple && Object.values(selectedItem.value).length) {
+            intValue.value = Object.values(selectedItem.value)[0][props.labelAlias]
+          }
+
           if (vcFormItem) vcFormItem.checkValidate('blur')
         }
       }
     )
-
-    watch(
-      () => query.value,
-      (val) => {
-        let str = val.trim()
-        let result = []
-        let done = (list) => {
-          _options.value = list
-          isLoading.value = false
-        }
-
-        if (props.remoteMethod) {
-          _options.value = []
-          if (str) {
-            isLoading.value = true
-            props.remoteMethod(val, done)
-          }
-          return
-        }
-
-        // 无过滤情况
-        if (!props.filterable) {
-          _options.value = props.options
-          return 
-        }
-
-        // 自定义过滤效果
-        if (props.filterMethod) {
-          result = props.filterMethod(val, props.options)
-        } 
-        // 默认过滤效果
-        else {
-          props.options.forEach(option => {
-            if (option.children) {
-              let _arr = []
-
-              option.children.forEach(item => {
-                if (item.label.includes(val)) {
-                  _arr.push( item )
-                }
-              })
-
-              if (_arr.length)
-                result.push({...option, children: _arr})
-            } else {
-              if (option.label.includes(val))
-                result.push(option)
-            }
-          })
-        }
-
-        if (result.length === 0) {
-          if (props.createTags) {
-            let addItem = reactive({
-              value: val,
-              label: val,
-              selected: Reflect.has(selectedItem.value, val),
-              hover: false
-            })
-            result.push(addItem)
-          }
-          ctx.tooltip && ctx.tooltip.update()
-        }
-
-        _options.value = result
-      },
-      {
-        immediate: true
-      }
-    )
-
-    function clearValue(evt) {
-      evt.stopPropagation()
-
-      if (isOpen.value) isOpen.value = false
-      emit('update:value', props.multiple ? [] : '')
-    }
 
     function afterLeave() {
       ctx.tooltip.destroy()
@@ -381,6 +271,7 @@ export default {
       isFocus,
       isOpen,
       intValue,
+      query,
       selectedItem,
       hoverItem,
       _placeholder,
@@ -390,10 +281,6 @@ export default {
 
       vcFormItem,
 
-      optionMouseOver,
-      setHoverItem,
-      clearValue,
-      setQuery,
       afterLeave
     }
   },
@@ -414,9 +301,15 @@ export default {
       this.isOpen = true
       this.isFocus = true
 
-      tooltipEl.style.width = width + 'px'
+      if (this.multiple) {
+        this.intValue = ''
+      } else {
+        if (this.filterable) {
+          this.intValue = ''
+        }
+      }
 
-      setHoverItem(this.value, this.options, this.hoverItem, this.$props)
+      tooltipEl.style.width = width + 'px'
 
       this.tooltip = createPopper(this.$refs.inputArea, tooltipEl, {
         placement: 'bottom',
@@ -442,68 +335,69 @@ export default {
     selectedEvt(evt, item) {
       evt.stopPropagation()
       if (item.disabled) return
+
       let result = ''
+      let key = item[this.valueAlias]
+
       this.query = ''
 
-      if (item.selected) {
-        if (this.multiple || this.createTags) {
-          item.selected = false
-          delete this.selectedItem[item[this.valueAlias]]
-          result = Object.keys(this.selectedItem)
-        }
-      } else {
-        item.selected = true
-
-        if (this.multiple || this.createTags) {
-          this.selectedItem[item[this.valueAlias]] = item
-          result = Object.keys(this.selectedItem)
-          this.$refs.tags.focusEvt()
+      if (this.multiple || this.createTags) {
+        if (key in this.selectedItem) {
+          delete this.selectedItem[key]
         } else {
-          let oldKeys = Object.keys(this.selectedItem)
-          
-          if (oldKeys.length) {
-            let oldItem = this.selectedItem[oldKeys[0]]
-            oldItem.selected = false
-          }
-
-          this.selectedItem = {
-            [item[this.valueAlias]]: item
-          }
-          this.isOpen = false
-          result = item[this.valueAlias]
+          this.selectedItem[key] = item
         }
+
+        result = Object.keys(this.selectedItem)
+        this.intValue = ''
+      } else {
+        this.selectedItem = {
+          [key]: item
+        }
+        result = key
+        this.intValue = item[this.labelAlias]
+      }
+
+      if (!this.multiple) {
+        this.isOpen = false
       }
 
       if (this.vcFormItem) {
         this.vcFormItem.checkValidate('change')
       }
+
       this.$emit('update:value', result)
-      this.$emit('change', result)
+      this.$emit('change', result, item)
     },
+
+    updateSelectedItem (item, isAdd) {
+      let key = item[this.valueAlias]
+
+      if (isAdd) {
+        if (this.selectedItem[key]) {
+          if (item[this.labelAlias] === this.selectedItem[key][this.labelAlias]) return
+        }
+  
+        if (this.multiple) {
+          this.selectedItem[key] = item
+        } else {
+          this.selectedItem = {
+            [key]: item
+          }
+          this.intValue = item[this.labelAlias]
+        }
+      } else {
+        delete this.selectedItem[key]
+      }
+    },
+
+    clearValue(evt) {
+      evt.stopPropagation()
+
+      if (this.isOpen) this.isOpen = false
+
+      this.$emit('update:value', this.multiple ? [] : '')
+    }
   }
 }
-
-
-function optionMouseOver (hover, item) {
-  if (hover.value) hover.value.hover = false
-  item.hover = true
-  hover.value = item
-}
-
-// 展开时，显示第一个选中的选项
-function setHoverItem (value, options, hover, props) {
-  let hasFrist = false
-  value = [].concat(value)
-  
-  options.forEach(item => {
-    if (value.includes(item[props.valueAlias]) && !hasFrist) {
-      item.hover = true
-      hasFrist = true
-      hover.value = item
-    } else {
-      item.hover = false
-    }
-  })
-}
-
 </script>
