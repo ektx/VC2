@@ -6,7 +6,7 @@
     <div 
       v-show="visible.value" 
       class="vc-confirm" 
-      @click="closeEvt('close', 'modal')"
+      @click.self="closeEvt('close', 'modal')"
     >
       <transition name="vc-fade-down-animate">
         <div v-show="visible.value" class="vc-confirm-box">
@@ -19,7 +19,15 @@
             ></i>
           </div>
           <div class="vc-confirm-box__content">
-            {{ message }}
+            <p>{{ message }}</p>
+            <div v-if="type === 'prompt'" class="vc-confirm-box__prompt">
+              <input 
+                :class="['vc-confirm-box__prompt-input', {'is-error': errorMsg.length}]" 
+                type="text"
+                v-model="promptVal"
+              />
+              <p class="vc-confirm-box__prompt-error">{{ errorMsg }}</p>
+            </div>
           </div>
           <div class="vc-confirm-box__footer">
             <vc-button
@@ -69,12 +77,26 @@ export default {
       type: Boolean,
       default: true
     },
+    update: Function,
     // === 功能字段
     visible: Object,
     close: Function,
     closed: Function,
     resolve: Function,
     reject: Function
+  },
+  data() {
+    return {
+      promptVal: '',
+      errorMsg: ''
+    }
+  },
+  watch: {
+    promptVal(val) {
+      if (this.type === 'prompt' && this.update) {
+        this.errorMsg = this.update(val) || ''
+      }
+    }
   },
   computed: {
     _buttons () {
@@ -112,8 +134,11 @@ export default {
       this.closed()
     },
     confirmEvt() {
-      console.log('点击了确认')
-      this.close('confirm')
+      if (this.type === 'prompt') {
+        this.close(this.promptVal)
+      } else {
+        this.close('confirm')
+      }
     }
   }
 }

@@ -42,6 +42,32 @@
       color: @color-text-regular;
     }
 
+    &__prompt {
+      position: relative;
+      margin: 3px 0 20px 0;
+
+      &-input {
+        width: 100%;
+        padding: 0 5px;
+        font-size: 14px;
+        line-height: 2;
+        border: 1px solid #ccc;
+        outline: none;
+        box-sizing: border-box;
+        transition: border-color .3s;
+      }
+
+      &.is-error {
+        border-color: #f56c6c;
+      }
+
+      &-error {
+        position: absolute;
+        font-size: 12px;
+        color: #f56c6c;
+      }
+    }
+
     &__footer {
       padding: 10px;
       text-align: right;
