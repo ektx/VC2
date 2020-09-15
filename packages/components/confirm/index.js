@@ -12,7 +12,7 @@ function Confirm (options) {
       message: '',
       ...options,
       visible,
-      close: (data) => {
+      close: (data = '') => {
         visible.value = false
         resolve(data)
       },

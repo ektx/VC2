@@ -108,6 +108,61 @@ export default {
 ```
 :::
 
+## 自定义按钮
+
+可自定义按钮不同内容。
+
+::: demo 
+```html
+<template>
+  <vc-button @click="open()">点击打开</vc-button>
+</template>
+
+<script>
+export default {
+  setup() {
+    function open() {
+      this.VcConfirm({
+        title: '提示',
+        message: '自定义按钮效果',
+        buttons: [
+          {
+            label: 'Cancel',
+            color: 'error',
+            func: (visible) => {
+              return !visible // false 关闭
+            }
+          },
+          {
+            label: 'Think',
+            func: (visible) => {
+              return visible
+            }
+          },
+          {
+            label: 'Confirm',
+            color: 'primary',
+            func: (visible) => {
+              return !visible
+            }
+          }
+        ]
+      }).then(data => {
+        console.log('确认了消息:'+data)
+      }).catch(err => {
+        console.log('关闭了消息:'+err)
+      })
+    }
+
+    return {
+      open
+    }
+  }
+}
+</script>
+```
+:::
+
 
 ## Poprs
 

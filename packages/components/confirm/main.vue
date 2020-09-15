@@ -77,6 +77,7 @@ export default {
       type: Boolean,
       default: true
     },
+    // prompt 时，输入时调用方法
     update: Function,
     // === 功能字段
     visible: Object,
@@ -101,7 +102,13 @@ export default {
   computed: {
     _buttons () {
       if (this.buttons.length) {
-        return this.buttons
+        return this.buttons.map(btn => ({
+          ...btn,
+          func: () => {
+            let result = btn.func(this.visible.value)
+            !result && this.close()
+          }
+        }))
       } else {
         let result = [
           {
@@ -135,7 +142,7 @@ export default {
     },
     confirmEvt() {
       if (this.type === 'prompt') {
-        this.close(this.promptVal)
+        if (!this.errorMsg.length) this.close(this.promptVal)
       } else {
         this.close('confirm')
       }
