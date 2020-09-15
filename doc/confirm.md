@@ -203,9 +203,11 @@ export default {
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
 |---|---|---|---|---|
-
-
-## Events
-
-| 事件名 | 说明 | 回调参数 |
-| --- | --- | --- |
+| title | **String** | 标题 | - | 标题 |
+| message | **String** | 显示信息 | - | - |
+| type | **String** | 类型 | alert/confirm/prompt | alert |
+| buttons | **Array** | 自定义按钮功能 | - | [] |
+| showClose | **Boolean** | 是否显示右上角关闭按钮 | - | true |
+| closeOnClickModal | **Boolean** | 是否可以通过点击 modal 关闭 | - | true |
+| update | **Function** | prompt 时，输入时调用方法 | - | - |
+| useHTML | **Boolean** | 使用HTML | - | false |

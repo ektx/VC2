@@ -141,7 +141,6 @@ export default {
       this.reject(data)
     },
     handlerAfterLeave() {
-      this.$emit('closed')
       this.closed()
     },
     confirmEvt() {
