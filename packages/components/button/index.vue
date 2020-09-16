@@ -35,6 +35,7 @@ export default {
     },
     // 加载状态
     loading: Boolean,
+    // 禁用状态
     disabled: Boolean,
   },
   data () {
@@ -53,9 +54,9 @@ export default {
   methods: {
     clickEvt () {
       this.animate = false
-      setTimeout(() => {
+      window.requestAnimationFrame(() => {
         this.animate = true
-      }, 20)
+      })
     }
   }
 }

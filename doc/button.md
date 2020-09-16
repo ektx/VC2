@@ -145,6 +145,10 @@
 |---|---|---|---|---|
 | color | **String** | 设置按钮效果 | primary / success / warn / error | - |
 | plain | **Boolean** | 镂空 | - | false |
+| round | **Boolean** | 圆角 | - | false |
+| icon | **String** | 图标 | - | - |
+| loading | **Boolean** | 加载状态 | - | - |
+| disabled | **Boolean** | 禁用状态 | - | - |
 
 
 ## Events
