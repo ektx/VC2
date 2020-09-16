@@ -63,6 +63,17 @@ function click2Evt(state) {
   state.count++
 }
 </script>
+
+<style lang="less" hideInCode>
+.display-box {
+  line-height: 2;
+  font-size: 14px;
+}
+hr {
+  margin: 10px 0;
+  border: 1px solid #eee;
+}
+</style>
 ```
 :::
 

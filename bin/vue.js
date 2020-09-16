@@ -1,14 +1,50 @@
+const less = require('less')
+
 // 对 markdown 文档中的 ::: demo 进行文档化解析功能
 module.exports = function (md, name = 'demo') {
   // 渲染方案
   function render (tokens, idx, opts, env, self) {
     if (tokens[idx].nesting === 1) {
       let { $template, $js, $css } = tokens[idx]
+      let id = Math.random().toString(32).slice(2)
+
+      // 获取样式属性
+      let cssAttrs = {}
+
+      if ($css) {
+        $css.match(/<style([^>]*)>/)[1]
+          .split(/\s/g)
+          .filter(attr => !!attr)
+          .map(attr => {
+            attr = attr.trim()
+  
+            if (attr) {
+              if (attr.includes('=')) {
+                let result = attr.split('=')
+                cssAttrs[result[0]] = result[1].slice(1, -1)
+              } else {
+                cssAttrs[attr] = true
+              }
+            }
+          })
+  
+        if (cssAttrs.lang && cssAttrs.lang === 'less') {
+          let css = $css.split(/\n/).slice(1, -1)
+  
+          css = `#${id} { ${css.join('\n')} }`
+  
+          less.render(css,{}, async function(err, output) {
+            if (err) throw err;
+            $css = '<style>' + output.css + '</style>'
+          })
+        }
+
+      }
 
       tokens[idx].attrJoin('xml', $template)
       tokens[idx].attrJoin('js', $js)
       tokens[idx].attrJoin('css', $css)
-      tokens[idx].attrJoin('id', Math.random().toString(32).slice(2))
+      tokens[idx].attrJoin('id', id)
     }
     // 生成 html
     return self.renderToken(tokens, idx, opts, env, self)
@@ -86,7 +122,7 @@ module.exports = function (md, name = 'demo') {
             break
           }
           case str === '</style>': 
-            cssEnd = nextLine + 1
+            cssEnd = nextLine
         }
 
         if (str === ':::') {

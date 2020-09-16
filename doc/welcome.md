@@ -1,10 +1,3 @@
-::: demo  
-```html
-<template>
-  <h1>Hello</h1>
-</template>
-:::  
-
 # VC 2
 
 ## 内网NPM
