@@ -27,18 +27,16 @@ module.exports = function (md, name = 'demo') {
               }
             }
           })
-  
-        if (cssAttrs.lang && cssAttrs.lang === 'less') {
-          let css = $css.split(/\n/).slice(1, -1)
-  
-          css = `#${id} { ${css.join('\n')} }`
-  
-          less.render(css,{}, async function(err, output) {
-            if (err) throw err;
-            $css = '<style>' + output.css + '</style>'
-          })
-        }
+        
+        // 使用 id 来限制样式的响应范围
+        let css = $css.split(/\n/).slice(1, -1)
 
+        css = `#${id} { ${css.join('\n')} }`
+
+        less.render(css,{}, async function(err, output) {
+          if (err) throw err;
+          $css = '<style>' + output.css + '</style>'
+        })
       }
 
       tokens[idx].attrJoin('xml', $template)
