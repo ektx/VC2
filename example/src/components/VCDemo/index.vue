@@ -23,7 +23,8 @@ export default {
     css: {
       type: String,
       default: ''
-    }
+    },
+    id: String
   },
   setup (props, { slots }) {
     let {xml, css, js} = props
@@ -57,7 +58,7 @@ export default {
       ctx.$el.insertAdjacentHTML('afterend', css)
     })
 
-    let template = `<div class="demo-com">
+    let template = `<div class="demo-com" id="${props.id}">
       <div class="display-box">${xml}</div>
         <div class="source-box">
           <div class="source-box--main" ref="CODE_EL__" :style="STATE__.style">

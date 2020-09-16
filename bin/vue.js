@@ -8,7 +8,7 @@ module.exports = function (md, name = 'demo') {
       tokens[idx].attrJoin('xml', $template)
       tokens[idx].attrJoin('js', $js)
       tokens[idx].attrJoin('css', $css)
-      tokens[idx].attrJoin('key', Date.now())
+      tokens[idx].attrJoin('id', Math.random().toString(32).slice(2))
     }
     // 生成 html
     return self.renderToken(tokens, idx, opts, env, self)
@@ -40,7 +40,7 @@ module.exports = function (md, name = 'demo') {
         start: null,
         end: null
       }
-      let jsStart, jsEnd, cssStart, cssEnd
+      let jsStart = jsEnd = cssStart = cssEnd = startLine
 
       for (;;) {
         nextLine++
