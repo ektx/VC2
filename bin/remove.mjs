@@ -1,3 +1,4 @@
+// 删除组件功能
 import trash from 'trash'
 import fs from 'fs'
 import inquirer from 'inquirer'

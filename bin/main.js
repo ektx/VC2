@@ -1,6 +1,7 @@
 const { createServer } = require('vite')
 const Router = require('@koa/router')
 const MarkdownIt = require('markdown-it')
+const iterator = require('markdown-it-for-inline')
 const Prism = require('prismjs')
 const fs = require('fs')
 const path = require('path')
@@ -33,6 +34,15 @@ router.get('/api/doc', async ctx => {
       return `<pre class="hljs"><code>${md.utils.escapeHtml(str)}</code></pre>`
     }
   }).use(mdVue)
+    .use(iterator, 'url_new_win', 'link_open', function(tokens, idx) {
+      let aIndex = tokens[idx].attrIndex('target')
+
+      if (aIndex < 0) {
+        tokens[idx].attrPush(['target', '_blank'])
+      } else {
+        tokens[idx].attrs[aIndex][1] = '_blank'
+      }
+    })
   let html = md.render(str)
 
   html = `<div class="markdown-it-mode">${html}</div>`
