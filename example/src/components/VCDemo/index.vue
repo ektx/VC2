@@ -55,9 +55,9 @@ export default {
     onMounted(() => {
       let { ctx } = getCurrentInstance()
 
-      ctx.$el.insertAdjacentHTML('afterend', css)
+      ctx.$el.insertAdjacentHTML('beforebegin', css)
     })
-
+    
     let template = `<div class="demo-com" id="${props.id}">
       <div class="display-box">${xml}</div>
         <div class="source-box">
