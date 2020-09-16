@@ -15,11 +15,11 @@
       v-if="type !== 'textarea'"
       ref="input"
       class="vc-input__text"
-      v-bind="__attrs"
+      v-bind="ATTRS"
       :value="value"
       :disabled="disabled"
       :placeholder="placeholder"
-      :type="__type"
+      :type="TYPE"
       @input="handleInputEvt"
       @focus="handleFocus"
       @blur="handleBlur"
@@ -29,7 +29,7 @@
       v-else
       ref="textarea"
       class="vc-input__textarea"
-      v-bind="__attrs"
+      v-bind="ATTRS"
       :value="value"
       :placeholder="placeholder"
       :disabled="disabled"
@@ -59,7 +59,7 @@
       class="vc-input__show-passwd" 
       @click="togglePasswd"
     >
-      <i :class="__type === 'text' ? 'vc-icon-not-view' : 'vc-icon-view'"></i>
+      <i :class="TYPE === 'text' ? 'vc-icon-not-view' : 'vc-icon-view'"></i>
     </div>
 
       <div v-if="showWordLimit" class="vc-input__num-length">
@@ -136,7 +136,7 @@ export default {
     const input = ref(null)
     let focusing = ref(false);
     let textareaCalcStyle = ref(null);
-    let __type = ref(props.type)
+    let TYPE = ref(props.type)
     let inputEl = null
 
     const vcFormItem = inject("vcFormItem", null);
@@ -228,7 +228,7 @@ export default {
     }
 
     const togglePasswd = () => {
-      __type.value = __type.value == 'text' ? 'password' : 'text'
+      TYPE.value = TYPE.value == 'text' ? 'password' : 'text'
     }
 
     return {
@@ -246,8 +246,8 @@ export default {
       blur,
       state,
       select,
-      __attrs: getAttrs(),
-      __type
+      ATTRS: getAttrs(),
+      TYPE
     };
   }
 }

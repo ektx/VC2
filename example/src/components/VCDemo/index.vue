@@ -57,7 +57,7 @@ export default {
 
       ctx.$el.insertAdjacentHTML('beforebegin', css)
     })
-    
+
     let template = `<div class="demo-com" id="${props.id}">
       <div class="display-box">${xml}</div>
         <div class="source-box">
@@ -71,15 +71,15 @@ export default {
     </div>`
     let componentOpts = {}
     // 调用用户定义的组件方法
-    let __userData = setupFun(ref, watch, reactive, inject)
+    let USER_DATA = setupFun(ref, watch, reactive, inject)
 
-    if (__userData) {
+    if (USER_DATA) {
       // Composition API
-      if (Reflect.has(__userData, 'setup')) {
+      if (Reflect.has(USER_DATA, 'setup')) {
         componentOpts = {
           setup() {
             return {
-              ...__userData.setup(),
+              ...USER_DATA.setup(),
               STATE__: state,
               CODE_EL__: codeEl
             }
@@ -89,21 +89,21 @@ export default {
       // options api
       else {
         // 如果用户并没有设置 data
-        if (typeof __userData.data !== 'function') {
-          __userData.data = function() { return {}}
+        if (typeof USER_DATA.data !== 'function') {
+          USER_DATA.data = function() { return {}}
         }
 
         componentOpts = {
-          ...__userData,
+          ...USER_DATA,
           data () {
             return {
-              ...__userData.data(),
+              ...USER_DATA.data(),
               STATE__: state
             }
           },
           mounted () {
             // 运行 demo mounted
-            __userData.mounted && __userData.mounted()
+            USER_DATA.mounted && USER_DATA.mounted()
 
             // 绑定 code 展示区 dom
             codeEl.value = this.$refs.CODE_EL__

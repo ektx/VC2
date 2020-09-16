@@ -20,14 +20,14 @@
     "async-validator": "^3.4.0",
     "prismjs": "^1.21.0",
     "resize-observer-polyfill": "^1.5.1",
-    "vue": "^3.0.0-rc.9"
+    "vue": "^3.0.0-rc.11"
   },
   "devDependencies": {
-    "@vue/compiler-sfc": "^3.0.0-rc.9",
+    "@vue/compiler-sfc": "^3.0.0-rc.11",
     "cypress": "^4.9.0",
     "inquirer": "^7.3.3",
     "less": "^3.12.2",
-    "markdown-it": "^11.0.0",
+    "markdown-it": "^11.0.1",
     "markdown-it-for-inline": "^0.1.1",
     "trash": "^6.1.1",
     "vite": "^1.0.0-rc.4"

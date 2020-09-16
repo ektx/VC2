@@ -17,7 +17,7 @@
         type="text" 
         autocomplete="off" 
         :readonly="!filterable" 
-        :placeholder="_placeholder"
+        :placeholder="myPlaceholder"
         v-model="intValue"
       >
       <span v-if="isLoading">
@@ -28,8 +28,8 @@
     </div>
     <transition name="vc-zoom-in-top" @after-leave="afterLeave">
       <DropDown v-show="isOpen">
-        <ul v-if="_options.length">
-          <template v-for="item in _options" :key="item.label">
+        <ul v-if="myOptions.length">
+          <template v-for="item in myOptions" :key="item.label">
             <template v-if="item.children">
               <VCSGroup :item="item">
                 <template #label="item">
@@ -153,7 +153,7 @@ export default {
     const isLoading = ref(false)
     const vcFormItem = inject('vcFormItem', null)
 
-    const _placeholder = computed(() => {
+    const myPlaceholder = computed(() => {
       let result = props.placeholder
 
       if (props.multiple || props.createTags) {
@@ -185,7 +185,7 @@ export default {
       document.addEventListener('click', hideDropdown, false)
     })
 
-    const _options = computed(() => {
+    const myOptions = computed(() => {
       let list = copyArray(props.options)
 
       if (props.filterable) {
@@ -274,8 +274,8 @@ export default {
       query,
       selectedItem,
       hoverItem,
-      _placeholder,
-      _options,
+      myPlaceholder,
+      myOptions,
       query,
       isLoading,
 
