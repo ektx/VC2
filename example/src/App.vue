@@ -86,6 +86,7 @@ html {
 }
 body {
   overscroll-behavior-y: none;
+  overscroll-behavior-x: none;
 }
 #app {
   transition: background-color .4s ease-in-out;
