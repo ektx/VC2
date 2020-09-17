@@ -46,7 +46,7 @@ export default {
     isOpen: {
       handler (val) {
         this.$nextTick(() => {
-          let { scrollHeight: H } = this.$el.querySelector('.vc-collapse-item__content')
+          let { scrollHeight: H } = this.$el.querySelector('.vc-collapse-item__wrap')
     
           this._contentStyle.height = H + 'px'
 
