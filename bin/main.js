@@ -6,6 +6,7 @@ const Prism = require('prismjs')
 const fs = require('fs')
 const path = require('path')
 const mdVue = require('./vue')
+const chalk = require('chalk')
 
 require('prismjs/components/prism-diff')
 require('prismjs/components/prism-bash')
@@ -62,6 +63,7 @@ const myPlugin = ({
   app, // Koa app
   server, // raw http server instance
   watcher, // chokidar file watcher instance
+  resolver
 }) => {
   app
     .use(router.routes())
@@ -74,9 +76,24 @@ const myPlugin = ({
       // compiled from `*.vue` files, where <template> and <script> are served as
       // `application/javascript` and <style> are served as `text/css`.
       if (ctx.response.is('js')) {
-        console.log(ctx.url)
+        console.log(chalk.green(`[JS] `) + ctx.url)
       }
+
     })
+    
+  watcher.on('change', file => {
+    if (file.endsWith('.md')) {
+      const path = resolver.fileToRequest(file)
+
+      watcher.send({
+        type: 'markdown-reload',
+        file,
+        path
+      })
+
+      console.log(chalk.green(`[MD] `) + path)
+    }
+  })
 }
 
 createServer({
