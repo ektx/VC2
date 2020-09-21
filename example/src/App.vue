@@ -21,6 +21,18 @@ import { ref, onMounted, isProxy } from 'vue'
 import menu from './menu'
 
 let htmlStr = ''
+let fileItem = null
+
+const socketProtocol = location.protocol === 'https:' ? 'wss' : 'ws'
+const socketUrl = `${socketProtocol}://${location.hostname}:${3000}`
+const socket = new WebSocket(socketUrl, 'vite-hmr')
+
+// 监听 markdown 变化，实时更新 Demo
+socket.addEventListener('message', async ({ data }) => {
+  if (fileItem) {
+    getEvt(fileItem)
+  }
+})
 
 export default {
   name: 'HelloWorld',
@@ -56,6 +68,8 @@ export default {
 
 function getEvt (item) {
   let { file } = item
+
+  fileItem = item
 
   // 如果是代理对象，则不是浏览器前进后退触事件
   if (item.label) {
