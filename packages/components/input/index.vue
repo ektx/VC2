@@ -16,7 +16,7 @@
       ref="input"
       class="vc-input__text"
       v-bind="ATTRS"
-      :value="value"
+      :value="modelValue"
       :disabled="disabled"
       :placeholder="placeholder"
       :type="TYPE"
@@ -30,7 +30,7 @@
       ref="textarea"
       class="vc-input__textarea"
       v-bind="ATTRS"
-      :value="value"
+      :value="modelValue"
       :placeholder="placeholder"
       :disabled="disabled"
       :style="textareaCalcStyle"
@@ -48,14 +48,14 @@
 
     <div
       class="vc-input__clearable"
-      v-if="clearable && value"
+      v-if="clearable && modelValue"
       @click="clearMsg"
     >
       <i class="vc-icon-circle-close"></i>
     </div>
 
     <div 
-      v-if="type === 'password' && value" 
+      v-if="type === 'password' && modelValue" 
       class="vc-input__show-passwd" 
       @click="togglePasswd"
     >
@@ -87,7 +87,7 @@ export default {
     //
     suffixIcon: String,
     prefixIcon: String,
-    value: {
+    modelValue: {
       type: String,
       default: ""
     },
@@ -114,7 +114,7 @@ export default {
     // input 类型
     type: {
       type: String,
-      default: "text"
+      default: 'text'
     },
     autosize: {
       type: [Boolean, Object],
@@ -138,6 +138,7 @@ export default {
     let textareaCalcStyle = ref(null);
     let TYPE = ref(props.type)
     let inputEl = null
+    const myValue = ref(null)
 
     const vcFormItem = inject("vcFormItem", null);
 
@@ -150,7 +151,7 @@ export default {
       let { value  = '' } = evt.target
 
       emit('input', evt)
-      emit('update:value', value)
+      emit('update:modelValue', value)
 
       // 时时更新统计字数
       if (props.showWordLimit) {
@@ -189,8 +190,8 @@ export default {
     
     // 动态获取文本域
     watch(
-      () => props.value,
-      () => {resizeTextarea()}
+      () => props.modelValue,
+      () => { resizeTextarea() }
     )
     const resizeTextarea = () => {
       if (props.type !== "textarea" || !props.autosize) return
@@ -221,7 +222,7 @@ export default {
 
     // 点击 清除图标 清除数据
     const clearMsg = () => {
-      emit('update:value', '')
+      emit('update:modelValue', '')
       emit('change', '')
       emit('clear')
       focus()

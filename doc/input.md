@@ -7,7 +7,7 @@
 ::: demo
 ```html
 <template>
-  <vc-input v-model:value="input" placeholder="请输入内容" />
+  <vc-input v-model="input" placeholder="请输入内容" />
 </template>
 
 <script>
@@ -33,7 +33,7 @@ export default {
 
 ```html
 <template>
-  <vc-input v-model:value="input" disabled />
+  <vc-input v-model="input" disabled />
 </template>
 
 <script>
@@ -59,7 +59,8 @@ export default {
 
 ```html
 <template>
-  <vc-input v-model:value="input" clearable />
+  <vc-input v-model="input" clearable />
+  {{input}}
 </template>
 
 <script>
@@ -85,7 +86,7 @@ export default {
 
 ```html
 <template>
-  <vc-input v-model:value="input" type="password"/>
+  <vc-input v-model="input" type="password"/>
 </template>
 
 <script>
@@ -114,17 +115,17 @@ export default {
 <template>
   <div>
     <strong>属性方式</strong>
-    <vc-input v-model:value="value1" suffix-icon="vc-icon-date"></vc-input>
-    <vc-input v-model:value="value2" prefix-icon="vc-icon-search"></vc-input>
+    <vc-input v-model="value1" suffix-icon="vc-icon-date"></vc-input>
+    <vc-input v-model="value2" prefix-icon="vc-icon-search"></vc-input>
   </div>
   <div>
     <strong>插槽方式</strong>
-    <vc-input v-model:value="value3">
+    <vc-input v-model="value3">
       <template #suffixIcon>
         <i class="vc-icon-date"></i>
       </template>
     </vc-input>
-    <vc-input v-model:value="value4">
+    <vc-input v-model="value4">
       <template #prefixIcon>
         <i class="vc-icon-search"></i>
       </template>
@@ -158,7 +159,7 @@ export default {
 
 ```html
 <template>
-  <vc-input type="textarea" rows="2" v-model:value="val" />
+  <vc-input type="textarea" rows="2" v-model="val" />
 </template>
 
 <script>
@@ -182,9 +183,9 @@ export default {
 ```html
 <template>
   <p>自动调整</p>
-  <vc-input type="textarea" autosize v-model:value="textarea1" />
+  <vc-input type="textarea" autosize v-model="textarea1" />
   <p>指定最大与最小行数</p>
-  <vc-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model:value="textarea2" />
+  <vc-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="textarea2" />
 </template>
 
 <script>
@@ -214,10 +215,10 @@ export default {
 ```html
 <template>
   <div>
-    <vc-input v-model:value="input1" maxlength="10" show-word-limit />
-    <vc-input type="password" v-model:value="input1" maxlength="10" show-word-limit />
+    <vc-input v-model="input1" maxlength="10" show-word-limit />
+    <vc-input type="password" v-model="input1" maxlength="10" show-word-limit />
     
-    <vc-input type="textarea" maxlength="120" rows="2" v-model:value="textarea" show-word-limit />
+    <vc-input type="textarea" maxlength="120" rows="2" v-model="textarea" show-word-limit />
   </div>
   
 </template>
@@ -245,7 +246,7 @@ export default {
 ```html
 <template>
   <vc-input 
-    v-model:value="input" 
+    v-model="input" 
     placeholder="请输入内容" 
     ref="demo" 
     @input="getInput"
