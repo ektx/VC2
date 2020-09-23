@@ -108,7 +108,6 @@ export default {
     },
 
     blurEvt(evt) {
-      console.log(evt)
       this.isFocus = false
     }
   }
