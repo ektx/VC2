@@ -1,5 +1,5 @@
 <template>
-  <div class="vc-operation-list">
+  <div :class="['vc-operation-list', {'is-focus': isFocus}]">
     <table>
       <thead>
         <tr>
@@ -9,7 +9,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(tr, i) in list" :key="i">
+        <tr 
+          v-for="(tr, i) in myList" 
+          :key="i"
+          :class="[{
+            'is-active': tr.$isActive
+          }]"
+          @click.stop="clickEvt(i)"
+        >
           <td v-for="td in head" :key="td[keyAlias]">
             {{ tr[td[keyAlias]] }}
           </td>
@@ -43,6 +50,37 @@ export default {
       type: String,
       default: 'key'
     }
+  },
+  data() {
+    return {
+      isFocus: false,
+    }
+  },
+  computed: {
+    myList () {
+      return this.list.map((item, i) => {
+        item.$isActive = [].concat(this.modelValue).includes(i)
+
+        return item
+      })
+    }
+  },
+  mounted() {
+    document.addEventListener('click', this.blurEvt)
+  },
+  unmounted() {
+    document.removeEventListener('click', this.blurEvt)
+  },
+  methods: {
+    clickEvt(i) {
+      this.isFocus = true
+      this.$emit('update:modelValue', i)
+    },
+
+    blurEvt(evt) {
+      console.log(evt)
+      this.isFocus = false
+    }
   }
 }
 </script>
@@ -50,27 +88,45 @@ export default {
 <style lang="less">
 .vc-operation-list {
   font-size: 14px;
+  color: #262626;
   border: 1px solid rgb(197, 197, 197);
 
   table {
     width: 100%;
 
     thead {
+      font-size: 12px;
       border-bottom: 1px solid rgb(199, 199, 199);
 
       th {
-        color: #262626;
+        padding: 5px;
+        text-align: left;
         background-color: rgb(240, 240, 240);
       }
     }
 
-    th {
-      padding: 5px;
-      text-align: left;
+    tbody {
+      tr {
+        transition: background-color .3s;
+        
+        &:hover {
+          background-color: #eee;
+        }
+
+        &.is-active {
+          background-color: rgb(220, 220, 220);
+        }
+      }
+      td {
+        text-align: left;
+        padding: 3px 5px;
+      }
     }
   }
-  h1 {
-    color: red;
+
+  &.is-focus tbody tr.is-active {
+    color: #fff;
+    background-color: #0099ff;
   }
 }
 </style>
