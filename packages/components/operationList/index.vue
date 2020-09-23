@@ -1,33 +1,38 @@
 <template>
-  <div :class="['vc-operation-list', {'is-focus': isFocus}]">
-    <table>
-      <thead>
-        <tr>
-          <th v-for="item in head" :key="item[keyAlias]">
-            {{ item[labelAlias] }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr 
-          v-for="(tr, i) in myList" 
-          :key="i"
-          :class="[{
-            'is-active': tr.$isActive
-          }]"
-          @click.stop="clickEvt(i)"
-        >
-          <td v-for="td in head" :key="td[keyAlias]">
-            {{ tr[td[keyAlias]] }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="vc-operation-list__footer">
-      <button>
+  <div 
+    :class="['vc-operation-list', {'is-focus': isFocus}]"
+    :style="style"
+  >
+    <div class="vc-operation-list__container">
+      <table>
+        <thead>
+          <tr>
+            <th v-for="item in head" :key="item[keyAlias]">
+              {{ item[labelAlias] }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr 
+            v-for="(tr, i) in myList" 
+            :key="i"
+            :class="[{
+              'is-active': tr.$isActive
+            }]"
+            @click.stop="clickEvt(i)"
+          >
+            <td v-for="td in head" :key="td[keyAlias]">
+              {{ tr[td[keyAlias]] }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div v-if="buttons" class="vc-operation-list__footer">
+      <button @click.stop="$emit('add')">
         <i class="vc-icon-plus"></i>
       </button>
-      <button>
+      <button @click.stop="$emit('delete')">
         <i class="vc-icon-minus"></i>
       </button>
     </div>
@@ -38,27 +43,38 @@
 export default {
   name: 'VcOperationList',
   props: {
+    // 值
     modelValue: {
       type: [Number, String],
       default: ''
     },
+    // 表头
     head: {
       type: Array,
       default: () => ([])
     },
+    // 列表
     list: {
       type: Array,
       default: () => ([])
     },
+    // label 别名
     labelAlias: {
       type: String,
       default: 'label'
     },
+    // key 别名
     keyAlias: {
       type: String,
       default: 'key'
     },
-    buttons: Boolean
+    // 是否显示按钮
+    buttons: Boolean,
+    // 设置高度
+    height: {
+      type: String,
+      default: 'auto'
+    }
   },
   data() {
     return {
@@ -72,6 +88,11 @@ export default {
 
         return item
       })
+    },
+    style() {
+      return {
+        height: this.height
+      }
     }
   },
   mounted() {
@@ -96,9 +117,16 @@ export default {
 
 <style lang="less">
 .vc-operation-list {
+  display: flex;
+  flex-direction: column;
   font-size: 14px;
   color: #262626;
   border: 1px solid rgb(197, 197, 197);
+
+  &__container {
+    flex: 1;
+    overflow: auto;
+  }
 
   table {
     width: 100%;
@@ -157,6 +185,7 @@ export default {
       border-radius: 0;
       border-right: 1px solid #c7c7c7;
       outline: none;
+      cursor: pointer;
 
       &:active {
         background-color: #ccc;
