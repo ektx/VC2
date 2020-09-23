@@ -6,7 +6,7 @@
 ::: demo 
 ```html
 <template>
-  <vc-operation-list v-model="value" :head="head" :list="list"/>
+  <vc-operation-list v-model="value" :head="head" :list="list" buttons/>
 </template>
 
 <script>

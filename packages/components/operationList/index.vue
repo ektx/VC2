@@ -23,6 +23,14 @@
         </tr>
       </tbody>
     </table>
+    <div class="vc-operation-list__footer">
+      <button>
+        <i class="vc-icon-plus"></i>
+      </button>
+      <button>
+        <i class="vc-icon-minus"></i>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -49,7 +57,8 @@ export default {
     keyAlias: {
       type: String,
       default: 'key'
-    }
+    },
+    buttons: Boolean
   },
   data() {
     return {
@@ -108,7 +117,7 @@ export default {
     tbody {
       tr {
         transition: background-color .3s;
-        
+
         &:hover {
           background-color: #eee;
         }
@@ -127,6 +136,32 @@ export default {
   &.is-focus tbody tr.is-active {
     color: #fff;
     background-color: #0099ff;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    height: 24px;
+    border-top: 1px solid #c7c7c7;
+    background-color: #f0f0f0;
+    box-sizing: border-box;
+
+    button {
+      display: inline-flex;
+      width: 24px;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      border: none;
+      border-radius: 0;
+      border-right: 1px solid #c7c7c7;
+      outline: none;
+
+      &:active {
+        background-color: #ccc;
+      }
+    }
   }
 }
 </style>
