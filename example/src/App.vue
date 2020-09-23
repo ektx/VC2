@@ -196,7 +196,10 @@ header {
     overflow: auto;
     box-sizing: border-box;
     scroll-behavior: smooth;
+  }
 
+  & > main,
+  & > aside {
     &::-webkit-scrollbar {
       width: 5px;
       background-color: transparent;
@@ -219,6 +222,11 @@ header {
     }
     &::-webkit-scrollbar-track {
       margin: 62px 0 2px 0;
+    }
+  }
+  & > aside {
+    &::-webkit-scrollbar {
+      width: 3px;
     }
   }
 }
