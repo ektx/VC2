@@ -1,16 +1,16 @@
-/* 以下代码自动生成于 Wed Sep 23 2020 16:25:04 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Fri Sep 25 2020 11:26:17 GMT+0800 (中国标准时间) */
 
-import vcButton from './components/button/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
+import vcButton from './components/button/index.vue'
 import vcCollapse from './components/collapse/index.vue'
 import vcCollapseItem from './components/collapseItem/index.vue'
-import vcConfirm from './components/confirm/index.js'
 import vcColorPicker from './components/colorPicker/index.vue'
+import vcConfirm from './components/confirm/index.js'
 import vcForm from './components/form/index.vue'
 import vcFormItem from './components/formItem/index.vue'
 import vcIcon from './components/icon/index.vue'
-import vcLayer from './components/layer/index.vue'
 import vcInput from './components/input/index.vue'
+import vcLayer from './components/layer/index.vue'
 import vcMessage from './components/message/index.js'
 import vcNotification from './components/notification/index.js'
 import vcOperationList from './components/operationList/index.vue'
@@ -21,19 +21,20 @@ import vcSwitch from './components/switch/index.vue'
 import vcTabPane from './components/tabPane/index.vue'
 import vcTable from './components/table/index.vue'
 import vcTabs from './components/tabs/index.vue'
+import vcTest2 from './components/test2/index.vue'
 
 const components = [
-  vcButton,
   vcButtonGroup,
+  vcButton,
   vcCollapse,
   vcCollapseItem,
-  vcConfirm,
   vcColorPicker,
+  vcConfirm,
   vcForm,
   vcFormItem,
   vcIcon,
-  vcLayer,
   vcInput,
+  vcLayer,
   vcMessage,
   vcNotification,
   vcOperationList,
@@ -43,7 +44,8 @@ const components = [
   vcSwitch,
   vcTabPane,
   vcTable,
-  vcTabs
+  vcTabs,
+  vcTest2
 ]
 
 const install = app => {
@@ -60,17 +62,17 @@ const install = app => {
 
 export default {
   install,
-  vcButton,
   vcButtonGroup,
+  vcButton,
   vcCollapse,
   vcCollapseItem,
-  vcConfirm,
   vcColorPicker,
+  vcConfirm,
   vcForm,
   vcFormItem,
   vcIcon,
-  vcLayer,
   vcInput,
+  vcLayer,
   vcMessage,
   vcNotification,
   vcOperationList,
@@ -80,5 +82,6 @@ export default {
   vcSwitch,
   vcTabPane,
   vcTable,
-  vcTabs
+  vcTabs,
+  vcTest2
 }
