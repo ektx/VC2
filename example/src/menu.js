@@ -75,7 +75,7 @@ export default [
         "file": "layer.md"
       },
       {
-        "label": "operationList",
+        "label": "OperationList 操作列表",
         "file": "operationList.md"
       }
     ]
