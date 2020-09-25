@@ -89,10 +89,6 @@ export default {
         // 允许记录点击位置
         this.isAllow = true
         this.$emit('open')
-
-        if (this.appendToBody) {
-          document.body.appendChild(this.$el)
-        }
       }
     }
   },
