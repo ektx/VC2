@@ -5,7 +5,6 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const { version } = pack
-console.log(version)
 
 // 生成 layout.less
 function createCSS(list) {
@@ -61,7 +60,7 @@ const install = app => {
 }
 
 
-async function main() {
+(async function() {
   let componentsDir = path.join(__dirname, '../packages/components')
   let files = await fs.promises.readdir(componentsDir)
   let layoutArr = []
@@ -93,6 +92,4 @@ async function main() {
     createCSS(layoutArr)
     createIndexJS(componentArr)
   })
-}
-
-main()
+})()
