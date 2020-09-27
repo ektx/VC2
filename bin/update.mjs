@@ -1,49 +1,20 @@
-const fs = require('fs')
-const path = require('path')
-const { version } = require('../package.json')
+import fs from 'fs'
+import path from 'path'
+import pack from '../package.json'
+import { fileURLToPath } from 'url'
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const { version } = pack
+console.log(version)
 
-async function main() {
-  let componentsDir = path.join(__dirname, '../packages/components')
-  let files = await fs.promises.readdir(componentsDir)
-  let layoutArr = []
-  let componentArr = []
-  let promiseAll = []
-  
-  files.forEach(dir => {
-    let fun = new Promise((resolve, reject) => {
-      let _dir = path.join(componentsDir, dir)
-
-      fs.readdir(_dir, (err, _files) => {
-        if (err) { return reject(err) }
-
-        _files.forEach(file => {
-          if (path.extname(file) === '.less') {
-            layoutArr.push(`@import './components/${dir}/${file}';`)
-          } 
-          else if (file.startsWith('index')) {
-            componentArr.push({ dir, file })
-          }
-        })
-        resolve()
-      })
-    })
-
-    promiseAll.push( fun )
-  })
-
-  Promise.all(promiseAll).then(values => {
-    createCss(layoutArr)
-    createIndexJS(componentArr)
-  })
-}
-
-function createCss(lessArr) {
+// 生成 layout.less
+function createCSS(list) {
   let cssPath = path.join(__dirname, '../packages/layout.less')
   let cssData = `/* 以下代码自动生成于 ${Date()} */\n\n`
 
   cssData += `@import './styles/var.less';\n`
   cssData += `@import './styles/transition.less';\n`
-  cssData += lessArr.join('\r\n')
+  cssData += list.join('\r\n')
 
   fs.writeFile(cssPath, cssData, {encoding: 'utf8'}, (err) => {
     if (err) throw Error(err)
@@ -51,6 +22,7 @@ function createCss(lessArr) {
   })
 }
 
+// 生成 index.js
 function createIndexJS(compomentArr) {
   let savePath = path.join(__dirname, '../packages/index.js')
   let data = `/* 以下代码自动生成于 ${Date()} */\n\n`
@@ -85,6 +57,41 @@ const install = app => {
   fs.writeFile(savePath, data, {encoding: 'utf8'}, (err) => {
     if (err) throw Error(err)
     console.log('Index.js is updated!!')
+  })
+}
+
+
+async function main() {
+  let componentsDir = path.join(__dirname, '../packages/components')
+  let files = await fs.promises.readdir(componentsDir)
+  let layoutArr = []
+  let componentArr = []
+  let promisesAll = []
+
+  files.forEach(dir => {
+    let fun = new Promise((resolve, reject) => {
+      let _dir = path.join(componentsDir, dir)
+
+      fs.readdir(_dir, (err, _files) => {
+        if (err) { return reject(err) }
+
+        _files.forEach(file => {
+          if (path.extname(file) === '.less') {
+            layoutArr.push(`@import './components/${dir}/${file}';`)
+          } else if (file.startsWith('index')) {
+            componentArr.push({ dir, file })
+          }
+        })
+        resolve()
+      })
+    })
+
+    promisesAll.push( fun )
+  })
+
+  Promise.all(promisesAll).then(() => {
+    createCSS(layoutArr)
+    createIndexJS(componentArr)
   })
 }
 

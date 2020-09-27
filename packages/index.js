@@ -1,4 +1,4 @@
-/* 以下代码自动生成于 Sun Sep 27 2020 14:48:07 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Sun Sep 27 2020 15:23:23 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
@@ -9,16 +9,16 @@ import vcConfirm from './components/confirm/index.js'
 import vcForm from './components/form/index.vue'
 import vcFormItem from './components/formItem/index.vue'
 import vcIcon from './components/icon/index.vue'
-import vcInput from './components/input/index.vue'
 import vcLayer from './components/layer/index.vue'
+import vcInput from './components/input/index.vue'
 import vcMessage from './components/message/index.js'
 import vcNotification from './components/notification/index.js'
-import vcOperationList from './components/operationList/index.vue'
 import vcPagination from './components/pagination/index.vue'
+import vcOperationList from './components/operationList/index.vue'
 import vcRadio from './components/radio/index.vue'
 import vcSelect from './components/select/index.vue'
-import vcSwitch from './components/switch/index.vue'
 import vcTabPane from './components/tabPane/index.vue'
+import vcSwitch from './components/switch/index.vue'
 import vcTable from './components/table/index.vue'
 import vcTabs from './components/tabs/index.vue'
 
@@ -32,16 +32,16 @@ const components = [
   vcForm,
   vcFormItem,
   vcIcon,
-  vcInput,
   vcLayer,
+  vcInput,
   vcMessage,
   vcNotification,
-  vcOperationList,
   vcPagination,
+  vcOperationList,
   vcRadio,
   vcSelect,
-  vcSwitch,
   vcTabPane,
+  vcSwitch,
   vcTable,
   vcTabs
 ]
@@ -70,16 +70,16 @@ export default {
   vcForm,
   vcFormItem,
   vcIcon,
-  vcInput,
   vcLayer,
+  vcInput,
   vcMessage,
   vcNotification,
-  vcOperationList,
   vcPagination,
+  vcOperationList,
   vcRadio,
   vcSelect,
-  vcSwitch,
   vcTabPane,
+  vcSwitch,
   vcTable,
   vcTabs
 }
