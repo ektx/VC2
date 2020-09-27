@@ -131,3 +131,13 @@ export default {
 </script>
 ```
 :::
+
+## Poprs
+
+| 参数 | 类型 | 说明 | 可选值 | 默认值 |
+|---|---|---|---|---|
+| value | **String** | 颜色值 | - | - |
+| format | **String** | 写入 v-model 的颜色的格式 | hex / hsl / hsv / rgb | hex |
+| delay | **Number** | 延迟功能 | - | 100 |
+| round | **Boolean** | 圆形效果 | - | - |
+
