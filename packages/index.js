@@ -1,10 +1,10 @@
-/* 以下代码自动生成于 Sun Sep 27 2020 14:35:07 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Sun Sep 27 2020 14:48:07 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
 import vcCollapse from './components/collapse/index.vue'
-import vcColorPicker from './components/colorPicker/index.vue'
 import vcCollapseItem from './components/collapseItem/index.vue'
+import vcColorPicker from './components/colorPicker/index.vue'
 import vcConfirm from './components/confirm/index.js'
 import vcForm from './components/form/index.vue'
 import vcFormItem from './components/formItem/index.vue'
@@ -26,8 +26,8 @@ const components = [
   vcButton,
   vcButtonGroup,
   vcCollapse,
-  vcColorPicker,
   vcCollapseItem,
+  vcColorPicker,
   vcConfirm,
   vcForm,
   vcFormItem,
@@ -59,12 +59,13 @@ const install = app => {
 }
 
 export default {
+  version: "1.2.2",
   install,
   vcButton,
   vcButtonGroup,
   vcCollapse,
-  vcColorPicker,
   vcCollapseItem,
+  vcColorPicker,
   vcConfirm,
   vcForm,
   vcFormItem,

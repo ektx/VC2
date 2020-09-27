@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const { version } = require('../package.json')
 
 async function main() {
   let componentsDir = path.join(__dirname, '../packages/components')
@@ -77,7 +78,7 @@ const install = app => {
   })
 
   components = `\n\nconst components = [\n  ${components.join(',\n  ')}\n]\n`
-  exportObj = '\n\nexport default {\n  ' + exportObj.join(',\n  ') + '\n}\n'
+  exportObj = '\n\nexport default {\n  version: "'+ version+'",\n  ' + exportObj.join(',\n  ') + '\n}\n'
 
   data += imports.join('\n') + components + installStr + exportObj
 
