@@ -1,21 +1,21 @@
-/* 以下代码自动生成于 Sun Sep 27 2020 15:26:58 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Mon Sep 28 2020 14:10:29 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
-import vcCollapse from './components/collapse/index.vue'
 import vcCollapseItem from './components/collapseItem/index.vue'
+import vcCollapse from './components/collapse/index.vue'
 import vcColorPicker from './components/colorPicker/index.vue'
 import vcConfirm from './components/confirm/index.js'
-import vcForm from './components/form/index.vue'
 import vcFormItem from './components/formItem/index.vue'
-import vcIcon from './components/icon/index.vue'
+import vcForm from './components/form/index.vue'
 import vcInput from './components/input/index.vue'
-import vcLayer from './components/layer/index.vue'
+import vcIcon from './components/icon/index.vue'
 import vcMessage from './components/message/index.js'
+import vcLayer from './components/layer/index.vue'
 import vcNotification from './components/notification/index.js'
 import vcOperationList from './components/operationList/index.vue'
-import vcPagination from './components/pagination/index.vue'
 import vcRadio from './components/radio/index.vue'
+import vcPagination from './components/pagination/index.vue'
 import vcSelect from './components/select/index.vue'
 import vcSwitch from './components/switch/index.vue'
 import vcTabPane from './components/tabPane/index.vue'
@@ -25,20 +25,20 @@ import vcTabs from './components/tabs/index.vue'
 const components = [
   vcButton,
   vcButtonGroup,
-  vcCollapse,
   vcCollapseItem,
+  vcCollapse,
   vcColorPicker,
   vcConfirm,
-  vcForm,
   vcFormItem,
-  vcIcon,
+  vcForm,
   vcInput,
-  vcLayer,
+  vcIcon,
   vcMessage,
+  vcLayer,
   vcNotification,
   vcOperationList,
-  vcPagination,
   vcRadio,
+  vcPagination,
   vcSelect,
   vcSwitch,
   vcTabPane,
@@ -59,24 +59,24 @@ const install = app => {
 }
 
 export default {
-  version: "1.2.2",
+  version: "1.2.2-beta.1",
   install,
   vcButton,
   vcButtonGroup,
-  vcCollapse,
   vcCollapseItem,
+  vcCollapse,
   vcColorPicker,
   vcConfirm,
-  vcForm,
   vcFormItem,
-  vcIcon,
+  vcForm,
   vcInput,
-  vcLayer,
+  vcIcon,
   vcMessage,
+  vcLayer,
   vcNotification,
   vcOperationList,
-  vcPagination,
   vcRadio,
+  vcPagination,
   vcSelect,
   vcSwitch,
   vcTabPane,
