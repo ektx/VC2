@@ -5,6 +5,7 @@ import { getCurrentInstance } from 'vue'
  * 排除函数的值
  */
 export function getAttrs () {
+  debugger
   let { ctx } = getCurrentInstance()
   let __attrs = {}
 

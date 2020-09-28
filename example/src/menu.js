@@ -60,6 +60,10 @@ export default [
       {
         "label": "Form 表单",
         "file": "form.md"
+      },
+      {
+        "label": "inputNumber",
+        "file": "inputNumber.md"
       }
     ]
   },
