@@ -247,7 +247,7 @@ export default {
       blur,
       state,
       select,
-      ATTRS: getAttrs(),
+      ATTRS: getAttrs(attrs),
       TYPE
     };
   }
