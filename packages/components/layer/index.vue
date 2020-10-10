@@ -6,11 +6,11 @@
   >
     <div 
       v-show="show" 
-      class="vc-layer" 
+      :class="['vc-layer', {'is-fullscreen': fullscreen}]" 
       @click.self="layerBoxClick"
     >
       <transition name="vc-scale">
-        <div v-show="show" class="layer-inner" :style="style">
+        <div v-show="show" class="vc-layer__inner" :style="style">
           <div class="vc-layer__header">
             <slot name="title">
               <span>{{title}}</span>
@@ -53,6 +53,8 @@ export default {
     },
     // Dialog 自身是否插入至 body 元素上
     appendToBody: Boolean,
+    // 是否为全屏
+    fullscreen: Boolean,
   },
   computed: {
     style () {
@@ -75,13 +77,13 @@ export default {
     }
   },
   data () {
-      return {
-          evt: {
-              x: 0,
-              y: 0
-          },
-          isAllow: false
-      }
+    return {
+      evt: {
+        x: 0,
+        y: 0
+      },
+      isAllow: false
+    }
   },
   watch: {
     show (val) {
