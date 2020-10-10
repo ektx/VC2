@@ -41,6 +41,7 @@
         :index="pageIndex" 
         :total="pageTotal"
         :size="pageSize"
+        hide-on-single-page
         @indexChange="pageChangeEvt"
       />
     </div>

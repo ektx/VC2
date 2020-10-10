@@ -2,7 +2,7 @@
   <ul 
     :class="[
       'vc-pagination', 
-      {'has-color': background, 'is-hide': hideOnSinglePage}
+      {'has-color': background, 'is-hide': toHide}
     ]"
     :style="{color: background ? background : null}"
   >
@@ -112,6 +112,9 @@ export default {
     },
     prev5() {
       return this.currentList.length ? this.currentList[0].label > 1 : false
+    },
+    toHide() {
+      return this.hideOnSinglePage ? this.pages === 1 : false
     }
   },
   methods: {
