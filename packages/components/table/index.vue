@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <table :style="{height}">
+    <table :class="{'has-border': border}" :style="{height}">
       <colgroup>
         <col v-for="(h,i) in header" :key="i" :width="h.width"/>
       </colgroup>
@@ -77,6 +77,7 @@ export default {
       type: Number,
       default: 10
     },
+    // 高度
     height: {
       type: String,
       default: 'auto'
@@ -86,7 +87,9 @@ export default {
     loading: {
       type: [Boolean, String],
       default: false
-    }
+    },
+    // 显示边框，默认无
+    border: Boolean
   },
   data() {
     return {
