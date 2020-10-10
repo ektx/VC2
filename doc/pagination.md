@@ -86,6 +86,30 @@ export default {
 ```
 :::
 
+## 当只有一页时隐藏分页
+
+当只有一页时，通过设置 `hide-on-single-page` 属性来隐藏分页。
+
+::: demo 
+```html
+<template>
+  <vc-switch v-model:value="show" />
+
+  <vc-pagination v-model:index="index" :total="1" :hide-on-single-page="show"/>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      index: 1,
+      show: false
+    }
+  }
+}
+</script>
+```
+:::
 
 ## Poprs
 
@@ -96,6 +120,7 @@ export default {
 | size | **Number** | 每页数量 | 10 | - |
 | step | **Number** | 步长 | 5 | - |
 | background | **Boolean/String** | 背景色 | false | - |
+| hideOnSinglePage | **Boolean** | 只有一页时是否隐藏 | false | - |
 
 ## Events
 
