@@ -51,7 +51,7 @@ export default {
       type: Boolean,
       default: false
     },
-    // Dialog 自身是否插入至 body 元素上
+    // 弹层自身是否插入至 body 元素上
     appendToBody: Boolean,
     // 是否为全屏
     fullscreen: Boolean,
