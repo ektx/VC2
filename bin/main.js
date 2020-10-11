@@ -18,7 +18,8 @@ let router = new Router()
 // 获取 doc 中的 markdown 文件
 router.get('/doc/:file', async ctx => {
   if (!ctx.request.header.referer) {
-    ctx.response.redirect('/')
+    let index = path.join(__dirname, '../index.html')
+    ctx.body = await fs.promises.readFile(index, {encoding: 'utf8'})
     return
   }
 

@@ -21,6 +21,7 @@ import { ref, onMounted, isProxy } from 'vue'
 import menu from './menu'
 
 let htmlStr = ''
+// 记录当前选择的组件信息，用于热更新markdown文档
 let fileItem = null
 
 const socketProtocol = location.protocol === 'https:' ? 'wss' : 'ws'
@@ -51,9 +52,9 @@ export default {
         }
       }
 
-      let pathname = location.pathname.slice(1)
-      if (pathname) {
-        getEvt({file: pathname})
+      // 如果地址栏指定了组件地址
+      if (location.pathname && location.pathname.startsWith('/doc')) {
+        getEvt({to: location.pathname})
       }
     })
 
@@ -68,12 +69,12 @@ export default {
 
 function getEvt (item) {
   let { to } = item
-
   fileItem = item
 
-  // 如果是代理对象，则不是浏览器前进后退触事件
+  // 区分是否为手动点击
   if (item.label) {
-    history.pushState({file: to, from: 'history'}, '', to)
+    // 更新url 同时更新history api数据
+    history.pushState({to: to, from: 'history'}, '', to)
   }
 
   fetch(to)
