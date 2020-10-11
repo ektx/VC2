@@ -67,16 +67,16 @@ export default {
 }
 
 function getEvt (item) {
-  let { file } = item
+  let { to } = item
 
   fileItem = item
 
   // 如果是代理对象，则不是浏览器前进后退触事件
   if (item.label) {
-    history.pushState({file: file, from: 'history'}, '', file)
+    history.pushState({file: to, from: 'history'}, '', to)
   }
 
-  fetch(`/api/doc?file=${file}`)
+  fetch(to)
     .then(res => res.json())
     .then(res => {
       // 将字符串中 `{{}}` 的 {{ 转换成 ASCII CODE 123

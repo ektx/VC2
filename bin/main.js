@@ -16,8 +16,13 @@ require('prismjs/plugins/autolinker/prism-autolinker')
 let router = new Router()
 
 // 获取 doc 中的 markdown 文件
-router.get('/api/doc', async ctx => {
-  let file = path.join(__dirname, `../doc/${ctx.request.query.file}`)
+router.get('/doc/:file', async ctx => {
+  if (!ctx.request.header.referer) {
+    ctx.response.redirect('/')
+    return
+  }
+
+  let file = path.join(__dirname, `../doc/${ctx.params.file}.md`)
   let str = await fs.promises.readFile(file, { encoding: 'utf-8'})
   let md = new MarkdownIt({
     html: true,
