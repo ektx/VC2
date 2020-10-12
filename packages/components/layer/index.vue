@@ -6,11 +6,11 @@
   >
     <div 
       v-show="show" 
-      class="vc-layer" 
+      :class="['vc-layer', {'is-fullscreen': fullscreen}]" 
       @click.self="layerBoxClick"
     >
       <transition name="vc-scale">
-        <div v-show="show" class="layer-inner" :style="style">
+        <div v-show="show" class="vc-layer__inner" :style="style">
           <div class="vc-layer__header">
             <slot name="title">
               <span>{{title}}</span>
@@ -51,8 +51,12 @@ export default {
       type: Boolean,
       default: false
     },
-    // Dialog 自身是否插入至 body 元素上
+    // 弹层自身是否插入至 body 元素上
     appendToBody: Boolean,
+    // 是否为全屏
+    fullscreen: Boolean,
+    // 关闭前的回调，会暂停弹层的关闭
+    beforeClose: Function
   },
   computed: {
     style () {
@@ -75,20 +79,31 @@ export default {
     }
   },
   data () {
-      return {
-          evt: {
-              x: 0,
-              y: 0
-          },
-          isAllow: false
-      }
+    return {
+      evt: {
+        x: 0,
+        y: 0
+      },
+      isAllow: false,
+      // 默认不是组件调用关闭
+      toClose: false,
+    }
   },
   watch: {
     show (val) {
       if (val) {
         // 允许记录点击位置
         this.isAllow = true
+        this.toClose = false
         this.$emit('open')
+      } else {
+        // 组件内调用时，重置（防止多次关闭事件）
+        if (this.toClose) {
+          this.toClose = false
+          return
+        }
+
+        this.close()
       }
     }
   },
@@ -104,6 +119,17 @@ export default {
     },
 
     hideLayer () {
+      if (this.beforeClose) {
+        this.beforeClose(this.close)
+        return
+      }
+
+      this.close()
+    },
+
+    close() {
+      // 标记组件关闭事件
+      this.toClose = true
       this.$emit('update:show', false)
       this.$emit('close')
     },

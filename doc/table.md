@@ -61,6 +61,63 @@ export default {
 ```
 :::
 
+## 带边框表格
+
+::: demo 
+```html
+<template>
+  <vc-table :data="data" :header="header" border/>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      header: [
+        {
+          label: '姓名',
+          key: 'name',
+          width: '100px'
+        },
+        {
+          label: '时间',
+          key: 'date',
+          width: '100px'
+        },
+        {
+          label: '地址',
+          key: 'address',
+        }
+      ],
+      data: [
+        {
+          date: "2016-05-02",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-04",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1517 弄"
+        },
+        {
+          date: "2016-05-01",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1519 弄"
+        },
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1516 弄"
+        }
+      ]
+    }
+  }
+}
+</script>
+```
+:::
+
 ## 函数式表头
 
 通过函数方法来指定列有渲染内容。
@@ -401,8 +458,8 @@ export default {
     <template #date="{item, index}">
       <i class="vc-icon-time"></i>{{item.date}}
     </template>
-    <template v-slot:setting="{item, index}">
-      <vc-button @click="showDetail(item, index)">详情</vc-button>
+    <template v-slot:address="{item, index}">
+      <input v-model="item.address" />
     </template>
   </vc-table>
 </template>
@@ -425,6 +482,7 @@ export default {
         {
           label: '地址',
           key: 'address',
+          slot: 'address'
         },
       ],
       data: [
@@ -461,7 +519,12 @@ export default {
 # Props
 | 参数 | 类型 | 说明 | 默认值 | 可选值 |
 | --- | --- | --- | --- | --- |
-| **data** | `Array` |  | [] |  |
-| **header** | `Array` |  | [] |  |
-| **total** | `Number` |  |  |  |
-| **index** | `Number` |  | 1 |  |
+| data | **Array** | 表格数据 | [] |  |
+| header | **Array** | 表格头 | [] |  |
+| pageTotal | **Number** | 总条数 |  |  |
+| pageIndex | **Number** | 当前页 | 1 |  |
+| pageSize | **Number** | 默认每页条数 | 10 |  |
+| height | **String** | 高度 | auto | - |
+| asyncData | **Boolean** | 异步数据 | false | - |
+| loading | **Boolean/String** | 布尔值时，控股是否加载；<br/>字符串时，接受加载时文字 | false | - |
+| border | **Boolean** | 显示边框，默认无 | auto | - |

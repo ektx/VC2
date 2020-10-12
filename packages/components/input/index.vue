@@ -78,18 +78,18 @@ import {
   inject,
 } from 'vue'
 import { getAttrs } from '../../utils/index'
-import calcTextareaHeight from "./calcTextareaHeight"
+import calcTextareaHeight from './calcTextareaHeight'
 
 export default {
-  name: "VcInput",
+  name: 'VcInput',
   inheritAttrs: false,
   props: {
     //
     suffixIcon: String,
     prefixIcon: String,
     modelValue: {
-      type: String,
-      default: ""
+      type: [String, Number],
+      default: ''
     },
     //
     disabled: {

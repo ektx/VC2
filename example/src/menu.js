@@ -4,7 +4,7 @@ export default [
     "children": [
       {
         "label": "快速上手",
-        "file": "welcome.md"
+        "to": "/doc/welcome"
       }
     ]
   },
@@ -13,11 +13,11 @@ export default [
     "children": [
       {
         "label": "Icon 图标",
-        "file": "icon.md"
+        "to": "/doc/icon"
       },
       {
         "label": "Button 按钮",
-        "file": "button.md"
+        "to": "/doc/button"
       }
     ]
   },
@@ -26,11 +26,11 @@ export default [
     "children": [
       {
         "label": "Pagination 分页",
-        "file": "pagination.md"
+        "to": "/doc/pagination"
       },
       {
         "label": "Table 表格",
-        "file": "table.md"
+        "to": "/doc/table"
       }
     ]
   },
@@ -39,27 +39,27 @@ export default [
     "children": [
       {
         "label": "Input 输入框",
-        "file": "input.md"
+        "to": "/doc/input"
       },
       {
         "label": "Select 选择器",
-        "file": "select.md"
+        "to": "/doc/select"
       },
       {
         "label": "ColorPicker 颜色选择器",
-        "file": "colorPicker.md"
+        "to": "/doc/colorPicker"
       },
       {
         "label": "Tabs 标签页",
-        "file": "tabs.md"
+        "to": "/doc/tabs"
       },
       {
         "label": "Switch 开关",
-        "file": "switch.md"
+        "to": "/doc/switch"
       },
       {
         "label": "Form 表单",
-        "file": "form.md"
+        "to": "/doc/form"
       }
     ]
   },
@@ -68,15 +68,15 @@ export default [
     "children": [
       {
         "label": "Collapse 折叠面板",
-        "file": "collapse.md"
+        "to": "/doc/collapse"
       },
       {
         "label": "Layer 弹层",
-        "file": "layer.md"
+        "to": "/doc/layer"
       },
       {
         "label": "OperationList 操作列表",
-        "file": "operationList.md"
+        "to": "/doc/operationList"
       }
     ]
   },
@@ -85,15 +85,15 @@ export default [
     "children": [
       {
         "label": "Message 消息提示",
-        "file": "message.md"
+        "to": "/doc/message"
       },
       {
         "label": "Notification 通知",
-        "file": "notification.md"
+        "to": "/doc/notification"
       },
       {
         "label": "Confirm 确认框",
-        "file": "confirm.md"
+        "to": "/doc/confirm"
       }
     ]
   },
@@ -102,7 +102,7 @@ export default [
     "children": [
       {
         "label": "组件示例开发指南",
-        "file": "help.md"
+        "to": "/doc/help"
       }
     ]
   }
