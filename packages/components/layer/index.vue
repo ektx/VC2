@@ -55,6 +55,8 @@ export default {
     appendToBody: Boolean,
     // 是否为全屏
     fullscreen: Boolean,
+    // 关闭前的回调，会暂停弹层的关闭
+    beforeClose: Function
   },
   computed: {
     style () {
@@ -82,7 +84,9 @@ export default {
         x: 0,
         y: 0
       },
-      isAllow: false
+      isAllow: false,
+      // 默认不是组件调用关闭
+      toClose: false,
     }
   },
   watch: {
@@ -90,7 +94,16 @@ export default {
       if (val) {
         // 允许记录点击位置
         this.isAllow = true
+        this.toClose = false
         this.$emit('open')
+      } else {
+        // 组件内调用时，重置（防止多次关闭事件）
+        if (this.toClose) {
+          this.toClose = false
+          return
+        }
+
+        this.close()
       }
     }
   },
@@ -106,6 +119,17 @@ export default {
     },
 
     hideLayer () {
+      if (this.beforeClose) {
+        this.beforeClose(this.close)
+        return
+      }
+
+      this.close()
+    },
+
+    close() {
+      // 标记组件关闭事件
+      this.toClose = true
       this.$emit('update:show', false)
       this.$emit('close')
     },

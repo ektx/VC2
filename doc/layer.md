@@ -54,6 +54,46 @@ export default {
 ```
 :::
 
+## 阻止关闭事件效果
+
+::: demo 
+```html
+<template>
+  <vc-button @click="open = !open">Open Layer - {{open}}</vc-button>
+  <vc-layer 
+    v-model:show="open" 
+    title="hello world" 
+    :beforeClose="beforeClose"
+    @close="close"
+  >
+    <p>这是一段信息</p>
+    <template #footer>
+      <vc-button @click="open = false">取消</vc-button>
+      <vc-button color="primary" @click="open = false">确认</vc-button>
+    </template>
+  </vc-layer>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      open: false
+    }
+  },
+  methods: {
+    beforeClose(done) {
+      done()
+    },
+    close() {
+      this.vcMessage.info('close')
+    }
+  }
+};
+</script>
+```
+:::
+
 ## Poprs
 
 | 参数 | 类型 | 说明 | 默认值 | 可选值 |
@@ -64,6 +104,7 @@ export default {
 | closeModal | `Boolean` | 点击背景不消失 | false | - |
 | append-to-body | `Boolean` | 弹层自身是否插入至 body 元素上 | false | - |
 | fullscreen | `Boolean` | 是否为全屏 | false | - |
+| beforeClose | `Function` | 关闭前的回调，会暂停弹层的关闭<br/>`function(done)`，done 用于关闭弹层 | - | - |
 
 ## Slots
 
