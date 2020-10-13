@@ -8,7 +8,6 @@
 ```html
 <template>
   <vc-select v-model="value" :options="options"/>
-  <vc-button @click="value = ''">Click</vc-button>
 </template>
 
 <script>

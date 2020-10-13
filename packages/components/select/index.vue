@@ -141,11 +141,6 @@ export default {
       default: 'label'
     }
   },
-  watch: {
-    modelValue(val) {
-      if (!val && this.intValue) this.intValue = ''
-    }
-  },
   setup(props, { emit }) {
     const isFocus = ref(false)
     const isOpen = ref(false)
@@ -382,6 +377,10 @@ export default {
           this.intValue = item[this.labelAlias]
         }
       } else {
+        if (this.selectedItem[key] && !this.multiple) {
+          this.intValue = ''
+        }
+
         delete this.selectedItem[key]
       }
     },
