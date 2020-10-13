@@ -70,7 +70,6 @@ import {
   onMounted, 
   watch,
   computed,
-  getCurrentInstance,
   reactive,
   inject,
 } from 'vue'
@@ -142,8 +141,12 @@ export default {
       default: 'label'
     }
   },
+  watch: {
+    modelValue(val) {
+      if (!val && this.intValue) this.intValue = ''
+    }
+  },
   setup(props, { emit }) {
-    const { ctx } = getCurrentInstance()
     const isFocus = ref(false)
     const isOpen = ref(false)
     const selectedItem = ref({})
@@ -358,7 +361,6 @@ export default {
       if (this.vcFormItem) {
         this.vcFormItem.checkValidate('change')
       }
-
       this.$emit('update:modelValue', result)
       this.$emit('change', result, item)
     },
@@ -388,7 +390,6 @@ export default {
       evt.stopPropagation()
 
       if (this.isOpen) this.isOpen = false
-
       this.$emit('update:modelValue', this.multiple ? [] : '')
     },
 

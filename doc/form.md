@@ -24,7 +24,7 @@
     </vc-form-item>
     
     <vc-form-item label="活动区域" prop="region">
-      <vc-select v-model:value="formData.region" :options="options" multiple/>
+      <vc-select v-model="formData.region" :options="options" multiple/>
     </vc-form-item>
 
     <vc-form-item label="活动形式" prop="desc">
@@ -132,7 +132,7 @@ export default {
       <vc-input type="text" v-model:value="formData.name" validate-event/>
     </vc-form-item>
     <vc-form-item label="活动区域">
-      <vc-select v-model:value="formData.region" :options="options"/>
+      <vc-select v-model="formData.region" :options="options"/>
     </vc-form-item>
     <vc-form-item label="活动形式" prop="desc">
     
@@ -192,7 +192,7 @@ export default {
       <vc-input type="text" v-model:value="formData.name" validate-event/>
     </vc-form-item>
     <vc-form-item label="活动区域" prop="region">
-      <vc-select v-model:value="formData.region" :options="options"/>
+      <vc-select v-model="formData.region" :options="options"/>
     </vc-form-item>
     <vc-form-item>
       <vc-button color="primary" @click="submitForm">查询</vc-button>
@@ -275,7 +275,7 @@ export default {
       <vc-input type="text" v-model:value="formData.name" validate-event/>
     </vc-form-item>
     <vc-form-item label="活动区域" prop="region">
-      <vc-select v-model:value="formData.region" :options="options"/>
+      <vc-select v-model="formData.region" :options="options"/>
     </vc-form-item>
     <vc-form-item label="活动形式" prop="desc">
       
