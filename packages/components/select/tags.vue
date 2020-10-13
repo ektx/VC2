@@ -53,7 +53,7 @@ export default {
       }
     },
     placeholder() {
-      return this.vcSelect.value.length ? '' : this.vcSelect.placeholder
+      return this.vcSelect.modelValue.length ? '' : this.vcSelect.placeholder
     }
   },
   methods: {
