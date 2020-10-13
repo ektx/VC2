@@ -23,7 +23,10 @@ export default {
       default: ''
     },
     // 指定标题的宽度，支持'auto'
-    labelWidth: String,
+    labelWidth: {
+      type: String,
+      default: 'auto'
+    }
   },
   computed: {
     labelStyle() {

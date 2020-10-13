@@ -52,13 +52,7 @@ export default {
   },
   computed: {
     isColumn () {
-      let result = false
-      const hasWidth = !!(this.labelWidth || this.vcForm.labelWidth)
-      const isInline = this.inline || this.vcForm.inline
-
-      if (!hasWidth && !isInline) result = true
-
-      return this.vcForm.labelPosition === 'top' ? true : result
+      return this.vcForm.labelPosition === 'top'
     },
 
     isRequired () {
