@@ -25,24 +25,26 @@ export default {
     // 指定标题的宽度，支持'auto'
     labelWidth: String,
   },
-  watch: {
-    _labelWidth(val) {
-      if (val) {
-        let w = val
-        if (typeof val === 'number') {
-          w += 'px'
+  computed: {
+    labelStyle() {
+      let result = {}
+
+      if (this._labelWidth) {
+        let width = this._labelWidth
+        if (!isNaN(this._labelWidth)) {
+          width += 'px'
         }
-        this.labelStyle.width = w
+        result.width = width
       } else {
-        delete this.labelStyle.width
         this.isAutoFrom = 'watch'
       }
-    },
+
+      return result
+    }
   },
   data() {
     return {
       _labelWidth: 0,
-      labelStyle: {},
       isAutoFrom: ''
     }
   },
@@ -50,8 +52,6 @@ export default {
     this.updateLabelWidth()
   },
   updated() {
-    // debugger
-    // console.log('updated label', this.label)
     if (this.isAutoFrom === 'watch') {
       this.updateLabelWidth()
       this.isAutoFrom = 'update'
