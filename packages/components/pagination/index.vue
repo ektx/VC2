@@ -1,7 +1,10 @@
 <template>
   <ul 
-    :class="['vc-pagination', {'has-color': background}]"
-      :style="{color: background ? background : ''}"
+    :class="[
+      'vc-pagination', 
+      {'has-color': background, 'is-hide': toHide}
+    ]"
+    :style="{color: background ? background : null}"
   >
     <li 
       :class="[
@@ -74,7 +77,9 @@ export default {
     background: {
       type: [Boolean, String],
       default: false
-    }
+    },
+    // 只有一页时是否隐藏
+    hideOnSinglePage: Boolean
   },
   computed: {
     pages () {
@@ -107,6 +112,9 @@ export default {
     },
     prev5() {
       return this.currentList.length ? this.currentList[0].label > 1 : false
+    },
+    toHide() {
+      return this.hideOnSinglePage ? this.pages === 1 : false
     }
   },
   methods: {

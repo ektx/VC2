@@ -7,7 +7,7 @@
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options"/>
+  <vc-select v-model="value" :options="options"/>
 </template>
 
 <script>
@@ -46,7 +46,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options"/>
+  <vc-select v-model="value" :options="options"/>
 </template>
 
 <script>
@@ -89,7 +89,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" disabled/>
+  <vc-select v-model="value" :options="options" disabled/>
 </template>
 
 <script>
@@ -131,7 +131,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" multiple clearable/>
+  <vc-select v-model="value" :options="options" multiple clearable/>
 </template>
 
 <script>
@@ -172,8 +172,8 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" multiple/>
-  <vc-select v-model:value="value" :options="options" multiple collapse-tags :max-tag-count="2"/>
+  <vc-select v-model="value" :options="options" multiple/>
+  <vc-select v-model="value" :options="options" multiple collapse-tags :max-tag-count="2"/>
 </template>
 
 <script>
@@ -216,8 +216,8 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options">
-    <template #default="item">
+  <vc-select v-model="value" :options="options">
+    <template #option="item">
       <label>{{item.label}}</label>
       <i>{{item.value}}</i>
     </template>
@@ -263,7 +263,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" />
+  <vc-select v-model="value" :options="options" />
 </template>
 
 <script>
@@ -314,12 +314,12 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" multiple>
-    <template #label="item">
+  <vc-select v-model="value" :options="options" multiple>
+    <template #header="item">
       <i>{{item.label}}</i>
       <hr/>
     </template>
-    <template #default="item">
+    <template #option="item">
       <label>{{item.label}}</label>
       <i>{{item.value}}</i>
     </template>
@@ -374,12 +374,11 @@ export default {
 
 可以利用搜索功能快速查找选项
 
-
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value1" :options="options" filterable />
-  <vc-select v-model:value="value2" :options="options" multiple filterable />
+  <vc-select v-model="value1" :options="options" filterable />
+  <vc-select v-model="value2" :options="options" multiple filterable />
 </template>
 
 <script>
@@ -434,7 +433,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" filterable :filterMethod="find"/>
+  <vc-select v-model="value" :options="options" filterable :filterMethod="find"/>
 </template>
 
 <script>
@@ -491,7 +490,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" filterable :remote-method="find" />
+  <vc-select v-model="value" :options="options" filterable :remote-method="find" />
 </template>
 
 <script>
@@ -553,7 +552,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" filterable createTags/>
+  <vc-select v-model="value" :options="options" filterable createTags/>
 </template>
 
 <script>
@@ -591,10 +590,12 @@ export default {
 
 ## 事件用法
 
+> 请打开控制台查看事件的输出。
+
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" @change="change" @focus="focus" @blur="blur"/>
+  <vc-select v-model="value" :options="options" @change="change" @focus="focus" @blur="blur" @closed="closed"/>
 </template>
 
 <script>
@@ -630,12 +631,17 @@ export default {
       console.log(val)
     }
 
+    function closed() {
+      console.log('cloosed')
+    }
+
     return {
       value,
       options,
       change,
       blur,
       focus,
+      closed
     }
   }
 }
@@ -653,8 +659,8 @@ export default {
 
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" label-alias="name" value-alias="result"/>
-  <vc-select v-model:value="groupValue" :options="groupOptions" label-alias="name" value-alias="result"/>
+  <vc-select v-model="value" :options="options" label-alias="name" value-alias="result"/>
+  <vc-select v-model="groupValue" :options="groupOptions" label-alias="name" value-alias="result"/>
 </template>
 
 <script>
@@ -726,7 +732,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options"/>
+  <vc-select v-model="value" :options="options"/>
 </template>
 
 <script>
@@ -783,7 +789,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" multiple clearable/>
+  <vc-select v-model="value" :options="options" multiple clearable/>
 </template>
 
 <script>
@@ -841,7 +847,7 @@ export default {
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
 |---|---|---|---|---|
-| value | **String/Number/Array** | 值 | - | - |
+| v-model | **String/Number/Array** | 值 | - | - |
 | options | **Array** | 选项列表 | - | [] |
 | multiple | **Boolean** | 弹层是否追加到body | - | false |
 | maxTagCount | **Number** | 多选时最多显示多少个 tag | - | 1 |
@@ -854,6 +860,15 @@ export default {
 | remoteMethod | **Function** | 自定义远程搜索功能 | - | - |
 | valueAlias | **String** | 值别名 | - | value |
 | labelAlias | **String** | 标签别名 | - | label |
+
+
+## Slots
+
+| 名称 | 说明 |
+| --- | --- |
+| header | 分组标题 |
+| option | option选项 |
+
 
 ## Events
 

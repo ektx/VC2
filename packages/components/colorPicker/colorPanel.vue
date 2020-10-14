@@ -20,7 +20,7 @@ import {
   getCurrentInstance, 
   onMounted, 
   onUnmounted, 
-  watch, inject 
+  watch, inject, nextTick 
 } from 'vue'
 import { useMousePosition } from '../../utils/mouse'
 
@@ -68,7 +68,7 @@ export default {
       () => props.isOpened,
       (val) => {
         if (val) {
-          ctx.$nextTick(() => {
+          nextTick(() => {
             ctx.setPosition()
           })
         }

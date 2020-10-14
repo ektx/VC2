@@ -33,12 +33,12 @@
             <template v-if="item.children">
               <VCSGroup :item="item">
                 <template #label="item">
-                  <slot name="label" v-bind="item">
+                  <slot name="header" v-bind="item">
                     <div class="vc-select-group__label">{{item.label}}</div>
                   </slot>
                 </template>
                 <template #default="item">
-                  <slot v-bind="item">
+                  <slot name="option" v-bind="item">
                     <label>{{item[labelAlias]}}</label>
                     <i v-if="item.selected" class="vc-icon-check"></i>
                   </slot>
@@ -47,7 +47,7 @@
             </template>
             <VCSOption v-else :item="item">
               <template #default="item">
-                <slot v-bind="item">
+                <slot name="option" v-bind="item">
                   <label>{{item[labelAlias]}}</label>
                   <i v-if="item.selected" class="vc-icon-check"></i>
                 </slot>
@@ -70,7 +70,6 @@ import {
   onMounted, 
   watch,
   computed,
-  getCurrentInstance,
   reactive,
   inject,
 } from 'vue'
@@ -91,7 +90,7 @@ export default {
   },
   props: {
     // 值
-    value: {
+    modelValue: {
       type: [String, Number, Array],
       default: ''
     },
@@ -143,7 +142,6 @@ export default {
     }
   },
   setup(props, { emit }) {
-    const { ctx } = getCurrentInstance()
     const isFocus = ref(false)
     const isOpen = ref(false)
     const selectedItem = ref({})
@@ -161,7 +159,7 @@ export default {
         if (props.filterable) {
           result = ''
         } else {
-          result = props.value.length ? '' : props.placeholder 
+          result = props.modelValue.length ? '' : props.placeholder 
         }
       } else {
         if (isFocus.value && Object.keys(selectedItem.value).length) {
@@ -261,11 +259,6 @@ export default {
       }
     )
 
-    function afterLeave() {
-      ctx.tooltip.destroy()
-      emit('closed')
-    }
-
     return {
       tooltip,
       isFocus,
@@ -280,8 +273,6 @@ export default {
       isLoading,
 
       vcFormItem,
-
-      afterLeave
     }
   },
   methods: {
@@ -365,8 +356,7 @@ export default {
       if (this.vcFormItem) {
         this.vcFormItem.checkValidate('change')
       }
-
-      this.$emit('update:value', result)
+      this.$emit('update:modelValue', result)
       this.$emit('change', result, item)
     },
 
@@ -387,6 +377,10 @@ export default {
           this.intValue = item[this.labelAlias]
         }
       } else {
+        if (this.selectedItem[key] && !this.multiple) {
+          this.intValue = ''
+        }
+
         delete this.selectedItem[key]
       }
     },
@@ -395,8 +389,12 @@ export default {
       evt.stopPropagation()
 
       if (this.isOpen) this.isOpen = false
+      this.$emit('update:modelValue', this.multiple ? [] : '')
+    },
 
-      this.$emit('update:value', this.multiple ? [] : '')
+    afterLeave() {
+      this.tooltip.destroy()
+      this.$emit('closed')
     }
   }
 }
