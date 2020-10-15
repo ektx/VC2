@@ -1,5 +1,5 @@
 
-# InputNumber 数字输入框
+# InputNumber 计数器
 
 ## 基础效果
 

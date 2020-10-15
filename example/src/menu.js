@@ -58,13 +58,13 @@ export default [
         "to": "/doc/switch"
       },
       {
+        "label": "InputNumber 计数器",
+        "to": "/doc/inputNumber"
+      },
+      {
         "label": "Form 表单",
         "to": "/doc/form"
       },
-      {
-        "label": "inputNumber",
-        "to": "/doc/inputNumber"
-      }
     ]
   },
   {
