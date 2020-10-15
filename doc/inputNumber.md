@@ -87,6 +87,10 @@ export default {
 ## 大小控制
 
 ::: demo 
+
+> `size` 设置字体大小  
+> `width` 设置宽度  
+
 ```html
 <template>
   <vc-input-number size="24px" width="100px" v-model="value"/>
@@ -109,9 +113,17 @@ export default {
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
 |---|---|---|---|---|
-
+| v-model | `Number` | 绑定值 | - | 0 |
+| min | `Number` | 设置计数器允许的最小值 | - | -Infinity |
+| max | `Number` | 设置计数器允许的最大值 | - | Infinity |
+| step | `Number` | 计数器步长 | - | 1 |
+| size | `String` | 设置大小 | - | 12px |
+| width | `String` | 设置宽度 | - | 8em |
+| precision | `Number` | 数值精度 | - | 0 |
+| disabled | `Boolean` | 是否禁用计数器 | - | false |
 
 ## Events
 
 | 事件名 | 说明 | 回调参数 |
 | --- | --- | --- |
+| change | 绑定值被改变时触发 | 返回当前值 |

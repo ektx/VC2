@@ -17,6 +17,7 @@
     <input 
       type="text" 
       class="vc-input-number__input"
+      autocomplete="off"
       :disabled="disabled"
       :readonly="disabled"
       :min="min"
@@ -37,34 +38,42 @@ export default {
     }
   },
   props: {
+    // 绑定值
     modelValue: {
       type: Number,
       default: 0
     },
+    // 设置计数器允许的最小值
     min: {
       type: Number,
       default: -Infinity
     },
+    // 设置计数器允许的最大值
     max: {
       type: Number,
       default: Infinity
     },
+    // 设置大小
     size: {
       type: String,
       default: '12px'
     },
+    // 计数器步长
     step: {
       type: Number,
       default: 1
     },
+    // 设置宽度
     width: {
       type: String,
       default: '8em'
     },
+    // 数值精度
     precision: {
       type: Number,
       default: 0
     },
+    // 是否禁用计数器
     disabled: Boolean
   },
   computed: {
