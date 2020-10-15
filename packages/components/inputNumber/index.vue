@@ -15,7 +15,7 @@
       <i class="vc-icon-plus"></i>
     </button>
     <input 
-      type="number" 
+      type="text" 
       class="vc-input-number__input"
       :disabled="disabled"
       :readonly="disabled"
@@ -23,6 +23,7 @@
       :max="max"
       :style="inputStyle"
       :value="intValue"
+      @blur="blurEvt"
     >
   </div>
 </template>
@@ -55,20 +56,39 @@ export default {
       type: String,
       default: '8em'
     },
+    precision: {
+      type: Number,
+      default: 0
+    },
     disabled: Boolean
   },
   computed: {
     inputStyle () {
       return {
-        fontSize: this.size
+        fontSize: this.size,
+        width: this.width
       }
     },
     intValue: {
       get() {
-        return this.modelValue
+        let result = this.modelValue
+
+        if (this.precision > 0) {
+          result = result.toFixed(this.precision)
+
+          let [int, float] = result.split('.')
+
+          if (float.length < this.precision) {
+            float = float.padEnd(this.precision, '0')
+          }
+
+          result = `${int}.${float}`
+        }
+
+        return result
       },
       set(val) {
-        this.$emit('update:modelValue', val)
+        this.$emit('update:modelValue', Number(val))
       }
     },
     isDecrease() {
@@ -82,12 +102,28 @@ export default {
     setValue(val) {
       if (this.disabled) return
 
-      let result = this.intValue + (val * this.step)
+      let result = Number(this.intValue) + (val * this.step)
       
       if (result < this.min) return
       if (result > this.max) return
 
-      this.intValue = result
+      this.intValue = result.toFixed(this.precision)
+    },
+
+    blurEvt(evt) {
+      let { value } = evt.target
+
+      if (isNaN(value)) {
+        evt.target.value = this.intValue
+      } else {
+        let [int, float] = value.split('.')
+
+        if (this.precision > 0) {
+          value = Number(value).toFixed(this.precision)
+        }
+
+        this.intValue = value
+      }
     }
   }
 }

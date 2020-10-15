@@ -63,6 +63,47 @@ export default {
 ```
 :::
 
+## 精度
+
+::: demo 
+```html
+<template>
+  <p>{{ value }}</p>
+  <vc-input-number :precision="2" :step="0.2" v-model="value"/>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      value: 0
+    }
+  }
+}
+</script>
+```
+:::
+
+## 大小控制
+
+::: demo 
+```html
+<template>
+  <vc-input-number size="24px" width="100px" v-model="value"/>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      value: 0
+    }
+  }
+}
+</script>
+```
+:::
+
 
 ## Poprs
 
