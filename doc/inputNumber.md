@@ -108,6 +108,28 @@ export default {
 ```
 :::
 
+## 简洁模式
+
+控制按钮只在鼠标交互时显示。
+
+::: demo 
+```html
+<template>
+  <vc-input-number clear-mode v-model="value"/>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      value: 0
+    }
+  }
+}
+</script>
+```
+:::
+
 
 ## Poprs
 
@@ -121,6 +143,7 @@ export default {
 | width | `String` | 设置宽度 | - | 8em |
 | precision | `Number` | 数值精度 | - | 0 |
 | disabled | `Boolean` | 是否禁用计数器 | - | false |
+| clearMode | `Boolean` | 简洁模式 | - | false |
 
 ## Events
 

@@ -1,5 +1,5 @@
 <template>
-  <div :class="['vc-input-number', {'is-disabled': disabled}]">
+  <div :class="['vc-input-number', {'is-disabled': disabled, 'is-clear': clearMode}]">
     <button 
       class="vc-input-number__decrease" 
       :disabled="isDecrease"
@@ -74,7 +74,9 @@ export default {
       default: 0
     },
     // 是否禁用计数器
-    disabled: Boolean
+    disabled: Boolean,
+    // 简洁模式
+    clearMode: Boolean
   },
   computed: {
     inputStyle () {
@@ -145,87 +147,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-.vc-input-number {
-  display: inline-block;
-  position: relative;
-
-  &__input {
-    appearance: none;
-    display: block;
-    width: 8em;
-    line-height: 2;
-    text-align: center;
-    border: 1px solid #dcdfe6;
-    border-radius: 3px;
-    outline: none;
-    transition: border-color .3s;
-
-    &::-webkit-outer-spin-button, 
-    &::-webkit-inner-spin-button {
-      appearance: none;
-    }
-
-    &:focus {
-      border-color: #409eff;
-    }
-  }
-
-  &:hover {
-    .vc-input-number__input {
-      border-color: #409eff;
-    }
-  }
-
-  button {
-    position: absolute;
-    top: 1px;
-    bottom: 1px;
-    width: 2em;
-    font-size: 12px;
-    color: #666;
-    border: none;
-    outline: none;
-    background-color: #f5f7fa;
-    cursor: pointer;
-
-    &.vc-input-number__decrease {
-      left: 1px;
-      border-right: 1px solid #dcdfe6;
-      border-radius: 3px 0 0 3px;
-    }
-
-    &.vc-input-number__increase {
-      right: 1px;
-      border-left: 1px solid #dcdfe6;
-      border-radius: 0 3px 3px 0;
-    }
-
-    &:hover {
-      color: #409eff;
-    }
-
-    &[disabled] {
-      color: #aaa;
-      cursor: not-allowed;
-    }
-  }
-
-  &.is-disabled {
-    cursor: not-allowed;
-
-    .vc-input-number__input {
-      pointer-events: none;
-      color: #aaa;
-      background: #f5f7fa;
-      border-color: #dcdfe6;
-    }
-
-    button {
-      pointer-events: none;
-      color: #aaa;
-    }
-  }
-}
-</style>
