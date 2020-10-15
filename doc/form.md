@@ -27,8 +27,11 @@
       <vc-select v-model="formData.region" :options="options" multiple/>
     </vc-form-item>
 
+    <vc-form-item label="活动人数" prop="total">
+      <vc-input-number v-model="formData.total"/>
+    </vc-form-item>
+
     <vc-form-item label="活动形式" prop="desc">
-     
       <vc-input style="height: 100px" type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"/>
     </vc-form-item>
 
@@ -52,7 +55,8 @@ export default {
         color: '',
         isOwnExpense: false,
         region: [],
-        desc: 'text'
+        desc: 'text',
+        total: 0
       },
       options: [{
         value: 'Beijing',
@@ -86,6 +90,9 @@ export default {
         ],
         resource: [
           { required: true, message: '请选择活动资源', trigger: 'change' }
+        ],
+        total: [
+          {required: true, type: 'number', min: 1,  message: '活动人数不能为0', trigger: 'change'}
         ],
         desc: [
           { required: true, message: '请填写活动形式', trigger: 'blur' }

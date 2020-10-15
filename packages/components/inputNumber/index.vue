@@ -3,14 +3,14 @@
     <button 
       class="vc-input-number__decrease" 
       :disabled="isDecrease"
-      @click="setValue(-1)"
+      @click.prevent="setValue(-1)"
     >
       <i class="vc-icon-minus"></i>
     </button>
     <button 
       class="vc-input-number__increase" 
       :disabled="isIncrease"
-      @click="setValue(1)"
+      @click.prevent="setValue(1)"
     >
       <i class="vc-icon-plus"></i>
     </button>
@@ -31,6 +31,11 @@
 <script>
 export default {
   name: 'VcInputNumber',
+  inject: {
+    vcFormItem: {
+      default: null
+    }
+  },
   props: {
     modelValue: {
       type: Number,
@@ -88,7 +93,9 @@ export default {
         return result
       },
       set(val) {
-        this.$emit('update:modelValue', Number(val))
+        val = Number(val)
+        this.$emit('update:modelValue', val)
+        this.$emit('change', val)
       }
     },
     isDecrease() {
@@ -108,6 +115,7 @@ export default {
       if (result > this.max) return
 
       this.intValue = result.toFixed(this.precision)
+      this.vcFormItem && this.vcFormItem.checkValidate('change')
     },
 
     blurEvt(evt) {
@@ -136,7 +144,7 @@ export default {
 
   &__input {
     appearance: none;
-    display: inline-block;
+    display: block;
     width: 8em;
     line-height: 2;
     text-align: center;
