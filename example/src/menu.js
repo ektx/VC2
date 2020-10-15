@@ -50,10 +50,6 @@ export default [
         "to": "/doc/colorPicker"
       },
       {
-        "label": "Tabs 标签页",
-        "to": "/doc/tabs"
-      },
-      {
         "label": "Switch 开关",
         "to": "/doc/switch"
       },
@@ -73,6 +69,10 @@ export default [
       {
         "label": "Collapse 折叠面板",
         "to": "/doc/collapse"
+      },
+      {
+        "label": "Tabs 标签页",
+        "to": "/doc/tabs"
       },
       {
         "label": "Layer 弹层",
