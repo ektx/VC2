@@ -1,16 +1,16 @@
-/* 以下代码自动生成于 Wed Oct 14 2020 16:33:41 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Thu Oct 15 2020 15:04:59 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
-import vcCollapse from './components/collapse/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
 import vcCollapseItem from './components/collapseItem/index.vue'
+import vcCollapse from './components/collapse/index.vue'
 import vcColorPicker from './components/colorPicker/index.vue'
-import vcConfirm from './components/confirm/index.js'
 import vcForm from './components/form/index.vue'
+import vcConfirm from './components/confirm/index.js'
 import vcFormItem from './components/formItem/index.vue'
 import vcIcon from './components/icon/index.vue'
-import vcInput from './components/input/index.vue'
 import vcInputNumber from './components/inputNumber/index.vue'
+import vcInput from './components/input/index.vue'
 import vcLayer from './components/layer/index.vue'
 import vcMessage from './components/message/index.js'
 import vcNotification from './components/notification/index.js'
@@ -25,16 +25,16 @@ import vcTabs from './components/tabs/index.vue'
 
 const components = [
   vcButton,
-  vcCollapse,
   vcButtonGroup,
   vcCollapseItem,
+  vcCollapse,
   vcColorPicker,
-  vcConfirm,
   vcForm,
+  vcConfirm,
   vcFormItem,
   vcIcon,
-  vcInput,
   vcInputNumber,
+  vcInput,
   vcLayer,
   vcMessage,
   vcNotification,
@@ -64,16 +64,16 @@ export default {
   version: "1.3.0",
   install,
   vcButton,
-  vcCollapse,
   vcButtonGroup,
   vcCollapseItem,
+  vcCollapse,
   vcColorPicker,
-  vcConfirm,
   vcForm,
+  vcConfirm,
   vcFormItem,
   vcIcon,
-  vcInput,
   vcInputNumber,
+  vcInput,
   vcLayer,
   vcMessage,
   vcNotification,
