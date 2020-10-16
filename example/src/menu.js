@@ -60,7 +60,7 @@ export default [
       {
         "label": "Form 表单",
         "to": "/doc/form"
-      },
+      }
     ]
   },
   {
@@ -81,6 +81,10 @@ export default [
       {
         "label": "OperationList 操作列表",
         "to": "/doc/operationList"
+      },
+      {
+        "label": "Popover 弹出框",
+        "to": "/doc/popover"
       }
     ]
   },
