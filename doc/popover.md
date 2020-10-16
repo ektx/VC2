@@ -6,7 +6,17 @@
 ::: demo 
 ```html
 <template>
-  <vc-popover />
+  <vc-popover
+    trigger="hover"
+    width="200px"
+    title="标题"
+    placement="bottom"
+    content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+  >
+    <template #reference>
+      <vc-button>hover 激活</vc-button>
+    </template>
+  </vc-popover>
 </template>
 ```
 :::

@@ -8,7 +8,5 @@
 <script>
 export default {
   name: 'VcSelectDropDown',
-  props: {
-  }
 }
 </script>
