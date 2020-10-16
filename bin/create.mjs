@@ -59,8 +59,8 @@ async function main() {
   ])
 
   menu[components.menuIndex].children.push({
-    label: components.name,
-    file: components.name + '.md'
+    label: components.name.charAt(0).toUpperCase() + components.name.slice(1) + ' ' + components.description,
+    to: '/doc/'+ components.name
   })
 
   updateMenu(menu)
