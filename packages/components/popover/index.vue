@@ -3,6 +3,7 @@
     class="vc-popover"
     @mouseenter="hoverEvt"
     @mouseleave="leaveEvt"
+    @click.stop="clickEvt"
   >
     <transition name="vc-fade">
       <div
@@ -30,6 +31,7 @@ import { createPopper } from '@popperjs/core'
 export default {
   name: 'VcPopover',
   props: {
+    modelValue: Boolean,
     placement: {
       type: String,
       default: 'bottom',
@@ -47,20 +49,30 @@ export default {
       default: 'auto'
     }
   },
+  watch: {
+    modelValue(val) {
+      debugger
+      this.isShow = val
+      if (val) {
+        this.createPopperLayer()
+      }
+    }
+  },
   data() {
     return {
       tooltip: null,
       isShow: false
-      // reference: null
     }
   },
   mounted() {
-    // debugger
-    // let reference = this.$slots.reference
-
-    // if (reference) {
-    //   console.log(this.reference)
-    // }
+    document.addEventListener('click', this.hide)
+    this.$el.addEventListener('focusin', this.focusIn)
+    this.$el.addEventListener('focusout', this.focusOut)
+  },
+  unmounted() {
+    document.removeEventListener('click', this.hide)
+    this.$el.removeEventListener('focusin', this.focusIn)
+    this.$el.removeEventListener('focusout', this.focusOut)
   },
   methods: {
     hoverEvt() {
@@ -72,7 +84,24 @@ export default {
     leaveEvt() {
       if (this.trigger !== 'hover') return
       console.log('hide')
-      // this.isShow = false
+      this.isShow = false
+    },
+    clickEvt() {
+      if (this.trigger !== 'click') return
+      this.isShow = true
+      this.createPopperLayer()
+    },
+    hide() {
+      this.isShow = false
+    },
+    focusIn() {
+      if (this.trigger !== 'focus') return
+      this.isShow = true
+      this.createPopperLayer()
+    },
+    focusOut() {
+      if (this.trigger !== 'focus') return
+      this.hide()
     },
     createPopperLayer() {
       if (!this.tooltip) {
