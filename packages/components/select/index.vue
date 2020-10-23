@@ -18,7 +18,8 @@
         autocomplete="off" 
         :readonly="!filterable" 
         :placeholder="myPlaceholder"
-        v-model="intValue"
+        :value="intValue"
+        @input="intValue = $event.target.value"
       >
       <span v-if="isLoading">
         <i class="vc-icon-loading"/>
@@ -229,20 +230,6 @@ export default {
     })
 
     watch(
-      () => intValue.value,
-      (val) => {
-        if (val) {
-          let done = () => isLoading.value = false
-
-          if (props.remoteMethod) {
-            isLoading.value = true
-            props.remoteMethod(val, done)
-          }
-        }
-      }
-    )
-
-    watch(
       () => isFocus.value,
       (val) => {
         if (val) {
@@ -273,6 +260,18 @@ export default {
       isLoading,
 
       vcFormItem,
+    }
+  },
+  watch: {
+    intValue(val) {
+      if (val) {
+        let done = () => this.isLoading = false
+
+        if (this.remoteMethod) {
+          this.isLoading = true
+          this.remoteMethod(val, done)
+        }
+      }
     }
   },
   methods: {
