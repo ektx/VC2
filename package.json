@@ -1,6 +1,6 @@
 {
   "name": "vc2",
-  "version": "1.4.1",
+  "version": "1.4.3",
   "files": [
     "dist",
     "types"
@@ -21,11 +21,11 @@
     "async-validator": "^3.4.0",
     "prismjs": "^1.21.0",
     "resize-observer-polyfill": "^1.5.1",
-    "vue": "^3.0.0"
+    "vue": "^3.0.2"
   },
   "devDependencies": {
     "@koa/router": "^9.4.0",
-    "@vue/compiler-sfc": "^3.0.0",
+    "@vue/compiler-sfc": "^3.0.2",
     "chalk": "^4.1.0",
     "cypress": "^4.9.0",
     "inquirer": "^7.3.3",

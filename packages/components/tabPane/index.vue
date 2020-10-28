@@ -2,7 +2,6 @@
   <teleport v-if="show" :to="`#tab-nav__${id}`">
     <slot name="label"/>
   </teleport>
-
   <div class="vc-tab-pane" v-if="visible">
     <slot/>
   </div>
@@ -33,6 +32,11 @@ export default {
   data() {
     return {
       show: false,
+    }
+  },
+  watch: {
+    disabled() {
+      this.vcTabs.updatePanel()
     }
   },
   mounted() {
