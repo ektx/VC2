@@ -94,7 +94,9 @@ export default {
               label: vnode.props.label,
               id,
               active: id === this.value,
-              disabled: Reflect.has(vnode.props, 'disabled'),
+              disabled: Reflect.has(vnode.props, 'disabled') 
+                ? typeof vnode.props.disabled === 'boolean' ? vnode.props.disabled : true 
+                : false,
               closable: Reflect.has(vnode.props, 'closable'),
             }
 
