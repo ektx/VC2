@@ -182,16 +182,22 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-radio disabled v-model="radio" label="1"></vc-radio>
-  
+  <div>
+    <vc-radio disabled v-model="radio" label="上海"></vc-radio>
+    <vc-radio disabled v-model="radio" label="北京"></vc-radio>
+    <vc-radio disabled v-model="radio" label="天津"></vc-radio>
+    <vc-radio disabled v-model="radio" label="安徽"></vc-radio>
+  </div>
   <br/>
-  <vc-radio-group disabled>
-    <vc-radio v-model="radio" label="1"></vc-radio>
-    <vc-radio v-model="radio" label="2"></vc-radio>
+  <vc-radio-group v-model="radio" type="button" disabled>
+    <vc-radio label="上海"></vc-radio>
+    <vc-radio label="北京"></vc-radio>
+    <vc-radio label="天津">天津</vc-radio>
+    <vc-radio label="安徽">安徽</vc-radio>
   </vc-radio-group>
 
   <br/>
-  <vc-radio-group v-model="radio2" type="button">
+  <vc-radio-group v-model="radio" type="button">
     <vc-radio label="上海">上海</vc-radio>
     <vc-radio label="北京" disabled>北京</vc-radio>
     <vc-radio label="天津">天津</vc-radio>
@@ -202,12 +208,10 @@ export default {
 <script>
 export default {
   setup() {
-    let radio = ref('1')
-    let radio2 = ref('北京')
+    let radio = ref('北京')
 
     return {
-      radio,
-      radio2
+      radio
     }
   }
 }

@@ -1,6 +1,5 @@
 <template>
   <label
-    ref="vcRadio"
     :class="[
       'vc-radio',
       {
@@ -13,9 +12,7 @@
     ]"
     :style="sizeStyle"
   >
-    <span
-      class="vc-radio__radio"
-    >
+    <span :class="['vc-radio__radio', {'is-min': isButton}]">
       <input
         type="radio"
         class="vc-radio__input"
@@ -36,12 +33,11 @@
 <script>
 import {
   ref,
-  getCurrentInstance,
   onMounted,
   watch,
   computed,
   inject
-} from "vue";
+} from 'vue'
 
 export default {
   name: 'VcRadio',
@@ -65,40 +61,11 @@ export default {
   },
   setup(props, { emit }) {
     let radioGroup = ref("");
-    let { ctx } = getCurrentInstance();
     let labelFocus = ref(false)
-    const vcRadio = ref("")
     const vcFormItem = inject("vcFormItem", null)
     const vcRadioGroup = inject("vcRadioGroup", null)
     const isFocus = ref(false)
     const isUpdate = ref(false)
-
-    // 判断这是不是一个radio组
-    const isGroup = computed(() => {
-      let parent = ctx.$parent;
-      while (parent) {
-        if (parent.$options.name !== "VcRadioGroup") {
-          parent = parent.$parent;
-        } else {
-          radioGroup.value = parent;
-          return true;
-        }
-      }
-      return false;
-    });
-
-    const model = computed({
-      get: () => {
-        return isGroup.value ? radioGroup.value.value : props.value;
-      },
-      set: val => {
-        if (isGroup.value) {
-          radioGroup.value.$emit("update:value", val);
-        } else {
-          context.emit("update:value", val);
-        }
-      }
-    })
 
     const isButton = computed(() => {
       return vcRadioGroup ? vcRadioGroup.type === 'button' : false
@@ -182,8 +149,6 @@ export default {
       isChecked,
       hasBorder,
       sizeStyle,
-      model,
-      vcRadio,
       handleChange,
       isButton,
       handleFocus,
@@ -235,6 +200,12 @@ export default {
 
     &:focus-within {
       box-shadow: 0 0 0 2px rgba(64, 158, 255, .3);
+    }
+
+    &.is-min {
+      width: 0;
+      height: 0;
+      overflow: hidden;
     }
   }
 
