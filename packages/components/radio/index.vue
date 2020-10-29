@@ -1,29 +1,34 @@
 <template>
   <label
-    :class="['vc-radio',{'is-checked': model === label}, isBorder ? 'is-border' : '', isButton() ? '' : 'is-button',isDisabled() ? 'is-disabled':'',labelFocus ? 'is-label-focus' : '']"
     ref="vcRadio"
-    :style="[sizeStyle,coreStyle]"
+    :class="[
+      'vc-radio',
+      {
+        'is-border': border, 
+        'is-button': isButton,
+        'is-checked': isChecked,
+        'is-disabled': isDisabled
+      },
+      labelFocus ? 'is-label-focus' : ''
+    ]"
+    :style="sizeStyle"
   >
     <span
-      :class="['vc-radio__input',{'is-checked': model === label}, isDisabled() ? 'is-disabled':'']"
-      v-show="isButton()"
+      class="vc-radio__radio"
     >
-      <span :class="['vc-radio__inner', focus ? 'is-focus' : '']">
-        <input
-          type="radio"
-          class="vc-radio__original"
-          :value="label"
-          v-model="model"
-          @change="handleChange"
-          :disabled="isDisabled()"
-          @blur="handleBlur"
-          @focus="handleFocus"
-        />
-      </span>
+      <input
+        type="radio"
+        class="vc-radio__input"
+        v-model="intValue"
+        :value="label"
+        :disabled="isDisabled"
+        @change="handleChange"
+        @blur="handleBlur"
+        @focus="handleFocus"
+      />
     </span>
     <span class="vc-radio__label">
-      <slot></slot>
-      <template v-if="!$slots.default">备选项</template>
+      <slot>{{ label }}</slot>
     </span>
   </label>
 </template>
@@ -37,36 +42,36 @@ import {
   computed,
   inject
 } from "vue";
+
 export default {
-  name: "VcRadio",
-  componentName: "vcRadio",
+  name: 'VcRadio',
   props: {
-    label: {},
-    value: {},
+    label: [String, Number],
+    modelValue: {
+      type: [String, Number],
+      default: ''
+    },
     // 是否禁用
-    disabled: {
-      type: Boolean,
-      default: false
-    },
+    disabled: Boolean,
     // 是否顯示边框
-    border: {
-      type: Boolean,
-      default: false
-    },
+    border: Boolean,
     // 文字大小
     size: {
       type: Number,
       default: 14
-    }
+    },
+    background: String,
+    color: String
   },
-  setup(props, context) {
+  setup(props, { emit }) {
     let radioGroup = ref("");
-    let isBorder = ref("");
     let { ctx } = getCurrentInstance();
-    let focus = ref(false)
     let labelFocus = ref(false)
-    const vcRadio = ref("");
-    const vcFormItem = inject("vcFormItem", null);
+    const vcRadio = ref("")
+    const vcFormItem = inject("vcFormItem", null)
+    const vcRadioGroup = inject("vcRadioGroup", null)
+    const isFocus = ref(false)
+    const isUpdate = ref(false)
 
     // 判断这是不是一个radio组
     const isGroup = computed(() => {
@@ -93,125 +98,96 @@ export default {
           context.emit("update:value", val);
         }
       }
-    });
+    })
 
-    const isButton = () => {
-      if (isGroup.value && radioGroup.value.type == "button") {
-        return false;
-      }
-      return true;
-    };
-
-    const isShowBorder = () => {
-      if (isGroup.value && radioGroup.value.type == "button") {
-        isBorder.value = true;
-      } else {
-        isBorder.value = props.border;
-      }
-    };
-
-    const coreStyle = computed(() => {
-      if (
-        isGroup.value &&
-        radioGroup.value.type == "button" &&
-        model.value == props.label
-      ) {
-        return {
-          background: radioGroup.value.fill || "",
-          color: radioGroup.value.textColor || "",
-          boxShadow: radioGroup.value.fill
-            ? "-1px 0 0 0 " + radioGroup.value.fill
-            : ""
-        };
-      }
-    });
-
-    const isDisabled = () => {
-      if (isGroup.value && !radioGroup.value.disabled) {
-        return props.disabled;
-      }
-      return isGroup.value ? radioGroup.value.disabled : props.disabled;
-    };
+    const isButton = computed(() => {
+      return vcRadioGroup ? vcRadioGroup.type === 'button' : false
+    })
+    const isChecked = computed(() => {
+      return intValue.value === props.label
+    })
+    const isDisabled = computed(() => {
+      return vcRadioGroup 
+        ? vcRadioGroup.disabled ? true : props.disabled
+        : props.disabled
+    })
+    const hasBorder = computed(() => {
+      return props.border
+    })
 
     const sizeStyle = computed(() => {
-      if (
-        isGroup.value &&
-        radioGroup.value.size != undefined &&
-        radioGroup.value.size != 14
-      ) {
-        return {
-          fontSize: radioGroup.value.size + "px"
-        };
-      }
-      if (props.size != 14) {
-        return {
-          fontSize: props.size + "px"
-        };
-      }
-    });
+      let size = props.size
+      let background = props.background || ''
+      let color = props.color || ''
+      let obj = {}
 
-    const handleChange = event => {
-      console.log(11111111111)
-      if (isDisabled()) return;
-      setTimeout(() => {
-        if (isGroup.value) {
-          radioGroup.value.$emit("update:value", model.value);
-          if (vcFormItem != null) {
-            vcFormItem.checkValidate("change");
-          }
-        } else {
-          context.emit("update:value", model.value);
-          if (vcFormItem != null) {
-            vcFormItem.checkValidate("change");
-          }
+      if (vcRadioGroup) {
+        size = vcRadioGroup.size
+        background = vcRadioGroup.background
+        color = vcRadioGroup.color
+      }
+
+      if (isChecked.value) {
+        obj = {
+          background,
+          borderColor: background,
+          color
         }
-      }, 100);
-    };
+      } 
+      obj.fontSize = size + 'px'
+
+      return obj
+    })
+
+    const handleChange = evt => {
+      if (isUpdate.value) {
+        isUpdate.value = false
+        return
+      }
+
+      if (vcRadioGroup) {
+        vcRadioGroup.$emit('change', evt)
+      } else {
+        emit('change', evt)
+      }
+    }
 
     const handleBlur = event => {
-      console.log('blur')
-      event.preventDefault();
-      event.stopPropagation();
-      if(isBorder.value == false){
-        focus.value = false
-      }else {
-        labelFocus.value = false
-      }
-      if (vcFormItem != null) {
-        vcFormItem.checkValidate("blur");
-      }
+      
     };
 
-    const handleFocus = event => {
-      console.log('focus')
-      event.preventDefault();
-      event.stopPropagation();
-      if(isBorder.value == false){
-       focus.value = true
-      }else {
-        labelFocus.value = true
+    const handleFocus = evt => {
+      if (vcRadioGroup) {
+        vcRadioGroup.$emit('focus', evt)
+      } else {
+        emit('focus', evt)
       }
-      if (vcFormItem != null) {
-        vcFormItem.checkValidate("focus");
-      }
-    };
+    }
 
-    onMounted(() => {
-      isShowBorder();
-    });
+    const intValue = computed({
+      get () {
+        return vcRadioGroup ? vcRadioGroup.modelValue : props.modelValue
+      },
+      set(val) {
+        isUpdate.value = true
+        if (vcRadioGroup) vcRadioGroup.$emit('update:modelValue', val)
+        else emit('update:modelValue', val)
+      }
+    })
+
 
     return {
+      intValue,
       isDisabled,
+      isChecked,
+      hasBorder,
       sizeStyle,
       model,
       vcRadio,
       handleChange,
       isButton,
-      isBorder,
-      coreStyle,
       handleFocus,
       handleBlur,
-      focus,
       labelFocus
     };
   }
@@ -220,157 +196,79 @@ export default {
 
 <style lang="less">
 .vc-radio {
+  display: inline-block;
+  margin: 0 15px 0 0;
   color: #606266;
   font-weight: 500;
-  line-height: 1;
-  position: relative;
-  cursor: pointer;
-  display: inline-block;
-  white-space: nowrap;
-  outline: none;
   font-size: 14px;
-  margin-right: 30px;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-}
-.vc-radio.is-disabled {
-  cursor: not-allowed;
-}
-.vc-radio.is-border {
-  padding: 0.6em 0.9em 0.5em 0.8em;
-  border-radius: 4px;
-  border: 1px solid #dcdfe6;
-  box-sizing: border-box;
-}
-.vc-radio.is-border.is-label-focus {
-  box-shadow: 0 0 0 2px rgba(64,158,255,.2);
-  transition: all .2s ease-in-out;
-}
-.vc-radio.is-border.is-disabled {
-  border-color: #ebeef5;
-}
-.vc-radio.is-button.is-border {
-  padding: 0.5em 0.9em 0.5em 0.75em;
-}
-.vc-radio.is-button.is-border.is-checked.is-disabled {
-  background-color: #f2f6fc;
-  box-shadow: -1px 0 0 0 #f2f6fc;
-}
-.vc-radio.is-button {
-  margin-right: 0;
-  border-radius: 0;
-  border-left-color: transparent;
-}
-.vc-radio.is-button .vc-radio__label {
-  padding-left: 0;
-}
-.vc-radio.is-checked {
-  color: #409eff;
-  border-color: #409eff;
-}
-.vc-radio.is-button:nth-child(1) {
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-  border-left-color: #dcdfe6;
-}
-.vc-radio.is-button.is-checked {
-  color: #fff;
-  background-color: #409eff;
-  border-color: transparent;
-  box-shadow: -1px 0 0 0 #409eff;
-}
-.vc-radio.is-button:last-child {
-  margin-right: 0;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-}
-
-.vc-radio:last-child {
-  margin-right: 0;
-}
-.vc-radio__input {
   white-space: nowrap;
-  cursor: pointer;
+  user-select: none;
   outline: none;
-  display: inline-block;
-  line-height: 1;
-  position: relative;
-  vertical-align: middle;
-}
-
-.vc-radio__input.is-disabled + span.vc-radio__label {
-  color: #c0c4cc;
-  cursor: not-allowed;
-}
-
-.vc-radio__input.is-disabled .vc-radio__inner {
-  cursor: not-allowed;
-}
-
-.vc-radio__input.is-disabled.is-checked .vc-radio__inner {
-  background-color: #e4e7ed;
-  border-color: #e4e7ed;
-}
-
-.vc-radio__inner {
-  border: 1px solid #dcdfe6;
-  border-radius: 100%;
-  width: 14px;
-  height: 14px;
-  background-color: #fff;
-  position: relative;
   cursor: pointer;
-  display: inline-block;
-  box-sizing: border-box;
-}
 
-.vc-radio__inner:after {
-  width: 4px;
-  height: 4px;
-  border-radius: 100%;
-  background-color: #fff;
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.15s ease-in;
-}
+  &__input {
+    appearance: none;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #ddd;
+    border-radius: 100%;
+    transition: box-shadow .35s;
+    box-shadow: inset 0 0 0 0 #409eff;
+    outline: none;
+    will-change: box-shadow;
 
-.vc-radio__inner:hover {
-  border-color: #409eff;
-}
+    &:checked {
+      border-color: #409eff;
+      box-shadow: inset 0 0 0 .25em #409eff;
+    }
+  }
 
-.vc-radio__input.is-checked .vc-radio__inner:after {
-  transform: translate(-50%, -50%) scale(1);
-}
+  &__radio {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border-radius: 100%;
+    transition: box-shadow .35s;
+    will-change: box-shadow;
+    vertical-align: middle;
 
-.vc-radio.is-checked .vc-radio__inner {
-  border-color: #409eff;
-  background: #409eff;
-}
+    &:focus-within {
+      box-shadow: 0 0 0 2px rgba(64, 158, 255, .3);
+    }
+  }
 
-.vc-radio.is-checked .is-focus {
-  box-shadow: 0 0 0 2px rgba(64,158,255,.2);
-}
-.vc-radio.is-checked.is-labelFocus .is-focus {
-  box-shadow: none;
-}
-.vc-radio__original {
-  opacity: 0;
-  outline: none;
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: 0;
-}
+  &__label {
+    margin: 0 5px;
+  }
 
-.vc-radio__label {
-  font-size: 1em;
-  padding-left: 10px;
+  &.is-button {
+    position: relative;
+    margin: 0 -1px 0 0px;
+    padding: .4em .7em;
+    border-radius: 0;
+    border: 1px solid #ddd;
+    z-index: 0;
+    transition: background-color .3s, border .3s;
+
+    &.is-checked {
+      color: #fff;
+      background-color: #409eff;
+      border-color: #409eff;
+      z-index: 1;
+    }
+  }
+
+  &.is-border {
+    padding: .4em .7em;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+  }
+
+  &.is-disabled {
+    opacity: .5;
+    filter: grayscale(1);
+    cursor: not-allowed;
+  }
 }
 </style>

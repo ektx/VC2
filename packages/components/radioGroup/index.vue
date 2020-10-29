@@ -5,19 +5,26 @@
 </template>
 
 <script>
-import { watch } from 'vue';
+import { watch } from 'vue'
+
 export default {
-  name: "VcRadioGroup",
-  componentName: 'VcRadioGroup',
+  name: 'VcRadioGroup',
+  provide() {
+    return {
+      vcRadioGroup: this
+    }
+  },
   props: {
-    value: {},
-    size: String,
-    fill: String,
-    textColor: String,
+    modelValue: {
+      type: [String, Number],
+      default: ''
+    },
     disabled: {
       type: Boolean,
       default: false
     },
+    // 显示效果
+    // @arguments radio/button
     type: {
       type: String,
       default: 'radio'
@@ -26,22 +33,29 @@ export default {
       type: Number,
       default: 14
     },
-    textColor: {
+    background: {
       type: String,
       default: ''
     },
-    fill: {
+    color: {
       type: String,
       default: ''
     }
-  },
-
-  setup(props, context) {
-    return {
-    }
   }
-};
+}
 </script>
 
 <style lang="less">
+.vc-radio-group {
+  .vc-radio {
+    &.is-button {
+      &:first-of-type {
+        border-radius: 3px 0 0 3px;
+      }
+      &:last-of-type {
+        border-radius: 0 3px 3px 0;
+      }
+    }
+  }
+}
 </style>
