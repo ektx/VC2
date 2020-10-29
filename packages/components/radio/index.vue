@@ -7,8 +7,7 @@
         'is-button': isButton,
         'is-checked': isChecked,
         'is-disabled': isDisabled
-      },
-      labelFocus ? 'is-label-focus' : ''
+      }
     ]"
     :style="sizeStyle"
   >
@@ -33,8 +32,6 @@
 <script>
 import {
   ref,
-  onMounted,
-  watch,
   computed,
   inject
 } from 'vue'
@@ -60,10 +57,8 @@ export default {
     color: String
   },
   setup(props, { emit }) {
-    let radioGroup = ref("");
-    let labelFocus = ref(false)
-    const vcFormItem = inject("vcFormItem", null)
-    const vcRadioGroup = inject("vcRadioGroup", null)
+    const vcFormItem = inject('vcFormItem', null)
+    const vcRadioGroup = inject('vcRadioGroup', null)
     const isFocus = ref(false)
     const isUpdate = ref(false)
 
@@ -77,9 +72,6 @@ export default {
       return vcRadioGroup 
         ? vcRadioGroup.disabled ? true : props.disabled
         : props.disabled
-    })
-    const hasBorder = computed(() => {
-      return props.border
     })
 
     const sizeStyle = computed(() => {
@@ -147,14 +139,12 @@ export default {
       intValue,
       isDisabled,
       isChecked,
-      hasBorder,
       sizeStyle,
       handleChange,
       isButton,
       handleFocus,
       handleBlur,
-      labelFocus
-    };
+    }
   }
 };
 </script>
