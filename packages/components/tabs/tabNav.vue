@@ -11,7 +11,7 @@
           'is-disabled': tab.disabled
         }
       ]" 
-      @click="clickEvt(tab)"
+      @click="evt => clickEvt(evt, tab)"
     >
       <span :id="`tab-nav__${tab.id}`" class="vc-tabs__item-label">
         <i v-if="tab.icon" :class="tab.icon"></i>
@@ -68,7 +68,7 @@ export default {
       let { width: _w } = this.$el.parentNode.getBoundingClientRect()
       
       this.vcTabs.isOver = width > _w
-      this.$refs.bar.updateBar()
+      this.$nextTick(this.$refs.bar.updateBar)
     },
 
     closeEvt(evt, tab) {
@@ -85,9 +85,10 @@ export default {
       this.removeTab(tab)
     },
 
-    clickEvt (tab) {
+    clickEvt (evt, tab) {
       this.vcTabs.activeTab = tab
-      this.$nextTick(this.updateBar)
+      this.vcTabs.$emit('tab-click', tab, evt)
+      this.vcTabs.$emit('tabClick', tab, evt)
     },
 
     moveNav(step = 0) {

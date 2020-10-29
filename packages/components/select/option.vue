@@ -1,14 +1,12 @@
 <template>
   <li 
     :class="['vc-select-option', {
-      'selected': item.selected,
-      'hover': item.hover
+      'selected': isActive,
     }]"
     :disabled="item.disabled"
     @click="evt => vcSelect.selectedEvt(evt, item)"
-    @mouseover="vcSelect.optionMouseOver(vcSelect.hoverItem, item)"
   >
-    <slot v-bind="item"></slot>
+    <slot v-bind="item" />
   </li>  
 </template>
 
@@ -20,6 +18,16 @@ export default {
     item: {
       type: Object,
       default: () => ({})
+    }
+  },
+  computed: {
+    isActive() {
+      let { modelValue, multiple, valueAlias, labelAlias } = this.vcSelect
+      this.item.selected = modelValue.includes( this.item[valueAlias] )
+
+      this.vcSelect.updateSelectedItem(this.item, this.item.selected)
+
+      return this.item.selected
     }
   }
 }

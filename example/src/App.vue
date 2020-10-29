@@ -21,6 +21,19 @@ import { ref, onMounted, isProxy } from 'vue'
 import menu from './menu'
 
 let htmlStr = ''
+// 记录当前选择的组件信息，用于热更新markdown文档
+let fileItem = null
+
+const socketProtocol = location.protocol === 'https:' ? 'wss' : 'ws'
+const socketUrl = `${socketProtocol}://${location.hostname}:${3000}`
+const socket = new WebSocket(socketUrl, 'vite-hmr')
+
+// 监听 markdown 变化，实时更新 Demo
+socket.addEventListener('message', async ({ data }) => {
+  if (fileItem) {
+    getEvt(fileItem)
+  }
+})
 
 export default {
   name: 'HelloWorld',
@@ -39,9 +52,9 @@ export default {
         }
       }
 
-      let pathname = location.pathname.slice(1)
-      if (pathname) {
-        getEvt({file: pathname})
+      // 如果地址栏指定了组件地址
+      if (location.pathname && location.pathname.startsWith('/doc')) {
+        getEvt({to: location.pathname})
       }
     })
 
@@ -55,14 +68,16 @@ export default {
 }
 
 function getEvt (item) {
-  let { file } = item
+  let { to } = item
+  fileItem = item
 
-  // 如果是代理对象，则不是浏览器前进后退触事件
+  // 区分是否为手动点击
   if (item.label) {
-    history.pushState({file: file, from: 'history'}, '', file)
+    // 更新url 同时更新history api数据
+    history.pushState({to: to, from: 'history'}, '', to)
   }
 
-  fetch(`/api/doc?file=${file}`)
+  fetch(to)
     .then(res => res.json())
     .then(res => {
       // 将字符串中 `{{}}` 的 {{ 转换成 ASCII CODE 123
@@ -86,6 +101,7 @@ html {
 }
 body {
   overscroll-behavior-y: none;
+  overscroll-behavior-x: none;
 }
 #app {
   transition: background-color .4s ease-in-out;
@@ -181,7 +197,10 @@ header {
     overflow: auto;
     box-sizing: border-box;
     scroll-behavior: smooth;
+  }
 
+  & > main,
+  & > aside {
     &::-webkit-scrollbar {
       width: 5px;
       background-color: transparent;
@@ -204,6 +223,11 @@ header {
     }
     &::-webkit-scrollbar-track {
       margin: 62px 0 2px 0;
+    }
+  }
+  & > aside {
+    &::-webkit-scrollbar {
+      width: 3px;
     }
   }
 }

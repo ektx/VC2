@@ -1,10 +1,12 @@
 const { createServer } = require('vite')
-const Router = require('koa-router')
+const Router = require('@koa/router')
 const MarkdownIt = require('markdown-it')
+const iterator = require('markdown-it-for-inline')
 const Prism = require('prismjs')
 const fs = require('fs')
 const path = require('path')
 const mdVue = require('./vue')
+const chalk = require('chalk')
 
 require('prismjs/components/prism-diff')
 require('prismjs/components/prism-bash')
@@ -14,8 +16,14 @@ require('prismjs/plugins/autolinker/prism-autolinker')
 let router = new Router()
 
 // 获取 doc 中的 markdown 文件
-router.get('/api/doc', async ctx => {
-  let file = path.join(__dirname, `../doc/${ctx.request.query.file}`)
+router.get('/doc/:file', async ctx => {
+  if (!ctx.request.header.referer) {
+    let index = path.join(__dirname, '../index.html')
+    ctx.body = await fs.promises.readFile(index, {encoding: 'utf8'})
+    return
+  }
+
+  let file = path.join(__dirname, `../doc/${ctx.params.file}.md`)
   let str = await fs.promises.readFile(file, { encoding: 'utf-8'})
   let md = new MarkdownIt({
     html: true,
@@ -33,6 +41,15 @@ router.get('/api/doc', async ctx => {
       return `<pre class="hljs"><code>${md.utils.escapeHtml(str)}</code></pre>`
     }
   }).use(mdVue)
+    .use(iterator, 'url_new_win', 'link_open', function(tokens, idx) {
+      let aIndex = tokens[idx].attrIndex('target')
+
+      if (aIndex < 0) {
+        tokens[idx].attrPush(['target', '_blank'])
+      } else {
+        tokens[idx].attrs[aIndex][1] = '_blank'
+      }
+    })
   let html = md.render(str)
 
   html = `<div class="markdown-it-mode">${html}</div>`
@@ -52,6 +69,7 @@ const myPlugin = ({
   app, // Koa app
   server, // raw http server instance
   watcher, // chokidar file watcher instance
+  resolver
 }) => {
   app
     .use(router.routes())
@@ -64,9 +82,24 @@ const myPlugin = ({
       // compiled from `*.vue` files, where <template> and <script> are served as
       // `application/javascript` and <style> are served as `text/css`.
       if (ctx.response.is('js')) {
-        console.log(ctx.url)
+        console.log(chalk.green(`[JS] `) + ctx.url)
       }
+
     })
+    
+  watcher.on('change', file => {
+    if (file.endsWith('.md')) {
+      const path = resolver.fileToRequest(file)
+
+      watcher.send({
+        type: 'markdown-reload',
+        file,
+        path
+      })
+
+      console.log(chalk.green(`[MD] `) + path)
+    }
+  })
 }
 
 createServer({

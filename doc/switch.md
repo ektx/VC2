@@ -29,7 +29,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-switch v-model:value="value" @change="change" active-value="100" inactive-value="0"></vc-switch>
+  <vc-switch v-model:value="value" @change="change" :active-value="100" :inactive-value="0"></vc-switch>
 </template>
 
 <script>
@@ -105,7 +105,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-switch loading></vc-switch>
+  <vc-switch loading inactive-color="#ff4949"></vc-switch>
   <vc-switch :value="true" loading></vc-switch>
 </template>
 ```
@@ -169,6 +169,19 @@ export default {
 ```
 :::
 
+## 按钮文字
+
+::: demo
+
+> `btn-text` 用于在按钮上添加文字。
+
+```html
+<template>
+  <vc-switch :value="true" btn-text="弹幕"></vc-switch>
+</template>
+```
+:::
+
 ## Props
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 | 
@@ -187,6 +200,7 @@ export default {
 | active-color | **string** | switch 打开时的背景色 | - | - |
 | inactive-color | **string** | switch 关闭时的背景色 | - | - |
 | loading | **Boolean** | 加载状态，添加后，禁用不可点击 | - | - |
+| btnText | **String** | 按钮文字 | - | - |
 
 
 ## Events

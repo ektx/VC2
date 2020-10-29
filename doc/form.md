@@ -9,21 +9,21 @@
 ::: demo
 ```html
 <template>
-  <vc-form ref="form" label-width="80px" :model="formData" :rules="rules">
+  <vc-form ref="form" :model="formData" :rules="rules">
 
     <vc-form-item label="活动名称" prop="name">
-      <vc-input type="text" v-model:value="formData.name" validate-event/>
+      <vc-input v-model="formData.name"/>
     </vc-form-item>
 
     <vc-form-item label="队旗颜色" prop="color">
       <vc-color-picker v-model:value="formData.color" round/>
     </vc-form-item>
 
-    <vc-form-item label="活动地点" prop="color">
+    <vc-form-item label="住宿时间" prop="color">
       <vc-radio-group v-model:value="formData.radio" @change="change">
-        <vc-radio label="北京"></vc-radio>
-        <vc-radio label="上海"></vc-radio>
-        <vc-radio label="杭州"></vc-radio>
+        <vc-radio label="1天"></vc-radio>
+        <vc-radio label="2天"></vc-radio>
+        <vc-radio label="2天以上"></vc-radio>
       </vc-radio-group>
     </vc-form-item>
 
@@ -33,12 +33,15 @@
     </vc-form-item>
     
     <vc-form-item label="活动区域" prop="region">
-      <vc-select v-model:value="formData.region" :options="options" multiple/>
+      <vc-select v-model="formData.region" :options="options" multiple/>
+    </vc-form-item>
+
+    <vc-form-item label="活动人数" prop="total">
+      <vc-input-number v-model="formData.total"/>
     </vc-form-item>
 
     <vc-form-item label="活动形式" prop="desc">
-     
-      <vc-input style="height: 100px" type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model:value="formData.desc"></vc-input>
+      <vc-input style="height: 100px" type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"/>
     </vc-form-item>
 
     <vc-form-item>
@@ -62,7 +65,7 @@ export default {
         isOwnExpense: false,
         region: [],
         desc: 'text',
-        radio: '1'
+        total: 0
       },
       options: [{
         value: 'Beijing',
@@ -74,7 +77,7 @@ export default {
       rules: {
         name: [
           { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'change' }
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: ['blur', 'change'] }
         ],
         color: [
           { required: true, message: '队旗颜色不能为空', trigger: 'blur' },
@@ -96,6 +99,9 @@ export default {
         ],
         resource: [
           { required: true, message: '请选择活动资源', trigger: 'change' }
+        ],
+        total: [
+          {required: true, type: 'number', min: 1,  message: '活动人数不能为0', trigger: 'change'}
         ],
         desc: [
           { required: true, message: '请填写活动形式', trigger: 'blur' }
@@ -142,14 +148,14 @@ export default {
   
   <vc-form label-width="80px" :labelPosition="labelPosition">
     <vc-form-item label="活动名称">
-      <vc-input type="text" v-model:value="formData.name" validate-event/>
+      <vc-input type="text" v-model="formData.name" validate-event/>
     </vc-form-item>
     <vc-form-item label="活动区域">
-      <vc-select v-model:value="formData.region" :options="options"/>
+      <vc-select v-model="formData.region" :options="options"/>
     </vc-form-item>
     <vc-form-item label="活动形式" prop="desc">
     
-      <vc-input style="height: 100px" type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model:value="formData.desc"></vc-input>
+      <vc-input style="height: 100px" type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"></vc-input>
     </vc-form-item>
     <vc-form-item>
       <vc-button color="primary">提交</vc-button>
@@ -202,10 +208,10 @@ export default {
   <vc-form ref="form"  inline :model="formData" :rules="rules">
     <vc-form-item label="活动名称" prop="name">
       
-      <vc-input type="text" v-model:value="formData.name" validate-event/>
+      <vc-input type="text" v-model="formData.name" validate-event/>
     </vc-form-item>
     <vc-form-item label="活动区域" prop="region">
-      <vc-select v-model:value="formData.region" :options="options"/>
+      <vc-select v-model="formData.region" :options="options"/>
     </vc-form-item>
     <vc-form-item>
       <vc-button color="primary" @click="submitForm">查询</vc-button>
@@ -285,14 +291,14 @@ export default {
 <template>
   <vc-form ref="form" label-width="80px" :model="formData" :rules="rules">
     <vc-form-item label="活动名称" prop="name">
-      <vc-input type="text" v-model:value="formData.name" validate-event/>
+      <vc-input type="text" v-model="formData.name" validate-event/>
     </vc-form-item>
     <vc-form-item label="活动区域" prop="region">
-      <vc-select v-model:value="formData.region" :options="options"/>
+      <vc-select v-model="formData.region" :options="options"/>
     </vc-form-item>
     <vc-form-item label="活动形式" prop="desc">
       
-      <vc-input style="height: 100px" type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model:value="formData.desc"></vc-input>
+      <vc-input style="height: 100px" type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"></vc-input>
     </vc-form-item>
     <vc-form-item>
       <vc-button color="primary" @click="submitForm">提交</vc-button>
@@ -377,10 +383,10 @@ export default {
 <template>
   <vc-form ref="form" label-width="80px" :model="formData" :rules="rules">
     <vc-form-item label="密码" prop="passwd">
-      <vc-input type="password" v-model:value="formData.passwd" validate-event/>
+      <vc-input type="password" v-model="formData.passwd" validate-event/>
     </vc-form-item>
     <vc-form-item label="确认密码" prop="checkPass">
-      <vc-input type="password" v-model:value="formData.checkPass" validate-event/>
+      <vc-input type="password" v-model="formData.checkPass" validate-event/>
     </vc-form-item>
     <vc-form-item>
       <vc-button color="primary" @click="submitForm">提交</vc-button>

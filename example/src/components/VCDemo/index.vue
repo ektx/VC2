@@ -23,7 +23,8 @@ export default {
     css: {
       type: String,
       default: ''
-    }
+    },
+    id: String
   },
   setup (props, { slots }) {
     let {xml, css, js} = props
@@ -54,10 +55,10 @@ export default {
     onMounted(() => {
       let { ctx } = getCurrentInstance()
 
-      ctx.$el.insertAdjacentHTML('afterend', css)
+      ctx.$el.insertAdjacentHTML('beforebegin', css)
     })
 
-    let template = `<div class="demo-com">
+    let template = `<div class="demo-com" id="${props.id}">
       <div class="display-box">${xml}</div>
         <div class="source-box">
           <div class="source-box--main" ref="CODE_EL__" :style="STATE__.style">
@@ -70,37 +71,42 @@ export default {
     </div>`
     let componentOpts = {}
     // 调用用户定义的组件方法
-    let __userData = setupFun(ref, watch, reactive, inject)
+    let USER_DATA = setupFun(ref, watch, reactive, inject)
 
-    if (__userData) {
-      // options api
-      if (Reflect.has(__userData, 'data')) {
+    if (USER_DATA) {
+      // Composition API
+      if (Reflect.has(USER_DATA, 'setup')) {
         componentOpts = {
-          ...__userData,
+          setup() {
+            return {
+              ...USER_DATA.setup(),
+              STATE__: state,
+              CODE_EL__: codeEl
+            }
+          }
+        }
+      } 
+      // options api
+      else {
+        // 如果用户并没有设置 data
+        if (typeof USER_DATA.data !== 'function') {
+          USER_DATA.data = function() { return {}}
+        }
+
+        componentOpts = {
+          ...USER_DATA,
           data () {
             return {
-              ...__userData.data(),
+              ...USER_DATA.data(),
               STATE__: state
             }
           },
           mounted () {
             // 运行 demo mounted
-            __userData.mounted && __userData.mounted()
+            USER_DATA.mounted && USER_DATA.mounted()
 
             // 绑定 code 展示区 dom
             codeEl.value = this.$refs.CODE_EL__
-          }
-        }
-      } 
-      // Composition API
-      else {
-        componentOpts = {
-          setup() {
-            return {
-              ...__userData.setup(),
-              STATE__: state,
-              CODE_EL__: codeEl
-            }
           }
         }
       }

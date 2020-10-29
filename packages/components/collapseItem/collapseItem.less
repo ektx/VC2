@@ -1,0 +1,40 @@
+.vc-collapse-item {
+color: @color-text-primary;
+  border-top: 1px solid #ebeef5;
+
+  &__header {
+    display: flex;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 3;
+    align-items: center;
+  }
+
+  &__title {
+    flex: 1;
+  }
+
+  &__icon {
+    transition: transform .35s;
+
+    .vc-collapse-item.is-open & {
+      transform: rotate(90deg);
+    }
+  }
+
+  &__wrap {
+    transition: height .35s;
+    overflow: hidden;
+  }
+
+  &__content {
+    padding: 0 0 10px;
+    box-sizing: border-box;
+  }
+
+  &.is-disabled {
+    color: @color-text-secondary;
+    cursor: not-allowed;
+  }
+  
+}

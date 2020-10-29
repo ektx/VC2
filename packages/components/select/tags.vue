@@ -5,7 +5,7 @@
       v-for="item in displayItem" 
       :key="item.value"
     >
-      {{item.label}}
+      {{item[vcSelect.labelAlias]}}
       <i class="vc-icon-close" @click="evt => vcSelect.selectedEvt(evt, item)"/>
     </span>
     <span 
@@ -53,9 +53,7 @@ export default {
       }
     },
     placeholder() {
-      if (this.vcSelect.filterable) {
-        return this.vcSelect.value.length ? '' : this.vcSelect.placeholder
-      }
+      return this.vcSelect.modelValue.length ? '' : this.vcSelect.placeholder
     }
   },
   methods: {

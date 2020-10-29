@@ -8,16 +8,18 @@
         'is-disabled': disabled, 
         clearable,
       }
-    ]" @click="focusEvt">
+    ]" 
+    @click="focusEvt"
+  >
     <VS_Tags ref="tags" :selectedItem="selectedItem"/>
     <div ref="inputArea" class="vc-select__input">
       <input 
-        :readonly="!filterable" 
         type="text" 
         autocomplete="off" 
-        :placeholder="_placeholder"
-        v-model="intValue"
-        @input="setQuery"
+        :readonly="!filterable" 
+        :placeholder="myPlaceholder"
+        :value="intValue"
+        @input="intValue = $event.target.value"
       >
       <span v-if="isLoading">
         <i class="vc-icon-loading"/>
@@ -27,18 +29,18 @@
     </div>
     <transition name="vc-zoom-in-top" @after-leave="afterLeave">
       <DropDown v-show="isOpen">
-        <ul v-if="_options.length">
-          <template v-for="item in _options" :key="item.label">
+        <ul v-if="myOptions.length">
+          <template v-for="item in myOptions" :key="item.label">
             <template v-if="item.children">
               <VCSGroup :item="item">
                 <template #label="item">
-                  <slot name="label" v-bind="item">
+                  <slot name="header" v-bind="item">
                     <div class="vc-select-group__label">{{item.label}}</div>
                   </slot>
                 </template>
                 <template #default="item">
-                  <slot v-bind="item">
-                    <label>{{item.label}}</label>
+                  <slot name="option" v-bind="item">
+                    <label>{{item[labelAlias]}}</label>
                     <i v-if="item.selected" class="vc-icon-check"></i>
                   </slot>
                 </template>
@@ -46,8 +48,8 @@
             </template>
             <VCSOption v-else :item="item">
               <template #default="item">
-                <slot v-bind="item">
-                  <label>{{item.label}}</label>
+                <slot name="option" v-bind="item">
+                  <label>{{item[labelAlias]}}</label>
                   <i v-if="item.selected" class="vc-icon-check"></i>
                 </slot>
               </template>
@@ -69,11 +71,11 @@ import {
   onMounted, 
   watch,
   computed,
-  getCurrentInstance,
   reactive,
   inject,
 } from 'vue'
 import { createPopper } from '@popperjs/core'
+import { copyArray } from '../../utils/copy'
 import DropDown from './dropDown.vue'
 import VS_Tags from './tags.vue'
 import VCSOption from './option.vue'
@@ -88,21 +90,24 @@ export default {
     }
   },
   props: {
-    value: {
+    // 值
+    modelValue: {
       type: [String, Number, Array],
       default: ''
     },
+    // 选项列表
     options: {
       type: Array,
-      default: []
+      default: () => ([])
     },
+    // [TODO]弹层是否追加到body
     popperAppendToBody: {
       type: Boolean,
       default: true
     },
     // 是否多选
     multiple: Boolean,
-    // 多选时是否将选中值按文字的形式展示	
+    // [TODO]多选时是否将选中值按文字的形式展示	
     collapseTags: Boolean,
     // 多选时最多显示多少个 tag
     maxTagCount: {
@@ -114,7 +119,9 @@ export default {
       type: String,
       default: '请选择'
     },
+    // 是否禁用
     disabled: Boolean,
+    // 是否可清空
     clearable: Boolean,
     // 是否可搜索
     filterable: Boolean,
@@ -123,10 +130,19 @@ export default {
     // 是否允许用户创建新条目
     createTags: Boolean, 
     // 自定义远程搜索功能
-    remoteMethod: Function
+    remoteMethod: Function,
+    // 值别名
+    valueAlias: {
+      type: String,
+      default: 'value'
+    },
+    // 标签别名
+    labelAlias: {
+      type: String,
+      default: 'label'
+    }
   },
   setup(props, { emit }) {
-    const { ctx } = getCurrentInstance()
     const isFocus = ref(false)
     const isOpen = ref(false)
     const selectedItem = ref({})
@@ -135,30 +151,23 @@ export default {
     const query = ref('')
     const isLoading = ref(false)
     const vcFormItem = inject('vcFormItem', null)
-    const _options = ref([])
 
-    const _placeholder = computed(() => {
-      let result = ''
+    const myPlaceholder = computed(() => {
+      let result = props.placeholder
+
       if (props.multiple || props.createTags) {
-        result = props.value.length ? '' : props.placeholder
-        result = props.filterable ? '' : result
-        intValue.value = ''
-      }
-      else {
-        let item = selectedItem.value[props.value]
-
-        if (props.value && item) {
-          result = item.label
-          intValue.value = item.label
+        // 在可筛选时
+        if (props.filterable) {
+          result = ''
         } else {
-          result = props.placeholder
-          intValue.value = ''
+          result = props.modelValue.length ? '' : props.placeholder 
         }
-
-        if (props.filterable && isOpen.value) intValue.value = ''
+      } else {
+        if (isFocus.value && Object.keys(selectedItem.value).length) {
+          result = Object.values(selectedItem.value)[0][props.labelAlias]
+        }
       }
-
-      return result
+      return  result
     })
 
     let tooltip = null
@@ -175,92 +184,50 @@ export default {
       document.addEventListener('click', hideDropdown, false)
     })
 
-    watch(
-      () => props.value,
-      (val, old) => {
-        // console.log('val:', val)
-        // console.log('old:', old)
-        if (props.multiple) {
-          old = old ? old : []
-          val = [].concat(val)
-          old = [].concat(old)
+    const myOptions = computed(() => {
+      let list = copyArray(props.options)
 
-          if (old.length === val.length) return
+      if (props.filterable) {
+        let val = intValue.value || query.value
+        let result = []
 
-          let type = 'add'
-          let max = val
-          let filter = old
-
-          if (val.length < old.length) {
-            type = 'remove'
-            max = old
-            filter = val
-          }
-
-          let diff = []
-          max.forEach(item => {
-            if (!filter.includes(item)) diff.push(item)
-          })
-          let option = []
-          props.options.forEach(item => {
-            if (item.children) {
-              item.children.forEach(child => {
-                if (diff.includes(child.value)) option.push(child)
-              })
-            } else {
-              if (diff.includes(item.value)) option.push(item)
-            }
-          })
-
-          if (type === 'add') {
-            option.forEach(item => {
-              item.selected = true
-              selectedItem.value[item.value] = item
-            })
-          } else {
-            option.forEach(item => {
-              item.selected = false
-              delete selectedItem.value[item.value]
-            })
-          }
+        if (props.filterMethod) {
+          result = props.filterMethod(val, list)
         } else {
-          let item = ''
-          let oldItem = selectedItem.value[old]
-
-          if (oldItem) oldItem.selected = false
-
-          for (let i = 0, l = props.options.length; i < l; i++) {
-            let data = props.options[i]
-
-            if (data.children) {
-              item = data.children.find(child => child.value === val)
-              break
+          list.forEach(option => {
+            if (option.children) {
+              let _arr = []
+  
+              option.children.forEach(item => {
+                if (item[props.labelAlias].includes( val )) {
+                  _arr.push( item )
+                }
+              })
+  
+              if (_arr.length)
+                result.push({...option, children: _arr})
             } else {
-              if (data.value === val) {
-                item = data
-                break
-              }
+              if (option[props.labelAlias].includes( val ))
+                result.push(option)
             }
-          }
+          })
+        }
 
-          if (item) {
-            item.selected = true
-            selectedItem.value[item.value] = item
+        if (props.createTags) {
+          let key = query.value.trim()
+          if (key && !Reflect.has(selectedItem, key)) {
+            result.unshift({
+              [props.valueAlias]: key,
+              [props.labelAlias]: key,
+            })
           }
         }
-      },
-      {
-        immediate: true
+
+        list = result
       }
-    )
 
-    function setQuery(evt) {
-      let { value } = evt.target
-
-      query.value = value
-      intValue.value = value
-      if (ctx.tooltip) ctx.tooltip.update()
-    }
+      return list
+    })
 
     watch(
       () => isFocus.value,
@@ -269,112 +236,42 @@ export default {
           emit('focus', val)
         } else {
           emit('blur')
+
+          if (!props.multiple && Object.values(selectedItem.value).length) {
+            intValue.value = Object.values(selectedItem.value)[0][props.labelAlias]
+          }
+
           if (vcFormItem) vcFormItem.checkValidate('blur')
         }
       }
     )
-
-    watch(
-      () => query.value,
-      (val) => {
-        let str = val.trim()
-        let result = []
-        let done = (list) => {
-          _options.value = list
-          isLoading.value = false
-        }
-
-        if (props.remoteMethod) {
-          _options.value = []
-          if (str) {
-            isLoading.value = true
-            props.remoteMethod(val, done)
-          }
-          return
-        }
-
-        // 无过滤情况
-        if (!props.filterable) {
-          _options.value = props.options
-          return 
-        }
-
-        // 自定义过滤效果
-        if (props.filterMethod) {
-          result = props.filterMethod(val, props.options)
-        } 
-        // 默认过滤效果
-        else {
-          props.options.forEach(option => {
-            if (option.children) {
-              let _arr = []
-
-              option.children.forEach(item => {
-                if (item.label.includes(val)) {
-                  _arr.push( item )
-                }
-              })
-
-              if (_arr.length)
-                result.push({...option, children: _arr})
-            } else {
-              if (option.label.includes(val))
-                result.push(option)
-            }
-          })
-        }
-
-        if (result.length === 0) {
-          if (props.createTags) {
-            let addItem = reactive({
-              value: val,
-              label: val,
-              selected: Reflect.has(selectedItem.value, val),
-              hover: false
-            })
-            result.push(addItem)
-          }
-          ctx.tooltip && ctx.tooltip.update()
-        }
-
-        _options.value = result
-      },
-      {
-        immediate: true
-      }
-    )
-
-    function clearValue(evt) {
-      evt.stopPropagation()
-
-      if (isOpen.value) isOpen.value = false
-      emit('update:value', props.multiple ? [] : '')
-    }
-
-    function afterLeave() {
-      ctx.tooltip.destroy()
-      emit('closed')
-    }
 
     return {
       tooltip,
       isFocus,
       isOpen,
       intValue,
+      query,
       selectedItem,
       hoverItem,
-      _placeholder,
-      _options,
+      myPlaceholder,
+      myOptions,
       query,
       isLoading,
 
       vcFormItem,
+    }
+  },
+  watch: {
+    intValue(val) {
+      if (val) {
+        let done = () => this.isLoading = false
 
-      optionMouseOver,
-      setHoverItem,
-      clearValue,
-      setQuery,
-      afterLeave
+        if (this.remoteMethod) {
+          this.isLoading = true
+          this.remoteMethod(val, done)
+        }
+      }
     }
   },
   methods: {
@@ -394,9 +291,15 @@ export default {
       this.isOpen = true
       this.isFocus = true
 
-      tooltipEl.style.width = width + 'px'
+      if (this.multiple) {
+        this.intValue = ''
+      } else {
+        if (this.filterable) {
+          this.intValue = ''
+        }
+      }
 
-      setHoverItem(this.value, this.options, this.hoverItem)
+      tooltipEl.style.width = width + 'px'
 
       this.tooltip = createPopper(this.$refs.inputArea, tooltipEl, {
         placement: 'bottom',
@@ -421,70 +324,77 @@ export default {
 
     selectedEvt(evt, item) {
       evt.stopPropagation()
-
       if (item.disabled) return
+
       let result = ''
+      let key = item[this.valueAlias]
+
       this.query = ''
 
-      if (item.selected) {
-        if (this.multiple || this.createTags) {
-          item.selected = false
-          delete this.selectedItem[item.value]
-          result = Object.keys(this.selectedItem)
-        }
-      } else {
-        item.selected = true
-
-        if (this.multiple || this.createTags) {
-          this.selectedItem[item.value] = item
-          result = Object.keys(this.selectedItem)
-          this.$refs.tags.focusEvt()
+      if (this.multiple || this.createTags) {
+        if (key in this.selectedItem) {
+          delete this.selectedItem[key]
         } else {
-          let oldKeys = Object.keys(this.selectedItem)
-          
-          if (oldKeys.length) {
-            let oldItem = this.selectedItem[oldKeys[0]]
-            oldItem.selected = false
-          }
-
-          this.selectedItem = {
-            [item.value]: item
-          }
-          this.isOpen = false
-          result = item.value
+          this.selectedItem[key] = item
         }
+
+        result = Object.keys(this.selectedItem)
+        this.intValue = ''
+      } else {
+        this.selectedItem = {
+          [key]: item
+        }
+        result = key
+        this.intValue = item[this.labelAlias]
+      }
+
+      if (!this.multiple) {
+        this.isOpen = false
       }
 
       if (this.vcFormItem) {
         this.vcFormItem.checkValidate('change')
       }
-      this.$emit('update:value', result)
-      this.$emit('change', result)
+      this.$emit('update:modelValue', result)
+      this.$emit('change', result, item)
     },
+
+    updateSelectedItem (item, isAdd) {
+      let key = item[this.valueAlias]
+
+      if (isAdd) {
+        if (this.selectedItem[key]) {
+          if (item[this.labelAlias] === this.selectedItem[key][this.labelAlias]) return
+        }
+  
+        if (this.multiple) {
+          this.selectedItem[key] = item
+        } else {
+          this.selectedItem = {
+            [key]: item
+          }
+          this.intValue = item[this.labelAlias]
+        }
+      } else {
+        if (this.selectedItem[key] && !this.multiple) {
+          this.intValue = ''
+        }
+
+        delete this.selectedItem[key]
+      }
+    },
+
+    clearValue(evt) {
+      evt.stopPropagation()
+
+      if (this.isOpen) this.isOpen = false
+      this.$emit('update:modelValue', this.multiple ? [] : '')
+    },
+
+    afterLeave() {
+      this.tooltip.destroy()
+      this.$emit('closed')
+    }
   }
 }
-
-
-function optionMouseOver (hover, item) {
-  if (hover.value) hover.value.hover = false
-  item.hover = true
-  hover.value = item
-}
-
-// 展开时，显示第一个选中的选项
-function setHoverItem (value, options, hover) {
-  let hasFrist = false
-  value = [].concat(value)
-  
-  options.forEach(item => {
-    if (value.includes(item.value) && !hasFrist) {
-      item.hover = true
-      hasFrist = true
-      hover.value = item
-    } else {
-      item.hover = false
-    }
-  })
-}
-
 </script>

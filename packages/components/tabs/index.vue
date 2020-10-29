@@ -81,12 +81,13 @@ export default {
       if (slots) {
         let paneSlots = []
         this.list = []
+        this.activeTab = null
 
         // 对于动态生成的 pane
         if (typeof slots[0].type === 'symbol') {
           slots = slots[0].children
         }
-        slots.forEach((vnode) => {
+        slots.forEach((vnode, index) => {
           if (vnode.type.name === 'vcTabPane') {
             const id = vnode.props.name || vnode.props.label
             const item = {
@@ -94,12 +95,20 @@ export default {
               label: vnode.props.label,
               id,
               active: id === this.value,
-              disabled: Reflect.has(vnode.props, 'disabled'),
+              disabled: Reflect.has(vnode.props, 'disabled') 
+                ? typeof vnode.props.disabled === 'boolean' ? vnode.props.disabled : true 
+                : false,
               closable: Reflect.has(vnode.props, 'closable'),
             }
-
             this.list.push(item)
-            if (id === this.value) this.activeTab = item
+
+            // 如果不存在默认值
+            if (!this.value) {
+              // 设置第一个tab为活动值
+              if (index === 0) this.activeTab = item
+            } else {
+              if (id === this.value) this.activeTab = item
+            }
           }
         })
       } else {
@@ -119,7 +128,8 @@ export default {
         this.activeTab = null
       } 
 
-      this.$emit('removeTab', tab, index)
+      this.$emit('tab-remove', tab, index)
+      this.$emit('tabRemove', tab, index)
     }
   }
 }

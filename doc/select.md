@@ -7,7 +7,7 @@
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options"/>
+  <vc-select v-model="value" :options="options"/>
 </template>
 
 <script>
@@ -46,7 +46,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options"/>
+  <vc-select v-model="value" :options="options"/>
 </template>
 
 <script>
@@ -89,7 +89,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" disabled/>
+  <vc-select v-model="value" :options="options" disabled/>
 </template>
 
 <script>
@@ -131,7 +131,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" multiple clearable/>
+  <vc-select v-model="value" :options="options" multiple clearable/>
 </template>
 
 <script>
@@ -172,8 +172,8 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" multiple/>
-  <vc-select v-model:value="value" :options="options" multiple collapse-tags :max-tag-count="2"/>
+  <vc-select v-model="value" :options="options" multiple/>
+  <vc-select v-model="value" :options="options" multiple collapse-tags :max-tag-count="2"/>
 </template>
 
 <script>
@@ -216,8 +216,8 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options">
-    <template #default="item">
+  <vc-select v-model="value" :options="options">
+    <template #option="item">
       <label>{{item.label}}</label>
       <i>{{item.value}}</i>
     </template>
@@ -263,7 +263,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" />
+  <vc-select v-model="value" :options="options" />
 </template>
 
 <script>
@@ -314,12 +314,12 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" multiple>
-    <template #label="item">
+  <vc-select v-model="value" :options="options" multiple>
+    <template #header="item">
       <i>{{item.label}}</i>
       <hr/>
     </template>
-    <template #default="item">
+    <template #option="item">
       <label>{{item.label}}</label>
       <i>{{item.value}}</i>
     </template>
@@ -374,12 +374,11 @@ export default {
 
 可以利用搜索功能快速查找选项
 
-
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value1" :options="options" filterable />
-  <vc-select v-model:value="value2" :options="options" multiple filterable />
+  <vc-select v-model="value1" :options="options" filterable />
+  <vc-select v-model="value2" :options="options" multiple filterable />
 </template>
 
 <script>
@@ -434,7 +433,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" filterable :filterMethod="find"/>
+  <vc-select v-model="value" :options="options" filterable :filterMethod="find"/>
 </template>
 
 <script>
@@ -491,7 +490,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" filterable :remote-method="find" />
+  <vc-select v-model="value" :options="options" filterable :remote-method="find" />
 </template>
 
 <script>
@@ -530,6 +529,7 @@ export default {
           }
         })
         cb(result)
+        options.value = result
       }, 1000)
     }
 
@@ -552,7 +552,7 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" filterable createTags/>
+  <vc-select v-model="value" :options="options" filterable createTags/>
 </template>
 
 <script>
@@ -561,19 +561,19 @@ export default {
     const value = ref('')
 
     const options = [{
-      value: '1',
+      value: '选项1',
       label: '黄金糕'
     }, {
-      value: '2',
-      label: '双皮奶'
+      value: '选项2',
+      label: '双皮奶',
     }, {
-      value: '3',
+      value: '选项3',
       label: '蚵仔煎'
     }, {
-      value: '4',
+      value: '选项4',
       label: '龙须面'
     }, {
-      value: '5',
+      value: '选项5',
       label: '北京烤鸭'
     }]
 
@@ -590,10 +590,12 @@ export default {
 
 ## 事件用法
 
+> 请打开控制台查看事件的输出。
+
 ::: demo
 ```html
 <template>
-  <vc-select v-model:value="value" :options="options" @change="change" @blur="blur"/>
+  <vc-select v-model="value" :options="options" @change="change" @focus="focus" @blur="blur" @closed="closed"/>
 </template>
 
 <script>
@@ -625,14 +627,254 @@ export default {
       console.log('blur')
     }
 
+    function focus(val) {
+      console.log(val)
+    }
+
+    function closed() {
+      console.log('cloosed')
+    }
+
     return {
       value,
       options,
       change,
-      blur
+      blur,
+      focus,
+      closed
     }
   }
 }
 </script>
 ```
 :::
+
+
+## 别名用法
+
+::: demo
+
+> `label-alias` 设置名称别名  
+> `value-alias` 设置值的别名  
+
+```html
+<template>
+  <vc-select v-model="value" :options="options" label-alias="name" value-alias="result"/>
+  <vc-select v-model="groupValue" :options="groupOptions" label-alias="name" value-alias="result"/>
+</template>
+
+<script>
+export default {
+  setup() {
+    const value = ref('选项2')
+    const groupValue = ref('Shanghai')
+    const options = [{
+      result: '选项1',
+      name: '黄金糕'
+    }, {
+      result: '选项2',
+      name: '双皮奶'
+    }, {
+      result: '选项3',
+      name: '蚵仔煎'
+    }, {
+      result: '选项4',
+      name: '龙须面'
+    }, {
+      result: '选项5',
+      name: '北京烤鸭'
+    }]
+
+    const groupOptions = [
+      {
+        label: '热门城市',
+        children: [{
+          result: 'Shanghai',
+          name: '上海'
+        }, {
+          result: 'Beijing',
+          name: '北京'
+        }]
+      }, 
+      {
+        label: '城市名',
+        children: [{
+          result: 'Chengdu',
+          name: '成都'
+        }, {
+          result: 'Shenzhen',
+          name: '深圳'
+        }, {
+          result: 'Guangzhou',
+          name: '广州'
+        }, {
+          result: 'Dalian',
+          name: '大连'
+        }]
+      }
+    ]
+
+    return {
+      value,
+      groupValue,
+      options,
+      groupOptions
+    }
+  }
+}
+</script>
+```
+:::
+
+
+## 显示内容更新
+
+::: demo
+```html
+<template>
+  <vc-select v-model="value" :options="options"/>
+</template>
+
+<script>
+export default {
+  setup() {
+    const value = ref('选项1')
+    const options = ref([{
+      value: '选项1',
+      label: '黄金糕'
+    }, {
+      value: '选项2',
+      label: '双皮奶'
+    }, {
+      value: '选项3',
+      label: '蚵仔煎'
+    }, {
+      value: '选项4',
+      label: '龙须面'
+    }, {
+      value: '选项5',
+      label: '北京烤鸭'
+    }])
+
+    setTimeout(() => {
+      options.value = [{
+        value: '选项1',
+        label: '黄金糕11'
+      }, {
+        value: '选项2',
+        label: '双皮奶11'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎11'
+      }, {
+        value: '选项4',
+        label: '龙须面11'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭11'
+      }]
+    }, 1000)
+
+    return {
+      value,
+      options
+    }
+  }
+}
+</script>
+```
+:::
+
+
+::: demo
+```html
+<template>
+  <vc-select v-model="value" :options="options" multiple clearable/>
+</template>
+
+<script>
+export default {
+  setup() {
+    const value = ref(['选项1','选项2'])
+    const options = ref([{
+      value: '选项1',
+      label: '黄金糕'
+    }, {
+      value: '选项2',
+      label: '双皮奶',
+    }, {
+      value: '选项3',
+      label: '蚵仔煎'
+    }, {
+      value: '选项4',
+      label: '龙须面'
+    }, {
+      value: '选项5',
+      label: '北京烤鸭'
+    }])
+
+    setTimeout(() => {
+
+      options.value = [{
+        value: '选项1',
+        label: '黄金糕V2'
+      }, {
+        value: '选项2',
+        label: '双皮奶V2',
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }]
+    }, 1000)
+
+    return {
+      value,
+      options
+    }
+  }
+}
+</script>
+```
+:::
+
+## Poprs
+
+| 参数 | 类型 | 说明 | 可选值 | 默认值 |
+|---|---|---|---|---|
+| v-model | **String/Number/Array** | 值 | - | - |
+| options | **Array** | 选项列表 | - | [] |
+| multiple | **Boolean** | 弹层是否追加到body | - | false |
+| maxTagCount | **Number** | 多选时最多显示多少个 tag | - | 1 |
+| placeholder | **String** | 占位符 | - | 请选择 |
+| disabled | **Boolean** | 占位符 | - | false |
+| clearable | **Boolean** | 是否可清空 | - | false |
+| filterable | **Boolean** | 是否可搜索 | - | false |
+| filterMethod | **Function** | 自定义搜索方法 | - | - |
+| createTags | **Boolean** | 是否允许用户创建新条目 | - | false |
+| remoteMethod | **Function** | 自定义远程搜索功能 | - | - |
+| valueAlias | **String** | 值别名 | - | value |
+| labelAlias | **String** | 标签别名 | - | label |
+
+
+## Slots
+
+| 名称 | 说明 |
+| --- | --- |
+| header | 分组标题 |
+| option | option选项 |
+
+
+## Events
+
+| 事件名 | 说明 | 回调参数 |
+| --- | --- | --- |
+| focus | 获取焦点时 | - |
+| blur | 失去焦点时 | - |
+| closed | 选项层消失时 | - |
+| change | 值发生变化时<br/>返回`value`当前值与`item`当前项 | (value, item) => {} |

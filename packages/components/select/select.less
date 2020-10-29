@@ -1,7 +1,7 @@
 .vc-select {
   position: relative;
   display: inline-block;
-  width: 200px;
+  width: 100%;
 
   &__input {
     position: relative;
@@ -95,7 +95,7 @@
   color: @color-text-regular;
   transition: color .3s, font-weight .3s;
 
-  &.hover {
+  &:hover {
     background-color: #f5f7fa;
   }
 
@@ -126,6 +126,7 @@
   right: 2em;
   z-index: 1;
   padding: 3px 0 0 3px;
+  line-height: 1.5em;
   box-sizing: border-box;
 
   .vc-tag {

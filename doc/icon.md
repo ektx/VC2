@@ -21,7 +21,7 @@
 ```html
 <template>
   <ul class="icon-list">
-    <li v-for="icon in $icon" :key="icon.icon_id" @click="copy(icon)">
+    <li v-for="icon in icons" :key="icon.icon_id" @click="copy(icon)">
       <i :class="'vc-icon-' + icon.font_class"></i>
       <span class="icon-name">{{'vc-icon-' + icon.font_class}}</span>
     </li>
@@ -32,21 +32,21 @@
 export default {
   setup() {
     let message = inject('vcMessage')
-    let $icon = ref([])
+    let icons = ref([])
 
     fetch('/api/icons')
       .then(res => res.json())
       .then(res => {
         console.log(res)
 
-        $icon.value = res.glyphs
+        icons.value = res.glyphs
       })
 
     async function copy(icon) {
       const res = await navigator.permissions.query({ name: 'clipboard-write' })
 
       if (res.state === 'granted') {
-        let name = `vc-icon-${icon.name}`
+        let name = `vc-icon-${icon.font_class}`
         message.success(`${name} 复制成功`)
         return navigator.clipboard.writeText(name);
       }
@@ -55,7 +55,7 @@ export default {
     }
 
     return {
-      $icon,
+      icons,
       copy
     }
   }

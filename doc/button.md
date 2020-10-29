@@ -94,6 +94,9 @@
   <vc-button icon="vc-icon-star-off" />
   <vc-button color="primary" icon="vc-icon-bell" />
   <vc-button color="success" icon="vc-icon-success" />
+  <vc-button round icon="vc-icon-star-off" />
+  <vc-button round color="primary" icon="vc-icon-bell" />
+  <vc-button round color="success" icon="vc-icon-success" />
   <vc-button color="warn" icon="vc-icon-warning">警告</vc-button>
   <vc-button color="error" icon="vc-icon-close">错误</vc-button>
 </template>
@@ -142,9 +145,8 @@
 |---|---|---|---|---|
 | color | **String** | 设置按钮效果 | primary / success / warn / error | - |
 | plain | **Boolean** | 镂空 | - | false |
+| round | **Boolean** | 圆角 | - | false |
+| icon | **String** | 图标 | - | - |
+| loading | **Boolean** | 加载状态 | - | - |
+| disabled | **Boolean** | 禁用状态 | - | - |
 
-
-## Events
-
-| 事件名 | 说明 | 回调参数 |
-| --- | --- | --- |

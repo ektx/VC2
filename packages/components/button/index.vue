@@ -3,7 +3,7 @@
     :class="[
       'vc-button', 
       color, 
-      {plain, animate, round}
+      {plain, animate, round, 'is-icon': !_hasSlot}
     ]" 
     type="button"
     :disabled="loading || disabled"
@@ -35,6 +35,7 @@ export default {
     },
     // 加载状态
     loading: Boolean,
+    // 禁用状态
     disabled: Boolean,
   },
   data () {
@@ -45,14 +46,17 @@ export default {
   computed: {
     _icon () {
       return this.loading ? 'vc-icon-loading' : this.icon
+    },
+    _hasSlot () {
+      return this.$slots.default
     }
   },
   methods: {
     clickEvt () {
       this.animate = false
-      setTimeout(() => {
+      window.requestAnimationFrame(() => {
         this.animate = true
-      }, 20)
+      })
     }
   }
 }

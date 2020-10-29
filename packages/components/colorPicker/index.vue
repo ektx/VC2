@@ -63,7 +63,6 @@ export default {
     const vcFormItem = inject('vcFormItem', null)
     let timer = null
     
-    const colorEl = ref(null)
     const dropdown = ref(null)
     const isActive = ref(false)
     const isVisible = ref(false)
@@ -131,17 +130,40 @@ export default {
       }, props.delay)
     }
 
-    function showDropdownEvt (evt) {
+    
+
+    function formatHSV () {
+      let { hsv: _h, alpha: a } = formatString(props.value)
+
+      hsv.value = _h
+      alpha.value = a
+    }
+
+    return {
+      dropdown,
+      isActive,
+      isVisible,
+      isOpened,
+      isDrag,
+      hsv,
+      alpha,
+
+      colorStyle,
+      afterEnterEvt,
+    }
+  },
+  methods: {
+    showDropdownEvt(evt) {
       evt.stopPropagation()
 
-      const dropdownEl = ctx.$el.querySelector('.vc-color-picker__drop-down')
+      const dropdownEl = this.$el.querySelector('.vc-color-picker__drop-down')
 
-      isVisible.value = true
+      this.isVisible = true
       
-      formatString(props.value)
+      formatString(this.value)
 
-      dropdown.value = createPopper(
-        colorEl.value,
+      this.dropdown = createPopper(
+        this.$refs.colorEl,
         dropdownEl,
         {
           placement: 'bottom',
@@ -163,28 +185,6 @@ export default {
           strategy: 'fixed'
         }
       )
-    }
-
-    function formatHSV () {
-      let { hsv: _h, alpha: a } = formatString(props.value)
-
-      hsv.value = _h
-      alpha.value = a
-    }
-
-    return {
-      colorEl,
-      dropdown,
-      isActive,
-      isVisible,
-      isOpened,
-      isDrag,
-      hsv,
-      alpha,
-
-      colorStyle,
-      afterEnterEvt,
-      showDropdownEvt,
     }
   }
 }

@@ -7,7 +7,7 @@ import { updateMenu } from './lib/menu.mjs'
 async function main() {
   let { menu, list :menuList } = await getMenu()
 
-  console.log('Create')
+  console.log('🔩 创建新组件')
   let components = await inquirer.prompt([
     {
       type: 'input',
@@ -21,6 +21,15 @@ async function main() {
         let files = fs.readdirSync('./packages/components')
          
         return !files.includes(name) || `${name} 组件已经存在`
+      }
+    },
+    {
+      type: 'input',
+      name: 'description',
+      message: '组件说明',
+      validate: async (name) => {
+        if (!name.trim()) return '名称不能为空'
+        return true
       }
     },
     {
@@ -59,11 +68,11 @@ async function main() {
   createComponent(components)
 }
 
-function createMarkdown({ name }) {
+function createMarkdown({ name, description }) {
   let comName = name.replace(/([A-Z])/g, '-$1').toLowerCase()
 
   const data = `
-# ${name}
+# ${name.charAt(0).toUpperCase() + name.slice(1)} ${description}
 
 ## 基础效果
 
