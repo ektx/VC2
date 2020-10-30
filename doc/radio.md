@@ -298,8 +298,8 @@ export default {
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 | 
 |---|---|---|---|---|
-| modelValue/v-model | **boolean / string / number** | 绑定值 | - | - |
-| label | **boolean / string / number** | 标签 | - | - |
+| modelValue/v-model | **string / number** | 绑定值 | - | - |
+| label | **string / number** | 标签 | - | - |
 | disabled | **boolean** | 是否禁用 | - | false |
 | border | **boolean** | 是否显示边框 | - | false |
 | size | **Number** | 大小 | - | 14 |
@@ -318,7 +318,7 @@ export default {
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 | 
 |---|---|---|---|---|
-| modelValue、v-model | **boolean / string / number** | 绑定值 | - | - |
+| modelValue、v-model | **string / number** | 绑定值 | - | - |
 | disabled | **boolean** | 是否禁用 | --- | false |
 | type | **String** | 显示效果 | radio/button | radio |
 | size | **Number** | radio 大小 | --- | 14 |

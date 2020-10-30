@@ -16,7 +16,7 @@ export default {
   },
   props: {
     modelValue: {
-      type: [String, Number, Boolean],
+      type: [String, Number],
       default: ''
     },
     disabled: {

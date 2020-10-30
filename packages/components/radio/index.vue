@@ -40,10 +40,10 @@ export default {
   name: 'VcRadio',
   props: {
     // 标签
-    label: [String, Number, Boolean],
+    label: [String, Number],
     // 绑定值
     modelValue: {
-      type: [String, Number, Boolean],
+      type: [String, Number],
       default: ''
     },
     // 是否禁用
