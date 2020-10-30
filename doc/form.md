@@ -157,9 +157,13 @@ export default {
 ::: demo
 ```html
 <template>
-  <vc-button @click="set('left')">左对齐</vc-button>
-  <vc-button @click="set('right')">右对齐</vc-button>
-  <vc-button @click="set('top')">顶部对齐</vc-button>
+  <vc-radio-group v-model="labelPosition" type="button">
+    <vc-radio label="left">左对齐</vc-radio>
+    <vc-radio label="right">右对齐</vc-radio>
+    <vc-radio label="top">顶部对齐</vc-radio>
+  </vc-radio-group>
+
+  <br/>
   
   <vc-form label-width="80px" :labelPosition="labelPosition">
     <vc-form-item label="活动名称">
@@ -180,7 +184,7 @@ export default {
   
   <hr/>
 
-  {{ formData}} - {{ labelPosition }}
+  {{ formData}} 
 </template>
 
 <script>
@@ -200,11 +204,6 @@ export default {
         label: '上海'
       }],
       labelPosition: 'right'
-    }
-  },
-  methods: {
-    set(type) {
-      this.labelPosition = type
     }
   }
 }
