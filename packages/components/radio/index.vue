@@ -103,6 +103,8 @@ export default {
     })
 
     const handleChange = evt => {
+      vcFormItem && vcFormItem.checkValidate('change')
+
       if (isUpdate.value) {
         isUpdate.value = false
         return
@@ -121,6 +123,8 @@ export default {
       } else {
         emit('blur', evt)
       }
+
+      vcFormItem && vcFormItem.checkValidate('blur')
     }
 
     const handleFocus = evt => {
@@ -162,7 +166,6 @@ export default {
   display: inline-block;
   margin: 0 15px 0 0;
   color: #606266;
-  font-weight: 500;
   font-size: 14px;
   white-space: nowrap;
   user-select: none;

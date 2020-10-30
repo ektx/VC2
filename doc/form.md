@@ -19,11 +19,11 @@
       <vc-color-picker v-model:value="formData.color" round/>
     </vc-form-item>
 
-    <vc-form-item label="住宿时间" prop="color">
-      <vc-radio-group v-model:value="formData.radio" @change="change">
-        <vc-radio label="1天"></vc-radio>
-        <vc-radio label="2天"></vc-radio>
-        <vc-radio label="2天以上"></vc-radio>
+    <vc-form-item label="住宿时间" prop="days">
+      <vc-radio-group v-model="formData.days">
+        <vc-radio :label="1">1天</vc-radio>
+        <vc-radio :label="2">2天</vc-radio>
+        <vc-radio :label="3">2天以上</vc-radio>
       </vc-radio-group>
     </vc-form-item>
 
@@ -62,6 +62,7 @@ export default {
       formData: {
         name: '',
         color: '',
+        days: '',
         isOwnExpense: false,
         region: [],
         desc: 'text',
@@ -81,6 +82,20 @@ export default {
         ],
         color: [
           { required: true, message: '队旗颜色不能为空', trigger: 'blur' },
+        ],
+        days: [
+          { 
+            required: true, 
+            type: 'number',
+            message: '住宿时间不能为空', 
+            trigger: ['blur', 'change'],
+          },
+          { 
+            min: 2,
+            type: 'number', 
+            message: '住宿时间不能小于 2', 
+            trigger: ['blur', 'change'],
+          },
         ],
         isOwnExpense: [
           {required: true, type: 'boolean', message: '费用方式不可为空', trigger: 'change'}
