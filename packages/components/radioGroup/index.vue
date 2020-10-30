@@ -44,18 +44,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-.vc-radio-group {
-  .vc-radio {
-    &.is-button {
-      &:first-of-type {
-        border-radius: 3px 0 0 3px;
-      }
-      &:last-of-type {
-        border-radius: 0 3px 3px 0;
-      }
-    }
-  }
-}
-</style>
