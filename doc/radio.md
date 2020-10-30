@@ -237,6 +237,7 @@ export default {
     label="上海" 
     @change="change"
     @focus="focus"
+    @blur="blur"
   >上海</vc-radio>
 
   <br/>
@@ -247,6 +248,7 @@ export default {
     type="button" 
     @change="change"
     @focus="focus"
+    @blur="blur"
   >
     <vc-radio v-model="radio" label="北京"></vc-radio>
     <vc-radio v-model="radio" label="上海"></vc-radio>
@@ -267,17 +269,24 @@ export default {
     }
 
     function focus(evt) {
-      console.log(1221)
       message({
         type: 'warning',
-        message: evt.target.value
+        message: 'focus'
+      })
+    }
+
+    function blur(evt) {
+      message({
+        type: 'success',
+        message: 'blur'
       })
     }
 
     return {
       radio,
       change,
-      focus
+      focus,
+      blur
     }
   }
 }
@@ -285,38 +294,41 @@ export default {
 ```
 :::
 
-## Props
+## Radio Props
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 | 
 |---|---|---|---|---|
-| value | **boolean / string / number** | 绑定值 | --- | --- |
-| label | **boolean / string / number** | Radio 的 value | --- | --- |
-| disabled | **boolean** | 是否禁用 | --- | false |
-| border | **boolean** | 是否显示边框 | --- | false |
-| :size | **Number** | radio 大小 | --- | 14 |
+| modelValue/v-model | **boolean / string / number** | 绑定值 | - | - |
+| label | **boolean / string / number** | 标签 | - | - |
+| disabled | **boolean** | 是否禁用 | - | false |
+| border | **boolean** | 是否显示边框 | - | false |
+| size | **Number** | 大小 | - | 14 |
+| background | **String** | 选中时背景色 | - | - |
+| color | **String** | 选中时文字颜色 | - | - |
 
 ## Props Events
 
 | 事件名称 | 说明 | 回调参数 | 
 |---|---|---|---|---|
-| change | switch 状态发生变化时的回调函数 | 新状态的值 |
+| focus | 聚焦时 | event |
+| blur | 失焦时 | event |
+| change | 状态发生变化时的回调函数 | event |
 
-## Radio-group props
+## Radio Group props
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 | 
 |---|---|---|---|---|
-| value | **boolean / string / number** | 绑定值 | --- | --- |
+| modelValue、v-model | **boolean / string / number** | 绑定值 | - | - |
 | disabled | **boolean** | 是否禁用 | --- | false |
-| :size | **Number** | radio 大小 | --- | 14 |
-| text-color | **string** | 按钮形式的 Radio 激活时的文本颜色 | --- | #ffffff |
-| fill | **string** | 按钮形式的 Radio 激活时的填充色和边框色 | --- | #409EFF |
-| :size | **Number** | radio 大小 | --- | 14 |
-| border | **boolean** | 是否显示边框 | --- | false |
+| type | **String** | 显示效果 | radio/button | radio |
+| size | **Number** | radio 大小 | --- | 14 |
+| background | **String** | 选中时背景色 | - | - |
+| color | **String** | 选中时文字颜色 | - | - |
 
-
-## Radio-group Events
+## Radio Group Events
 
 | 事件名称 | 说明 | 回调参数 | 
 |---|---|---|---|---|
-| change | switch 状态发生变化时的回调函数 | 新状态的值 |
-
+| focus | 聚焦时 | event |
+| blur | 失焦时 | event |
+| change | 状态发生变化时的回调函数 | event |

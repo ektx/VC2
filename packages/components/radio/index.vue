@@ -39,9 +39,11 @@ import {
 export default {
   name: 'VcRadio',
   props: {
-    label: [String, Number],
+    // 标签
+    label: [String, Number, Boolean],
+    // 绑定值
     modelValue: {
-      type: [String, Number],
+      type: [String, Number, Boolean],
       default: ''
     },
     // 是否禁用
@@ -53,7 +55,9 @@ export default {
       type: Number,
       default: 14
     },
+    // 背景色
     background: String,
+    // 文字颜色
     color: String
   },
   setup(props, { emit }) {
@@ -111,9 +115,13 @@ export default {
       }
     }
 
-    const handleBlur = event => {
-      
-    };
+    const handleBlur = evt => {
+      if (vcRadioGroup) {
+        vcRadioGroup.$emit('blur', evt)
+      } else {
+        emit('blur', evt)
+      }
+    }
 
     const handleFocus = evt => {
       if (vcRadioGroup) {
@@ -139,9 +147,9 @@ export default {
       intValue,
       isDisabled,
       isChecked,
+      isButton,
       sizeStyle,
       handleChange,
-      isButton,
       handleFocus,
       handleBlur,
     }
