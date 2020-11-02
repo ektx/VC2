@@ -2,7 +2,8 @@
   <div 
     :class="[
       'vc-input', `is-${type}`,
-      {'is-focus': focusing, 'is-disabled': disabled }
+      {'is-focus': focusing, 'is-disabled': disabled },
+      $attrs.class
     ]"
   >
     <div class="vc-input__prefix-icon">
@@ -247,7 +248,7 @@ export default {
       blur,
       state,
       select,
-      ATTRS: getAttrs(attrs),
+      ATTRS: getAttrs(attrs, ['class']),
       TYPE
     };
   }
