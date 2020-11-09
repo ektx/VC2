@@ -91,7 +91,7 @@ export default {
     <vc-table :data="data" :header="header"/>
 
     <template v-slot:reference>
-      <vc-button>hover 激活</vc-button>
+      <vc-button>Click 激活</vc-button>
     </template>
   </vc-popover>
 </template>
@@ -147,7 +147,7 @@ export default {
 
 ## 嵌套操作
 
-当然，你还可以嵌套操作，这相比 Dialog 更为轻量：
+当然，你还可以嵌套操作，这相比 Layer 更为轻量：
 
 ::: demo
 ```html
