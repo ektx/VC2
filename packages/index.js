@@ -1,53 +1,53 @@
-/* 以下代码自动生成于 Mon Nov 02 2020 15:14:44 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Mon Nov 09 2020 10:09:51 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
 import vcCollapse from './components/collapse/index.vue'
 import vcCollapseItem from './components/collapseItem/index.vue'
-import vcConfirm from './components/confirm/index.js'
 import vcColorPicker from './components/colorPicker/index.vue'
 import vcForm from './components/form/index.vue'
-import vcIcon from './components/icon/index.vue'
+import vcConfirm from './components/confirm/index.js'
 import vcFormItem from './components/formItem/index.vue'
+import vcIcon from './components/icon/index.vue'
+import vcInput from './components/input/index.vue'
 import vcInputNumber from './components/inputNumber/index.vue'
 import vcLayer from './components/layer/index.vue'
-import vcInput from './components/input/index.vue'
 import vcMessage from './components/message/index.js'
+import vcNotification from './components/notification/index.js'
 import vcOperationList from './components/operationList/index.vue'
 import vcPagination from './components/pagination/index.vue'
-import vcNotification from './components/notification/index.js'
-import vcRadioGroup from './components/radioGroup/index.vue'
 import vcRadio from './components/radio/index.vue'
+import vcRadioGroup from './components/radioGroup/index.vue'
 import vcSelect from './components/select/index.vue'
-import vcTable from './components/table/index.vue'
-import vcTabPane from './components/tabPane/index.vue'
-import vcTabs from './components/tabs/index.vue'
 import vcSwitch from './components/switch/index.vue'
+import vcTabPane from './components/tabPane/index.vue'
+import vcTable from './components/table/index.vue'
+import vcTabs from './components/tabs/index.vue'
 
 const components = [
   vcButton,
   vcButtonGroup,
   vcCollapse,
   vcCollapseItem,
-  vcConfirm,
   vcColorPicker,
   vcForm,
-  vcIcon,
+  vcConfirm,
   vcFormItem,
+  vcIcon,
+  vcInput,
   vcInputNumber,
   vcLayer,
-  vcInput,
   vcMessage,
+  vcNotification,
   vcOperationList,
   vcPagination,
-  vcNotification,
-  vcRadioGroup,
   vcRadio,
+  vcRadioGroup,
   vcSelect,
-  vcTable,
+  vcSwitch,
   vcTabPane,
-  vcTabs,
-  vcSwitch
+  vcTable,
+  vcTabs
 ]
 
 const install = app => {
@@ -63,29 +63,29 @@ const install = app => {
 }
 
 export default {
-  version: "1.5.2",
+  version: "1.6.0",
   install,
   vcButton,
   vcButtonGroup,
   vcCollapse,
   vcCollapseItem,
-  vcConfirm,
   vcColorPicker,
   vcForm,
-  vcIcon,
+  vcConfirm,
   vcFormItem,
+  vcIcon,
+  vcInput,
   vcInputNumber,
   vcLayer,
-  vcInput,
   vcMessage,
+  vcNotification,
   vcOperationList,
   vcPagination,
-  vcNotification,
-  vcRadioGroup,
   vcRadio,
+  vcRadioGroup,
   vcSelect,
-  vcTable,
+  vcSwitch,
   vcTabPane,
-  vcTabs,
-  vcSwitch
+  vcTable,
+  vcTabs
 }
