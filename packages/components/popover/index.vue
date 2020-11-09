@@ -33,22 +33,29 @@ import { createPopper } from '@popperjs/core'
 export default {
   name: 'VcPopover',
   props: {
+    // 状态是否可见
     modelValue: {
       type: Boolean,
       default: null
     },
+    // 出现位置
+    // @arguments top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end
     placement: {
       type: String,
       default: 'bottom',
     },
+    // 触发方式
     // @arguments hover/click/focus/manual
     trigger: {
       type: String,
       default: 'hover',
       validator: value => ['click', 'focus', 'hover', 'manual'].includes(value)
     },
+    // 标题
     title: String,
+    // 显示的内容，也可以通过 slot 传入 DOM
     content: String,
+    // 宽度
     width: {
       type: String,
       default: 'auto'

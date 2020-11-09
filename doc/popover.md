@@ -1,6 +1,8 @@
 
 # Popover 弹出框
 
+Popover 是基于 popper 扩展的功能。具体可以访问 [popper](https://popper.js.org/)。
+
 ## 基础效果
 
 ::: demo 
@@ -184,9 +186,16 @@ export default {
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
 |---|---|---|---|---|
+| v-model | **Boolean** | 状态是否可见 | - | null |
+| placement | **String** | 出现位置 | top/top-start/top-end/<br/>bottom/bottom-start/bottom-end/<br/>left/left-start/left-end/<br/>right/right-start/right-end | bottom |
+| trigger | **String** | 触发方式 | hover/click/focus/manual | hover |
+| title | **String** | 标题 | - | - |
+| content | **String** | 显示的内容，也可以通过 slot 传入 `DOM` | - | - |
+| width | **String** | 宽度 | - | auto |
 
+## Slot
 
-## Events
-
-| 事件名 | 说明 | 回调参数 |
-| --- | --- | --- |
+| 参数 | 说明 | 
+| --- | --- | 
+| - | Popover 内嵌 HTML 文本 |
+| reference | 触发 Popover 显示的 HTML 元素 |
