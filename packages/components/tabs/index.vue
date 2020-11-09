@@ -81,6 +81,7 @@ export default {
       if (slots) {
         let paneSlots = []
         this.list = []
+        this.activeTab = null
 
         // 对于动态生成的 pane
         if (typeof slots[0].type === 'symbol') {
@@ -94,10 +95,11 @@ export default {
               label: vnode.props.label,
               id,
               active: id === this.value,
-              disabled: Reflect.has(vnode.props, 'disabled'),
+              disabled: Reflect.has(vnode.props, 'disabled') 
+                ? typeof vnode.props.disabled === 'boolean' ? vnode.props.disabled : true 
+                : false,
               closable: Reflect.has(vnode.props, 'closable'),
             }
-
             this.list.push(item)
 
             // 如果不存在默认值

@@ -1,10 +1,10 @@
-/* 以下代码自动生成于 Fri Oct 16 2020 10:59:25 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Mon Nov 09 2020 10:29:09 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
-import vcButtonGroup from './components/buttonGroup/index.vue'
 import vcCollapse from './components/collapse/index.vue'
-import vcCollapseItem from './components/collapseItem/index.vue'
+import vcButtonGroup from './components/buttonGroup/index.vue'
 import vcColorPicker from './components/colorPicker/index.vue'
+import vcCollapseItem from './components/collapseItem/index.vue'
 import vcConfirm from './components/confirm/index.js'
 import vcForm from './components/form/index.vue'
 import vcFormItem from './components/formItem/index.vue'
@@ -17,19 +17,20 @@ import vcNotification from './components/notification/index.js'
 import vcOperationList from './components/operationList/index.vue'
 import vcPagination from './components/pagination/index.vue'
 import vcPopover from './components/popover/index.vue'
+import vcRadioGroup from './components/radioGroup/index.vue'
 import vcRadio from './components/radio/index.vue'
-import vcSelect from './components/select/index.vue'
 import vcSwitch from './components/switch/index.vue'
+import vcSelect from './components/select/index.vue'
 import vcTabPane from './components/tabPane/index.vue'
 import vcTable from './components/table/index.vue'
 import vcTabs from './components/tabs/index.vue'
 
 const components = [
   vcButton,
-  vcButtonGroup,
   vcCollapse,
-  vcCollapseItem,
+  vcButtonGroup,
   vcColorPicker,
+  vcCollapseItem,
   vcConfirm,
   vcForm,
   vcFormItem,
@@ -42,9 +43,10 @@ const components = [
   vcOperationList,
   vcPagination,
   vcPopover,
+  vcRadioGroup,
   vcRadio,
-  vcSelect,
   vcSwitch,
+  vcSelect,
   vcTabPane,
   vcTable,
   vcTabs
@@ -52,7 +54,7 @@ const components = [
 
 const install = app => {
   components.forEach(item => {
-    if (item.__file) {
+    if (!item.function) {
       app.component(item.name, item)
     } else {
       app.provide(item.name, item.function)  
@@ -63,13 +65,13 @@ const install = app => {
 }
 
 export default {
-  version: "1.4.0",
+  version: "1.6.0",
   install,
   vcButton,
-  vcButtonGroup,
   vcCollapse,
-  vcCollapseItem,
+  vcButtonGroup,
   vcColorPicker,
+  vcCollapseItem,
   vcConfirm,
   vcForm,
   vcFormItem,
@@ -82,9 +84,10 @@ export default {
   vcOperationList,
   vcPagination,
   vcPopover,
+  vcRadioGroup,
   vcRadio,
-  vcSelect,
   vcSwitch,
+  vcSelect,
   vcTabPane,
   vcTable,
   vcTabs

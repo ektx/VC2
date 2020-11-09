@@ -68,7 +68,7 @@ export default {
       let { width: _w } = this.$el.parentNode.getBoundingClientRect()
       
       this.vcTabs.isOver = width > _w
-      this.$refs.bar.updateBar()
+      this.$nextTick(this.$refs.bar.updateBar)
     },
 
     closeEvt(evt, tab) {
@@ -89,7 +89,6 @@ export default {
       this.vcTabs.activeTab = tab
       this.vcTabs.$emit('tab-click', tab, evt)
       this.vcTabs.$emit('tabClick', tab, evt)
-      this.$nextTick(this.updateBar)
     },
 
     moveNav(step = 0) {

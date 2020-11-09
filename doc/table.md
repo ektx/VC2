@@ -451,7 +451,7 @@ export default {
 
 ```html
 <template>
-  <vc-table :header="header" :data="data" :index.sync="index" :total="data.length">
+  <vc-table :header="header" :data="data" :total="data.length">
     <template #name="{item, index}">
       {{index +1}}.<vc-button>{{item.name}}</vc-button>
     </template>
@@ -506,8 +506,7 @@ export default {
           name: "王小虎",
           address: "上海市普陀区金沙江路 1516 弄"
         }
-      ],
-      index: 1
+      ]
     }
   },
 }
@@ -528,3 +527,10 @@ export default {
 | asyncData | **Boolean** | 异步数据 | false | - |
 | loading | **Boolean/String** | 布尔值时，控股是否加载；<br/>字符串时，接受加载时文字 | false | - |
 | border | **Boolean** | 显示边框，默认无 | auto | - |
+
+# Events
+
+
+| 事件名称 | 说明 | 回调参数 | 
+|---|---|---|---|---|
+| page-change | 分页变化时，返回最新页码 | (index) => {} |

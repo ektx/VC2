@@ -39,12 +39,23 @@
 
 ```html
 <template>
+  <vc-button @click="value = !value">Click</vc-button>
   <vc-tabs value="second">
     <vc-tab-pane label="用户管理" name="first">用户管理</vc-tab-pane>
     <vc-tab-pane label="配置管理" disabled name="second">配置管理</vc-tab-pane>
-    <vc-tab-pane label="角色管理" name="third">角色管理</vc-tab-pane>
+    <vc-tab-pane label="角色管理" :disabled="value" name="third">角色管理</vc-tab-pane>
   </vc-tabs>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        value: false
+      }
+    }
+  };
+</script>
 ```
 :::
 

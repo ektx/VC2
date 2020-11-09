@@ -142,7 +142,7 @@ export default {
 
       return this.vcForm.rules[this.prop] || []
     },
-
+    // 子组件验证方法
     checkValidate(trigger) {
       this.$nextTick(() => {
         this.validate(trigger)

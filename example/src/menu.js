@@ -42,6 +42,10 @@ export default [
         "to": "/doc/input"
       },
       {
+        "label": "Radio 单选框",
+        "to": "/doc/radio"
+      },
+      {
         "label": "Select 选择器",
         "to": "/doc/select"
       },
