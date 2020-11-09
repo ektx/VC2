@@ -5,20 +5,22 @@
     @mouseleave="leaveEvt"
     @click.stop="clickEvt"
   >
-    <transition name="vc-fade">
-      <div
-        ref="popper"
-        v-show="isShow"
-        class="vc-popover__layer"
-        :style="{width}"
-      >
-        <div class="vc-popover__title">
-          <slot name="title">{{ title }}</slot>
+    <teleport to="body">
+      <transition name="vc-fade">
+        <div
+          ref="popper"
+          v-show="isShow"
+          class="vc-popover__layer"
+          :style="{width}"
+        >
+          <div class="vc-popover__title">
+            <slot name="title">{{ title }}</slot>
+          </div>
+          <slot>{{ content }}</slot>
+          <div class="arrow" data-popper-arrow></div>
         </div>
-        <slot>{{ content }}</slot>
-        <div class="arrow" data-popper-arrow></div>
-      </div>
-    </transition>
+      </transition>
+    </teleport>
     <span ref="referenceArea">
       <slot name="reference"/>
     </span>
@@ -31,7 +33,10 @@ import { createPopper } from '@popperjs/core'
 export default {
   name: 'VcPopover',
   props: {
-    modelValue: Boolean,
+    modelValue: {
+      type: Boolean,
+      default: null
+    },
     placement: {
       type: String,
       default: 'bottom',
@@ -40,7 +45,7 @@ export default {
     trigger: {
       type: String,
       default: 'hover',
-      validator: value => ['click', 'focus', 'hover', 'manual'].indexOf(value) > -1
+      validator: value => ['click', 'focus', 'hover', 'manual'].includes(value)
     },
     title: String,
     content: String,
@@ -51,7 +56,6 @@ export default {
   },
   watch: {
     modelValue(val) {
-      debugger
       this.isShow = val
       if (val) {
         this.createPopperLayer()
@@ -77,14 +81,12 @@ export default {
   methods: {
     hoverEvt() {
       if (this.trigger !== 'hover') return
-      console.log('hover')
       this.isShow = true
       this.createPopperLayer()
     },
     leaveEvt() {
       if (this.trigger !== 'hover') return
-      console.log('hide')
-      this.isShow = false
+      this.hide()
     },
     clickEvt() {
       if (this.trigger !== 'click') return
@@ -92,7 +94,18 @@ export default {
       this.createPopperLayer()
     },
     hide() {
+      if (!this.tooltip) return
+      // 如果是手动，不能全局关闭
+      if (this.modelValue) return
+
       this.isShow = false
+      
+      setTimeout(() => {
+        if (!this.tooltip) return
+
+        this.tooltip.destroy()
+        this.tooltip = null
+      }, 300)
     },
     focusIn() {
       if (this.trigger !== 'focus') return
