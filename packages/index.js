@@ -52,7 +52,7 @@ const components = [
 
 const install = app => {
   components.forEach(item => {
-    if (item.__file) {
+    if (!item.function) {
       app.component(item.name, item)
     } else {
       app.provide(item.name, item.function)  
