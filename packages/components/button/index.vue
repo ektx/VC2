@@ -54,9 +54,10 @@ export default {
   methods: {
     clickEvt () {
       this.animate = false
-      window.requestAnimationFrame(() => {
+      
+      setTimeout(() => {
         this.animate = true
-      })
+      }, 10)
     }
   }
 }
