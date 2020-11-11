@@ -1,10 +1,10 @@
-/* 以下代码自动生成于 Mon Nov 09 2020 17:02:37 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Mon Nov 09 2020 17:05:47 GMT+0800 (中国标准时间) */
 
 import vcButton from './components/button/index.vue'
 import vcButtonGroup from './components/buttonGroup/index.vue'
 import vcCollapse from './components/collapse/index.vue'
-import vcColorPicker from './components/colorPicker/index.vue'
 import vcCollapseItem from './components/collapseItem/index.vue'
+import vcColorPicker from './components/colorPicker/index.vue'
 import vcConfirm from './components/confirm/index.js'
 import vcForm from './components/form/index.vue'
 import vcFormItem from './components/formItem/index.vue'
@@ -24,13 +24,14 @@ import vcSwitch from './components/switch/index.vue'
 import vcTabPane from './components/tabPane/index.vue'
 import vcTable from './components/table/index.vue'
 import vcTabs from './components/tabs/index.vue'
+import vcUpload from './components/upload/index.vue'
 
 const components = [
   vcButton,
   vcButtonGroup,
   vcCollapse,
-  vcColorPicker,
   vcCollapseItem,
+  vcColorPicker,
   vcConfirm,
   vcForm,
   vcFormItem,
@@ -49,7 +50,8 @@ const components = [
   vcSwitch,
   vcTabPane,
   vcTable,
-  vcTabs
+  vcTabs,
+  vcUpload
 ]
 
 const install = app => {
@@ -70,8 +72,8 @@ export default {
   vcButton,
   vcButtonGroup,
   vcCollapse,
-  vcColorPicker,
   vcCollapseItem,
+  vcColorPicker,
   vcConfirm,
   vcForm,
   vcFormItem,
@@ -90,5 +92,6 @@ export default {
   vcSwitch,
   vcTabPane,
   vcTable,
-  vcTabs
+  vcTabs,
+  vcUpload
 }

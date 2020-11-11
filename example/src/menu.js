@@ -64,6 +64,10 @@ export default [
       {
         "label": "Form 表单",
         "to": "/doc/form"
+      },
+      {
+        "label": "Upload 上传",
+        "to": "/doc/upload"
       }
     ]
   },
