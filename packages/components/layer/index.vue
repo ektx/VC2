@@ -5,12 +5,12 @@
     @after-leave="afterLeave"
   >
     <div 
-      v-show="show" 
+      v-show="visible" 
       :class="['vc-layer', {'is-fullscreen': fullscreen}]" 
-      @click.self="layerBoxClick"
+      @click.self.stop="layerBoxClick"
     >
-      <transition name="vc-scale">
-        <div v-show="show" class="vc-layer__inner" :style="style">
+      <transition :name="contentAnimate">
+        <div v-show="visible" class="vc-layer__inner" :style="style" @click.stop>
           <div class="vc-layer__header">
             <slot name="title">
               <span>{{title}}</span>
@@ -84,25 +84,28 @@ export default {
         x: 0,
         y: 0
       },
-      isAllow: false,
       // 默认不是组件调用关闭
       toClose: false,
+      visible: false,
+      contentAnimate: 'vc-scale',
+      timer: null
     }
   },
   watch: {
     show (val) {
       if (val) {
-        // 允许记录点击位置
-        this.isAllow = true
         this.toClose = false
-        this.$emit('open')
+
+        this.timer = setTimeout(() => {
+          this.$emit('open')
+          this.getClickPosition()
+        }, 50)
       } else {
         // 组件内调用时，重置（防止多次关闭事件）
         if (this.toClose) {
           this.toClose = false
           return
         }
-
         this.close()
       }
     }
@@ -111,7 +114,7 @@ export default {
     if (this.appendToBody) {
       document.body.appendChild(this.$el)
     }
-    document.documentElement.addEventListener('click', this.getClickPosition)
+    window.addEventListener('click', this.windowEvent)
   },
   methods: {
     layerBoxClick () {
@@ -130,42 +133,57 @@ export default {
     close() {
       // 标记组件关闭事件
       this.toClose = true
+      this.visible = false
       this.$emit('update:show', false)
       this.$emit('close')
+    },
+
+    windowEvent(evt) {
+      if (this.show) {
+        if (this.timer) {
+          this.timer = clearTimeout(this.timer)
+        }
+
+        this.getClickPosition(evt)
+      }
     },
 
     getClickPosition (evt) {
       if ( isIE() ) {
         if (this.show) return
-      } else {
-        // 防止组件记录了非开启弹层的位置信息
-        if (!this.isAllow) return
-        if (!this.show) return
       }
 
-      let { clientX, clientY } = evt
-      // 0.5为弹层的默认宽度
-      let width = window.innerWidth * .5
-            
-      if (this.width) {
-        if (this.width.endsWith('px')) {
-          width = parseInt(this.width)
-        } 
-        // 20vw 20%
-        else {
-          width = window.innerWidth * (parseInt(this.width)/100)
+      if (evt) {
+        if (this.visible) return
+
+        this.contentAnimate = 'vc-scale'
+        this.visible = true
+
+        let { clientX, clientY } = evt
+        // 0.5为弹层的默认宽度
+        let width = window.innerWidth * .5
+              
+        if (this.width) {
+          if (this.width.endsWith('px')) {
+            width = parseInt(this.width)
+          } 
+          // 20vw 20%
+          else {
+            width = window.innerWidth * (parseInt(this.width)/100)
+          }
         }
+  
+        let halfW = width / 2
+        let x = clientX - (window.innerWidth / 2)
+        let y = clientY - 100
+  
+        // x 轴偏移
+        x = x + halfW
+        this.evt = Object.assign({}, {x, y})
+      } else {
+        this.contentAnimate = 'vc-fade-down-animate'
+        this.visible = true
       }
-
-      let halfW = width / 2
-      let x = clientX - (window.innerWidth / 2)
-      let y = clientY - 100
-
-      // x 轴偏移
-      x = x + halfW
-
-      this.evt = Object.assign({}, {x, y})
-      this.isAllow = false
     },
 
     afterEnter() {
@@ -180,7 +198,7 @@ export default {
     if (this.appendToBody && this.$el) {
       this.$el.parentNode.removeChild(this.$el)
     }
-    document.documentElement.removeEventListener('click', this.getClickPosition)
+    window.removeEventListener('click', this.windowEvent)
   }
 }
 </script>
