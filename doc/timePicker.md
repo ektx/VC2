@@ -6,8 +6,25 @@
 ::: demo 
 ```html
 <template>
-  <vc-time-picker />
+  <vc-time-picker 
+    value-format="H:m:s"
+  />
+
+  <vc-time-picker 
+    value-format="H:m"
+    v-model="value1"
+  />
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      value1: new Date(2020, 11, 13, 13, 50)
+    }
+  }
+}
+</script>
 ```
 :::
 

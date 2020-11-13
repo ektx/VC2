@@ -1,15 +1,20 @@
 <template>
   <div class="vc-time-picker">
-    <h1 ref="referenceArea" @click="createPopperLayer">Hello, timePicker</h1>
+    <h1 ref="referenceArea" @click="createPopperLayer">{{ hour }}:{{ minutes }}: {{ seconds }}</h1>
     <teleport to="body">
       <transition name="vc-fade">
         <div ref="popper" v-show="visible" class="vc-time-picker__clock-mod">
-          {{ hour }}:{{ minutes }}: {{ seconds }}
+          
           <vc-clock 
+            :format="valueFormat"
             v-model:hour="hour"
             v-model:minutes="minutes"
             v-model:seconds="seconds"
           />
+          <div class="vc-time-picker__footer">
+            <button>取消</button>
+            <button>确认</button>
+          </div>
           <div class="arrow" data-popper-arrow></div>
         </div>
       </transition>
@@ -26,17 +31,29 @@ export default {
   components: {
     vcClock
   },
+  props: {
+    modelValue: {
+      type: Date,
+      default: () =>  new Date()
+    },
+    valueFormat: {
+      type: String,
+      default: 'H:m:s'
+    }
+  },
   data() {
     return {
       visible: false,
       layer: null,
-      hour: 0,
-      minutes: 10,
-      seconds: 30
+      hour: null,
+      minutes: null,
+      seconds: null
     }
   },
   methods: {
     createPopperLayer() {
+      this.getTimeValue()
+
       this.visible = true
       if (!this.layer) {
         this.layer = createPopper(
@@ -62,6 +79,12 @@ export default {
           }
         )
       }
+    },
+
+    getTimeValue() {
+      this.hour = this.modelValue.getHours()
+      this.minutes = this.modelValue.getMinutes()
+      this.seconds = this.modelValue.getSeconds()
     }
   }
 }
@@ -85,6 +108,26 @@ export default {
       border: 1px solid rgba(0,8,16,.15);
       border-right: none;
       border-bottom: none;
+    }
+  }
+
+  &__footer {
+    padding: 0 5px;
+    text-align: right;
+    border-top: 1px solid #ddd;
+
+    button {
+      padding: 7px;
+      color: #333;
+      font-size: 12px;
+      border: none;
+      outline: none;
+      background-color: #fff;
+      cursor: pointer;
+
+      &:last-child {
+        color: #09f;
+      }
     }
   }
 }

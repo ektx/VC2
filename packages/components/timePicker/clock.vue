@@ -44,34 +44,38 @@
             }]"
             @mouseover="updatePlaceholer(index)"
             @mouseleave="placeholderIndex = ''"
+            @click="setScale(index)"
           >
             <span>{{index.label}}</span>
           </li>
         </ul>
       </div>
     </div>
-    <div class="vc-time-picker__clock-time">
-      <input 
-        type="number" 
-        :class="[{'is-active': currentType === 'hour'}]"
-        v-model.number="iHour"
-        @focus="changeCurrentType('hour')"
-      >
-      <span>:</span>
-      <input 
-        type="number"
-        :class="[{'is-active': currentType === 'minutes'}]"
-        v-model.number="iMinutes"
-        @focus="changeCurrentType('minutes')"
-      >
-      <span>:</span>
-      <input 
-        type="number"
-        :class="[{'is-active': currentType === 'seconds'}]"
-        v-model.number="iSeconds"
-        @focus="changeCurrentType('seconds')"
-      >
-    </div>
+    <ul class="vc-time-picker__clock-time">
+      <li v-for="item in iFormat" :key="item.type">
+        <input 
+          v-if="item.type === 'H'"
+          type="number" 
+          :class="[{'is-active': currentType === 'hour'}]"
+          v-model.number="iHour"
+          @focus="changeCurrentType('hour')"
+        >
+        <input 
+          v-else-if="item.type === 'm'"
+          type="number"
+          :class="[{'is-active': currentType === 'minutes'}]"
+          v-model.number="iMinutes"
+          @focus="changeCurrentType('minutes')"
+        >
+        <input
+          v-else-if="item.type === 's'" 
+          type="number"
+          :class="[{'is-active': currentType === 'seconds'}]"
+          v-model.number="iSeconds"
+          @focus="changeCurrentType('seconds')"
+        >
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -89,6 +93,11 @@ export default {
     seconds: {
       type: Number,
       default: 0
+    },
+    // 时间显示格式
+    format: {
+      type: String,
+      default: 'H:m:s'
     }
   },
   data() {
@@ -172,6 +181,17 @@ export default {
       set(val) {
         this.updateMinOrSec('seconds', val)
       }
+    },
+    iFormat() {
+      let val = this.format.split(':')
+
+      console.log(val)
+      let result = val.map(item => ({type: 'separate', value: ':'},{
+        type: item
+      }))
+      
+
+      return result
     }
   },
   methods: {
@@ -196,6 +216,9 @@ export default {
     },
     updatePlaceholer(index) {
       this.placeholderIndex = index.label
+    },
+    setScale(index) {
+      this.$emit(`update:${this.currentType}`, index.label)
     }
   }
 }
@@ -224,7 +247,7 @@ export default {
 
 .vc-time-picker__clock {
   width: 100%;
-  padding: 10px;
+  padding: 10px 10px 0;
   background-color: #fff;
   border-radius: 3px;
   box-sizing: border-box;
@@ -415,6 +438,22 @@ export default {
   }
 
   &-time {
+    margin: 8px 0;
+    text-align: center;
+
+    li {
+      display: inline-block;
+
+      & + li {
+        &::before {
+          content: ':';
+          display: inline-block;
+          font-size: 20px;
+          vertical-align: text-bottom;
+        }
+      }
+    }
+
     input {
       width: 40px;
       font-size: 24px;
