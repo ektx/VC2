@@ -64,6 +64,10 @@ export default [
       {
         "label": "Form 表单",
         "to": "/doc/form"
+      },
+      {
+        "label": "TimePicker 时间选择器",
+        "to": "/doc/timePicker"
       }
     ]
   },
