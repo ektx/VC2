@@ -6,13 +6,17 @@
 ::: demo 
 ```html
 <template>
+  {{ value1 }}
   <vc-time-picker 
-    value-format="H:m:s"
+    format="H:m:s"
+    v-model="value1"
   />
 
+  {{ value2 }}
   <vc-time-picker 
+    format="H:m"
     value-format="H:m"
-    v-model="value1"
+    v-model="value2"
   />
 </template>
 
@@ -20,7 +24,8 @@
 export default {
   data() {
     return {
-      value1: new Date(2020, 11, 13, 13, 50)
+    value1: new Date(2020, 11, 13, 13, 50),
+    value2: '13:50'
     }
   }
 }

@@ -185,12 +185,10 @@ export default {
     iFormat() {
       let val = this.format.split(':')
 
-      console.log(val)
-      let result = val.map(item => ({type: 'separate', value: ':'},{
+      let result = val.map(item => ({
         type: item
       }))
       
-
       return result
     }
   },

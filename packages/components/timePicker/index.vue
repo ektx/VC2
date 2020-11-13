@@ -1,19 +1,23 @@
 <template>
   <div class="vc-time-picker">
-    <h1 ref="referenceArea" @click="createPopperLayer">{{ hour }}:{{ minutes }}: {{ seconds }}</h1>
+    <h1 ref="referenceArea" @click="createPopperLayer">
+      {{ displayTime }}<br/>
+      {{oldDate}}<br/>
+      {{ newDate }}
+    </h1>
     <teleport to="body">
       <transition name="vc-fade">
         <div ref="popper" v-show="visible" class="vc-time-picker__clock-mod">
           
           <vc-clock 
-            :format="valueFormat"
-            v-model:hour="hour"
-            v-model:minutes="minutes"
-            v-model:seconds="seconds"
+            :format="format"
+            v-model:hour="newDate.hour"
+            v-model:minutes="newDate.minutes"
+            v-model:seconds="newDate.seconds"
           />
           <div class="vc-time-picker__footer">
             <button>取消</button>
-            <button>确认</button>
+            <button @click="setUpdate">确认</button>
           </div>
           <div class="arrow" data-popper-arrow></div>
         </div>
@@ -33,26 +37,78 @@ export default {
   },
   props: {
     modelValue: {
-      type: Date,
-      default: () =>  new Date()
+      type: [Date, String],
+      default: ''
     },
-    valueFormat: {
+    format: {
       type: String,
       default: 'H:m:s'
+    },
+    // 输出值格式，默认为 Date 格式
+    valueFormat: {
+      type: String,
+      default: ''
     }
   },
   data() {
     return {
       visible: false,
       layer: null,
-      hour: null,
-      minutes: null,
-      seconds: null
+      newDate: {
+        hour: null,
+        minutes: null,
+        seconds: null
+      },
+    }
+  },
+  computed: {
+    oldDate() {
+      let result = null
+
+      if (this.modelValue) {
+        result = {}
+
+        if (typeof this.modelValue === 'string') {
+          let formatArr = this.format.match(/\w/g)
+          // 暂定用户只使用 英文冒号(:)
+          let valueArr = this.modelValue.split(':')
+
+          formatArr.forEach((item, i) => {
+            let type = 'hour'
+            switch (item) {
+              case 'm': type = 'minutes'; break;
+              case 's': type = 'seconds'; break;
+            }
+            result[type] = parseInt(valueArr[i]) || 0
+          })
+        } else {
+          result = {
+            hour: this.modelValue.getHours(),
+            minutes: this.modelValue.getMinutes(),
+            seconds: this.modelValue.getSeconds()
+          }
+        }
+      }
+
+      return result
+    },
+    displayTime() {
+      return this.getFormatValue(this.oldDate, this.format)
     }
   },
   methods: {
     createPopperLayer() {
-      this.getTimeValue()
+      if (this.oldDate) {
+        this.newDate = { ...this.oldDate }
+      } else {
+        let d = new Date()
+
+        this.newDate = {
+          hour: d.getHours(),
+          minutes: d.getMinutes(),
+          seconds: d.getSeconds()
+        }
+      }
 
       this.visible = true
       if (!this.layer) {
@@ -81,10 +137,54 @@ export default {
       }
     },
 
-    getTimeValue() {
-      this.hour = this.modelValue.getHours()
-      this.minutes = this.modelValue.getMinutes()
-      this.seconds = this.modelValue.getSeconds()
+    close() {
+      this.visible = false
+      this.layer.destroy()
+      this.layer = null
+    },
+
+    getFormatValue(date, format) {
+      let result = []
+      let { hour, minutes, seconds } = date
+
+      format.match(/\w/g).forEach(item => {
+        switch (item) {
+          case 'H': {
+            result.push(hour)
+            break
+          }
+          case 'm': {
+            result.push(minutes)
+            break
+          }
+          case 's': {
+            result.push(seconds)
+          }
+        }
+      })
+
+      return result.join(':')
+    },
+
+    setUpdate() {
+      let d = new Date()
+      let value = ''
+
+      if (this.valueFormat) {
+        value = this.getFormatValue(this.newDate, this.valueFormat)
+      } else {
+        value = new Date(
+          d.getFullYear(),
+          d.getMonth(),
+          d.getDate() +1,
+          this.newDate.hour,
+          this.newDate.minutes,
+          this.newDate.seconds
+        )
+      }
+
+      this.$emit('update:modelValue', value)
+      this.close()
     }
   }
 }
