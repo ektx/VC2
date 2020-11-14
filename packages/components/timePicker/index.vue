@@ -1,9 +1,7 @@
 <template>
   <div class="vc-time-picker">
     <h1 ref="referenceArea" @click="createPopperLayer">
-      {{ displayTime }}<br/>
-      {{oldDate}}<br/>
-      {{ newDate }}
+      {{ displayTime }}
     </h1>
     <teleport to="body">
       <transition name="vc-fade">
@@ -11,6 +9,7 @@
           
           <vc-clock 
             :format="format"
+            :time-block="timeBlock"
             v-model:hour="newDate.hour"
             v-model:minutes="newDate.minutes"
             v-model:seconds="newDate.seconds"
@@ -46,6 +45,11 @@ export default {
     },
     // 输出值格式，默认为 Date 格式
     valueFormat: {
+      type: String,
+      default: ''
+    },
+    // 时间块
+    timeBlock: {
       type: String,
       default: ''
     }

@@ -98,6 +98,10 @@ export default {
     format: {
       type: String,
       default: 'H:m:s'
+    },
+    timeBlock: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -107,8 +111,12 @@ export default {
     }
   },
   computed: {
+    ableHours() {
+      let block = this.timeBlock.split('|')
+      console.log(this.timeBlock)
+    },
     mainIndex() {
-      console.log(1)
+      console.log(1, this.ableHours)
       let result = []
 
       for (let i = 0; i < 12; i++) {
@@ -137,6 +145,7 @@ export default {
       })
     },
     minutesIndex() {
+      console.log('update index ...')
       let result = []
 
       for (let i = 0; i < 60; i++) {
