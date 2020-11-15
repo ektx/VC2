@@ -202,16 +202,24 @@ export default {
     box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
     background-color: #fff;
 
-    &[data-popper-placement^='bottom'] > .arrow {
+    & > .arrow {
       position: absolute;
-      top: -5px;
       width: 8px;
       height: 8px;
       background: #fff;
       transform: rotate(45deg);
       border: 1px solid rgba(0,8,16,.15);
+    }
+
+    &[data-popper-placement^='bottom'] > .arrow {
+      top: -5px;
       border-right: none;
       border-bottom: none;
+    }
+    &[data-popper-placement^='top'] > .arrow {
+      bottom: -5px;
+      border-top: none;
+      border-left: none;
     }
   }
 
