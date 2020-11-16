@@ -43,6 +43,7 @@
             :class="[{
               'is-active': index.active,
               'is-leader': index.isLeader,
+              'is-disabled': index.disabled
             }]"
             @mouseover="updatePlaceholer(index)"
             @mouseleave="placeholderIndex = ''"
@@ -139,7 +140,7 @@ export default {
         result.push({
           label: hour,
           active: hour === this.hour,
-          disabled: this.getHoursIsAble(hour)
+          disabled: this.getHoursIsAble(hour, this.minutes, this.seconds)
         })
       }
       return result
@@ -151,13 +152,13 @@ export default {
         result.push({
           label: i,
           active: i === this.hour,
-          disabled: this.getHoursIsAble(i)
+          disabled: this.getHoursIsAble(i, this.minutes, this.seconds)
         })
       }
       return result.concat({
         label: 0,
         active: this.hour === 0 || this.hour === 24,
-        disabled: this.getHoursIsAble(0)
+        disabled: this.getHoursIsAble(0, this.minutes, this.seconds)
       })
     },
     minutesIndex() {
@@ -169,7 +170,7 @@ export default {
           label: i ,
           isLeader: i % 10 === 0,
           active: this.currentType === 'seconds' ? i === this.seconds : i === this.minutes,
-          disabled: false
+          disabled: this.currentType === 'seconds' ? this.getHoursIsAble(this.hour, this.minutes, i) : this.getHoursIsAble(this.hour, i, this.seconds)
         })
       }
 
@@ -242,23 +243,24 @@ export default {
       this.placeholderIndex = index.label
     },
     setScale(index) {
+      if (index.disabled) return
       this.$emit(`update:${this.currentType}`, index.label)
     },
-    getHoursIsAble(hour) {
+    getHoursIsAble(hour, min, sec) {
       let d = new Date()
       let result = false
 
       if (!this.ableTimeLine) return result
 
       // debugger
-      d.setHours(hour, this.minutes, this.seconds)
+      d.setHours(hour, min, sec, 0)
       console.log(hour, d)
       this.ableTimeLine.line.forEach(arr => {
       // debugger
         if (!result) {
           let [start, end] = arr
 
-          result = d >= start && d <= end
+          result = d > start && d <= end
         }
       })
       console.log(!result)
@@ -447,6 +449,15 @@ export default {
           &::after {
             height: 2px;
             width: 12px;
+          }
+        }
+      }
+      &.is-disabled {
+        span {
+          cursor: not-allowed;
+
+          &::after {
+            background-color: #aaa;
           }
         }
       }

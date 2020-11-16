@@ -8,7 +8,7 @@ export function string2time(str) {
   let d = new Date()
   let [hours = 0, min = 0, sec = 0] = str.match(/\d+/g)
 
-  d.setHours(parseInt(hours), parseInt(min), parseInt(sec))
+  d.setHours(parseInt(hours), parseInt(min), parseInt(sec), 0)
   
   return d
 }
