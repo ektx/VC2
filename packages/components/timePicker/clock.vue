@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { getTimeLine, string2time } from './time'
+import { getCloseTime, getTimeLine, string2time } from './time'
 
 export default {
   props: {
@@ -115,7 +115,10 @@ export default {
   data() {
     return {
       currentType: 'hour',
-      placeholderIndex: ''
+      currentHour: null,
+      placeholderIndex: '',
+      mainIndex: [],
+      subIndex: []
     }
   },
   computed: {
@@ -135,35 +138,22 @@ export default {
       // console.log(timeBlock)
       return getTimeLine(timeBlock)
     },
-    mainIndex() {
-      let result = []
+    // subIndex() {
+    //   let result = []
 
-      for (let i = 0; i < 12; i++) {
-        let hour = i +1
-        result.push({
-          label: hour,
-          active: hour === this.hour,
-          disabled: this.getHoursIsAble(hour, this.minutes, this.seconds)
-        })
-      }
-      return result
-    },
-    subIndex() {
-      let result = []
-
-      for (let i = 13; i < 24; i++) {
-        result.push({
-          label: i,
-          active: i === this.hour,
-          disabled: this.getHoursIsAble(i, this.minutes, this.seconds)
-        })
-      }
-      return result.concat({
-        label: 0,
-        active: this.hour === 0 || this.hour === 24,
-        disabled: this.getHoursIsAble(0, this.minutes, this.seconds)
-      })
-    },
+    //   for (let i = 13; i < 24; i++) {
+    //     result.push({
+    //       label: i,
+    //       active: i === this.hour,
+    //       disabled: this.getHoursIsAble(i, this.minutes, this.seconds)
+    //     })
+    //   }
+    //   return result.concat({
+    //     label: 0,
+    //     active: this.hour === 0 || this.hour === 24,
+    //     disabled: this.getHoursIsAble(0, this.minutes, this.seconds)
+    //   })
+    // },
     minutesIndex() {
       console.log('update index ...')
       let result = []
@@ -222,10 +212,68 @@ export default {
       return result
     }
   },
+  watch: {
+    currentHour(val, old) {
+      val && (val.active = true)
+      old && (old.active = false)
+    }
+  },
+  mounted() {
+    this.getMainIndex()
+    this.getSubIndex()
+  },
   methods: {
+    getMainIndex() {
+      this.mainIndex = []
+
+      for (let i = 0; i < 12; i++) {
+        let hour = i +1
+        this.mainIndex.push({
+          label: hour,
+          active: hour === this.hour,
+          disabled: this.getHourIsAble(hour)
+        })
+      }
+    },
+    getSubIndex() {
+      this.subIndex = []
+
+      for (let i = 13; i < 24; i++) {
+        this.subIndex.push({
+          label: i,
+          active: i === this.hour,
+          disabled: this.getHourIsAble(i)
+        })
+      }
+      this.subIndex.concat({
+        label: 0,
+        active: this.hour === 0 || this.hour === 24,
+        disabled: this.getHourIsAble(0)
+      })
+    },
+    getHourIsAble(hour) {
+      if (!this.timeBlock) return false
+
+      let result = false
+      this.ableTimeLine.line.forEach(arr => {
+        if (!result) {
+          let [start, end] = arr
+          let startH = start.getHours()
+          let endH = end.getHours()
+          
+          result = hour >= startH && hour <= endH
+        }
+      })
+
+      return !result
+    },
     changeCurrentType(type) {
       console.log(type)
       this.currentType = type
+
+      if (type === 'hour') {
+        this.getMainIndex()
+      }
     },
     blurEvt(evt) {
       console.log(this.currentType)
@@ -251,10 +299,24 @@ export default {
 
       isSafe && this.$emit(`update:${type}`, val)
     },
+
     setHour(index) {
       if (index.disabled) return
-      console.log(index)
-      this.$emit('update:hour', index.label)
+
+      this.currentHour = index
+
+      if (this.isSafe(index.label, this.minutes, this.seconds)) {
+        this.$emit('update:hour', index.label)
+      } else {
+        let d = new Date()
+        d.setHours(index.label, this.minutes, this.seconds, 0)
+
+        let { hours, min, sec } = getCloseTime(this.ableTimeLine.line.flat(), d)
+
+        this.$emit('update:hour', hours)
+        this.$emit('update:minutes', min)
+        this.$emit('update:seconds', sec)
+      }
     },
     updatePlaceholer(index) {
       this.placeholderIndex = index.label
@@ -264,12 +326,15 @@ export default {
       this.$emit(`update:${this.currentType}`, index.label)
     },
     getHoursIsAble(hour, min, sec) {
+      if (!this.timeBlock) return false
+
       let d = new Date()
       let result = false
 
       if (!this.ableTimeLine) return result
 
       d.setHours(hour, min, sec, 0)
+
       this.ableTimeLine.line.forEach(arr => {
         if (!result) {
           let [start, end] = arr
@@ -488,7 +553,7 @@ export default {
           cursor: not-allowed;
 
           &::after {
-            background-color: #aaa;
+            background-color: #ddd;
           }
         }
       }

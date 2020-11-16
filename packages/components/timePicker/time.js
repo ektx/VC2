@@ -62,3 +62,29 @@ export function getTimeLine(arr) {
     max
   }
 }
+
+/**
+ * 从数组中返回与指定时间最接近的时间
+ * @param {Array} arr 时间数组
+ * @param {Date} time 具体时间
+ */
+export function getCloseTime(arr, time) {
+  let minTime = {}
+  let date = null
+
+  arr.forEach(date => {
+    let step = Math.abs(date.getTime() - time.getTime())
+
+    minTime[step] = date
+  })
+
+  date = minTime[Math.min(...Object.keys(minTime))]
+
+  return {
+    date,
+    hours: date.getHours(),
+    min: date.getMinutes(),
+    sec: date.getSeconds()
+  }
+
+}
