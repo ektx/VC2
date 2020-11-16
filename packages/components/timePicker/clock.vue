@@ -62,6 +62,7 @@
           :class="[{'is-active': currentType === 'hour'}]"
           v-model.number="iHour"
           @focus="changeCurrentType('hour')"
+          @blur="blurEvt"
         >
         <input 
           v-else-if="item.type === 'm'"
@@ -69,6 +70,7 @@
           :class="[{'is-active': currentType === 'minutes'}]"
           v-model.number="iMinutes"
           @focus="changeCurrentType('minutes')"
+          @blur="blurEvt"
         >
         <input
           v-else-if="item.type === 's'" 
@@ -76,6 +78,7 @@
           :class="[{'is-active': currentType === 'seconds'}]"
           v-model.number="iSeconds"
           @focus="changeCurrentType('seconds')"
+          @blur="blurEvt"
         >
       </li>
     </ul>
@@ -189,7 +192,8 @@ export default {
           val = 0
         }
 
-        this.$emit('update:hour', val)
+        if (this.isSafe(val, this.minutes, this.seconds)) 
+          this.$emit('update:hour', val)
       }
     },
     iMinutes: {
@@ -223,7 +227,14 @@ export default {
       console.log(type)
       this.currentType = type
     },
+    blurEvt(evt) {
+      console.log(this.currentType)
+      if (evt.target.value != this.hour) {
+        evt.target.value = this[this.currentType]
+      }
+    },
     updateMinOrSec(type, val) {
+      let isSafe = true
       if (val === '') return
 
       if (val > 59) {
@@ -232,7 +243,13 @@ export default {
         val = 59
       }
       console.log(`set ${type}:`, val)
-      this.$emit(`update:${type}`, val)
+      if (type === 'minutes') {
+        isSafe = this.isSafe(this.hour, val, this.seconds)
+      } else {
+        isSafe = this.isSafe(this.hour, this.minutes, val)
+      }
+
+      isSafe && this.$emit(`update:${type}`, val)
     },
     setHour(index) {
       if (index.disabled) return
@@ -252,19 +269,32 @@ export default {
 
       if (!this.ableTimeLine) return result
 
-      // debugger
       d.setHours(hour, min, sec, 0)
-      console.log(hour, d)
       this.ableTimeLine.line.forEach(arr => {
-      // debugger
         if (!result) {
           let [start, end] = arr
 
           result = d > start && d <= end
         }
       })
-      console.log(!result)
       return !result
+    },
+    isSafe(h, m, s) {
+      if (!this.timeBlock) return true
+
+      let result = false
+      let d = new Date()
+
+      d.setHours(h, m, s, 0)
+
+      this.ableTimeLine.line.forEach(arr => {
+        if (!result) {
+          let [start, end] = arr
+
+          result = d > start && d <= end
+        }
+      })
+      return result
     }
   }
 }
@@ -372,6 +402,7 @@ export default {
       &.is-disabled {
         span {
           color: #aaa;
+          cursor: not-allowed;
         }
       }
     }
