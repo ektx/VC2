@@ -117,8 +117,8 @@ export default {
       currentType: 'hour',
       currentHour: null,
       placeholderIndex: '',
-      mainIndex: [],
-      subIndex: []
+      mainIndex: {},
+      subIndex: {}
     }
   },
   computed: {
@@ -127,7 +127,6 @@ export default {
 
       let block = this.timeBlock.split('|')
       let timeBlock = []
-      console.log(this.timeBlock, block)
 
       block.map(blockItem => {
         let arr = blockItem.split('-')
@@ -135,25 +134,8 @@ export default {
         timeBlock.push([string2time(arr[0]), string2time(arr[1])])
       })
 
-      // console.log(timeBlock)
       return getTimeLine(timeBlock)
     },
-    // subIndex() {
-    //   let result = []
-
-    //   for (let i = 13; i < 24; i++) {
-    //     result.push({
-    //       label: i,
-    //       active: i === this.hour,
-    //       disabled: this.getHoursIsAble(i, this.minutes, this.seconds)
-    //     })
-    //   }
-    //   return result.concat({
-    //     label: 0,
-    //     active: this.hour === 0 || this.hour === 24,
-    //     disabled: this.getHoursIsAble(0, this.minutes, this.seconds)
-    //   })
-    // },
     minutesIndex() {
       console.log('update index ...')
       let result = []
@@ -216,6 +198,12 @@ export default {
     currentHour(val, old) {
       val && (val.active = true)
       old && (old.active = false)
+    },
+    hour(val) {
+      console.log(val)
+      let key = val === 0 ? 24 : val
+      
+      this.currentHour = key in this.mainIndex ? this.mainIndex[key] : this.subIndex[key]
     }
   },
   mounted() {
@@ -224,32 +212,33 @@ export default {
   },
   methods: {
     getMainIndex() {
-      this.mainIndex = []
+      this.mainIndex = {}
 
       for (let i = 0; i < 12; i++) {
         let hour = i +1
-        this.mainIndex.push({
+        this.mainIndex[hour] = {
           label: hour,
           active: hour === this.hour,
           disabled: this.getHourIsAble(hour)
-        })
+        }
       }
     },
     getSubIndex() {
-      this.subIndex = []
+      this.subIndex = {}
 
-      for (let i = 13; i < 24; i++) {
-        this.subIndex.push({
-          label: i,
-          active: i === this.hour,
-          disabled: this.getHourIsAble(i)
-        })
-      }
-      this.subIndex.concat({
+      this.subIndex[24] = {
         label: 0,
         active: this.hour === 0 || this.hour === 24,
         disabled: this.getHourIsAble(0)
-      })
+      }
+
+      for (let i = 13; i < 24; i++) {
+        this.subIndex[i] = {
+          label: i,
+          active: i === this.hour,
+          disabled: this.getHourIsAble(i)
+        }
+      }
     },
     getHourIsAble(hour) {
       if (!this.timeBlock) return false
@@ -270,10 +259,6 @@ export default {
     changeCurrentType(type) {
       console.log(type)
       this.currentType = type
-
-      if (type === 'hour') {
-        this.getMainIndex()
-      }
     },
     blurEvt(evt) {
       console.log(this.currentType)
@@ -302,8 +287,6 @@ export default {
 
     setHour(index) {
       if (index.disabled) return
-
-      this.currentHour = index
 
       if (this.isSafe(index.label, this.minutes, this.seconds)) {
         this.$emit('update:hour', index.label)
