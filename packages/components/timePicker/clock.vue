@@ -116,9 +116,12 @@ export default {
     return {
       currentType: 'hour',
       currentHour: null,
+      currentMin: null,
+      currentSec: null,
       placeholderIndex: '',
       mainIndex: {},
-      subIndex: {}
+      subIndex: {},
+      minutesIndex: {}
     }
   },
   computed: {
@@ -135,21 +138,6 @@ export default {
       })
 
       return getTimeLine(timeBlock)
-    },
-    minutesIndex() {
-      console.log('update index ...')
-      let result = []
-
-      for (let i = 0; i < 60; i++) {
-        result.push({
-          label: i ,
-          isLeader: i % 10 === 0,
-          active: this.currentType === 'seconds' ? i === this.seconds : i === this.minutes,
-          disabled: this.currentType === 'seconds' ? this.getHoursIsAble(this.hour, this.minutes, i) : this.getHoursIsAble(this.hour, i, this.seconds)
-        })
-      }
-
-      return result
     },
     iHour: {
       get() {
@@ -204,6 +192,22 @@ export default {
       let key = val === 0 ? 24 : val
       
       this.currentHour = key in this.mainIndex ? this.mainIndex[key] : this.subIndex[key]
+    },
+    currentMin(val, old) {
+      val && (val.active = true)
+      old && (old.active = false)
+    },
+    minutes(val) {
+      console.log('MM', val)
+      this.currentMin = this.minutesIndex[val]
+    },
+    currentSec(val, old) {
+      val && (val.active = true)
+      old && (old.active = false)
+    },
+    seconds(val) {
+      console.log('sec', val)
+      this.currentSec = this.minutesIndex[val]
     }
   },
   mounted() {
@@ -256,9 +260,34 @@ export default {
 
       return !result
     },
+
+    getMinutesIndex() {
+      console.log('update index ...')
+      this.minutesIndex = {}
+
+      for (let i = 0; i < 60; i++) {
+        let active = this.currentType === 'seconds' ? i === this.seconds : i === this.minutes
+        this.minutesIndex[i] = {
+          label: i ,
+          isLeader: i % 10 === 0,
+          active,
+          disabled: this.currentType === 'seconds' ? this.getHoursIsAble(this.hour, this.minutes, i) : this.getHoursIsAble(this.hour, i, this.seconds)
+        }
+
+        if (active) {
+          if (this.currentType === 'seconds') this.currentSec = this.minutesIndex[i]
+          else this.currentMin = this.minutesIndex[i]
+        }
+      }
+    },
+
     changeCurrentType(type) {
       console.log(type)
       this.currentType = type
+
+      if (type !== 'hour') {
+        this.getMinutesIndex()
+      }
     },
     blurEvt(evt) {
       console.log(this.currentType)
@@ -322,7 +351,7 @@ export default {
         if (!result) {
           let [start, end] = arr
 
-          result = d > start && d <= end
+          result = d >= start && d <= end
         }
       })
       return !result
