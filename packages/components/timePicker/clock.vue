@@ -7,7 +7,8 @@
             v-for="index in mainIndex" 
             :key="index.label"
             :class="[{
-              'is-active': index.active
+              'is-active': index.active,
+              'is-disabled': index.disabled
             }]"
             @click="setHour(index)"
           >
@@ -19,7 +20,8 @@
             v-for="index in subIndex" 
             :key="index.label"
             :class="[{
-              'is-active': index.active
+              'is-active': index.active,
+              'is-disabled': index.disabled
             }]"
             @click="setHour(index)"
           >
@@ -80,6 +82,8 @@
 </template>
 
 <script>
+import { getTimeLine, string2time } from './time'
+
 export default {
   props: {
     hour: {
@@ -111,19 +115,31 @@ export default {
     }
   },
   computed: {
-    ableHours() {
+    ableTimeLine() {
+      if (!this.timeBlock) return
+
       let block = this.timeBlock.split('|')
-      console.log(this.timeBlock)
+      let timeBlock = []
+      console.log(this.timeBlock, block)
+
+      block.map(blockItem => {
+        let arr = blockItem.split('-')
+
+        timeBlock.push([string2time(arr[0]), string2time(arr[1])])
+      })
+
+      // console.log(timeBlock)
+      return getTimeLine(timeBlock)
     },
     mainIndex() {
-      console.log(1, this.ableHours)
       let result = []
 
       for (let i = 0; i < 12; i++) {
+        let hour = i +1
         result.push({
-          label: i +1,
-          active: i +1 === this.hour,
-          disabled: false
+          label: hour,
+          active: hour === this.hour,
+          disabled: this.getHoursIsAble(hour)
         })
       }
       return result
@@ -135,13 +151,13 @@ export default {
         result.push({
           label: i,
           active: i === this.hour,
-          disabled: false
+          disabled: this.getHoursIsAble(i)
         })
       }
       return result.concat({
         label: 0,
         active: this.hour === 0 || this.hour === 24,
-        disabled: false
+        disabled: this.getHoursIsAble(0)
       })
     },
     minutesIndex() {
@@ -218,6 +234,7 @@ export default {
       this.$emit(`update:${type}`, val)
     },
     setHour(index) {
+      if (index.disabled) return
       console.log(index)
       this.$emit('update:hour', index.label)
     },
@@ -226,6 +243,26 @@ export default {
     },
     setScale(index) {
       this.$emit(`update:${this.currentType}`, index.label)
+    },
+    getHoursIsAble(hour) {
+      let d = new Date()
+      let result = false
+
+      if (!this.ableTimeLine) return result
+
+      // debugger
+      d.setHours(hour, this.minutes, this.seconds)
+      console.log(hour, d)
+      this.ableTimeLine.line.forEach(arr => {
+      // debugger
+        if (!result) {
+          let [start, end] = arr
+
+          result = d >= start && d <= end
+        }
+      })
+      console.log(!result)
+      return !result
     }
   }
 }
@@ -328,6 +365,11 @@ export default {
         span {
           color: #fff;
           background-color: #333;
+        }
+      }
+      &.is-disabled {
+        span {
+          color: #aaa;
         }
       }
     }
@@ -439,7 +481,7 @@ export default {
 
     li {
       span {
-        color: #777
+        color: #4c4c4c;
       }
     }
   }

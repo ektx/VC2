@@ -45,7 +45,7 @@ export default {
   <vc-time-picker 
     format="H:m:s"
     v-model="value1"
-    time-block="8:30:00-11:30:59|13:00:00-17:30:00"
+    time-block="8:30:00-11:30:00|13:00:00-17:30:00"
   />
 </template>
 
