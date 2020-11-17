@@ -1,10 +1,17 @@
 <template>
   <div class="vc-time-picker">
-    <div :class="['vc-time-picker__header',{'is-active': visible}]">
+    <div 
+      :class="[
+        'vc-time-picker__header',
+        {'is-active': visible, 'is-disabled': disabled}
+      ]"
+    >
       <i class="vc-icon-time"></i>
       <input ref="referenceArea" 
         type="text" 
         v-model="displayTime" 
+        :disabled="disabled"
+        :readonly="disabled"
         @click.stop="createPopperLayer"
       >
     </div>
@@ -57,6 +64,11 @@ export default {
     timeBlock: {
       type: String,
       default: ''
+    },
+    // 是否禁用
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -309,6 +321,15 @@ export default {
     }
     i {
       color: #09f;
+    }
+  }
+
+  &.is-disabled {
+    input:disabled {
+      cursor: not-allowed;
+      color: #aaa;
+      background-color: rgba(239, 239, 239, 0.3);
+      border-color: rgba(118, 118, 118, 0.3);
     }
   }
 }

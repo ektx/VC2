@@ -57,6 +57,26 @@ export default {
 ```
 :::
 
+## 禁用效果
+
+::: demo 
+```html
+<template>
+  <vc-time-picker disabled v-model="value1"/>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+    value1: new Date(2020, 11, 13, 13, 5, 8),
+    }
+  }
+}
+</script>
+```
+:::
+
 
 ## Poprs
 
