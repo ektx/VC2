@@ -1,8 +1,13 @@
 <template>
   <div class="vc-time-picker">
-    <h1 ref="referenceArea" @click="createPopperLayer">
-      {{ displayTime }}
-    </h1>
+    <div :class="['vc-time-picker__header',{'is-active': visible}]">
+      <i class="vc-icon-time"></i>
+      <input ref="referenceArea" 
+        type="text" 
+        v-model="displayTime" 
+        @click.stop="createPopperLayer"
+      >
+    </div>
     <teleport to="body">
       <transition name="vc-fade">
         <div ref="popper" v-show="visible" class="vc-time-picker__clock-mod">
@@ -15,8 +20,8 @@
             v-model:seconds="newDate.seconds"
           />
           <div class="vc-time-picker__footer">
-            <button>取消</button>
-            <button @click="setUpdate">确认</button>
+            <button @click.stop="close">取消</button>
+            <button @click.stop="setUpdate">确认</button>
           </div>
           <div class="arrow" data-popper-arrow></div>
         </div>
@@ -62,7 +67,7 @@ export default {
         hour: null,
         minutes: null,
         seconds: null
-      },
+      }
     }
   },
   computed: {
@@ -96,12 +101,26 @@ export default {
 
       return result
     },
-    displayTime() {
-      return this.getFormatValue(this.oldDate, this.format)
+    displayTime: {
+      get() {
+        return this.getFormatValue(this.oldDate, this.format)
+      },
+      set(val) {
+        console.log(val)
+      }
     }
+  },
+  mounted() {
+    document.addEventListener('click', this.close)
+  },
+  unmounted() {
+    document.removeEventListener('click', this.close)
   },
   methods: {
     createPopperLayer() {
+      // 先触发全局的事件
+      document.body.click()
+
       if (this.oldDate) {
         this.newDate = { ...this.oldDate }
       } else {
@@ -143,7 +162,7 @@ export default {
 
     close() {
       this.visible = false
-      this.layer.destroy()
+      this.layer && this.layer.destroy()
       this.layer = null
     },
 
@@ -252,6 +271,44 @@ export default {
       &:last-child {
         color: #09f;
       }
+    }
+  }
+}
+
+.vc-time-picker__header {
+  position: relative;
+  font-size: 14px;
+  color: #333;
+  
+  & input {
+    padding: 5px 25px;
+    width: 200px;
+    border-radius: 3px;
+    border: 1px solid #dcdfe6;
+    box-sizing: border-box;
+    outline: none;
+    transition: border .3s;
+
+    &:hover {
+      border-color: #bbb;
+    }
+  }
+
+  & > i {
+    position: absolute;
+    top: 50%;
+    left: 6px;
+    transform: translateY(-50%);
+    color: #ccc;
+    transition: color .3s;
+  }
+
+  &.is-active {
+    input {
+      border-color: #09f;
+    }
+    i {
+      color: #09f;
     }
   }
 }

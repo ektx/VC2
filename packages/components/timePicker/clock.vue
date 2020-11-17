@@ -1,5 +1,5 @@
 <template>
-  <div class="vc-time-picker__clock">
+  <div class="vc-time-picker__clock" @click.stop>
     <div class="vc-time-picker__clock-dial">
       <div v-show="currentType === 'hour'" class="vc-time-picker__clock-hour-mod">
         <ul class="vc-time-picker__clock-index">
