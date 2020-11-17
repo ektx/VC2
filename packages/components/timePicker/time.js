@@ -26,7 +26,6 @@ export function getTimeLine(arr) {
   })
   
   result.push(...arr.slice(0, 1))
-  console.log('<<<<<', arr, result)
   
   for (let i = 1; i < arr.length; i++) {
     let [start, end] = arr[i]

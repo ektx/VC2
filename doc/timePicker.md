@@ -7,15 +7,12 @@
 ```html
 <template>
   {{ value1 }}
-  <vc-time-picker 
-    format="H:m:s"
-    v-model="value1"
-  />
+  <vc-time-picker v-model="value1"/>
 
   {{ value2 }}
   <vc-time-picker 
     format="H:m"
-    value-format="H:m"
+    value-format="HH:mm"
     v-model="value2"
   />
 </template>
@@ -25,7 +22,7 @@ export default {
   data() {
     return {
     value1: new Date(2020, 11, 13, 13, 50),
-    value2: '13:50'
+    value2: '03:06'
     }
   }
 }
@@ -43,7 +40,6 @@ export default {
 <template>
   {{ value1 }}
   <vc-time-picker 
-    format="H:m:s"
     v-model="value1"
     time-block="8:30:00-11:30:30|13:00:00-17:30:00"
   />
@@ -53,7 +49,7 @@ export default {
 export default {
   data() {
     return {
-    value1: new Date(2020, 11, 13, 13, 50),
+    value1: new Date(2020, 11, 13, 13, 5, 8),
     }
   }
 }

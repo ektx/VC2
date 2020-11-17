@@ -57,7 +57,7 @@
     <ul class="vc-time-picker__clock-time">
       <li v-for="item in iFormat" :key="item.type">
         <input 
-          v-if="item.type === 'H'"
+          v-if="item.type.startsWith('H')"
           type="number" 
           :class="[{'is-active': currentType === 'hour'}]"
           v-model.number="iHour"
@@ -65,7 +65,7 @@
           @blur="blurEvt"
         >
         <input 
-          v-else-if="item.type === 'm'"
+          v-else-if="item.type.startsWith('m')"
           type="number"
           :class="[{'is-active': currentType === 'minutes'}]"
           v-model.number="iMinutes"
@@ -73,7 +73,7 @@
           @blur="blurEvt"
         >
         <input
-          v-else-if="item.type === 's'" 
+          v-else-if="item.type.startsWith('s')" 
           type="number"
           :class="[{'is-active': currentType === 'seconds'}]"
           v-model.number="iSeconds"
@@ -188,7 +188,6 @@ export default {
       old && (old.active = false)
     },
     hour(val) {
-      console.log(val)
       let key = val === 0 ? 24 : val
       
       this.currentHour = key in this.mainIndex ? this.mainIndex[key] : this.subIndex[key]
@@ -198,7 +197,6 @@ export default {
       old && (old.active = false)
     },
     minutes(val) {
-      console.log('MM', val)
       this.currentMin = this.minutesIndex[val]
     },
     currentSec(val, old) {
@@ -206,7 +204,6 @@ export default {
       old && (old.active = false)
     },
     seconds(val) {
-      console.log('sec', val)
       this.currentSec = this.minutesIndex[val]
     }
   },
@@ -262,7 +259,6 @@ export default {
     },
 
     getMinutesIndex() {
-      console.log('update index ...')
       this.minutesIndex = {}
 
       for (let i = 0; i < 60; i++) {
@@ -282,7 +278,6 @@ export default {
     },
 
     changeCurrentType(type) {
-      console.log(type)
       this.currentType = type
 
       if (type !== 'hour') {
@@ -290,7 +285,6 @@ export default {
       }
     },
     blurEvt(evt) {
-      console.log(this.currentType)
       if (evt.target.value != this.hour) {
         evt.target.value = this[this.currentType]
       }

@@ -41,7 +41,7 @@ export default {
     },
     format: {
       type: String,
-      default: 'H:m:s'
+      default: 'HH:mm:ss'
     },
     // 输出值格式，默认为 Date 格式
     valueFormat: {
@@ -149,16 +149,28 @@ export default {
 
     getFormatValue(date, format) {
       let result = []
-      let { hour, minutes, seconds } = date
+      let { hour, minutes, seconds = 0 } = date
 
-      format.match(/\w/g).forEach(item => {
+      format.match(/\w+/g).forEach(item => {
         switch (item) {
+          case 'HH': {
+            result.push(String(hour).padStart(2, '0'))
+            break
+          }
           case 'H': {
             result.push(hour)
             break
           }
+          case 'mm': {
+            result.push(String(minutes).padStart(2, '0'))
+            break
+          }
           case 'm': {
             result.push(minutes)
+            break
+          }
+          case 'ss': {
+            result.push(String(seconds).padStart(2, '0'))
             break
           }
           case 's': {
