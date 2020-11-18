@@ -131,24 +131,8 @@ export default {
 <script>
 export default {
   data () {
-    let nameList = ['秦一世', '秦二世', '秦三世', '秦四世']
     return {
-      header: [
-        {
-          label: '姓名',
-          key: (item) => nameList[item.name],
-          width: '100px'
-        },
-        {
-          label: '时间',
-          key: 'date',
-          width: '100px'
-        },
-        {
-          label: '地址',
-          key: 'address',
-        }
-      ],
+      nameList: ['秦一世', '秦二世', '秦三世', '秦四世'],
       data: [
         {
           date: "2020-9-14",
@@ -172,11 +156,32 @@ export default {
         }
       ],
     }
+  },
+  computed: {
+    header() {
+      return [
+        {
+          label: '姓名',
+          key: item => this.nameList[item.name],
+          width: '100px'
+        },
+        {
+          label: '时间',
+          key: 'date',
+          width: '100px'
+        },
+        {
+          label: '地址',
+          key: 'address',
+        }
+      ]
+    }
   }
 }
 </script>
 ```
 :::
+
 
 ## 带有分页
 
