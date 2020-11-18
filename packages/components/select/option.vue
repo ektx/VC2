@@ -23,7 +23,7 @@ export default {
   computed: {
     isActive() {
       let { modelValue, multiple, valueAlias, labelAlias } = this.vcSelect
-      this.item.selected = modelValue.includes( this.item[valueAlias] )
+      this.item.selected = [].concat(modelValue).includes( this.item[valueAlias] )
 
       this.vcSelect.updateSelectedItem(this.item, this.item.selected)
 
