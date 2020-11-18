@@ -13,6 +13,7 @@
         :disabled="disabled"
         :readonly="disabled"
         @click.stop="createPopperLayer"
+        @blur="modelBlurEvt"
       >
     </div>
     <teleport to="body">
@@ -117,8 +118,8 @@ export default {
       get() {
         return this.getFormatValue(this.oldDate, this.format)
       },
-      set(val) {
-        console.log(val)
+      set() {
+        // .ignore 不做任何处理工作
       }
     }
   },
@@ -232,6 +233,21 @@ export default {
 
       this.$emit('update:modelValue', value)
       this.close()
+    },
+    // 失焦更新时间
+    modelBlurEvt(evt) {
+      let val = evt.target.value
+      
+      if (val === this.displayTime) return
+
+      let [hour = 0, min = 0, sec = 0] = val.match(/\d+/g)
+
+      this.newDate = {
+        hour: ~~hour,
+        minutes: ~~min,
+        seconds: ~~sec
+      }
+      this.setUpdate()
     }
   }
 }
