@@ -92,22 +92,25 @@ export default {
     }
   },
   watch: {
-    show (val) {
-      if (val) {
-        this.toClose = false
-
-        this.timer = setTimeout(() => {
-          this.$emit('open')
-          this.getClickPosition()
-        }, 50)
-      } else {
-        // 组件内调用时，重置（防止多次关闭事件）
-        if (this.toClose) {
+    show: {
+      handler(val) {
+        if (val) {
           this.toClose = false
-          return
+
+          this.timer = setTimeout(() => {
+            this.$emit('open')
+            this.getClickPosition()
+          }, 50)
+        } else {
+          // 组件内调用时，重置（防止多次关闭事件）
+          if (this.toClose) {
+            this.toClose = false
+            return
+          }
+          this.close()
         }
-        this.close()
-      }
+      },
+      immediate: true
     }
   },
   mounted () {
