@@ -197,14 +197,16 @@ export default {
       old && (old.active = false)
     },
     minutes(val) {
-      this.currentMin = this.minutesIndex[val]
+      if (this.currentType === 'minutes')
+        this.currentMin = this.minutesIndex[val]
     },
     currentSec(val, old) {
       val && (val.active = true)
       old && (old.active = false)
     },
     seconds(val) {
-      this.currentSec = this.minutesIndex[val]
+      if (this.currentType === 'seconds')
+        this.currentSec = this.minutesIndex[val]
     }
   },
   mounted() {
@@ -298,7 +300,7 @@ export default {
       } else if (val < 0) {
         val = 59
       }
-      console.log(`set ${type}:`, val)
+      
       if (type === 'minutes') {
         isSafe = this.isSafe(this.hour, val, this.seconds)
       } else {
