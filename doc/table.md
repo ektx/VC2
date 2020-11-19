@@ -197,9 +197,12 @@ export default {
     :data="data" 
     v-model:pageIndex="index" 
     :page-total="data.length"
-  />
-  
-  <vc-button @click="add">添加 1000 条数据</vc-button>
+    height="200px"
+  >
+    <template #empty>
+      <vc-button @click="add">添加 1000 条数据</vc-button>
+    </template>
+  </vc-table>
 </template>
 
 <script>
@@ -260,9 +263,12 @@ export default {
     v-model:pageIndex="index" 
     :page-total="total"
     @page-change="pageChange"
-  />
-  
-  <vc-button @click="pageChange(1)">添加数据</vc-button>
+  >
+    <template #empty>
+      <p>没有数据</p>
+      <vc-button @click="pageChange(1)">添加数据</vc-button>
+    </template>
+  </vc-table>
 </template>
 
 <script>

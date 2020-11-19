@@ -31,7 +31,11 @@
             <td 
               v-if="!loading" 
               :colspan="header.length" 
-            >没有数据</td>
+            >
+              <div class="vc-table__empty">
+                <slot name="empty">没有数据</slot>
+              </div>
+            </td>
           </tr>
         </template>
       </tbody>
