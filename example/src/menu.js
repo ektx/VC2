@@ -42,8 +42,16 @@ export default [
         "to": "/doc/input"
       },
       {
+        "label": "InputNumber 计数器",
+        "to": "/doc/inputNumber"
+      },
+      {
         "label": "Radio 单选框",
         "to": "/doc/radio"
+      },
+      {
+        "label": "Switch 开关",
+        "to": "/doc/switch"
       },
       {
         "label": "Select 选择器",
@@ -54,12 +62,8 @@ export default [
         "to": "/doc/colorPicker"
       },
       {
-        "label": "Switch 开关",
-        "to": "/doc/switch"
-      },
-      {
-        "label": "InputNumber 计数器",
-        "to": "/doc/inputNumber"
+        "label": "TimePicker 时间选择器",
+        "to": "/doc/timePicker"
       },
       {
         "label": "Form 表单",
