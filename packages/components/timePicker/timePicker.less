@@ -1,0 +1,360 @@
+.vc-time-picker {
+  &__clock-mod {
+    border-radius: 3px;
+    border: 1px solid rgba(0,8,16,.15);
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+    background-color: #fff;
+
+    & > .arrow {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #fff;
+      transform: rotate(45deg);
+      border: 1px solid rgba(0,8,16,.15);
+    }
+
+    &[data-popper-placement^='bottom'] > .arrow {
+      top: -5px;
+      border-right: none;
+      border-bottom: none;
+    }
+    &[data-popper-placement^='top'] > .arrow {
+      bottom: -5px;
+      border-top: none;
+      border-left: none;
+    }
+  }
+
+  &__footer {
+    padding: 0 5px;
+    text-align: right;
+    border-top: 1px solid #ddd;
+
+    button {
+      padding: 7px;
+      color: #333;
+      font-size: 12px;
+      border: none;
+      outline: none;
+      background-color: #fff;
+      cursor: pointer;
+
+      &:last-child {
+        color: #09f;
+      }
+    }
+  }
+}
+
+.vc-time-picker__header {
+  position: relative;
+  font-size: 14px;
+  color: #333;
+  
+  & input {
+    padding: 5px 25px;
+    width: 200px;
+    border-radius: 3px;
+    border: 1px solid #dcdfe6;
+    box-sizing: border-box;
+    outline: none;
+    transition: border .3s;
+
+    &:hover {
+      border-color: #bbb;
+    }
+  }
+
+  & > i {
+    position: absolute;
+    top: 50%;
+    left: 6px;
+    transform: translateY(-50%);
+    color: #ccc;
+    transition: color .3s;
+  }
+
+  &.is-active {
+    input {
+      border-color: #09f;
+    }
+    i {
+      color: #09f;
+    }
+  }
+
+  &.is-disabled {
+    input:disabled {
+      cursor: not-allowed;
+      color: #aaa;
+      background-color: rgba(239, 239, 239, 0.3);
+      border-color: rgba(118, 118, 118, 0.3);
+    }
+  }
+}
+
+.loop( @count )when( @count > 0) {
+  li:nth-child(@{count}){
+    transform: rotate(@count * 30deg);
+    
+    span {
+      transform: translate(0, -50%) rotate( (9 - @count) * 30deg)
+    }
+  }
+  
+  .loop((@count - 1))
+}
+
+.loop2( @count )when( @count > 0) {
+  li:nth-child(@{count}){
+    transform: rotate(@count * 6deg);
+  }
+  
+  .loop2((@count - 1))
+}
+
+// clock mod ============================
+.vc-time-picker__clock {
+  width: 100%;
+  padding: 10px 10px 0;
+  background-color: #fff;
+  border-radius: 3px;
+  box-sizing: border-box;
+
+  &-dial {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    border-radius: 100%;
+    background-color: #f5f5f5;
+  }
+
+  &-hour-mod {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  &-minutes,
+  &-sub-index,
+  &-index {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    bottom: 3px;
+    right: 3px;
+    transform: rotate(90deg);
+    pointer-events: none;
+
+    li {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 50%;
+      height: 1px;
+      line-height: 20px;
+      font-size: 12px;
+      transform-origin: center right;
+
+      span {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        color: #333;
+        text-align: center;
+        line-height: 20px;
+        border-radius: 100%;
+        cursor: pointer;
+        pointer-events: all;
+
+        &:hover {
+          color: #fff;
+          background-color: #333;
+          transition: background-color .3s, color .3s;
+        }
+      }
+
+
+    }
+  }
+
+  &-sub-index,
+  &-index {
+    li {
+      &.is-active {
+        background-color: #333;
+
+        span {
+          color: #fff;
+          background-color: #333;
+        }
+      }
+      &.is-disabled {
+        span {
+          color: #aaa;
+          cursor: not-allowed;
+        }
+      }
+    }
+    .loop(12)
+  }
+
+
+  &-minutes-mod {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  &-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 48px;
+    text-align: center;
+    line-height: 180px;
+    color: #ddd;
+  }
+
+  &-minutes {
+    transform: rotate(84deg);
+
+    li {
+      font-size: 0;
+
+      &.is-active {
+        background-color: #333;
+
+        span {
+          border-radius: 3px;
+          background-color: #fff;
+          border: 1px solid #333;
+
+          &::after {
+            background-color: #333;
+          }
+        }
+      }
+
+      span {
+        height: 7px;
+        border-radius: 2px;
+        background-color: transparent;
+        border: 1px solid transparent;
+        transform: translate(0, -50%);
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 10%;
+          width: 6px;
+          height: 1px;
+          background-color: #4e4e4e;
+          transform: translate(2px, -60%);
+        }
+
+        &:hover {
+          background-color: rgba(0, 0, 0, .3);
+
+          &::after {
+            background-color: #fff;
+          }
+        }
+      }
+
+      &.is-leader {
+        span {
+          &::after {
+            height: 2px;
+            width: 12px;
+          }
+        }
+      }
+      &.is-disabled {
+        span {
+          cursor: not-allowed;
+
+          &::after {
+            background-color: #ddd;
+          }
+        }
+      }
+    }
+
+    &.seconds{
+      li {
+        &.is-active {
+          background-color: #f00;
+
+          span {
+            border-radius: 3px;
+            background-color: #fff;
+            border: 1px solid #f00;
+
+            &::after {
+              background-color: #f00;
+            }
+          }
+        }
+      }
+    }
+
+    .loop2(60)
+  }
+
+  &-sub-index {
+    top: 23px;
+    left: 23px;
+    right: 23px;
+    bottom: 23px;
+
+    li {
+      span {
+        color: #4c4c4c;
+      }
+    }
+  }
+
+  &-time {
+    margin: 8px 0;
+    text-align: center;
+
+    li {
+      display: inline-block;
+
+      & + li {
+        &::before {
+          content: ':';
+          display: inline-block;
+          font-size: 20px;
+          vertical-align: text-bottom;
+        }
+      }
+    }
+
+    input {
+      width: 40px;
+      font-size: 24px;
+      text-align: center;
+      outline: none;
+      border: none;
+      border-radius: 3px;
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        appearance: none;
+      }
+
+      &.is-active {
+        background: #eee;
+      }
+    }
+  }
+}
