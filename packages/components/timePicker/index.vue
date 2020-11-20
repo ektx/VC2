@@ -48,7 +48,11 @@ export default {
   components: {
     vcClock
   },
-  inject: ['vcFormItem'],
+  inject: {
+    vcFormItem: {
+      default: null
+    }
+  },
   props: {
     modelValue: {
       type: [Date, String],
