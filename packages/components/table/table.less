@@ -28,11 +28,6 @@
       td, th {
         background-color: #eee;
       }
-
-    }
-    
-    .empty td {
-      text-align: center;
     }
   }
 
@@ -67,5 +62,19 @@
     i {
       font-size: 14px;
     }
+  }
+
+  &__body {
+    overflow: auto;
+    border-bottom: 1px solid #eee;
+  }
+  &__empty {
+    display: grid;
+    height: 100%;
+    min-height: 200px;
+    place-items: center;
+    color: #999;
+    font-size: 1.2em;
+    text-align: center;
   }
 }

@@ -213,10 +213,12 @@ export default {
         {
           label: '姓名',
           key: 'name',
+          width: '180px'
         },
         {
           label: '时间',
           key: 'date',
+          width: '180px'
         },
         {
           label: '地址',
@@ -279,10 +281,12 @@ export default {
         {
           label: '姓名',
           key: 'name',
+          width: '180px'
         },
         {
           label: '时间',
           key: 'date',
+          width: '180px'
         },
         {
           label: '地址',
@@ -318,7 +322,7 @@ export default {
             address: `上海市普陀区金沙江路 ${1518 + i} 弄`
           })
         }
-      }, 500)
+      }, 5000)
 
     }
   }

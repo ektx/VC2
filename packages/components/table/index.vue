@@ -6,40 +6,17 @@
         <p>{{ typeof loading === 'boolean' ? 'Loading...' : loading }}</p>
       </div>
     </div>
-
-    <table :class="{'has-border': border}" :style="{height}">
-      <colgroup>
-        <col v-for="(h,i) in header" :key="i" :width="h.width"/>
-      </colgroup>
-      <thead>
-        <tr>
-          <th v-for="item in header" :key="item.label">{{item.label}}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <template v-if="currentData.length">
-          <tr v-for="(tr, i) in currentData" :key="i" :class="tr.classes">
-            <td v-for="td in header" :key="td.label">
-              <slot :name="td.slot" v-bind:item="tr" v-bind:index="i">
-                {{getTDHTML(tr, td)}}
-              </slot>
-            </td>
-          </tr>
-        </template>
-        <template v-else>
-          <tr class="empty">
-            <td 
-              v-if="!loading" 
-              :colspan="header.length" 
-            >
-              <div class="vc-table__empty">
-                <slot name="empty">没有数据</slot>
-              </div>
-            </td>
-          </tr>
-        </template>
-      </tbody>
-    </table>
+    <TableHeader />
+    <TableBody v-bind="$attrs">
+      <template v-for="head in header" :key="head.label" #[head.slot]="{item, index, tr, td}">
+        <slot :name="head.slot" :item="item" :index="index">
+          {{getTDHTML(tr, td)}}
+        </slot>
+      </template>
+      <template #empty>
+        <slot name="empty">没有数据</slot>
+      </template>
+    </TableBody>
     <div class="vc-table__pagination" v-show="pageTotal">
       <vc-pagination 
         :index="pageIndex" 
@@ -53,8 +30,20 @@
 </template>
 
 <script>
+import TableHeader from './tableHeader.vue'
+import TableBody from './tableBody.vue'
+
 export default {
   name: "VcTable",
+  components: {
+    TableBody,
+    TableHeader
+  },
+  provide() {
+    return {
+      vcTable: this
+    }
+  },
   props: {
     // 表格数据
     data: {
