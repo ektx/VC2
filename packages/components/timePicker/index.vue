@@ -12,6 +12,7 @@
         v-model="displayTime" 
         :disabled="disabled"
         :readonly="disabled"
+        :placeholder="placeholder"
         @click.stop="createPopperLayer"
         @blur="modelBlurEvt"
       >
@@ -70,6 +71,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    placeholder: {
+      type: String,
+      default: '请选择'
     }
   },
   data() {
@@ -180,6 +185,8 @@ export default {
     },
 
     getFormatValue(date, format) {
+      if (!date) return ''
+
       let result = []
       let { hour, minutes, seconds = 0 } = date
 
@@ -252,101 +259,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-.vc-time-picker {
-  &__clock-mod {
-    border-radius: 3px;
-    border: 1px solid rgba(0,8,16,.15);
-    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
-    background-color: #fff;
-
-    & > .arrow {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #fff;
-      transform: rotate(45deg);
-      border: 1px solid rgba(0,8,16,.15);
-    }
-
-    &[data-popper-placement^='bottom'] > .arrow {
-      top: -5px;
-      border-right: none;
-      border-bottom: none;
-    }
-    &[data-popper-placement^='top'] > .arrow {
-      bottom: -5px;
-      border-top: none;
-      border-left: none;
-    }
-  }
-
-  &__footer {
-    padding: 0 5px;
-    text-align: right;
-    border-top: 1px solid #ddd;
-
-    button {
-      padding: 7px;
-      color: #333;
-      font-size: 12px;
-      border: none;
-      outline: none;
-      background-color: #fff;
-      cursor: pointer;
-
-      &:last-child {
-        color: #09f;
-      }
-    }
-  }
-}
-
-.vc-time-picker__header {
-  position: relative;
-  font-size: 14px;
-  color: #333;
-  
-  & input {
-    padding: 5px 25px;
-    width: 200px;
-    border-radius: 3px;
-    border: 1px solid #dcdfe6;
-    box-sizing: border-box;
-    outline: none;
-    transition: border .3s;
-
-    &:hover {
-      border-color: #bbb;
-    }
-  }
-
-  & > i {
-    position: absolute;
-    top: 50%;
-    left: 6px;
-    transform: translateY(-50%);
-    color: #ccc;
-    transition: color .3s;
-  }
-
-  &.is-active {
-    input {
-      border-color: #09f;
-    }
-    i {
-      color: #09f;
-    }
-  }
-
-  &.is-disabled {
-    input:disabled {
-      cursor: not-allowed;
-      color: #aaa;
-      background-color: rgba(239, 239, 239, 0.3);
-      border-color: rgba(118, 118, 118, 0.3);
-    }
-  }
-}
-</style>
