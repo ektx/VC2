@@ -4,7 +4,8 @@
       'vc-form-item', 
       { 
         'is-column': isColumn,
-        'is-required': isRequired
+        'is-required': isRequired,
+        'is-error': validateState === 'error'
       }
     ]"
   >

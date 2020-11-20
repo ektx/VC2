@@ -104,6 +104,7 @@ export default {
         ],
         time: [
           { 
+            type: 'date',
             required: true, 
             message: '出发时间不能为空', 
             trigger: ['blur', 'change'],
