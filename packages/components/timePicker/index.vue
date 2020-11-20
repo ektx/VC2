@@ -48,6 +48,7 @@ export default {
   components: {
     vcClock
   },
+  inject: ['vcFormItem'],
   props: {
     modelValue: {
       type: [Date, String],
@@ -179,9 +180,14 @@ export default {
     },
 
     close() {
-      this.visible = false
-      this.layer && this.layer.destroy()
-      this.layer = null
+      if (this.visible) {
+        this.vcFormItem && this.vcFormItem.checkValidate('blur')
+  
+        this.visible = false
+        this.layer && this.layer.destroy()
+        this.layer = null
+        this.$emit('close')
+      }
     },
 
     getFormatValue(date, format) {
@@ -239,6 +245,8 @@ export default {
       }
 
       this.$emit('update:modelValue', value)
+      this.$emit('change', value)
+      this.vcFormItem && this.vcFormItem.checkValidate('change')
       this.close()
     },
     // 失焦更新时间
