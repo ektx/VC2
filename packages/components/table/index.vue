@@ -6,9 +6,9 @@
         <p>{{ typeof loading === 'boolean' ? 'Loading...' : loading }}</p>
       </div>
     </div>
-    <TableHeader />
-    <TableBody v-bind="$attrs">
-      <template v-for="head in header" :key="head.label" #[head.slot]="{item, index, tr, td}">
+    <TableHeader :header="_header"/>
+    <TableBody v-bind="$attrs" :header="_header">
+      <template v-for="head in _header" :key="head.label" #[head.slot]="{item, index, tr, td}">
         <slot :name="head.slot" :item="item" :index="index">
           {{getTDHTML(tr, td)}}
         </slot>
@@ -50,7 +50,15 @@ export default {
       type: Array,
       default: () => []
     },
-    // 表格头
+    /**
+     * 表格头
+     * {
+     *    label: {string} 标签,
+     *    key: {string/function}  data 中 key,或设置方法取值，参考【函数式表头】示例
+     *    slot: {string}  插槽名称,
+     *    width: {number/string} 设置列宽
+     * }
+     */
     header: {
       type: Array,
       default: () => []
@@ -99,6 +107,20 @@ export default {
 
         return this.data.slice(start, end)
       }
+    },
+    _header() {
+      return this.header.map(item => {
+        let width = 'auto'
+        
+        if ('width' in item) {
+          width = typeof item.width === 'number' ? item.width +'px' : item.width
+        }
+
+        return {
+          ...item,
+          width
+        }
+      })
     }
   },
   methods: {

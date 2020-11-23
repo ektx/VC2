@@ -2,11 +2,11 @@
   <div class="vc-table__body" :style="bodyStyle">
     <table v-if="vcTable.currentData.length" :class="{'has-border': vcTable.border}">
       <colgroup>
-        <col v-for="(h,i) in vcTable.header" :key="i" :width="h.width"/>
+        <col v-for="(h,i) in header" :key="i" :width="h.width"/>
       </colgroup>
       <tbody>
         <tr v-for="(tr, i) in vcTable.currentData" :key="i" :class="tr.classes">
-          <td v-for="td in vcTable.header" :key="td.label">
+          <td v-for="td in header" :key="td.label">
             <slot :name="td.slot" :item="tr" :index="i" :tr="tr" :td="td">
             </slot>
           </td>
@@ -24,6 +24,9 @@
 <script>
 export default {
   inject: ['vcTable'],
+  props: {
+    header: Array
+  },
   computed: {
     bodyStyle() {
       return {

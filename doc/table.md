@@ -20,12 +20,12 @@ export default {
         {
           label: '姓名',
           key: 'name',
-          width: '100px'
+          width: 100
         },
         {
           label: '时间',
           key: 'date',
-          width: '100px'
+          width: 100
         },
         {
           label: '地址',
@@ -163,12 +163,12 @@ export default {
         {
           label: '姓名',
           key: item => this.nameList[item.name],
-          width: '100px'
+          width: 100
         },
         {
           label: '时间',
           key: 'date',
-          width: '100px'
+          width: 100
         },
         {
           label: '地址',
@@ -322,7 +322,7 @@ export default {
             address: `上海市普陀区金沙江路 ${1518 + i} 弄`
           })
         }
-      }, 5000)
+      }, 500)
 
     }
   }
@@ -347,12 +347,12 @@ export default {
         {
           label: '姓名',
           key: 'name',
-          width: '100px'
+          width: 100
         },
         {
           label: '时间',
           key: 'date',
-          width: '100px'
+          width: 100
         },
         {
           label: '地址',
@@ -361,7 +361,7 @@ export default {
         {
           label: '设置',
           slot: 'setting',
-          width: '100px'
+          width: 100
         },
       ],
     }
@@ -396,12 +396,12 @@ export default {
         {
           label: '姓名',
           key: 'name',
-          width: '100px'
+          width: 100
         },
         {
           label: '时间',
           key: 'date',
-          width: '100px'
+          width: 100
         },
         {
           label: '地址',
@@ -487,12 +487,14 @@ export default {
         {
           label: '姓名',
           key: 'name',
-          slot: 'name'
+          slot: 'name',
+          width: 100
         },
         {
           label: '时间',
           key: 'date',
-          slot: 'date'
+          slot: 'date',
+          width: 180
         },
         {
           label: '地址',
@@ -533,15 +535,23 @@ export default {
 # Props
 | 参数 | 类型 | 说明 | 默认值 | 可选值 |
 | --- | --- | --- | --- | --- |
-| data | **Array** | 表格数据 | [] |  |
-| header | **Array** | 表格头 | [] |  |
-| pageTotal | **Number** | 总条数 |  |  |
-| pageIndex | **Number** | 当前页 | 1 |  |
-| pageSize | **Number** | 默认每页条数 | 10 |  |
+| data | **Array** | 表格数据 | [] | - |
+| header | **Array** | 表格头 | [] | - |
+| pageTotal | **Number** | 总条数 | - | - |
+| pageIndex | **Number** | 当前页 | 1 | - |
+| pageSize | **Number** | 默认每页条数 | 10 | - |
 | height | **String** | 高度 | auto | - |
 | asyncData | **Boolean** | 异步数据 | false | - |
-| loading | **Boolean/String** | 布尔值时，控股是否加载；<br/>字符串时，接受加载时文字 | false | - |
+| loading | **Boolean/String** | 布尔值时，控制是否加载；<br/>字符串时，加载时文字 | false | - |
 | border | **Boolean** | 显示边框，默认无 | auto | - |
+
+## Header Props
+| 参数 | 类型 | 说明 | 默认值 | 可选值 |
+| --- | --- | --- | --- | --- |
+| label | **string** | 标签 | - | - |
+| key | **string/function** | data 中 key<br/>或设置方法取值，参考【函数式表头】示例 | - | - |
+| slot | **string** | 插槽名称 | - | - |
+| width | **number/string** | 设置列宽 | - | - |
 
 # Events
 
