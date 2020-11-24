@@ -198,6 +198,7 @@ export default {
     v-model:pageIndex="index" 
     :page-total="data.length"
     height="200px"
+    border
   >
     <template #empty>
       <vc-button @click="add">添加 1000 条数据</vc-button>

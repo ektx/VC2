@@ -1,5 +1,5 @@
 <template>
-  <div :class="['vc-table__body', {'is-border': vcTable.border}]" :style="bodyStyle">
+  <div class="vc-table__body" :style="bodyStyle">
     <table v-if="vcTable.currentData.length" :class="{'has-border': vcTable.border}">
       <colgroup>
         <col v-for="(h,i) in header" :key="i" :width="h.width"/>
@@ -13,7 +13,7 @@
         </tr>
       </tbody>
     </table>
-    <div v-else class="vc-table__empty">
+    <div v-else :class="['vc-table__empty', {'is-border': vcTable.border}]">
       <div v-if="!vcTable.loading">
         <slot name="empty"></slot>
       </div>
