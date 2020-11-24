@@ -1,5 +1,5 @@
 <template>
-  <div class="vc-table__body" :style="bodyStyle">
+  <div :class="['vc-table__body', {'is-border': vcTable.border}]" :style="bodyStyle">
     <table v-if="vcTable.currentData.length" :class="{'has-border': vcTable.border}">
       <colgroup>
         <col v-for="(h,i) in header" :key="i" :width="h.width"/>
