@@ -134,11 +134,13 @@ export default {
     },
 
     close() {
-      // 标记组件关闭事件
-      this.toClose = true
-      this.visible = false
-      this.$emit('update:show', false)
-      this.$emit('close')
+      if (this.visible) {
+        // 标记组件关闭事件
+        this.toClose = true
+        this.visible = false
+        this.$emit('update:show', false)
+        this.$emit('close')
+      }
     },
 
     windowEvent(evt) {
