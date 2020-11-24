@@ -7,7 +7,7 @@
     <div 
       v-show="visible" 
       :class="['vc-layer', {'is-fullscreen': fullscreen}]" 
-      @click.self.stop="layerBoxClick"
+      @click.self="layerBoxClick"
     >
       <transition :name="contentAnimate">
         <div v-show="visible" class="vc-layer__inner" :style="style" @click.stop>
