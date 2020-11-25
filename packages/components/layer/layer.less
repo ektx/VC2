@@ -12,7 +12,7 @@
     width: 50%;
     margin: 100px auto;
     background-color: #fff;
-    border-radius: 3px;
+    border-radius: 10px;
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
 
     .vc-layer.is-fullscreen & {
@@ -24,11 +24,11 @@
     }
 
     & > .vc-layer__main {
-      padding: 10px 20px;
+      padding: 10px;
     }
 
     & > .vc-layer__footer {
-      padding: 10px 20px;
+      padding: 10px;
       text-align: right;
 
       button + button {
@@ -43,15 +43,21 @@
     color: #333;
     font-weight: 400;
     text-align: left;
-    padding: 15px 40px 10px 20px;
+    padding: 15px 40px 10px 10px;
 
     i {
       position: absolute;
       top: 18px;
-      right: 15px;
+      right: 10px;
       width: 20px;
       height: 20px;
       cursor: pointer;
+      opacity: .5;
+      transition: opacity .3s;
+
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 }
