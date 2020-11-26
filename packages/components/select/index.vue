@@ -9,7 +9,7 @@
         clearable,
       }
     ]" 
-    @click="focusEvt"
+    @click.stop="focusEvt"
   >
     <VS_Tags ref="tags" :selectedItem="selectedItem"/>
     <div ref="inputArea" class="vc-select__input">
@@ -275,10 +275,10 @@ export default {
     }
   },
   methods: {
-    focusEvt (e) {
-      e.stopPropagation()
-
+    focusEvt () {
       if (this.disabled) return
+      // 关闭其它层或事件
+      document.body.click()
 
       if (this.isOpen) {
         this.isOpen = false

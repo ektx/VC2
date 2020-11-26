@@ -1,0 +1,56 @@
+.vc-popover {
+  display: inline-block;
+
+  &__layer {
+    padding: 10px;
+    font-size: 14px;
+    color: #606266;
+    border: 1px solid rgba(0,8,16,.15);
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+    background-color: hsla(0, 0%, 100%, .5);
+    backdrop-filter: saturate(100%) blur(50px);
+    border-radius: 10px;
+    z-index: 100;
+
+    .arrow {
+      position: absolute;
+      width: 16px;
+      height: 6px;
+
+      svg {
+        vertical-align: top;
+        .svg-arrow {
+          fill: rgba(0,8,16,.15);
+        }
+        .svg-content {
+          fill: rgba(255, 255, 255, .6);
+        }
+      }
+    }
+
+    &[data-popper-placement^='top'] > .arrow {
+      bottom: -7px;
+      transform: rotate(180deg);
+    }
+    
+    &[data-popper-placement^='bottom'] > .arrow {
+      top: -7px;
+    }
+    
+    &[data-popper-placement^='left'] > .arrow {
+      right: -12px;
+      transform: rotate(90deg);
+    }
+    
+    &[data-popper-placement^='right'] > .arrow {
+      left: -12px;
+      transform: rotate(-90deg);
+    }
+  }
+
+  &__title {
+    padding: 0 0 5px;
+    font-size: 16px;
+    color: #333;
+  }
+}

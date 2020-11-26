@@ -1,6 +1,6 @@
 <template>
   <transition
-    name="vc-fade-animate"
+    name="vc-backdrop-animate"
     @after-leave="handlerAfterLeave"
   >
     <div 
@@ -35,6 +35,7 @@
             <vc-button
               v-for="btn in _buttons"
               :key="btn.label"
+              :type="btn.type"
               :color="btn.color"
               @click="btn.func"
             >{{ btn.label }}</vc-button>
@@ -118,6 +119,7 @@ export default {
           {
             label: '确认',
             color: 'primary',
+            type: 'text',
             func: this.confirmEvt
           }
         ]
@@ -125,6 +127,7 @@ export default {
         if (this.type !== 'alert') {
           result.unshift({
             label: '取消',
+            type: 'text',
             func: () => this.closeEvt('cancel')
           })
         }

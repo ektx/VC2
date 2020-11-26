@@ -39,6 +39,10 @@
     <vc-form-item label="活动人数" prop="total">
       <vc-input-number v-model="formData.total"/>
     </vc-form-item>
+    <!-- 时间选择 -->
+    <vc-form-item label="出发时间" prop="time">
+      <vc-time-picker v-model="formData.time"/>
+    </vc-form-item>
 
     <vc-form-item label="活动形式" prop="desc">
       <vc-input style="height: 100px" type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"/>
@@ -63,6 +67,7 @@ export default {
         name: '',
         color: '',
         days: '',
+        time: '',
         isOwnExpense: false,
         region: [],
         desc: 'text',
@@ -96,6 +101,14 @@ export default {
             message: '住宿时间不能小于 2', 
             trigger: ['blur', 'change'],
           },
+        ],
+        time: [
+          { 
+            type: 'date',
+            required: true, 
+            message: '出发时间不能为空', 
+            trigger: ['blur', 'change'],
+          }
         ],
         isOwnExpense: [
           {required: true, type: 'boolean', message: '费用方式不可为空', trigger: 'change'}

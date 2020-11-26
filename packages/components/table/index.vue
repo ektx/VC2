@@ -6,36 +6,17 @@
         <p>{{ typeof loading === 'boolean' ? 'Loading...' : loading }}</p>
       </div>
     </div>
-
-    <table :class="{'has-border': border}" :style="{height}">
-      <colgroup>
-        <col v-for="(h,i) in header" :key="i" :width="h.width"/>
-      </colgroup>
-      <thead>
-        <tr>
-          <th v-for="item in header" :key="item.label">{{item.label}}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <template v-if="currentData.length">
-          <tr v-for="(tr, i) in currentData" :key="i" :class="tr.classes">
-            <td v-for="td in header" :key="td.label">
-              <slot :name="td.slot" v-bind:item="tr" v-bind:index="i">
-                {{getTDHTML(tr, td)}}
-              </slot>
-            </td>
-          </tr>
-        </template>
-        <template v-else>
-          <tr class="empty">
-            <td 
-              v-if="!loading" 
-              :colspan="header.length" 
-            >没有数据</td>
-          </tr>
-        </template>
-      </tbody>
-    </table>
+    <TableHeader :header="_header"/>
+    <TableBody v-bind="$attrs" :header="_header">
+      <template v-for="head in _header" :key="head.label" #[head.slot]="{item, index, tr, td}">
+        <slot :name="head.slot" :item="item" :index="index">
+          {{getTDHTML(tr, td)}}
+        </slot>
+      </template>
+      <template #empty>
+        <slot name="empty">没有数据</slot>
+      </template>
+    </TableBody>
     <div class="vc-table__pagination" v-show="pageTotal">
       <vc-pagination 
         :index="pageIndex" 
@@ -49,15 +30,35 @@
 </template>
 
 <script>
+import TableHeader from './tableHeader.vue'
+import TableBody from './tableBody.vue'
+
 export default {
   name: "VcTable",
+  components: {
+    TableBody,
+    TableHeader
+  },
+  provide() {
+    return {
+      vcTable: this
+    }
+  },
   props: {
     // 表格数据
     data: {
       type: Array,
       default: () => []
     },
-    // 表格头
+    /**
+     * 表格头
+     * {
+     *    label: {string} 标签,
+     *    key: {string/function}  data 中 key,或设置方法取值，参考【函数式表头】示例
+     *    slot: {string}  插槽名称,
+     *    width: {number/string} 设置列宽
+     * }
+     */
     header: {
       type: Array,
       default: () => []
@@ -106,6 +107,20 @@ export default {
 
         return this.data.slice(start, end)
       }
+    },
+    _header() {
+      return this.header.map(item => {
+        let width = 'auto'
+        
+        if ('width' in item) {
+          width = typeof item.width === 'number' ? item.width +'px' : item.width
+        }
+
+        return {
+          ...item,
+          width
+        }
+      })
     }
   },
   methods: {

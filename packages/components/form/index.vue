@@ -135,15 +135,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-.vc-form {
-  &.inline {
-    display: flex;
-
-    .vc-form-item {
-      margin-right: 10px;
-    }
-  }
-}
-</style>

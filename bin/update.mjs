@@ -27,6 +27,7 @@ function createIndexJS(compomentArr) {
   let data = `/* 以下代码自动生成于 ${Date()} */\n\n`
   let imports = []
   let components = []
+  let exportComponents = '\n'
   let exportObj = ['install']
   let installStr = `
 const install = app => {
@@ -35,23 +36,32 @@ const install = app => {
       app.component(item.name, item)
     } else {
       app.provide(item.name, item.function)  
-      // 绑定 ctx 上
+      // 绑定 ctx 上(不建议使用全局，后期将要移除)
+      // 建议动态导入
       app.config.globalProperties[item.name] = item.function
     }
   })
 }`
 
   compomentArr.forEach(({dir, file}) => {
-    let name = 'vc' + dir[0].toUpperCase() + dir.slice(1)
+    let name = dir[0].toUpperCase() + dir.slice(1)
+    let comName = 'vc' + name
+
     imports.push(`import ${name} from './components/${dir}/${file}'`)
     components.push(name)
     exportObj.push(name)
+
+    if (file.endsWith('.js')) {
+      exportComponents += `\nexport const ${comName} = ${name}.function`
+    } else {
+      exportComponents += `\nexport const ${comName} = ${name}`
+    }
   })
 
   components = `\n\nconst components = [\n  ${components.join(',\n  ')}\n]\n`
   exportObj = '\n\nexport default {\n  version: "'+ version+'",\n  ' + exportObj.join(',\n  ') + '\n}\n'
 
-  data += imports.join('\n') + components + installStr + exportObj
+  data += imports.join('\n') + components + installStr + exportComponents + exportObj
 
   fs.writeFile(savePath, data, {encoding: 'utf8'}, (err) => {
     if (err) throw Error(err)

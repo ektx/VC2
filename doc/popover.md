@@ -156,13 +156,13 @@ export default {
   v-model="visible"
   trigger="manual" 
   width="200px"
-  placement="bottom"
+  placement="left"
   content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
 >
   <p>这是一段内容确定删除吗？</p>
-  <div style="text-align: right; margin: 10px">
+  <div style="text-align: right; margin-top: 10px">
     <vc-button type="text" @click="visible = false">取消</vc-button>
-    <vc-button color="primary" @click="visible = false">确定</vc-button>
+    <vc-button type="text" color="primary" @click="visible = false">确定</vc-button>
   </div>
   <template #reference>
     <vc-button @click="visible = !visible">手动激活</vc-button>

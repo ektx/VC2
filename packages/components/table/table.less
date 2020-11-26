@@ -19,6 +19,7 @@
       padding: 10px 5px;
       font-size: 14px;
       color: #666;
+      word-break: break-all;
       border-bottom: 1px solid #eee;
       background-color: transparent;
       transition: background-color .3s ease-in-out;
@@ -28,12 +29,6 @@
       td, th {
         background-color: #eee;
       }
-
-    }
-    
-    .empty td {
-      line-height: 100px;
-      text-align: center;
     }
   }
 
@@ -53,9 +48,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    place-items: center;
     color: @color-text-regular;
     background: rgba(255, 255, 255, .5);
 
@@ -68,6 +62,25 @@
 
     i {
       font-size: 14px;
+    }
+  }
+
+  &__body {
+    overflow: auto;
+    border-bottom: 1px solid #eee;
+
+  }
+  &__empty {
+    display: grid;
+    height: 100%;
+    min-height: 200px;
+    place-items: center;
+    color: #999;
+    font-size: 1.2em;
+    text-align: center;
+
+    &.is-border {
+      border: 1px solid #eee;
     }
   }
 }

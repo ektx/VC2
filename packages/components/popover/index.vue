@@ -3,7 +3,7 @@
     class="vc-popover"
     @mouseenter="hoverEvt"
     @mouseleave="leaveEvt"
-    @click.stop="clickEvt"
+    @click="clickEvt"
   >
     <teleport to="body">
       <transition name="vc-fade">
@@ -13,11 +13,16 @@
           class="vc-popover__layer"
           :style="{width}"
         >
-          <div class="vc-popover__title">
+          <div v-if="title" class="vc-popover__title">
             <slot name="title">{{ title }}</slot>
           </div>
           <slot>{{ content }}</slot>
-          <div class="arrow" data-popper-arrow></div>
+          <div class="arrow" data-popper-arrow>
+            <svg id="svg" width="16" height="6">
+              <path class="svg-arrow" d="M0 6s1.796-.013 4.67-3.615C5.851.9 6.93.006 8 0c1.07-.006 2.148.887 3.343 2.385C14.233 6.005 16 6 16 6H0z"></path>
+              <path class="svg-content" d="m0 7s2 0 5-4c1-1 2-2 3-2 1 0 2 1 3 2 3 4 5 4 5 4h-16z"></path>
+            </svg>
+          </div>
         </div>
       </transition>
     </teleport>
@@ -72,7 +77,8 @@ export default {
   data() {
     return {
       tooltip: null,
-      isShow: false
+      isShow: false,
+      onClick: false
     }
   },
   mounted() {
@@ -97,11 +103,16 @@ export default {
     },
     clickEvt() {
       if (this.trigger !== 'click') return
+      this.onClick = true
       this.isShow = true
       this.createPopperLayer()
     },
     hide() {
       if (!this.tooltip) return
+      if (this.onClick) {
+        this.onClick = false
+        return
+      }
       // 如果是手动，不能全局关闭
       if (this.modelValue) return
 
@@ -153,59 +164,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-.vc-popover {
-  display: inline-block;
-
-  &__layer {
-    padding: 10px;
-    font-size: 14px;
-    color: #606266;
-    border: 1px solid rgba(0,8,16,.15);
-    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
-    background: #fff;
-    border-radius: 5px;
-    z-index: 100;
-
-    .arrow {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #fff;
-      transform: rotate(45deg);
-      border: 1px solid rgba(0,8,16,.15);
-    }
-
-    &[data-popper-placement^='top'] > .arrow {
-      bottom: -5px;
-      border-top: none;
-      border-left: none;
-    }
-    
-    &[data-popper-placement^='bottom'] > .arrow {
-      top: -5px;
-      border-right: none;
-      border-bottom: none;
-    }
-    
-    &[data-popper-placement^='left'] > .arrow {
-      right: -5px;
-      border-left: none;
-      border-bottom: none;
-    }
-    
-    &[data-popper-placement^='right'] > .arrow {
-      left: -5px;
-      border-right: none;
-      border-top: none;
-    }
-  }
-
-  &__title {
-    padding: 0 0 5px;
-    font-size: 16px;
-    color: #333;
-  }
-}
-</style>

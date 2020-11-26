@@ -20,12 +20,12 @@ export default {
         {
           label: '姓名',
           key: 'name',
-          width: '100px'
+          width: 100
         },
         {
           label: '时间',
           key: 'date',
-          width: '100px'
+          width: 100
         },
         {
           label: '地址',
@@ -131,24 +131,8 @@ export default {
 <script>
 export default {
   data () {
-    let nameList = ['秦一世', '秦二世', '秦三世', '秦四世']
     return {
-      header: [
-        {
-          label: '姓名',
-          key: (item) => nameList[item.name],
-          width: '100px'
-        },
-        {
-          label: '时间',
-          key: 'date',
-          width: '100px'
-        },
-        {
-          label: '地址',
-          key: 'address',
-        }
-      ],
+      nameList: ['秦一世', '秦二世', '秦三世', '秦四世'],
       data: [
         {
           date: "2020-9-14",
@@ -172,11 +156,32 @@ export default {
         }
       ],
     }
+  },
+  computed: {
+    header() {
+      return [
+        {
+          label: '姓名',
+          key: item => this.nameList[item.name],
+          width: 100
+        },
+        {
+          label: '时间',
+          key: 'date',
+          width: 100
+        },
+        {
+          label: '地址',
+          key: 'address',
+        }
+      ]
+    }
   }
 }
 </script>
 ```
 :::
+
 
 ## 带有分页
 
@@ -192,9 +197,13 @@ export default {
     :data="data" 
     v-model:pageIndex="index" 
     :page-total="data.length"
-  />
-  
-  <vc-button @click="add">添加 1000 条数据</vc-button>
+    height="200px"
+    border
+  >
+    <template #empty>
+      <vc-button @click="add">添加 1000 条数据</vc-button>
+    </template>
+  </vc-table>
 </template>
 
 <script>
@@ -205,10 +214,12 @@ export default {
         {
           label: '姓名',
           key: 'name',
+          width: '180px'
         },
         {
           label: '时间',
           key: 'date',
+          width: '180px'
         },
         {
           label: '地址',
@@ -255,9 +266,12 @@ export default {
     v-model:pageIndex="index" 
     :page-total="total"
     @page-change="pageChange"
-  />
-  
-  <vc-button @click="pageChange(1)">添加数据</vc-button>
+  >
+    <template #empty>
+      <p>没有数据</p>
+      <vc-button @click="pageChange(1)">添加数据</vc-button>
+    </template>
+  </vc-table>
 </template>
 
 <script>
@@ -268,10 +282,12 @@ export default {
         {
           label: '姓名',
           key: 'name',
+          width: '180px'
         },
         {
           label: '时间',
           key: 'date',
+          width: '180px'
         },
         {
           label: '地址',
@@ -332,12 +348,12 @@ export default {
         {
           label: '姓名',
           key: 'name',
-          width: '100px'
+          width: 100
         },
         {
           label: '时间',
           key: 'date',
-          width: '100px'
+          width: 100
         },
         {
           label: '地址',
@@ -346,7 +362,7 @@ export default {
         {
           label: '设置',
           slot: 'setting',
-          width: '100px'
+          width: 100
         },
       ],
     }
@@ -381,12 +397,12 @@ export default {
         {
           label: '姓名',
           key: 'name',
-          width: '100px'
+          width: 100
         },
         {
           label: '时间',
           key: 'date',
-          width: '100px'
+          width: 100
         },
         {
           label: '地址',
@@ -472,12 +488,14 @@ export default {
         {
           label: '姓名',
           key: 'name',
-          slot: 'name'
+          slot: 'name',
+          width: 100
         },
         {
           label: '时间',
           key: 'date',
-          slot: 'date'
+          slot: 'date',
+          width: 180
         },
         {
           label: '地址',
@@ -518,15 +536,23 @@ export default {
 # Props
 | 参数 | 类型 | 说明 | 默认值 | 可选值 |
 | --- | --- | --- | --- | --- |
-| data | **Array** | 表格数据 | [] |  |
-| header | **Array** | 表格头 | [] |  |
-| pageTotal | **Number** | 总条数 |  |  |
-| pageIndex | **Number** | 当前页 | 1 |  |
-| pageSize | **Number** | 默认每页条数 | 10 |  |
+| data | **Array** | 表格数据 | [] | - |
+| header | **Array** | 表格头 | [] | - |
+| pageTotal | **Number** | 总条数 | - | - |
+| pageIndex | **Number** | 当前页 | 1 | - |
+| pageSize | **Number** | 默认每页条数 | 10 | - |
 | height | **String** | 高度 | auto | - |
 | asyncData | **Boolean** | 异步数据 | false | - |
-| loading | **Boolean/String** | 布尔值时，控股是否加载；<br/>字符串时，接受加载时文字 | false | - |
+| loading | **Boolean/String** | 布尔值时，控制是否加载；<br/>字符串时，加载时文字 | false | - |
 | border | **Boolean** | 显示边框，默认无 | auto | - |
+
+## Header Props
+| 参数 | 类型 | 说明 | 默认值 | 可选值 |
+| --- | --- | --- | --- | --- |
+| label | **string** | 标签 | - | - |
+| key | **string/function** | data 中 key<br/>或设置方法取值，参考【函数式表头】示例 | - | - |
+| slot | **string** | 插槽名称 | - | - |
+| width | **number/string** | 设置列宽 | - | - |
 
 # Events
 

@@ -9,8 +9,8 @@
   <vc-layer v-model:show="open" title="hello world" append-to-body>
     <p>这是一段信息</p>
     <template #footer>
-      <vc-button @click="open = false">取消</vc-button>
-      <vc-button color="primary" @click="open = false">确认</vc-button>
+      <vc-button type="text" @click="open = false">取消</vc-button>
+      <vc-button type="text" color="primary" @click="open = false">确认</vc-button>
     </template>
   </vc-layer>
 </template>
@@ -67,10 +67,6 @@ export default {
     @close="close"
   >
     <p>这是一段信息</p>
-    <template #footer>
-      <vc-button @click="open = false">取消</vc-button>
-      <vc-button color="primary" @click="open = false">确认</vc-button>
-    </template>
   </vc-layer>
 </template>
 
@@ -83,7 +79,16 @@ export default {
   },
   methods: {
     beforeClose(done) {
-      done()
+      this.VcConfirm({
+        title: '提示',
+        message: '你确定关闭吗',
+        type: 'confirm'
+      }).then(data => {
+        console.log('确认了消息:'+data)
+        done()
+      }).catch(err => {
+        console.log('关闭了消息:'+err)
+      })
     },
     close() {
       this.vcMessage.info('close')
@@ -93,6 +98,37 @@ export default {
 </script>
 ```
 :::
+
+## 阻止默认事件效果
+
+::: demo 
+
+> 此效果主要表现在用户的事件阻止了传播。此时，动画为从上到下效果。
+
+```html
+<template>
+  <vc-button @click.stop="open = !open">Open Layer - {{open}}</vc-button>
+  <vc-layer v-model:show="open" title="hello world" append-to-body>
+    <p>这是一段信息</p>
+    <template #footer>
+      <vc-button type="text" @click="open = false">取消</vc-button>
+      <vc-button type="text" color="primary" @click="open = false">确认</vc-button>
+    </template>
+  </vc-layer>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      open: false
+    }
+  }
+};
+</script>
+```
+:::
+
 
 ## Poprs
 
