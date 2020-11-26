@@ -9,8 +9,8 @@
   <vc-layer v-model:show="open" title="hello world" append-to-body>
     <p>这是一段信息</p>
     <template #footer>
-      <vc-button @click="open = false">取消</vc-button>
-      <vc-button color="primary" @click="open = false">确认</vc-button>
+      <vc-button type="text" @click="open = false">取消</vc-button>
+      <vc-button type="text" color="primary" @click="open = false">确认</vc-button>
     </template>
   </vc-layer>
 </template>
@@ -111,8 +111,8 @@ export default {
   <vc-layer v-model:show="open" title="hello world" append-to-body>
     <p>这是一段信息</p>
     <template #footer>
-      <vc-button @click="open = false">取消</vc-button>
-      <vc-button color="primary" @click="open = false">确认</vc-button>
+      <vc-button type="text" @click="open = false">取消</vc-button>
+      <vc-button type="text" color="primary" @click="open = false">确认</vc-button>
     </template>
   </vc-layer>
 </template>
