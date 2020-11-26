@@ -1,12 +1,12 @@
-/* 以下代码自动生成于 Wed Nov 25 2020 17:02:29 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Thu Nov 26 2020 13:53:00 GMT+0800 (中国标准时间) */
 
-import ButtonGroup from './components/buttonGroup/index.vue'
 import Button from './components/button/index.vue'
 import Collapse from './components/collapse/index.vue'
+import ButtonGroup from './components/buttonGroup/index.vue'
 import CollapseItem from './components/collapseItem/index.vue'
 import ColorPicker from './components/colorPicker/index.vue'
-import Confirm from './components/confirm/index.js'
 import Form from './components/form/index.vue'
+import Confirm from './components/confirm/index.js'
 import FormItem from './components/formItem/index.vue'
 import Icon from './components/icon/index.vue'
 import Input from './components/input/index.vue'
@@ -17,9 +17,9 @@ import Notification from './components/notification/index.js'
 import OperationList from './components/operationList/index.vue'
 import Pagination from './components/pagination/index.vue'
 import Popover from './components/popover/index.vue'
-import Radio from './components/radio/index.vue'
 import RadioGroup from './components/radioGroup/index.vue'
 import Select from './components/select/index.vue'
+import Radio from './components/radio/index.vue'
 import Switch from './components/switch/index.vue'
 import TabPane from './components/tabPane/index.vue'
 import Table from './components/table/index.vue'
@@ -27,13 +27,13 @@ import Tabs from './components/tabs/index.vue'
 import TimePicker from './components/timePicker/index.vue'
 
 const components = [
-  ButtonGroup,
   Button,
   Collapse,
+  ButtonGroup,
   CollapseItem,
   ColorPicker,
-  Confirm,
   Form,
+  Confirm,
   FormItem,
   Icon,
   Input,
@@ -44,9 +44,9 @@ const components = [
   OperationList,
   Pagination,
   Popover,
-  Radio,
   RadioGroup,
   Select,
+  Radio,
   Switch,
   TabPane,
   Table,
@@ -67,13 +67,13 @@ const install = app => {
   })
 }
 
-export const vcButtonGroup = ButtonGroup
 export const vcButton = Button
 export const vcCollapse = Collapse
+export const vcButtonGroup = ButtonGroup
 export const vcCollapseItem = CollapseItem
 export const vcColorPicker = ColorPicker
-export const vcConfirm = Confirm.function
 export const vcForm = Form
+export const vcConfirm = Confirm.function
 export const vcFormItem = FormItem
 export const vcIcon = Icon
 export const vcInput = Input
@@ -84,9 +84,9 @@ export const vcNotification = Notification.function
 export const vcOperationList = OperationList
 export const vcPagination = Pagination
 export const vcPopover = Popover
-export const vcRadio = Radio
 export const vcRadioGroup = RadioGroup
 export const vcSelect = Select
+export const vcRadio = Radio
 export const vcSwitch = Switch
 export const vcTabPane = TabPane
 export const vcTable = Table
@@ -96,13 +96,13 @@ export const vcTimePicker = TimePicker
 export default {
   version: "1.8.3",
   install,
-  ButtonGroup,
   Button,
   Collapse,
+  ButtonGroup,
   CollapseItem,
   ColorPicker,
-  Confirm,
   Form,
+  Confirm,
   FormItem,
   Icon,
   Input,
@@ -113,9 +113,9 @@ export default {
   OperationList,
   Pagination,
   Popover,
-  Radio,
   RadioGroup,
   Select,
+  Radio,
   Switch,
   TabPane,
   Table,
