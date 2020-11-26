@@ -13,7 +13,7 @@
           class="vc-popover__layer"
           :style="{width}"
         >
-          <div class="vc-popover__title">
+          <div v-if="title" class="vc-popover__title">
             <slot name="title">{{ title }}</slot>
           </div>
           <slot>{{ content }}</slot>
