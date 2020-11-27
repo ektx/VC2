@@ -7,10 +7,8 @@
 ```html
 <template>
   <vc-upload 
-    action="https://jsonplaceholder.typicode.com/posts/"
-    :on-preview="handlePreview"
-    :on-success="handleSuccess"
-    maxSzie="1"
+    action="http://localhost:9000/api/file/admin/uploadPhoto"
+    :maxSzie="1"
   />
 </template>
 ```
