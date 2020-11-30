@@ -51,9 +51,10 @@ export default {
      * 自定义颜色
      * 1. string 具体的颜色值
      * 2. array  颜色数组
+     * 3. function: color 函数，返回颜色值
      */
     color: {
-      type: [String, Array],
+      type: [String, Array, Function],
       default: ''
     }
   },
@@ -99,6 +100,11 @@ export default {
                 break
               }
             }
+            break
+          }
+          case 'function': {
+            obj.background = this.color(this.percentage.val* 100)
+            break
           }
         } 
       }
@@ -126,11 +132,12 @@ export default {
     height: 6px;
     border-radius: 6px;
     background: #eee;
+    overflow: hidden;
 
     &__outer {
       position: relative;
       height: 100%;
-      border-radius: inherit;
+      // border-radius: inherit;
       color: inherit;
       background-color: currentColor;
       overflow: hidden;
@@ -158,11 +165,13 @@ export default {
 
       span {
         display: grid;
+        padding-bottom: 2px;
         height: 100%;
         margin: 0 3px;
         color: #fff;
         text-align: right;
         align-items: center;
+        box-sizing: border-box;
       }
     }
   }

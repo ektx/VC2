@@ -15,27 +15,16 @@
 ```
 :::
 
-
 ## 隐藏提示
 
-::: demo 
-```html
-<template>
-  <vc-progress text-type="none" :value="30"/>
-  <vc-progress text-type="none" :value="100">完成</vc-progress>
-  <vc-progress text-type="none" :value="90" status="error"/>
- 
-  <vc-progress text-type="inner" :stroke-width="20" :value="30"/>
-  <vc-progress text-type="inner" :stroke-width="20" :value="100">完成</vc-progress>
-  <vc-progress text-type="inner" :stroke-width="20" :value="90" status="error"/>
-</template>
-```
-:::
-
-
-## 隐藏提示
+百分比不占用额外控件，适用于文件上传等场景。
 
 ::: demo 
+
+> Progress 组件可通过 `stroke-width` 属性更改进度条的高度。  
+> `text-type="none"` 属性来将进度条描述隐藏。  
+> `text-type="inner"` 属性来将进度条描述置于进度条内部。  
+
 ```html
 <template>
   <vc-progress text-type="none" :value="30"/>
@@ -51,12 +40,14 @@
 
 ## 自定义颜色
 
+可以通过 `color` 设置进度条的颜色，`color` 可以接受颜色字符串，函数和数组。 
+
 ::: demo 
 ```html
 <template>
   <vc-progress :value="value" color="#f90"/>
   <vc-progress :value="value" :color="customColors"/>
-  <vc-progress :value="value"/>
+  <vc-progress :value="value" :color="customColorsFun"/>
  
   <vc-button-group>
     <vc-button icon="vc-icon-minus" @click="del"/>
@@ -88,6 +79,15 @@ export default {
       let val = this.value - 10
 
       this.value = val > 0 ? val : 0
+    },
+    customColorsFun(percentage) {
+      if (percentage < 30) {
+        return '#909399';
+      } else if (percentage < 70) {
+        return '#e6a23c';
+      } else {
+        return '#67c23a';
+      }
     }
   }
 }
