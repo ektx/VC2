@@ -1,19 +1,36 @@
 <template>
-  <div :class="['vc-progress', status, {'is-hide-text': textType !== 'outer'}]">
+  <div :class="[
+    'vc-progress', status, 
+    {'is-hide-text': textType !== 'outer', 'is-space': format}
+  ]">
     <div class="vc-progress-bar" :style="barStyle">
       <div 
-        :class="['vc-progress-bar__outer', {'is-active': !percentage.done}]" 
-        :style="outStyle"
+        v-for="item in progressList.children"
+        :key="item.label"
+        :class="['vc-progress-bar__item', {'is-active': !format}]" 
+        :style="getItemStyle(item)"
       >
-        <span v-if="textType === 'inner'">{{ percentage.str }}</span>
+        <span v-if="textType === 'inner'">{{ item.width }}</span>
       </div>
     </div>
-    <div v-if="textType === 'outer'" class="vc-progress-text">
-      <span v-if="status === 'default'">
-        <slot>{{ percentage.str }}</slot>
-      </span>
-      <i v-else :class="statusIcon"></i>
-    </div>
+    <template v-if="format">
+      <ul class="vc-progress__space-list">
+        <li 
+          v-for="item in progressList.children"
+          :key="item.label"
+        > 
+          <i :style="{background: item.color}"></i>{{ item.label }}
+        </li>
+      </ul>
+    </template>
+    <template v-else>
+      <div v-if="textType === 'outer'" class="vc-progress-text">
+        <span v-if="status === 'default'">
+          <slot>{{ progressList.usedPerStr }}</slot>
+        </span>
+        <i v-else :class="statusIcon"></i>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -22,7 +39,7 @@ export default {
   name: 'VcProgress',
   props: {
     value: {
-      type: Number,
+      type: [Number, Object],
       default: 0
     },
     max: {
@@ -56,22 +73,53 @@ export default {
     color: {
       type: [String, Array, Function],
       default: ''
+    },
+    // 空间效果格式化
+    format: {
+      type: Object,
+      default: () => (null)
     }
   },
   computed: {
     total() {
       return this.max - this.min
     },
-    percentage() {
-      let val = this.value / this.total
-
-      val = val > 1 ? 1 : val
-
-      return {
-        val,
-        done: val === 1,
-        str: val * 100 + '%'
+    progressList() {
+      let obj = {
+        used: 0,
+        usedPer: 0,
+        usedPerStr: '0%',
+        children: {}
       }
+      
+      if (typeof this.value === 'number') {
+        let val = this.value / this.total
+
+        obj.children.default = {
+          label: '',
+          color: '',
+          percentage: val,
+          width: val * 100 + '%'
+        }
+        obj.used = this.value
+        obj.usedPer = val
+        obj.usedPerStr = val * 100 + '%'
+      } else {
+        for (let key in this.format) {
+          let item = this.format[key]
+          let val = this.value[key] / this.total
+
+          console.log(item)
+          obj.children[key] = {
+            label: item.label,
+            color: item.color,
+            percentage: val,
+            width: val * 100 + '%'
+          }
+        }
+      }
+
+      return obj
     },
     statusIcon() {
       return `vc-icon-${this.status}`
@@ -82,10 +130,10 @@ export default {
         borderRadius: this.strokeWidth + 'px'
       }
     },
-    outStyle() {
-      let obj = {
-        width: this.percentage.str
-      }
+  },
+  methods: {
+    getItemStyle({ width, color }) {
+      let obj = { width }
 
       if (this.color) {
         switch (typeof this.color) {
@@ -103,10 +151,12 @@ export default {
             break
           }
           case 'function': {
-            obj.background = this.color(this.percentage.val* 100)
+            obj.background = this.color(this.progressList.usedPer * 100)
             break
           }
         } 
+      } else {
+        obj.background = color
       }
 
       return obj
@@ -114,96 +164,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-.vc-progress {
-  position: relative;
-  display: grid;
-  margin: 10px 0;
-  grid-template-columns: 1fr 3em;
-  column-gap: 10px;
-  align-items: center;
-
-  &.is-hide-text {
-    grid-template-columns: 1fr;
-  }
-
-  &-bar {
-    height: 6px;
-    border-radius: 6px;
-    background: #eee;
-    overflow: hidden;
-
-    &__outer {
-      position: relative;
-      height: 100%;
-      // border-radius: inherit;
-      color: inherit;
-      background-color: currentColor;
-      overflow: hidden;
-      transition: width .3s, background .3s;
-
-      &.is-active::after {
-        position: absolute;
-        top: 0;
-        left: 0;
-        content: '';
-        display: block;
-        width: 40%;
-        height: 100%;
-        transform: translateX(-100%);
-        background: rgb(255,255,255);
-        background: linear-gradient(
-          270deg, 
-          rgba(255,255,255,0) 0%, 
-          rgba(255,255,255,.2) 30%, 
-          rgba(255,255,255,.2) 70%, 
-          rgba(255,255,255,0) 100%
-        );
-        animation: vc-progress-active 1.5s infinite linear;
-      }
-
-      span {
-        display: grid;
-        padding-bottom: 2px;
-        height: 100%;
-        margin: 0 3px;
-        color: #fff;
-        text-align: right;
-        align-items: center;
-        box-sizing: border-box;
-      }
-    }
-  }
-  &-text {
-    font-size: 12px;
-    color: inherit;
-
-    & > span {
-      color: #333;
-    }
-  }
-
-  &.default {
-    color: #09f;
-  }
-  &.success {
-    color: #4caf50;
-  }
-  &.warning {
-    color: #ff9800;
-  }
-  &.error {
-    color: #ff4d4f;
-  }
-
-  @keyframes vc-progress-active {
-    0% {
-      left: 0%;
-    }
-    100% {
-      left: 150%;
-    }
-  }
-}
-</style>
