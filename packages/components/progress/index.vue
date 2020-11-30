@@ -109,7 +109,6 @@ export default {
           let item = this.format[key]
           let val = this.value[key] / this.total
 
-          console.log(item)
           obj.children[key] = {
             label: item.label,
             color: item.color,
