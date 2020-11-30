@@ -31,6 +31,10 @@ export default [
       {
         "label": "Table 表格",
         "to": "/doc/table"
+      },
+      {
+        "label": "Progress 进度条",
+        "to": "/doc/progress"
       }
     ]
   },
