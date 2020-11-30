@@ -45,7 +45,7 @@ export default {
   watch: {
     isOpen: {
       handler (val) {
-        this.$nextTick(() => {
+        setTimeout(() =>{
           let { scrollHeight: H } = this.$el.querySelector('.vc-collapse-item__wrap')
     
           this._contentStyle.height = H + 'px'
