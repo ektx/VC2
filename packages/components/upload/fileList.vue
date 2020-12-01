@@ -11,14 +11,19 @@
           {{ item.name }}
         </span>
         <span class="item-status">{{item.__status}}</span>
-        <div>{{item.__progress}}</div>
+        <VCProgress text-type="none" :value="item.__progress"/>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import VCProgress from '../progress/index.vue'
+
 export default {
+  components: {
+    VCProgress
+  },
   props: {
     list: {
       type: Array,

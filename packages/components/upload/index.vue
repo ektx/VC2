@@ -82,7 +82,46 @@ export default {
     },
 
     uploadFile() {
+      if (!this.action) {
+        console.error('[VC Error] 没有上传地址。')
+        this.$emit('error', '没有上传地址')
+        return
+      }
 
+      this.fileList.forEach(file => {
+        this.sendFile(file)
+      })
+    },
+
+    sendFile(file) {
+      let FD = new FormData()
+      FD.append(this.name, file.file)
+
+      let xhr = new XMLHttpRequest()
+      xhr.open('POST', this.action, true)
+      xhr.onreadystatechange = ()=> {
+        console.log('state change:', xhr.readyState)
+        if (xhr.readyState == 4) {
+          console.log('Done!')
+        }
+      }
+      xhr.onerror = evt => {
+        console.error('[VC Error]', evt, file.name)
+        this.$emit('error', file, this.fileList)
+      }
+      xhr.onload = evt => {
+        console.log('load', evt, file)
+        file.__status = 'uploaded'
+        this.$emit('success', evt.target.response, file, this.fileList)
+      }
+      xhr.onprogress = evt => {
+        file.__status = 'uploading'
+
+        if (evt.lengthComputable) {
+          file.__progress = evt.loaded / evt.total * 100
+        }
+      }
+      xhr.send(FD)
     }
   }
 }
