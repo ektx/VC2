@@ -1,11 +1,17 @@
+@import '../../styles/function.less';
+
 .vc-confirm {
+  @bgColor: rgba(0, 0, 0, .3);
+
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   z-index: 2000;
-  background-color: rgba(0, 0, 0, .1);
+  background-color: @bgColor;
+
+  .backdropAnimate(vc-confirm, @bgColor);
   
   &-box {
     width: 400px;
