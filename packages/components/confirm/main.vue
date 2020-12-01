@@ -1,6 +1,6 @@
 <template>
   <transition
-    name="vc-backdrop-animate"
+    name="vc-confirm-backdrop-animate"
     @after-leave="handlerAfterLeave"
   >
     <div 

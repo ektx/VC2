@@ -7,8 +7,8 @@
     color: #606266;
     border: 1px solid rgba(0,8,16,.15);
     box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
-    background-color: hsla(0, 0%, 100%, .5);
-    backdrop-filter: saturate(100%) blur(50px);
+    background-color: hsla(0, 0%, 100%, .85);
+    backdrop-filter: saturate(100%) blur(10px);
     border-radius: 10px;
     z-index: 100;
 
@@ -23,27 +23,27 @@
           fill: rgba(0,8,16,.15);
         }
         .svg-content {
-          fill: rgba(255, 255, 255, .6);
+          fill: #fff;
         }
       }
     }
 
     &[data-popper-placement^='top'] > .arrow {
-      bottom: -7px;
+      bottom: -6px;
       transform: rotate(180deg);
     }
     
     &[data-popper-placement^='bottom'] > .arrow {
-      top: -7px;
+      top: -6px;
     }
     
     &[data-popper-placement^='left'] > .arrow {
-      right: -12px;
+      right: -11px;
       transform: rotate(90deg);
     }
     
     &[data-popper-placement^='right'] > .arrow {
-      left: -12px;
+      left: -11px;
       transform: rotate(-90deg);
     }
   }

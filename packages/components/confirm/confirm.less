@@ -1,19 +1,25 @@
+@import '../../styles/function.less';
+
 .vc-confirm {
+  @bgColor: rgba(0, 0, 0, .3);
+
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   z-index: 2000;
-  background-color: rgba(0, 0, 0, .1);
+  background-color: @bgColor;
+
+  .backdropAnimate(vc-confirm, @bgColor);
   
   &-box {
     width: 400px;
     margin: 200px auto;
     border-radius: 10px;
-    background-color: hsla(0, 0%, 100%, 0.5);
-    backdrop-filter: saturate(100%) blur(50px);
-    border: 1px solid rgba(255,255,255,.3);
+    background-color: hsla(0, 0%, 100%, 0.85);
+    backdrop-filter: saturate(100%) blur(10px);
+    border: 1px solid #fff;
     box-shadow: 0 0 50px -10px rgba(0, 0, 0, 0.3);
     box-sizing: border-box;
     overflow: hidden;
