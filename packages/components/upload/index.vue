@@ -108,6 +108,7 @@ export default {
       xhr.onerror = evt => {
         console.error('[VC Error]', evt, file.name)
         this.$emit('error', file, this.fileList)
+        file.__status = 'error'
       }
       xhr.onload = evt => {
         console.log('load', evt, file)
