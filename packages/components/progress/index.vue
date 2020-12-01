@@ -7,7 +7,7 @@
       <div 
         v-for="item in progressList.children"
         :key="item.label"
-        :class="['vc-progress-bar__item', {'is-active': !format}]" 
+        :class="['vc-progress-bar__item', {'is-active': hasActive(item)}]" 
         :style="getItemStyle(item)"
       >
         <span v-if="textType === 'inner'">{{ item.width }}</span>
@@ -128,7 +128,7 @@ export default {
         height: this.strokeWidth + 'px',
         borderRadius: this.strokeWidth + 'px'
       }
-    },
+    }
   },
   methods: {
     getItemStyle({ width, color }) {
@@ -159,6 +159,12 @@ export default {
       }
 
       return obj
+    },
+    hasActive(item) {
+      if (this.format) return false
+      else {
+        return item.percentage < 1
+      }
     }
   }
 }
