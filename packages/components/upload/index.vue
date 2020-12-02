@@ -13,7 +13,10 @@
     </div>
 
     {{fileList}}
-    <FileList :list="fileList"/>
+    <FileList 
+      :list="fileList"
+      @remove="remove"
+    />
   </div>
 </template>
 
@@ -55,6 +58,11 @@ export default {
     multiple: {
       type: Boolean,
       default: false
+    },
+    // 最大上传个数
+    limit: {
+      type: Number,
+      default: Infinity
     }
   },
   data() {
@@ -65,18 +73,52 @@ export default {
   methods: {
     fileChangeEvt(evt) {
       let { files } = evt.target
+      let exceedSize = []
+      let hasExceedLimit = false
+      let fileList = []
       console.log(evt, files)
 
       for (let i = 0; i < files.length; i++) {
-        this.fileList.push({
-          file: files[i],
-          name: files[i].name,
-          __progress: 0,
-          __status: 'ready'
+        let file = files[i]
+        let size = file.size / 1024 / 1024
+        let status = 'ready'
+        let total = this.fileList.length + fileList.length
+
+        if (total >= this.limit) {
+          hasExceedLimit = true
+        } else {
+          if (size > this.maxSize) {
+            status = 'error'
+            exceedSize.push(file)
+          }
+  
+          fileList.push({
+            file: file,
+            name: file.name,
+            __progress: 0,
+            __status: status
+          })
+        }
+      }
+
+      if (exceedSize.length) {
+        // 返回超出大小的文件列表
+        this.$emit('on-exceed-size', {
+          list: exceedSize,       // 超出大小的文件数组
+          size: exceedSize.length // 总共超出的个数
         })
       }
 
-      if (this.autoUpload) {
+      if (hasExceedLimit) {
+        // 超出上传限制
+        this.$emit('on-exceed-limit', {
+          files,              // 当前选中文件
+          list: this.fileList // 目前已经上传文件å
+        })
+      }
+
+      if (this.autoUpload && !hasExceedLimit) {
+        this.fileList = this.fileList.concat(fileList)
         this.uploadFile()
       }
     },
@@ -89,7 +131,8 @@ export default {
       }
 
       this.fileList.forEach(file => {
-        this.sendFile(file)
+        if (file.__status === 'ready')
+          this.sendFile(file)
       })
     },
 
@@ -111,9 +154,12 @@ export default {
         file.__status = 'error'
       }
       xhr.onload = evt => {
-        console.log('load', evt, file)
         file.__status = 'uploaded'
-        this.$emit('success', evt.target.response, file, this.fileList)
+        this.$emit('on-success', {
+          res: evt.target.response, // 服务器返回信息
+          file,                     // 上传文件
+          list: this.fileList       // 当前文件列表
+        })
       }
       xhr.onprogress = evt => {
         file.__status = 'uploading'
@@ -123,6 +169,11 @@ export default {
         }
       }
       xhr.send(FD)
+    },
+
+    remove(item, index) {
+      console.log(item, index)
+      this.fileList.splice(index, 1)
     }
   }
 }

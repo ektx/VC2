@@ -3,7 +3,7 @@
     <ul>
       <li 
         class="vc-upload__file-list-item"
-        v-for="item in list"
+        v-for="(item, index) in list"
         :key="item.name"
       >
         <span class="item-name">
@@ -13,7 +13,7 @@
         <span class="item-status">
           <i v-if="item.__status === 'uploaded'" class="vc-icon-success"></i>
           <i v-if="item.__status === 'error'" class="vc-icon-error"></i>
-          <i class="remove vc-icon-delete"></i>
+          <i class="remove vc-icon-delete" @click="remove(item, index)"></i>
         </span>
         <VCProgress text-type="none" :stroke-width="2" :value="item.__progress"/>
       </li>
@@ -32,6 +32,11 @@ export default {
     list: {
       type: Array,
       default: () => ([])
+    }
+  },
+  methods: {
+    remove(item, index) {
+      this.$emit('remove', item, index)
     }
   }
 }
