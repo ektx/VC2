@@ -1,22 +1,25 @@
 <template>
   <div class="vc-upload">
-    <div class="vc-upload__btns-area">
-      <vc-button color="primary">
-        <input 
-          type="file"
-          :multiple="multiple"
-          :name="name"
-          @change="fileChangeEvt"
-        >
-        选择文件
-      </vc-button>
-    </div>
-
-    {{fileList}}
+    <input 
+      ref="input"
+      type="file"
+      :multiple="multiple"
+      :name="name"
+      @change="fileChangeEvt"
+    >
     <FileList 
       :list="fileList"
       @remove="remove"
-    />
+      @selectFile="selectFile"
+    >
+      <template v-if="$slots.target" #target>
+        <slot name="target"/>
+      </template>
+
+      <template v-if="$slots.default" #default>
+        <slot/>
+      </template>
+    </FileList>
   </div>
 </template>
 
@@ -229,6 +232,10 @@ export default {
         result && this.onRemove && this.onRemove({file: item})
       }
 
+    },
+
+    selectFile() {
+      this.$refs.input.click()
     }
   }
 }
@@ -236,6 +243,14 @@ export default {
 
 <style lang="less">
 .vc-upload {
+  &__btns-btn {
+    display: inline-block;
+
+    & + [class$="__btns-btn"] {
+      margin-left: 10px;
+    }
+  }
+  
   &__btns-area {
     .vc-button {
       position: relative;

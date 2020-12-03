@@ -1,23 +1,38 @@
 <template>
   <div class="vc-upload__file-list">
-    <ul>
-      <li 
-        class="vc-upload__file-list-item"
-        v-for="(item, index) in list"
-        :key="item.name"
-      >
-        <span class="item-name">
-          <i class="vc-icon-document"></i>
-          {{ item.name }}
-        </span>
-        <span class="item-status">
-          <i v-if="item.__status === 'uploaded'" class="vc-icon-success"></i>
-          <i v-if="item.__status === 'error'" class="vc-icon-error"></i>
-          <i class="remove vc-icon-delete" @click="remove(item, index)"></i>
-        </span>
-        <VCProgress text-type="none" :stroke-width="2" :value="item.__progress"/>
-      </li>
-    </ul>
+    <div class="vc-upload__btns-area">
+      <div v-if="$slots.target" class="vc-upload__btns-btn" @click="$emit('select-file')">
+        <slot name="target"></slot>
+      </div>
+      <div class="vc-upload__btns-btn">
+        <slot>
+          <vc-button color="primary">
+            选择文件2
+          </vc-button>
+        </slot>
+      </div>
+    </div>
+    
+    <div class="vc-upload__file-list-content">
+      <ul>
+        <li 
+          class="vc-upload__file-list-item"
+          v-for="(item, index) in list"
+          :key="item.name"
+        >
+          <span class="item-name">
+            <i class="vc-icon-document"></i>
+            {{ item.name }}
+          </span>
+          <span class="item-status">
+            <i v-if="item.__status === 'uploaded'" class="vc-icon-success"></i>
+            <i v-if="item.__status === 'error'" class="vc-icon-error"></i>
+            <i class="remove vc-icon-delete" @click="remove(item, index)"></i>
+          </span>
+          <VCProgress text-type="none" :stroke-width="2" :value="item.__progress"/>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -34,9 +49,22 @@ export default {
       default: () => ([])
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+
+      this.handlerEvents()
+    })
+  },
   methods: {
     remove(item, index) {
       this.$emit('remove', item, index)
+    },
+    handlerEvents() {
+      if (this.$slots.target) {
+        console.log(this.$slots.target()[0])
+        console.log(this.$refs.def)
+        // this.$slots.target()[0].add
+      }
     }
   }
 }
