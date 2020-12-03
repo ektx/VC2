@@ -10,24 +10,39 @@
     action="http://localhost:9000/api/file/admin/uploadPhoto"
     multiple
     :maxSize="1"
-    :limit="2"
+    :limit="4"
     :before-remove="beforeRemove"
     :on-remove="remove"
     :on-exceed-size="handlerExceedSize"
     :on-exceed-limit="handlerExceedLimit"
     :on-success="handlerSuccess"
+    :default-files="files"
   />
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      files: [
+        {
+          name: 'Apple',
+          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+        },
+        {
+          name: 'Macbook Air',
+          url: 'https://www.apple.com.cn/v/macbook-air/i/images/overview/hero_endframe__ea0qze85eyi6_large_2x.jpg'
+        }
+      ]
+    }
+  },
   methods: {
     handlerExceedSize({list, size}) {
       this.vcMessage.warning('有文件超出上传大小')
       console.log('超出大小文件：', list, size)
     },
     handlerExceedLimit({files, list}) {
-      this.vcMessage.warning(`当前上传承制最多 2 个文件，选择了 ${files.length} 个文件，已经上传了 ${list.length} 文件`)
+      this.vcMessage.warning(`当前上传承制最多 4 个文件，选择了 ${files.length} 个文件，已经上传了 ${list.length} 文件`)
     },
     handlerSuccess({res, file, list}) {
       console.log(file.name, '上传成功')

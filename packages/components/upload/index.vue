@@ -84,6 +84,10 @@ export default {
     onSuccess: {
       type: Function,
       default: null
+    },
+    defaultFiles: {
+      type: Array,
+      default: []
     }
   },
   data() {
@@ -91,7 +95,19 @@ export default {
       fileList: []
     }
   },
+  mounted() {
+    this.updateFileList()
+  },
   methods: {
+    updateFileList() {
+      console.log(this.defaultFiles)
+      this.fileList = this.defaultFiles.map(file => {
+        return {
+          file: file.url,
+          name: file.name
+        }
+      })
+    },
     fileChangeEvt(evt) {
       let { files } = evt.target
       let exceedSize = []
