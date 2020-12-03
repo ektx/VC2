@@ -63,6 +63,27 @@ export default {
     limit: {
       type: Number,
       default: Infinity
+    },
+    // 删除文件之前的钩子，参数为上传的文件和文件列表，若返回 false 或者返回 Promise 且被 reject，则停止删除。
+    beforeRemove: {
+      type: Function,
+      default: null
+    },
+    onRemove: {
+      type: Function,
+      default: null
+    },
+    onExceedSize: {
+      type: Function,
+      default: null
+    },
+    onExceedLimit: {
+      type: Function,
+      default: null
+    },
+    onSuccess: {
+      type: Function,
+      default: null
     }
   },
   data() {
@@ -103,7 +124,7 @@ export default {
 
       if (exceedSize.length) {
         // 返回超出大小的文件列表
-        this.$emit('on-exceed-size', {
+        this.onExceedSize && this.onExceedSize({
           list: exceedSize,       // 超出大小的文件数组
           size: exceedSize.length // 总共超出的个数
         })
@@ -111,7 +132,7 @@ export default {
 
       if (hasExceedLimit) {
         // 超出上传限制
-        this.$emit('on-exceed-limit', {
+        this.onExceedLimit && this.onExceedLimit({
           files,              // 当前选中文件
           list: this.fileList // 目前已经上传文件å
         })
@@ -155,7 +176,7 @@ export default {
       }
       xhr.onload = evt => {
         file.__status = 'uploaded'
-        this.$emit('on-success', {
+        this.onSuccess && this.onSuccess({
           res: evt.target.response, // 服务器返回信息
           file,                     // 上传文件
           list: this.fileList       // 当前文件列表
@@ -171,9 +192,27 @@ export default {
       xhr.send(FD)
     },
 
-    remove(item, index) {
+    async remove(item, index) {
+      let result = true
       console.log(item, index)
-      this.fileList.splice(index, 1)
+      if (this.beforeRemove) {
+        result = this.beforeRemove(item)
+      }
+
+      if (result instanceof Promise) {
+        result
+        .then(() => {
+          this.fileList.splice(index, 1)
+          this.onRemove && this.onRemove({file: item})
+        })
+        .catch(() => {
+          // .ignore
+        })
+      } else {
+        result && this.fileList.splice(index, 1)
+        result && this.onRemove && this.onRemove({file: item})
+      }
+
     }
   }
 }

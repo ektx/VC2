@@ -11,9 +11,11 @@
     multiple
     :maxSize="1"
     :limit="2"
-    @on-exceed-size="handlerExceedSize"
-    @on-exceed-limit="handlerExceedLimit"
-    @on-success="handlerSuccess"
+    :before-remove="beforeRemove"
+    :on-remove="remove"
+    :on-exceed-size="handlerExceedSize"
+    :on-exceed-limit="handlerExceedLimit"
+    :on-success="handlerSuccess"
   />
 </template>
 
@@ -28,7 +30,17 @@ export default {
       this.vcMessage.warning(`当前上传承制最多 2 个文件，选择了 ${files.length} 个文件，已经上传了 ${list.length} 文件`)
     },
     handlerSuccess({res, file, list}) {
-      console.log(res, file, list)
+      console.log(file.name, '上传成功')
+    },
+    beforeRemove({file}) {
+      return this.VcConfirm({
+        title: '提示',
+        message: `你确定要删除 ${file.name} 吗？`,
+        type: 'confirm'
+      })
+    },
+    remove({file}) {
+      this.vcMessage.success(`${file.name} 删除成功`)
     }
   }
 }
