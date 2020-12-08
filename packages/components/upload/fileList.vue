@@ -32,7 +32,7 @@
             {{ item.name }}
           </span>
           <span class="item-status">
-            {{item.__status}}
+            <i v-if="item.__status === 'ready'" class="vc-icon-upload"></i>
             <i v-if="item.__status === 'uploaded'" class="vc-icon-success"></i>
             <i v-if="item.__status === 'error'" class="vc-icon-error"></i>
             <i class="remove vc-icon-delete" @click="remove(item, index)"></i>
@@ -57,23 +57,10 @@ export default {
       default: () => ([])
     }
   },
-  mounted() {
-    // this.$nextTick(() => {
-
-    //   this.handlerEvents()
-    // })
-  },
   methods: {
     remove(item, index) {
       this.$emit('remove', item, index)
     },
-    handlerClickEvt() {
-      if (this.$slots.target) {
-        console.log(this.$slots.target()[0])
-        console.log(this.$refs.def)
-        // this.$slots.target()[0].add
-      }
-    }
   }
 }
 </script>
@@ -100,6 +87,9 @@ export default {
       position: relative;
       text-align: right;
 
+      .vc-icon-upload {
+        color: #777;
+      }
       .vc-icon-success {
         color: #4caf50;
       }
@@ -133,5 +123,21 @@ export default {
     }
   }
 }
+.vc-upload {
+  &__btns-btn {
+    display: inline-block;
 
+    & + [class$="__btns-btn"] {
+      margin-left: 10px;
+    }
+  }
+  
+  &__btns-area {
+    margin-bottom: 5px;
+    .vc-button {
+      position: relative;
+      overflow: hidden;
+    }
+  }
+}
 </style>

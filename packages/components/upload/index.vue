@@ -255,20 +255,5 @@ export default {
     height: 0;
     opacity: 0;
   }
-
-  &__btns-btn {
-    display: inline-block;
-
-    & + [class$="__btns-btn"] {
-      margin-left: 10px;
-    }
-  }
-  
-  &__btns-area {
-    .vc-button {
-      position: relative;
-      overflow: hidden;
-    }
-  }
 }
 </style>
