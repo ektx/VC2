@@ -136,9 +136,16 @@ export default {
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
 |---|---|---|---|---|
-
-
-## Events
-
-| 事件名 | 说明 | 回调参数 |
-| --- | --- | --- |
+| action | **String** | 必选参数，上传的地址 | - | - |
+| maxSize | **Number** | 文件最大值，单位为 M | - | - |
+| type | **String** | 展现形式 默认为 fileList(文件列表),<br/>暂时只有 fileList | - | fileList |
+| name | **String** | 上传的文件字段名 | - | file |
+| autoUpload | **Boolean** | 是否在选取文件后立即进行上传 | - | true |
+| multiple | **Boolean** | 是否支持多选文件 | - | false |
+| limit | **Number** | 最大上传个数 | - | - |
+| beforeRemove | **Function** | 删除文件之前的钩子，参数为上传的文件和文件列表 | - | - |
+| onRemove | **Function** | 删除完成时触发 | - | - |
+| onExceedSize | **Function** | 超出文件大小时触发，返回超出大小的文件列表 | - | - |
+| onExceedLimit | **Function** | 超出指定上传大小时触发 | - | - |
+| onSuccess | **Function** | 上传成功时触发 | - | - |
+| defaultFiles | **Function** | 默认展示文件列表 | - | - |

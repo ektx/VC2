@@ -73,22 +73,27 @@ export default {
       type: Function,
       default: null
     },
+    // 删除完成时触发
     onRemove: {
       type: Function,
       default: null
     },
+    // 超出文件大小时触发，返回超出大小的文件列表
     onExceedSize: {
       type: Function,
       default: null
     },
+    // 超出指定上传大小时触发
     onExceedLimit: {
       type: Function,
       default: null
     },
+    // 上传成功时触发
     onSuccess: {
       type: Function,
       default: null
     },
+    // 默认展示文件列表
     defaultFiles: {
       type: Array,
       default: []
