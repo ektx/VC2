@@ -11,6 +11,7 @@
       :list="fileList"
       @remove="remove"
       @selectFile="selectFile"
+      @uploadFile="uploadFile"
     >
       <template v-if="$slots.target" #target>
         <slot name="target"/>
@@ -103,7 +104,6 @@ export default {
   },
   methods: {
     updateFileList() {
-      console.log(this.defaultFiles)
       this.fileList = this.defaultFiles.map(file => {
         return {
           file: file.url,
@@ -116,7 +116,6 @@ export default {
       let exceedSize = []
       let hasExceedLimit = false
       let fileList = []
-      console.log(evt, files)
 
       for (let i = 0; i < files.length; i++) {
         let file = files[i]
@@ -147,6 +146,7 @@ export default {
           list: exceedSize,       // 超出大小的文件数组
           size: exceedSize.length // 总共超出的个数
         })
+        return
       }
 
       if (hasExceedLimit) {
@@ -155,10 +155,12 @@ export default {
           files,              // 当前选中文件
           list: this.fileList // 目前已经上传文件å
         })
+        return
       }
+      // 在没有错误情况下，更新文件列表
+      this.fileList = this.fileList.concat(fileList)
 
       if (this.autoUpload && !hasExceedLimit) {
-        this.fileList = this.fileList.concat(fileList)
         this.uploadFile()
       }
     },
@@ -243,6 +245,17 @@ export default {
 
 <style lang="less">
 .vc-upload {
+  position: relative;
+
+  & > input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+
   &__btns-btn {
     display: inline-block;
 
@@ -255,17 +268,6 @@ export default {
     .vc-button {
       position: relative;
       overflow: hidden;
-    }
-
-    input {
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      opacity: 0;
-      cursor: pointer;
-      margin: -30px 0;
     }
   }
 }

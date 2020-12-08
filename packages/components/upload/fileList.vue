@@ -1,13 +1,20 @@
 <template>
   <div class="vc-upload__file-list">
     <div class="vc-upload__btns-area">
-      <div v-if="$slots.target" class="vc-upload__btns-btn" @click="$emit('select-file')">
+      <div 
+        v-if="$slots.target" 
+        class="vc-upload__btns-btn" 
+        @click="$emit('select-file')"
+      >
         <slot name="target"></slot>
       </div>
-      <div class="vc-upload__btns-btn">
+      <div 
+        class="vc-upload__btns-btn" 
+        @click="$emit('upload-file')"
+      >
         <slot>
-          <vc-button color="primary">
-            选择文件2
+          <vc-button color="primary" @click.stop="$emit('select-file')">
+            选择文件
           </vc-button>
         </slot>
       </div>
@@ -25,6 +32,7 @@
             {{ item.name }}
           </span>
           <span class="item-status">
+            {{item.__status}}
             <i v-if="item.__status === 'uploaded'" class="vc-icon-success"></i>
             <i v-if="item.__status === 'error'" class="vc-icon-error"></i>
             <i class="remove vc-icon-delete" @click="remove(item, index)"></i>
@@ -50,16 +58,16 @@ export default {
     }
   },
   mounted() {
-    this.$nextTick(() => {
+    // this.$nextTick(() => {
 
-      this.handlerEvents()
-    })
+    //   this.handlerEvents()
+    // })
   },
   methods: {
     remove(item, index) {
       this.$emit('remove', item, index)
     },
-    handlerEvents() {
+    handlerClickEvt() {
       if (this.$slots.target) {
         console.log(this.$slots.target()[0])
         console.log(this.$refs.def)
