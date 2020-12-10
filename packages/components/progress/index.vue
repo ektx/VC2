@@ -1,6 +1,6 @@
 <template>
   <div :class="[
-    'vc-progress', status, 
+    'vc-progress', status,
     {'is-hide-text': textType !== 'outer', 'is-space': format}
   ]">
     <div class="vc-progress-bar" :style="{'--height': strokeWidth}">
@@ -10,7 +10,7 @@
         :class="['vc-progress-bar__item', {'is-active': hasActive(item)}]" 
         :style="getItemStyle(item)"
       >
-        <span v-if="textType === 'inner'">{{ item.width }}</span>
+        <span v-if="textType === 'inner'">{{ item.width }}%</span>
       </div>
     </div>
     <template v-if="format">
@@ -99,7 +99,7 @@ export default {
           label: '',
           color: '',
           percentage: val,
-          width: val * 100 + '%'
+          width: ~~(val * 100)
         }
         obj.used = this.value
         obj.usedPer = val
@@ -113,7 +113,7 @@ export default {
             label: item.label,
             color: item.color,
             percentage: val,
-            width: val * 100 + '%'
+            width: ~~(val * 100)
           }
         }
       }
