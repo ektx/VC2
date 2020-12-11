@@ -17,16 +17,17 @@
   
     &-bar {
       display: flex;
-      height: 6px;
-      border-radius: 6px;
+      height: calc(1px * var(--height, 6));
+      border-radius: calc(1px * var(--height, 6));
       background: rgba(0, 0, 0, .08);
       overflow: hidden;
-  
+
       &__item {
         position: relative;
         height: 100%;
+        width: calc(1% * var(--width));
         // border-radius: inherit;
-        color: inherit;
+        color: var(--color, inherit);
         background-color: currentColor;
         overflow: hidden;
         transition: width .3s, background .3s;
@@ -50,7 +51,14 @@
           );
           animation: vc-progress-active 1.5s infinite linear;
         }
-  
+        
+        // 使用变量方式显示进度
+        // &::before {
+        //   display: block;
+        //   counter-reset: progress var(--width);
+        //   content: counter(progress) + '%';
+        // }
+        &::before,
         span {
           display: grid;
           padding-bottom: 2px;

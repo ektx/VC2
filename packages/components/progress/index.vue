@@ -1,16 +1,16 @@
 <template>
   <div :class="[
-    'vc-progress', status, 
+    'vc-progress', status,
     {'is-hide-text': textType !== 'outer', 'is-space': format}
   ]">
-    <div class="vc-progress-bar" :style="barStyle">
+    <div class="vc-progress-bar" :style="{'--height': strokeWidth}">
       <div 
         v-for="item in progressList.children"
         :key="item.label"
         :class="['vc-progress-bar__item', {'is-active': hasActive(item)}]" 
         :style="getItemStyle(item)"
       >
-        <span v-if="textType === 'inner'">{{ item.width }}</span>
+        <span v-if="textType === 'inner'">{{ item.width }}%</span>
       </div>
     </div>
     <template v-if="format">
@@ -99,7 +99,7 @@ export default {
           label: '',
           color: '',
           percentage: val,
-          width: val * 100 + '%'
+          width: ~~(val * 100)
         }
         obj.used = this.value
         obj.usedPer = val
@@ -113,7 +113,7 @@ export default {
             label: item.label,
             color: item.color,
             percentage: val,
-            width: val * 100 + '%'
+            width: ~~(val * 100)
           }
         }
       }
@@ -123,39 +123,34 @@ export default {
     statusIcon() {
       return `vc-icon-${this.status}`
     },
-    barStyle() {
-      return {
-        height: this.strokeWidth + 'px',
-        borderRadius: this.strokeWidth + 'px'
-      }
-    }
   },
   methods: {
     getItemStyle({ width, color }) {
-      let obj = { width }
+      let obj = { 
+        '--width': width, 
+        '--color': color ? color : null
+      }
 
       if (this.color) {
         switch (typeof this.color) {
           case 'string': {
-            obj.background = this.color
+            obj['--color'] = this.color
             break
           }
           case 'object': {
             for (let i = 0; i < this.color.length; i++) {
               if (this.value < this.color[i].percentage) {
-                obj.background = this.color[i].color
+                obj['--color'] = this.color[i].color
                 break
               }
             }
             break
           }
           case 'function': {
-            obj.background = this.color(this.progressList.usedPer * 100)
+            obj['--color'] = this.color(this.progressList.usedPer * 100)
             break
           }
         } 
-      } else {
-        obj.background = color
       }
 
       return obj
