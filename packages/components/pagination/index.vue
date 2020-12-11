@@ -4,7 +4,9 @@
       'vc-pagination', 
       {'has-color': background, 'is-hide': toHide}
     ]"
-    :style="{color: background ? background : null}"
+    :style="{
+      '--bgColor': background && typeof background !== 'boolean' ? background : null
+    }"
   >
     <li 
       :class="[
@@ -27,7 +29,6 @@
       v-for="item in currentList" 
       :key="item.label"
       :class="[{'is-active': item.hold}]"
-      :style="{backgroundColor: background && item.hold ? background : ''}"
       @click="goto(item.label)"
     >{{item.label}}</li>
 
