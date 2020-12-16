@@ -1,7 +1,4 @@
-import Vue from 'vue'
+export * from './vc2-ui'
 
-import { VcButton } from './button'
-
-export function install(vue: typeof Vue): void
-
-export const Button: VcButton
+import * as VC2 from './vc2-ui'
+export default VC2
