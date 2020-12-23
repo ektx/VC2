@@ -4,7 +4,7 @@
       <div class="vc-collapse-item__title">
         <slot name="title">{{ title }}</slot>
       </div>
-      <i class="vc-collapse-item__icon vc-icon-arrow-right"></i>
+      <i :class="['vc-collapse-item__icon vc-icon-arrow-right', {'is-open': isOpen}]"></i>
     </div>
 
     <div class="vc-collapse-item__wrap" :style="_contentStyle" @transitionend="transitionend">
