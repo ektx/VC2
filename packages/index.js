@@ -1,27 +1,27 @@
-/* 以下代码自动生成于 Fri Jan 15 2021 10:11:50 GMT+0800 (中国标准时间) */
+/* 以下代码自动生成于 Fri Jan 15 2021 10:12:58 GMT+0800 (中国标准时间) */
 
-import Button from './components/button/index.vue'
 import ButtonGroup from './components/buttonGroup/index.vue'
-import CollapseItem from './components/collapseItem/index.vue'
-import Confirm from './components/confirm/index.js'
-import Form from './components/form/index.vue'
+import Button from './components/button/index.vue'
 import Collapse from './components/collapse/index.vue'
+import CollapseItem from './components/collapseItem/index.vue'
 import ColorPicker from './components/colorPicker/index.vue'
+import Form from './components/form/index.vue'
+import Confirm from './components/confirm/index.js'
 import FormItem from './components/formItem/index.vue'
 import Icon from './components/icon/index.vue'
 import Input from './components/input/index.vue'
-import Layer from './components/layer/index.vue'
 import InputNumber from './components/inputNumber/index.vue'
+import Layer from './components/layer/index.vue'
 import Message from './components/message/index.js'
-import OperationList from './components/operationList/index.vue'
 import Notification from './components/notification/index.js'
+import OperationList from './components/operationList/index.vue'
 import Pagination from './components/pagination/index.vue'
 import Popover from './components/popover/index.vue'
-import Progress from './components/progress/index.vue'
 import Radio from './components/radio/index.vue'
+import Progress from './components/progress/index.vue'
+import Select from './components/select/index.vue'
 import RadioGroup from './components/radioGroup/index.vue'
 import Switch from './components/switch/index.vue'
-import Select from './components/select/index.vue'
 import TabPane from './components/tabPane/index.vue'
 import Table from './components/table/index.vue'
 import Tabs from './components/tabs/index.vue'
@@ -29,28 +29,28 @@ import TimePicker from './components/timePicker/index.vue'
 import Upload from './components/upload/index.vue'
 
 const components = [
-  Button,
   ButtonGroup,
-  CollapseItem,
-  Confirm,
-  Form,
+  Button,
   Collapse,
+  CollapseItem,
   ColorPicker,
+  Form,
+  Confirm,
   FormItem,
   Icon,
   Input,
-  Layer,
   InputNumber,
+  Layer,
   Message,
-  OperationList,
   Notification,
+  OperationList,
   Pagination,
   Popover,
-  Progress,
   Radio,
+  Progress,
+  Select,
   RadioGroup,
   Switch,
-  Select,
   TabPane,
   Table,
   Tabs,
@@ -71,28 +71,28 @@ const install = app => {
   })
 }
 
-export const vcButton = Button
 export const vcButtonGroup = ButtonGroup
-export const vcCollapseItem = CollapseItem
-export const vcConfirm = Confirm.function
-export const vcForm = Form
+export const vcButton = Button
 export const vcCollapse = Collapse
+export const vcCollapseItem = CollapseItem
 export const vcColorPicker = ColorPicker
+export const vcForm = Form
+export const vcConfirm = Confirm.function
 export const vcFormItem = FormItem
 export const vcIcon = Icon
 export const vcInput = Input
-export const vcLayer = Layer
 export const vcInputNumber = InputNumber
+export const vcLayer = Layer
 export const vcMessage = Message.function
-export const vcOperationList = OperationList
 export const vcNotification = Notification.function
+export const vcOperationList = OperationList
 export const vcPagination = Pagination
 export const vcPopover = Popover
-export const vcProgress = Progress
 export const vcRadio = Radio
+export const vcProgress = Progress
+export const vcSelect = Select
 export const vcRadioGroup = RadioGroup
 export const vcSwitch = Switch
-export const vcSelect = Select
 export const vcTabPane = TabPane
 export const vcTable = Table
 export const vcTabs = Tabs
@@ -100,30 +100,30 @@ export const vcTimePicker = TimePicker
 export const vcUpload = Upload
 
 export default {
-  version: "1.10.5",
+  version: "1.10.6",
   install,
-  Button,
   ButtonGroup,
-  CollapseItem,
-  Confirm,
-  Form,
+  Button,
   Collapse,
+  CollapseItem,
   ColorPicker,
+  Form,
+  Confirm,
   FormItem,
   Icon,
   Input,
-  Layer,
   InputNumber,
+  Layer,
   Message,
-  OperationList,
   Notification,
+  OperationList,
   Pagination,
   Popover,
-  Progress,
   Radio,
+  Progress,
+  Select,
   RadioGroup,
   Switch,
-  Select,
   TabPane,
   Table,
   Tabs,
