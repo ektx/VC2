@@ -24,16 +24,16 @@ let htmlStr = ''
 // 记录当前选择的组件信息，用于热更新markdown文档
 let fileItem = null
 
-const socketProtocol = location.protocol === 'https:' ? 'wss' : 'ws'
-const socketUrl = `${socketProtocol}://${location.hostname}:${3000}`
-const socket = new WebSocket(socketUrl, 'vite-hmr')
+// const socketProtocol = location.protocol === 'https:' ? 'wss' : 'ws'
+// const socketUrl = `${socketProtocol}://${location.hostname}:${3000}`
+// const socket = new WebSocket(socketUrl, 'vite-hmr')
 
-// 监听 markdown 变化，实时更新 Demo
-socket.addEventListener('message', async ({ data }) => {
-  if (fileItem) {
-    getEvt(fileItem)
-  }
-})
+// // 监听 markdown 变化，实时更新 Demo
+// socket.addEventListener('message', async ({ data }) => {
+//   if (fileItem) {
+//     getEvt(fileItem)
+//   }
+// })
 
 export default {
   name: 'HelloWorld',
