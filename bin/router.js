@@ -19,8 +19,28 @@ const router = exporss.Router()
 
 // 获取 doc 中的 markdown 文件
 router.get('/doc/:file', async (req, res) => {
+  let file = path.join(__dirname, '../index.html')
+  let readStream = fs.createReadStream(file, {encoding: 'utf8'})
 
-  let file = path.join(__dirname, `../doc/${req.params.file}.md`)
+  readStream.pipe(res)
+})
+
+// 获取 icon json
+router.get('/api/icons', async (req, res) => {
+  let file = path.join(__dirname, '../example/data/iconfont.json')
+  let readStream = fs.createReadStream(file, {encoding: 'utf8'})
+
+  readStream.on('open', () => {
+    readStream.pipe(res)
+  })
+
+  readStream.on('error', err => {
+    res.end(err)
+  })
+})
+
+router.post('/api/getFile', async (req, res) => {
+  let file = path.join(__dirname, `../${req.body.path}.md`)
   let str = await fs.promises.readFile(file, { encoding: 'utf-8'})
 
   let md = new MarkdownIt({
@@ -53,20 +73,6 @@ router.get('/doc/:file', async (req, res) => {
   html = `<div class="markdown-it-mode">${html}</div>`
   
   res.send({ data: html })
-})
-
-// 获取 icon json
-router.get('/api/icons', async (req, res) => {
-  let file = path.join(__dirname, '../example/data/iconfont.json')
-  let readStream = fs.createReadStream(file, {encoding: 'utf8'})
-
-  readStream.on('open', () => {
-    readStream.pipe(res)
-  })
-
-  readStream.on('error', err => {
-    res.end(err)
-  })
 })
 
 module.exports = router

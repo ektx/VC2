@@ -16,6 +16,7 @@
 </template>
 
 <script>
+// @ts-nocheck
 import Navs from './components/navs/index.vue'
 import { ref, onMounted, isProxy } from 'vue'
 import menu from './menu'
@@ -77,8 +78,15 @@ function getEvt (item) {
     history.pushState({to: to, from: 'history'}, '', to)
   }
 
-  fetch(to)
-    .then(res => res.json())
+  fetch('/api/getFile', {
+    method: 'POST',
+    body: JSON.stringify({
+      path: to
+    }),
+    headers: {
+      'content-type': 'application/json'
+    }
+  }).then(res => res.json())
     .then(res => {
       // 将字符串中 `{{}}` 的 {{ 转换成 ASCII CODE 123
       // 防止解析报错
