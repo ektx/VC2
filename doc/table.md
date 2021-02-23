@@ -533,6 +533,114 @@ export default {
 :::
 
 
+## 表格合并方案
+
+::: demo 
+
+> 通过 `style.mergeSpan` 来手动控制合并对象。
+
+```html
+<template>
+  <vc-table :data="data" :header="header" border :style="style"/>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      header: [
+        {
+          label: 'ID',
+          key: 'id',
+          width: 100
+        },
+        {
+          label: '姓名',
+          key: 'name',
+          width: 100
+        },
+        {
+          label: '数值1',
+          key: 'amount1',
+          width: 100
+        },
+        {
+          label: '数值2',
+          key: 'amount2',
+          width: 100
+        },
+        {
+          label: '数值3',
+          key: 'amount3',
+        },
+      ],
+      data: [
+        {
+          id: '0x0001',
+          name: '王小虎',
+          amount1: '234',
+          amount2: '3.2',
+          amount3: 10,
+          spanObject: {
+            id: {
+              colspan: 1,
+              rowspan: 3
+            }
+          }
+        }, 
+        {
+          id: '0x0001',
+          name: '王小虎',
+          amount1: '165',
+          amount2: '4.43',
+          amount3: 12,
+        }, 
+        {
+          id: '0x0001',
+          name: '王小军',
+          amount1: '324',
+          amount2: '1.9',
+          amount3: 9
+        }, 
+        {
+          id: '0x0002',
+          name: '王小虎',
+          amount1: '539',
+          amount2: '4.1',
+          amount3: 15
+        },
+        {
+          id: '0x0003',
+          name: '王小虎',
+          amount1: '621',
+          amount2: '2.2',
+          amount3: 17
+        }, 
+      ],
+      style: {
+        mergeSpan: [
+          {
+            x: 1,
+            y: 0,
+            row: 2,
+            col: 1
+          },
+          {
+            x: 0,
+            y: 0,
+            row: 3,
+            col: 1
+          },
+        ]
+      }
+    }
+  }
+}
+</script>
+```
+:::
+
+
 # Props
 | 参数 | 类型 | 说明 | 默认值 | 可选值 |
 | --- | --- | --- | --- | --- |

@@ -7,7 +7,7 @@
       </div>
     </div>
     <TableHeader :header="_header"/>
-    <TableBody v-bind="$attrs" :header="_header">
+    <TableBody v-bind="$attrs" :header="_header" :data="currentData" :mergeSpan="style?.mergeSpan">
       <template v-for="head in _header" :key="head.label" #[head.slot]="{item, index, tr, td}">
         <slot :name="head.slot" :item="item" :index="index">
           {{getTDHTML(tr, td)}}
@@ -90,7 +90,9 @@ export default {
       default: false
     },
     // 显示边框，默认无
-    border: Boolean
+    border: Boolean,
+    // 样式控制
+    style: Object
   },
   data() {
     return {
