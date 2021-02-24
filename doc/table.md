@@ -593,7 +593,7 @@ export default {
           name: '王小虎',
           amount1: '165',
           amount2: '4.43',
-          amount3: 12,
+          amount3: 10,
         }, 
         {
           id: '0x0001',
@@ -617,22 +617,69 @@ export default {
           amount3: 17
         }, 
       ],
-      style: {
-        mergeSpan: [
-          {
-            x: 1,
-            y: 0,
-            row: 2,
-            col: 1
-          },
-          {
-            x: 0,
-            y: 0,
-            row: 3,
-            col: 1
-          },
-        ]
-      }
+      // style: {
+      //   mergeSpan: [
+      //     {
+      //       x: 1,
+      //       y: 0,
+      //       row: 2,
+      //       col: 1
+      //     },
+      //     {
+      //       x: 0,
+      //       y: 0,
+      //       row: 3,
+      //       col: 1
+      //     },
+      //   ]
+      // }
+    }
+  },
+  computed: {
+    style() {
+      let result = []
+      let obj = {}
+
+      // 树型数据自动合并
+      this.data.forEach((item, y, data) => {
+        this.header.forEach((head, x, header) => {
+          let val = item[head.key]
+
+          if (val in obj) {
+            let arr = obj[val].slice(-1)[0]
+
+            if (x > 0 && y > 0) {
+              let prevSiblingParent = data[y -1][header[x -1].key]
+              let thisSiblingParent = data[y][header[x -1].key]
+
+              if (prevSiblingParent === thisSiblingParent) {
+                if (y > arr.y) {
+                  arr.row += 1
+                }
+
+                if (x > arr.x) {
+                  arr.col += 1
+                }
+              } else {
+                obj[val].push({x, y, row: 1, col: 1})
+              }
+            } else {
+              if (y > arr.y) {
+                arr.row += 1
+              }
+  
+              if (x > arr.x) {
+                arr.col += 1
+              }
+            }
+
+          } else {
+            obj[val] = [{x, y, row: 1, col: 1}]
+          }
+        })
+      })
+
+      return {mergeSpan: Object.values(obj).flat().filter(item => (item.row > 1 || item.col > 1))}
     }
   }
 }
