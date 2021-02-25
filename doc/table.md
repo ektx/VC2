@@ -700,14 +700,20 @@ export default {
 | asyncData | **Boolean** | 异步数据 | false | - |
 | loading | **Boolean/String** | 布尔值时，控制是否加载；<br/>字符串时，加载时文字 | false | - |
 | border | **Boolean** | 显示边框，默认无 | auto | - |
+| style | **Object** | 样式控制 | {} | - |
 
 ## Header Props
 | 参数 | 类型 | 说明 | 默认值 | 可选值 |
 | --- | --- | --- | --- | --- |
-| label | **string** | 标签 | - | - |
-| key | **string/function** | data 中 key<br/>或设置方法取值，参考【函数式表头】示例 | - | - |
-| slot | **string** | 插槽名称 | - | - |
-| width | **number/string** | 设置列宽 | - | - |
+| label | **String** | 标签 | - | - |
+| key | **String/Function** | data 中 key<br/>或设置方法取值，参考【函数式表头】示例 | - | - |
+| slot | **String** | 插槽名称 | - | - |
+| width | **Number/String** | 设置列宽 | - | - |
+
+## Style Props
+| 参数 | 类型 | 说明 | 默认值 | 可选值 |
+| --- | --- | --- | --- | --- |
+| mergeSpan | **Array** | 表格合并对象，格式为 `[{x,y,row,col}]`<br/>- `x` td索引<br/>- `y` tr索引<br/>- `row` rowSpan值<br/>- `col` colSpan值 | - | - |
 
 # Events
 
