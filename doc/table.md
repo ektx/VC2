@@ -581,12 +581,7 @@ export default {
           amount1: '234',
           amount2: '3.2',
           amount3: 10,
-          spanObject: {
-            id: {
-              colspan: 1,
-              rowspan: 3
-            }
-          }
+         
         }, 
         {
           id: '0x0001',
@@ -602,13 +597,34 @@ export default {
           amount2: '1.9',
           amount3: 9
         }, 
+         {
+          id: '0x0001',
+          name: '王小虎',
+          amount1: '324',
+          amount2: '1.9',
+          amount3: 9
+        }, 
         {
           id: '0x0002',
-          name: '王小虎',
+          name: '王小军',
           amount1: '539',
           amount2: '4.1',
           amount3: 15
         },
+        {
+          id: '0x0002',
+          name: '王小虎',
+          amount1: '621',
+          amount2: '2.2',
+          amount3: 17
+        }, 
+        {
+          id: '0x0002',
+          name: '王小虎',
+          amount1: '621',
+          amount2: '2.1',
+          amount3: 18
+        }, 
         {
           id: '0x0003',
           name: '王小虎',
@@ -649,16 +665,24 @@ export default {
             let arr = obj[val].slice(-1)[0]
 
             if (x > 0 && y > 0) {
-              let prevSiblingParent = data[y -1][header[x -1].key]
-              let thisSiblingParent = data[y][header[x -1].key]
+              let prevSibling = data[y -1][header[x].key]
+              let thisSiblingParentVal = data[y][header[x -1].key]
 
-              if (prevSiblingParent === thisSiblingParent) {
-                if (y > arr.y) {
-                  arr.row += 1
-                }
-
-                if (x > arr.x) {
-                  arr.col += 1
+              if (val === prevSibling) {
+                // 获取父级对象
+                let thisParentObj = obj[thisSiblingParentVal].slice(-1)[0]
+                // 如果需要在已经存在的对象上进行行例合并
+                // 则父级合并的行数必须大于 1 
+                if (thisParentObj.row > 1) {
+                  if (y > arr.y) {
+                    arr.row += 1
+                  }
+  
+                  if (x > arr.x) {
+                    arr.col += 1
+                  }
+                } else {
+                  obj[val].push({x, y, row: 1, col: 1})
                 }
               } else {
                 obj[val].push({x, y, row: 1, col: 1})
