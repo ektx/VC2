@@ -13,8 +13,10 @@ const router = require('./router')
     server: {
       middlewareMode: true,
     },
-    alias: {
-      vue: 'vue/dist/vue.esm-bundler.js'
+    resolve: {
+      alias: {
+        vue: 'vue/dist/vue.esm-bundler.js'
+      }
     }
   })
 
@@ -24,7 +26,7 @@ const router = require('./router')
   app.use(bodyParser.json())
 
   app.use(router)
-  app.use(server.app)
+  app.use(server.middlewares)
 
   app.listen(3000)
 })();

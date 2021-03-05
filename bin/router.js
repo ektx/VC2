@@ -18,10 +18,7 @@ require('prismjs/plugins/autolinker/prism-autolinker')
 const router = exporss.Router()
 
 // 获取 doc 中的 markdown 文件
-router.get('/doc/:file', async (req, res, next) => {
-  // 先让 vite 处理
-  next()
-
+router.get('/doc/:file', async (req, res) => {
   let file = path.join(__dirname, '../index.html')
   let readStream = fs.createReadStream(file, {encoding: 'utf8'})
 

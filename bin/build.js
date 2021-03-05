@@ -51,7 +51,9 @@ function genLess () {
         throw err
       }
 
-      await fs.promises.writeFile(output_, output.css)
+      let css = output.css.replaceAll('../../fonts/icon', './fonts/icon')
+
+      await fs.promises.writeFile(output_, css)
       resolve()
       console.log('🎨 Less to css is done!')
     })
