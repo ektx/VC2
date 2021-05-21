@@ -4,3 +4,5 @@ dist
 *.local
 .idea/
 yarn-error.log
+*lock.json
+*.lock
