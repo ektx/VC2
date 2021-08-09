@@ -4,8 +4,8 @@
 
 ## 基础效果演示
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   <p>页数较少时的效果</p>
   <vc-pagination v-model:index="index" :total="total"/>
@@ -37,11 +37,11 @@ export default {
 
 ## 设置最大页码按钮数
 
-::: demo 
+::: codeBox 
 
 > 默认情况下，当总页数超过 **7** 页时，Pagination 会折叠多余的页码按钮。通过 `step` 属性可以设置最大页码按钮数。
 
-```html
+```vue
 <template>
   <vc-pagination v-model:index="index" :total="total" :step="10"/>
 </template>
@@ -61,11 +61,11 @@ export default {
 
 ## 带有背景色的分页
 
-::: demo 
+::: codeBox
 
 > 可以通过 `background` 来设置背景色，默认为白色背景，选中为蓝色，可以指定选中背景色。
 
-```html
+```vue
 <template>
   <p>默认背景色</p>
   <vc-pagination v-model:index="index" :total="total" background/>
@@ -90,8 +90,8 @@ export default {
 
 当只有一页时，通过设置 `hide-on-single-page` 属性来隐藏分页。
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   <vc-switch v-model:value="show" />
 
