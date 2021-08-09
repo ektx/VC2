@@ -4,8 +4,8 @@
 
 也可以直接通过设置类名为 `vc-icon-iconName` 来使用即可。例如：
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <i class="vc-icon-search"></i>
   <vc-icon name="star-off"/>
@@ -17,8 +17,8 @@
 
 点击图标可直接复制样式名。
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <ul class="icon-list">
     <li v-for="icon in icons" :key="icon.icon_id" @click="copy(icon)">
@@ -29,12 +29,14 @@
 </template>
 
 <script>
+import { inject, ref } from 'vue'
+
 export default {
   setup() {
     let message = inject('vcMessage')
     let icons = ref([])
 
-    fetch('/api/icons')
+    fetch('/data/iconfont.json')
       .then(res => res.json())
       .then(res => {
         console.log(res)
