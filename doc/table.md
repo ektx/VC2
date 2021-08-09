@@ -6,8 +6,8 @@
 
 基础的表格展示用法。
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-table :data="data" :header="header"/>
 </template>
@@ -63,8 +63,8 @@ export default {
 
 ## 带边框表格
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-table :data="data" :header="header" border/>
 </template>
@@ -122,8 +122,8 @@ export default {
 
 通过函数方法来指定列有渲染内容。
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-table :data="data" :header="header"/>
 </template>
@@ -189,8 +189,8 @@ export default {
 
 一次加载所有表格的数据.
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-table 
     :header="header" 
@@ -254,8 +254,8 @@ export default {
 
 每次加载部分数据。
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-table 
     asyncData
@@ -334,8 +334,8 @@ export default {
 
 ## 加载中
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-table height="200px" :header="header" :data="[]" loading/>
 </template>
@@ -376,11 +376,11 @@ export default {
 
 可将表格内容高亮显示，方便区分「成功、信息、警告、危险」等内容。
 
-::: demo 
+::: codeBox 
 
 > 通过在 data 中添加 `classes` 属性，可以自定义当前行的颜色。
 
-```html
+```vue
 <template>
   <vc-table :header="header" :data="data" :index.sync="index" :total="data.length">
     <template v-slot:setting="{item, index}">
@@ -461,11 +461,11 @@ export default {
 
 自定义列的显示内容，可组合其他组件使用。
 
-::: demo 
+::: codeBox 
 
 > 通过在 header 的数组对象中，添加 `slot` 具名插槽可以自定义显示内容。
 
-```html
+```vue
 <template>
   <vc-table :header="header" :data="data" :total="data.length">
     <template #name="{item, index}">
@@ -535,11 +535,11 @@ export default {
 
 ## 表格合并方案
 
-::: demo 
+::: codeBox 
 
 > 通过 `style.mergeSpan` 来手动控制合并对象。
 
-```html
+```vue
 <template>
   <vc-table :data="data" :header="header" border :style="style"/>
 </template>
@@ -742,6 +742,6 @@ export default {
 # Events
 
 
-| 事件名称 | 说明 | 回调参数 | 
-|---|---|---|---|---|
+| 事件名称 | 说明 | 回调参数 |  
+|---|---|---|
 | page-change | 分页变化时，返回最新页码 | (index) => {} |
