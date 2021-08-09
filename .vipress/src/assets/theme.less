@@ -1,0 +1,133 @@
+.lighten(@counter) when (@counter >= 0) {
+  .lighten((@counter - 5));  
+  --gray@{counter}: lighten(black, @counter); 
+}
+
+.darken(@counter) when (@counter >= 0) {
+  --gray@{counter}: darken(white, @counter); 
+  .darken((@counter - 5));  
+}
+
+.otherColor(@name, @color) {
+  --@{name}: @color;
+  --@{name}Hover: lighten(@color, 10);
+  --@{name}Active: darken(@color, 10);
+}
+
+.normalColor {
+  .otherColor(link, #2b65ec);
+  .otherColor(success, #4aa02c);
+  .otherColor(warn, #ee9a4d);
+  .otherColor(error, #e41b17);
+}
+
+.light-scheme {
+  // 调用循环
+  .lighten(100); 
+  .normalColor
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    .light-scheme   
+  }
+}
+
+.dark-scheme {
+  .darken(100); 
+  .normalColor       
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    .dark-scheme    
+  }
+}
+
+:root {
+  --page-hold-color: #42b983;
+  --page-hold-bg-color: rgba(66, 185, 131, .05);
+
+  --page-bg-color: #f5f5f5;
+  --page-txt-color: #333;
+  --page-info-color: #aaa;
+  
+  --header-bg-color: rgba(255, 255, 255, .8);
+  --scroll-bar-color: #fff;
+  --scroll-thumb-color: #aaa; 
+
+  --article-line-color: #ddd;
+  --table-even-bg: #eee;
+  --article-blockquote-color: #42b983;
+  --article-blockquote-bg: rgba(66, 185, 130, .1);
+
+  --code-pre-bg: #fff;
+  --code-inline-bg: rgba(0, 0, 0, .1);
+  --code-txt-color: #333;
+  --code-lang-color: rgba(0, 0, 0, .3);
+  --code-token-tag: #905;
+  --code-token-value: #07a;
+  --code-token-name: #690;
+  --code-token-function: #DD4A68;
+
+  --codebox-bg: #fff;
+  --codebox-border: #ddd;
+  --codebox-footer-bg: rgba(255, 255, 255, 0.8);
+  --codebox-hover-shadow: rgba(0, 0, 0, 0.15);
+}
+
+html.dark {
+  --page-bg-color: #222;
+  --page-txt-color: #f5f5f5;
+  --page-info-color: #777;
+  
+  --header-bg-color: rgba(60, 60, 60, .8);
+  --scroll-bar-color: #222;
+  --scroll-thumb-color: #666; 
+  
+  --article-line-color: #666;
+  --table-even-bg: #373737;
+
+  --code-pre-bg: #000;
+  --code-inline-bg: rgba(255, 255, 255, .1);
+  --code-txt-color: #ddd;
+  --code-lang-color: rgba(255, 255, 255, 0.3);
+  --code-token-tag: #ff008e;
+  --code-token-value: rgb(0, 179, 255);
+  --code-token-name: #8bc34a;
+  --code-token-function: #f44336;
+
+  --codebox-bg: #000;
+  --codebox-border: #373737;
+  --codebox-footer-bg: rgba(34, 34, 34, .8);
+  --codebox-hover-shadow: rgba(0, 0, 0, 1);
+}
+
+html {
+	scroll-behavior: smooth;
+  
+  &::-webkit-scrollbar {
+    width: 5px;
+    background-color: var(--scroll-bar-color);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--scroll-thumb-color);
+    border-radius: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    margin: 62px 0 2px 0;
+  }
+}
+
+body {
+  overscroll-behavior-y: none;
+  overscroll-behavior-x: none;
+  background-color: var(--page-bg-color);
+  transition: background .4s ease-out;
+}
+
+:target:before {
+	content: "";
+	display: block;
+	height: 80px;
+	margin: -80px 0 0;
+}

@@ -12,7 +12,7 @@
     children: [
       {
         label: "快速上手",
-        to: "/"
+        to: "/doc/welcome"
       }
     ]
   },
