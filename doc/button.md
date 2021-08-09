@@ -2,8 +2,8 @@
 
 ## 基础效果
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   <div>
     <vc-button >默认效果</vc-button>
@@ -29,6 +29,12 @@
     <vc-button round color="error">错误</vc-button>
   </div>
 </template>
+
+<style scoped>
+.vc-button {
+  margin-right: 10px;
+}
+</style>
 ```
 :::
 
@@ -36,8 +42,8 @@
 
 纯文字效果。
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   <div>
     <vc-button type="text">默认效果</vc-button>
@@ -47,6 +53,12 @@
     <vc-button type="text" color="error">错误</vc-button>
   </div>
 </template>
+
+<style scoped>
+.vc-button {
+  margin-right: 10px;
+}
+</style>
 ```
 :::
 
@@ -54,8 +66,8 @@
 
 按钮不可用状态。
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   <div>
     <vc-button disabled>默认效果</vc-button>
@@ -81,6 +93,12 @@
     <vc-button disabled type="text" color="error">错误</vc-button>
   </div>
 </template>
+
+<style scoped>
+.vc-button {
+  margin-right: 10px;
+}
+</style>
 ```
 :::
 
@@ -88,8 +106,8 @@
 
 带图标的按钮可增强辨识度（有文字）或节省空间（无文字）。
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   <vc-button icon="vc-icon-star-off" />
   <vc-button color="primary" icon="vc-icon-bell" />
@@ -100,6 +118,12 @@
   <vc-button color="warn" icon="vc-icon-warning">警告</vc-button>
   <vc-button color="error" icon="vc-icon-close">错误</vc-button>
 </template>
+
+<style scoped>
+.vc-button {
+  margin-right: 10px;
+}
+</style>
 ```
 :::
 
@@ -107,8 +131,8 @@
 
 以按钮组的方式出现，常用于多项类似操作。
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   <vc-button-group>
     <vc-button round color="primary">上一首</vc-button>
@@ -124,6 +148,12 @@
     <vc-button icon="vc-icon-close" />
   </vc-button-group>
 </template>
+
+<style scoped>
+.vc-button-group {
+  margin-right: 10px;
+}
+</style>
 ```
 :::
 
@@ -131,12 +161,18 @@
 
 点击按钮后进行数据加载操作，在按钮上显示加载状态。
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   <vc-button loading>加载中...</vc-button>
   <vc-button loading icon="vc-icon-success" />
 </template>
+
+<style scoped>
+.vc-button {
+  margin-right: 10px;
+}
+</style>
 ```
 :::
 
