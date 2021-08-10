@@ -4,22 +4,16 @@
 
 ## 基础方法
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-input v-model="input" placeholder="请输入内容" />
 </template>
 
-<script>
-export default {
-  setup() {
-    let input = ref('')
-    
-    return {
-      input,
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const input = ref('')
 </script>
 ```
 :::
@@ -27,25 +21,19 @@ export default {
 
 ## 禁用状态
 
-::: demo
+::: codeBox
 
 > `disabled` 可禁用组件。
 
-```html
+```vue
 <template>
   <vc-input v-model="input" disabled />
 </template>
 
-<script>
-export default {
-  setup() {
-    let input = ref('')
-    
-    return {
-      input,
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const input = ref('disabled')
 </script>
 ```
 :::
@@ -53,26 +41,20 @@ export default {
 
 ## 可清空
 
-::: demo
+::: codeBox
 
 > 使用 `clearable` 属性即可得到一个可清空的输入框
 
-```html
+```vue
 <template>
   <vc-input v-model="input" clearable />
   {{input}}
 </template>
 
-<script>
-export default {
-  setup() {
-    let input = ref('')
-    
-    return {
-      input,
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const input = ref('disabled')
 </script>
 ```
 :::
@@ -80,25 +62,19 @@ export default {
 
 ## 密码框
 
-::: demo
+::: codeBox
 
 > 当 `type="password"` 时，可以显示一个密码框功能。
 
-```html
+```vue
 <template>
   <vc-input v-model="input" type="password"/>
 </template>
 
-<script>
-export default {
-  setup() {
-    let input = ref('')
-    
-    return {
-      input,
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const input = ref('12345678')
 </script>
 ```
 :::
@@ -108,15 +84,16 @@ export default {
 
 带有图标标记输入类型
 
-::: demo
+::: codeBox
 > 可以通过 `prefix-icon` 和 `suffix-icon` 属性在 `input` 组件首部和尾部增加显示图标，也可以通过 `slot` 来放置图标。
 
-```html
+```vue
 <template>
-  <div>
+  <div style="margin: 0 0 1rem 0">
     <strong>属性方式</strong>
-    <vc-input v-model="value1" suffix-icon="vc-icon-date"></vc-input>
-    <vc-input v-model="value2" prefix-icon="vc-icon-search"></vc-input>
+    <vc-input v-model="value1" suffix-icon="vc-icon-date" />
+    <br />
+    <vc-input v-model="value2" prefix-icon="vc-icon-search" />
   </div>
   <div>
     <strong>插槽方式</strong>
@@ -125,6 +102,7 @@ export default {
         <i class="vc-icon-date"></i>
       </template>
     </vc-input>
+    <br />
     <vc-input v-model="value4">
       <template #prefixIcon>
         <i class="vc-icon-search"></i>
@@ -133,17 +111,13 @@ export default {
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    let value1 = ref('')
-    let value2 = ref('')
-    let value3 = ref('')
-    let value4 = ref('')
-    
-    return { value1, value2, value3, value4 }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+let value1 = ref('')
+let value2 = ref('')
+let value3 = ref('')
+let value4 = ref('')
 </script>
 ```
 :::
@@ -153,11 +127,11 @@ export default {
 
 用于输入多行文本信息，通过将 `type` 属性的值指定为 **textarea**。
 
-::: demo
+::: codeBox
 
 > 文本域高度可通过 `rows` 原始属性控制
 
-```html
+```vue
 <template>
   <vc-input type="textarea" rows="2" v-model="val" />
 </template>
@@ -179,8 +153,8 @@ export default {
 
 通过设置 `autosize` 属性可以使得文本域的高度能够根据文本内容自动进行调整，并且 `autosize` 还可以设定为一个对象，指定最小行数和最大行数。
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <p>自动调整</p>
   <vc-input type="textarea" autosize v-model="textarea1" />
@@ -188,18 +162,11 @@ export default {
   <vc-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="textarea2" />
 </template>
 
-<script>
-export default {
-  setup() {
-    let textarea1 = ref(null)
-    let textarea2 = ref(null)
-    
-    return {
-      textarea1,
-      textarea2
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+let textarea1 = ref(null)
+let textarea2 = ref(null)
 </script>
 ```
 :::
@@ -207,12 +174,12 @@ export default {
 
 ## 输入长度限制
 
-::: demo
+::: codeBox
 
 > `maxlength` 和 `minlength` 是原生属性，用来限制输入框的字符长度，其中字符长度是用 Javascript 的字符串长度统计的。  
 > 在使用 `maxlength` 属性限制最大输入长度的同时，可通过设置 `show-word-limit` 属性来展示字数统计。
 
-```html
+```vue
 <template>
   <div>
     <vc-input v-model="input1" maxlength="10" show-word-limit />
@@ -223,18 +190,11 @@ export default {
   
 </template>
 
-<script>
-export default {
-  setup() {
-    let input1 = ref('')
-    let textarea = ref('')
-    
-    return {
-      input1,
-      textarea
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+let input1 = ref('')
+let textarea = ref('')
 </script>
 ```
 :::
@@ -242,8 +202,8 @@ export default {
 
 ## 事件监听
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-input 
     v-model="input" 
@@ -260,46 +220,32 @@ export default {
   <vc-button @click="setSelect">手动选中文字</vc-button>
 </template>
 
-<script>
-export default {
-  setup() {
-    let input = ref('');
-    const demo = ref(null);
+<script setup>
+import { ref } from 'vue'
 
-    const changeNum = event => {
-      console.log('blur:',event)
-    }
+let input = ref('');
+const demo = ref(null);
 
-    const getFocus = event => {
-      console.log('focus:',event)
-      
-    }
-
-    const getChange = event => {
-      console.log('change:', event)
-    }
-
-    const getInput = event =>{
-      console.log('input:', event.target.value)
-    }
-
-    const setFocus = () => demo.value.focus()
-    const setBlur = () => demo.value.blur()
-    const setSelect = () => demo.value.select()
-
-    return {
-      input,
-      changeNum,
-      getFocus,
-      getChange,
-      getInput,
-      setFocus,
-      setBlur,
-      setSelect,
-      demo,
-    }
-  }
+const changeNum = event => {
+  console.log('blur:',event)
 }
+
+const getFocus = event => {
+  console.log('focus:',event)
+  
+}
+
+const getChange = event => {
+  console.log('change:', event)
+}
+
+const getInput = event =>{
+  console.log('input:', event.target.value)
+}
+
+const setFocus = () => demo.value.focus()
+const setBlur = () => demo.value.blur()
+const setSelect = () => demo.value.select()
 </script>
 ```
 :::
@@ -324,7 +270,7 @@ export default {
 ## Input Events
 
 | 事件名称 | 说明 | 回调参数 |
-|---|---|---|---|---|
+|---|---|---|
 | blur | 在 Input 失去焦点时触发 | (event: Event) |
 | focus | 在 Input 获得焦点时触发 | (event: Event) |
 | change | 仅在输入框失去焦点或用户按下回车时触发 | (event: Event) |
@@ -334,7 +280,7 @@ export default {
 
 ## Input Methods
 | 事件名称 | 说明 | 参数 |
-|---|---|---|---|---|
+|---|---|---|
 | focus | 使 input 获取焦点 | - |
 | blur | 使 input 失去焦点 | - |
 | select | 选中 input 中的文字 | - |

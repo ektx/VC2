@@ -52,7 +52,7 @@
       v-if="clearable && modelValue"
       @click="clearMsg"
     >
-      <i class="vc-icon-circle-close"></i>
+      <i class="vc-icon-error"></i>
     </div>
 
     <div 
