@@ -3,8 +3,8 @@
 
 ## 基础效果
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   {{ value1 }}
   <vc-time-picker v-model="value1"/>
@@ -35,8 +35,8 @@ export default {
 
 提供几个固定的时间点供用户选择
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   {{ value1 }}
   <vc-time-picker 
@@ -59,8 +59,8 @@ export default {
 
 ## 禁用效果
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   <vc-time-picker disabled v-model="value1"/>
 </template>
