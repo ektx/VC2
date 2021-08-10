@@ -6,8 +6,8 @@
 
 可同时展开多个面板，面板之间不影响
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   <vc-collapse v-model:value="value">
     <vc-collapse-item title="一致性 Consistency" value="1">
@@ -46,8 +46,8 @@ export default {
 
 每次只能展开一个面板
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   <vc-collapse v-model:value="value" accordion>
     <vc-collapse-item title="一致性 Consistency" value="1">
@@ -86,8 +86,8 @@ export default {
 
 除了可以通过 `title` 属性以外，还可以通过具名插槽来实现自定义面板的标题内容，以实现增加图标等效果。
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   <vc-collapse v-model:value="value" accordion>
     <vc-collapse-item value="1">
@@ -129,8 +129,8 @@ export default {
 
 使用 `disabled` 可以禁用。
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   <vc-collapse v-model:value="value" accordion>
     <vc-collapse-item title="一致性 Consistency" value="1">
