@@ -3,8 +3,8 @@
 
 ## 基础效果
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-input-number :min="0" :max="5" v-model="value"/>
 </template>
@@ -23,8 +23,8 @@ export default {
 
 ## 禁用效果
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-input-number disabled v-model="value"/>
 </template>
@@ -45,8 +45,8 @@ export default {
 
 允许定义递增递减的步数控制
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-input-number :step="2" v-model="value"/>
 </template>
@@ -65,8 +65,8 @@ export default {
 
 ## 精度
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <p>{{ value }}</p>
   <vc-input-number :precision="2" :step="0.2" v-model="value"/>
@@ -86,12 +86,12 @@ export default {
 
 ## 大小控制
 
-::: demo 
+::: codeBox 
 
 > `size` 设置字体大小  
 > `width` 设置宽度  
 
-```html
+```vue
 <template>
   <vc-input-number size="24px" width="100px" v-model="value"/>
 </template>
@@ -112,8 +112,8 @@ export default {
 
 控制按钮只在鼠标交互时显示。
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-input-number clear-mode v-model="value"/>
 </template>
