@@ -1,13 +1,13 @@
 # Radio 单选框
-在一组备选项中进行单选
 
+在一组备选项中进行单选
 
 ## 基础用法
 
 由于选项默认可见，不宜过多，若选项过多，建议使用 Select 选择器。
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-radio v-model="radio" :label="1">项目1</vc-radio>
   <vc-radio v-model="radio" :label="2">项目2</vc-radio>
@@ -29,8 +29,8 @@ export default {
 
 适用于在多个互斥的选项中选择的场景。
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-radio-group v-model="radio" @change="change">
     <vc-radio :label="1"></vc-radio>
@@ -39,24 +39,17 @@ export default {
   </vc-radio-group>
 </template>
 
-<script>
-export default {
-  setup() {
-    let radio = ref(3)
-    let message = inject('vcMessage')
+<script setup>
+import { ref, inject } from 'vue'
 
-    const change = event =>{
-      message({
-        type: 'info',
-        message: event.target.value
-      }) 
-    }
-    
-    return {
-      radio,
-      change
-    }
-  }
+let radio = ref(3)
+let message = inject('vcMessage')
+
+const change = event =>{
+  message({
+    type: 'info',
+    message: event.target.value
+  }) 
 }
 </script>
 ```
@@ -67,8 +60,8 @@ export default {
 
 按钮样式的单选组合。
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-radio-group v-model="radio1" type="button" :size="10">
     <vc-radio label="上海">上海</vc-radio>
@@ -85,26 +78,19 @@ export default {
   </vc-radio-group>
 </template>
 
-<script>
-export default {
-  setup() {
-    let radio1 = ref('安徽')
-    let radio2 = ref('安徽')
-    
-    return {
-      radio1,
-      radio2,
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+let radio1 = ref('安徽')
+let radio2 = ref('安徽')
 </script>
 ```
 :::
 
 ## 自定颜色
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-radio-group v-model="radio1" type="button" background="green">
     <vc-radio label="1">上海</vc-radio>
@@ -121,26 +107,19 @@ export default {
   </vc-radio-group>
 </template>
 
-<script>
-export default {
-  setup() {
-    let radio1 = ref('1')
-    let radio2 = ref('1')
-    
-    return {
-      radio1,
-      radio2,
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+let radio1 = ref('1')
+let radio2 = ref('1')
 </script>
 ```
 :::
 
 ## 带有边框
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-radio v-model="radio3" label="1" border>上海</vc-radio>
   <vc-radio v-model="radio3" label="2" border>北京</vc-radio>
@@ -154,23 +133,13 @@ export default {
   </vc-radio-group>
 </template>
 
-<script>
-export default {
-  setup() {
-    let radio = ref('1')
-    let radio2 = ref('1')
-    let radio4 = ref('1')
-    let radio3 = ref('1')
-    
-    return {
-      radio,
-      radio2,
-      radio4,
-      radio3
-      
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+let radio = ref('1')
+let radio2 = ref('1')
+let radio4 = ref('1')
+let radio3 = ref('1')
 </script>
 ```
 :::
@@ -179,8 +148,8 @@ export default {
 
 单选框不可用的状态。
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <div>
     <vc-radio disabled v-model="radio" label="上海"></vc-radio>
@@ -205,16 +174,10 @@ export default {
   </vc-radio-group>
 </template>
 
-<script>
-export default {
-  setup() {
-    let radio = ref('北京')
+<script setup>
+import { ref } from 'vue'
 
-    return {
-      radio
-    }
-  }
-}
+let radio = ref('北京')
 </script>
 ```
 :::
@@ -223,8 +186,8 @@ export default {
 
 由于选项默认可见，不宜过多，若选项过多，建议使用 Select 选择器。
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-radio 
     v-model="radio" 
@@ -255,40 +218,31 @@ export default {
   </vc-radio-group>
 </template>
 
-<script>
-export default {
-  setup() {
-    let radio = ref('北京')
-    let message = inject('vcMessage')
+<script setup>
+import { ref, inject } from 'vue'
 
-    const change = event =>{
-      message({
-        type: 'info',
-        message: event.target.value
-      }) 
-    }
+let radio = ref('北京')
+let message = inject('vcMessage')
 
-    function focus(evt) {
-      message({
-        type: 'warning',
-        message: 'focus'
-      })
-    }
+const change = event =>{
+  message({
+    type: 'info',
+    message: event.target.value
+  }) 
+}
 
-    function blur(evt) {
-      message({
-        type: 'success',
-        message: 'blur'
-      })
-    }
+function focus(evt) {
+  message({
+    type: 'warning',
+    message: 'focus'
+  })
+}
 
-    return {
-      radio,
-      change,
-      focus,
-      blur
-    }
-  }
+function blur(evt) {
+  message({
+    type: 'success',
+    message: 'blur'
+  })
 }
 </script>
 ```
@@ -309,7 +263,7 @@ export default {
 ## Props Events
 
 | 事件名称 | 说明 | 回调参数 | 
-|---|---|---|---|---|
+|---|---|---|
 | focus | 聚焦时 | event |
 | blur | 失焦时 | event |
 | change | 状态发生变化时的回调函数 | event |
@@ -328,7 +282,7 @@ export default {
 ## Radio Group Events
 
 | 事件名称 | 说明 | 回调参数 | 
-|---|---|---|---|---|
+|---|---|---|
 | focus | 聚焦时 | event |
 | blur | 失焦时 | event |
 | change | 状态发生变化时的回调函数 | event |
