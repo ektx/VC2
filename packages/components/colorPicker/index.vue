@@ -181,8 +181,7 @@ export default {
                 gpuAcceleration: false
               }
             }
-          ],
-          strategy: 'fixed'
+          ]
         }
       )
     }
