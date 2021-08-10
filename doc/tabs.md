@@ -3,8 +3,8 @@
 
 ## 基础效果
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-tabs v-model:value="activeName" @tab-click="handleClick">
     <vc-tab-pane label="用户管理" name="first">用户管理</vc-tab-pane>
@@ -33,11 +33,11 @@
 
 ## 禁用效果
 
-::: demo 
+::: codeBox 
 
 > 通过添加 `disabled`  来禁用单个 Tab
 
-```html
+```vue
 <template>
   <vc-button @click="value = !value">Click</vc-button>
   <vc-tabs value="second">
@@ -61,8 +61,8 @@
 
 ## 图标效果
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-tabs>
     <vc-tab-pane icon="vc-icon-os-apple" label="MacOS">MacOS</vc-tab-pane>
@@ -75,12 +75,12 @@
 
 ## 自定义标签页
 
-::: demo 
+::: codeBox 
 
 > 在 `vc-tab-pane` 中使用具名插槽可以自定义标签。  
 > `label` 与 `name` 不可同时省略。
 
-```html
+```vue
 <template>
   <vc-tabs>
     <vc-tab-pane name="date">
@@ -98,8 +98,8 @@
 
 ## 自定义增加标签页触发器
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-button @click="handleClick">Add</vc-button>
   <vc-tabs v-model:value="activeName" @tabRemove="remove">
@@ -156,8 +156,8 @@
 
 ## 动态控制
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-button-group>
     <vc-button round @click="activeName = 'first'">用户管理</vc-button>
@@ -174,14 +174,10 @@
   </vc-tabs>
 </template>
 
-<script>
-  export default {
-    setup() {
-      return {
-        activeName: ref('first')
-      }
-    }
-  };
+<script setup>
+import { ref } from 'vue'
+
+const activeName = ref('first')
 </script>
 ```
 :::
