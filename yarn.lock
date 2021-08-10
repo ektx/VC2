@@ -169,10 +169,10 @@
     "@intlify/runtime" "9.1.7"
     "@intlify/shared" "9.1.7"
 
-"@intsig/vipress@^0.11.0-rc.3":
-  "integrity" "sha512-ZK2PFuUm3pVLWSM4Vl+LFjk2YMZc4e40dMcQZCly8w7V9+mCeGoygQTIJfTAdOtfVk3X8cbCtmjdI/R4r84p/A=="
-  "resolved" "http://localhost:4873/@intsig%2fvipress/-/vipress-0.11.0-rc.3.tgz"
-  "version" "0.11.0-rc.3"
+"@intsig/vipress@^0.11.0-rc.4":
+  "integrity" "sha512-+rwr/An0smx6RL6wcW0PsNnCz/zXrnRQXsJfXQN7vHy8ubSYyxdWYuHPQjvcPkhRA6888kMk9THsVMqsuvSPUg=="
+  "resolved" "http://localhost:4873/@intsig%2fvipress/-/vipress-0.11.0-rc.4.tgz"
+  "version" "0.11.0-rc.4"
   dependencies:
     "body-parser" "^1.19.0"
     "chokidar" "^3.5.1"

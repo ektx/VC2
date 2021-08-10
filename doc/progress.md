@@ -3,8 +3,8 @@
 
 ## 基础效果
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   <vc-progress :value="30"/>
   <vc-progress :value="100">完成</vc-progress>
@@ -19,13 +19,13 @@
 
 百分比不占用额外控件，适用于文件上传等场景。
 
-::: demo 
+::: codeBox
 
 > Progress 组件可通过 `stroke-width` 属性更改进度条的高度。  
 > `text-type="none"` 属性来将进度条描述隐藏。  
 > `text-type="inner"` 属性来将进度条描述置于进度条内部。  
 
-```html
+```vue
 <template>
   <vc-progress text-type="none" :value="30"/>
   <vc-progress text-type="none" :value="100">完成</vc-progress>
@@ -42,8 +42,8 @@
 
 可以通过 `color` 设置进度条的颜色，`color` 可以接受颜色字符串，函数和数组。 
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   <vc-progress :value="value" color="#f90"/>
   <vc-progress :value="value" :color="customColors"/>
@@ -97,8 +97,8 @@ export default {
 
 ## 空间使用效果
 
-::: demo 
-```html
+::: codeBox
+```vue
 <template>
   <vc-progress :value="value" :max="128" :format="format" :stroke-width="20"/>
 </template>
@@ -126,17 +126,6 @@ export default {
           color: '#e6465a'
         } 
       },
-    }
-  },
-  methods: {
-    customColorsFun(percentage) {
-      if (percentage < 30) {
-        return '#909399';
-      } else if (percentage < 70) {
-        return '#e6a23c';
-      } else {
-        return '#67c23a';
-      }
     }
   }
 }
