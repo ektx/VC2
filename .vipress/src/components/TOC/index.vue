@@ -63,22 +63,22 @@ export default {
         this.activeItem = []
         
         if (activeItem.length) {
-          const current = activeItem.reverse()[0];
-          current.active = true;
-          const { scrollBehavior } = this.$router.options;
+          const current = activeItem.reverse()[0]
+          current.active = true
+          const { scrollBehavior } = this.$router.options
 
-          this.$router.options.scrollBehavior = undefined;
+          this.$router.options.scrollBehavior = undefined
 
           await this.$router
             .replace({
-              hash: "#" + decodeURIComponent(current.id),
-              force: true,
+              hash: '#' + decodeURIComponent(current.id),
+              force: true
             })
             .finally(
               () => (this.$router.options.scrollBehavior = scrollBehavior)
-            );
+            )
         }
-      }, 100);
+      }, 100)
     }
   },
   unmounted() {

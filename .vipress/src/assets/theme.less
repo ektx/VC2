@@ -119,10 +119,10 @@ html {
 }
 
 body {
-  overscroll-behavior-y: none;
-  overscroll-behavior-x: none;
+  overscroll-behavior: none;
   background-color: var(--page-bg-color);
   transition: background .4s ease-out;
+  will-change: background;
 }
 
 :target:before {

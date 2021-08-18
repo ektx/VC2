@@ -4,8 +4,8 @@ import { routes } from "vipress-virtual-router"
 const scrollBehavior = function (to, from, savedPosition) {
   if (to.hash) {
     return { 
-      el: `#${encodeURIComponent(to.hash.slice(1))}`,
-      top: 80
+      el: `#${to.hash.slice(1)}`,
+      top: 100
     }
   }
   if (savedPosition) {
@@ -16,7 +16,7 @@ const scrollBehavior = function (to, from, savedPosition) {
 }
 
 export default createRouter({
-    history: createWebHistory(),
-    scrollBehavior,
-    routes
+  history: createWebHistory(),
+  scrollBehavior,
+  routes
 })
