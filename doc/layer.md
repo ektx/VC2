@@ -2,8 +2,8 @@
 
 ## 基础效果
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-button @click="open = !open">Open Layer - {{open}}</vc-button>
   <vc-layer v-model:show="open" title="hello world" append-to-body>
@@ -29,8 +29,8 @@ export default {
 
 ## 全屏效果
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-button @click="open = !open">Open Layer - {{open}}</vc-button>
   <vc-layer v-model:show="open" title="hello world" fullscreen>
@@ -56,8 +56,8 @@ export default {
 
 ## 阻止关闭事件效果
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-button @click="open = !open">Open Layer - {{open}}</vc-button>
   <vc-layer 
@@ -78,14 +78,14 @@ export default {
     }
   },
   methods: {
-    beforeClose(done) {
+    beforeClose() {
       this.VcConfirm({
         title: '提示',
         message: '你确定关闭吗',
         type: 'confirm'
       }).then(data => {
         console.log('确认了消息:'+data)
-        done()
+        this.open = false
       }).catch(err => {
         console.log('关闭了消息:'+err)
       })
@@ -101,11 +101,11 @@ export default {
 
 ## 阻止默认事件效果
 
-::: demo 
+::: codeBox 
 
 > 此效果主要表现在用户的事件阻止了传播。此时，动画为从上到下效果。
 
-```html
+```vue
 <template>
   <vc-button @click.stop="open = !open">Open Layer - {{open}}</vc-button>
   <vc-layer v-model:show="open" title="hello world" append-to-body>

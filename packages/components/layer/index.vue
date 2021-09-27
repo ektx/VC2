@@ -1,35 +1,27 @@
 <template>
-  <transition 
-    name="vc-fade-animate" 
-    @after-enter="afterEnter" 
-    @after-leave="afterLeave"
-  >
-    <div 
-      v-show="visible" 
-      :class="['vc-layer', {'is-fullscreen': fullscreen}]" 
-      @click.self="layerBoxClick"
+  <transition name="vc-fade-animate">
+    <div
+      v-show="visible"
+      :class="['vc-layer', { fullscreen }]"
+      @click.stop.self="layerBoxClick"
     >
-      <transition :name="contentAnimate">
-        <div v-show="visible" class="vc-layer__inner" :style="style" @click.stop>
-          <div class="vc-layer__header">
-            <slot name="title">
-              <span>{{title}}</span>
-            </slot>
-            <i class="vc-icon-close" @click="hideLayer"></i>
-          </div>
-          <div class="vc-layer__main"><slot></slot></div>
-          <div class="vc-layer__footer" v-if="$slots.footer">
-            <slot name="footer"></slot>
-          </div>
+      <div ref="content" class="vc-layer--inner" :style="style" @click.stop>
+        <div class="vc-layer--header">
+          <slot name="title">
+            <span>{{ title }}</span>
+          </slot>
+          <i class="vc-icon-close" @click="hideLayer"></i>
         </div>
-        </transition>
+        <div class="vc-layer--main"><slot></slot></div>
+        <div v-if="$slots.footer" class="vc-layer--footer">
+          <slot name="footer"></slot>
+        </div>
       </div>
+    </div>
   </transition>
 </template>
 
 <script>
-import { isIE } from '../../utils/IE'
-
 export default {
   name: 'VcLayer',
   props: {
@@ -41,10 +33,17 @@ export default {
       type: String,
       default: '标题'
     },
-    width: String,
-    position: {
+    // 调整弹层的宽度
+    width: {
+      type: String,
+      default: '50%'
+    },
+    offset: {
       type: Object,
-      default: () => ({})
+      default: () => ({
+        x: 0,
+        y: 0
+      })
     },
     // 点击背景不消失，默认false
     closeModal: {
@@ -56,77 +55,56 @@ export default {
     // 是否为全屏
     fullscreen: Boolean,
     // 关闭前的回调，会暂停弹层的关闭
-    beforeClose: Function
-  },
-  computed: {
-    style () {
-      let style = {}
-      let {x, y} = this.evt
-
-      // 如果用户指定了位置
-      if (this.position) {
-        x = Reflect.has(this.position, 'x') ? this.position.x : x
-        y = Reflect.has(this.position, 'y') ? this.position.y : y
-      } 
-
-      style = {
-        transformOrigin: `${x}px ${y}px`
-      }
-
-      if (this.width) style.width = this.width
-
-      return style
+    beforeClose: {
+      type: Function,
+      default: null
     }
   },
-  data () {
+  emits: ['open', 'update:show', 'close', 'opened', 'closed'],
+  data() {
     return {
-      evt: {
-        x: 0,
-        y: 0
-      },
       // 默认不是组件调用关闭
-      toClose: false,
       visible: false,
-      contentAnimate: 'vc-scale',
-      timer: null
+      timer: null,
+      style: {},
+      fromStyle: {},
+      toStyle: {}
     }
   },
   watch: {
     show: {
-      handler(val) {
+      handler(val, old) {
         if (val) {
-          this.toClose = false
-
           this.timer = setTimeout(() => {
-            this.$emit('open')
             this.getClickPosition()
           }, 50)
         } else {
-          // 组件内调用时，重置（防止多次关闭事件）
-          if (this.toClose) {
-            this.toClose = false
-            return
-          }
-          this.close()
+          old !== undefined && this.close()
         }
       },
       immediate: true
     }
   },
-  mounted () {
+  mounted() {
     if (this.appendToBody) {
       document.body.appendChild(this.$el)
     }
     window.addEventListener('click', this.windowEvent)
   },
+  unmounted() {
+    if (this.appendToBody && this.$el) {
+      this.$el.parentNode.removeChild(this.$el)
+    }
+    window.removeEventListener('click', this.windowEvent)
+  },
   methods: {
-    layerBoxClick () {
-      if (!this.closeModal) this.hideLayer()
+    layerBoxClick() {
+      !this.closeModal && this.hideLayer()
     },
 
-    hideLayer () {
+    hideLayer() {
       if (this.beforeClose) {
-        this.beforeClose(this.close)
+        this.beforeClose()
         return
       }
 
@@ -134,13 +112,13 @@ export default {
     },
 
     close() {
-      if (this.visible) {
-        // 标记组件关闭事件
-        this.toClose = true
-        this.visible = false
+      this.visible = false
+      this.$emit('close')
+      this.animate(this.toStyle, this.fromStyle, () => {
         this.$emit('update:show', false)
-        this.$emit('close')
-      }
+        this.$emit('closed')
+        document.documentElement.style.overflow = ''
+      })
     },
 
     windowEvent(evt) {
@@ -148,62 +126,70 @@ export default {
         if (this.timer) {
           this.timer = clearTimeout(this.timer)
         }
-
-        this.getClickPosition(evt)
+        evt && this.getClickPosition(evt)
       }
     },
 
-    getClickPosition (evt) {
-      if ( isIE() ) {
-        if (this.show) return
-      }
+    getClickPosition(evt) {
+      console.log(11)
+      if (this.visible) return
+      // 打开开始
+      this.$emit('open')
+      // 开始主容器显示
+      this.visible = true
+      document.documentElement.style.overflow = 'hidden'
 
-      if (evt) {
-        if (this.visible) return
+      this.fromStyle.opacity = 0
+      this.toStyle.opacity = 1
 
-        this.contentAnimate = 'vc-scale'
-        this.visible = true
-
-        let { clientX, clientY } = evt
-        // 0.5为弹层的默认宽度
-        let width = window.innerWidth * .5
-              
-        if (this.width) {
-          if (this.width.endsWith('px')) {
-            width = parseInt(this.width)
-          } 
-          // 20vw 20%
-          else {
-            width = window.innerWidth * (parseInt(this.width)/100)
-          }
-        }
-  
-        let halfW = width / 2
-        let x = clientX - (window.innerWidth / 2)
-        let y = clientY - 100
-  
-        // x 轴偏移
-        x = x + halfW
-        this.evt = Object.assign({}, {x, y})
+      if (this.fullscreen) {
+        this.fromStyle.transform = 'translateY(100px)'
+        this.toStyle.transform = 'translateY(0)'
       } else {
-        this.contentAnimate = 'vc-fade-down-animate'
-        this.visible = true
+        let targetDOMRect = evt
+          ? evt.target.getBoundingClientRect()
+          : { x: 0, y: 0 }
+        let width = this.getWidth()
+        let offset = { ...{ x: 0, y: 0 }, ...this.offset }
+        let toX = (window.innerWidth - width) / 2 + offset.x
+        let toY = 100 + offset.y
+        let fromX = evt ? targetDOMRect.x : toX
+        let fromScale = evt ? 0 : 1
+
+        this.fromStyle.transform = `translate(${fromX}px, ${targetDOMRect.y}px) scale(${fromScale})`
+        this.toStyle.transform = `translate(${toX}px, ${toY}px) scale(1)`
       }
+
+      this.animate(this.fromStyle, this.toStyle, () => {
+        this.style = this.toStyle
+        this.$emit('opened')
+      })
     },
 
-    afterEnter() {
-      this.$emit('opened')
+    getWidth() {
+      // 0.5为弹层的默认宽度
+      let width = window.innerWidth * 0.5
+
+      if (this.width) {
+        if (this.width.endsWith('px')) {
+          width = parseInt(this.width)
+        }
+        // 20vw 20%
+        else {
+          width = window.innerWidth * (parseInt(this.width) / 100)
+        }
+      }
+
+      return width
     },
-        
-    afterLeave() {
-      this.$emit('closed')
+
+    animate(from, to, cb) {
+      const animate = this.$refs.content.animate([from, to], {
+        duration: 350,
+        easing: 'ease-in-out'
+      })
+      animate.onfinish = () => cb()
     }
-  },
-  unmounted () {
-    if (this.appendToBody && this.$el) {
-      this.$el.parentNode.removeChild(this.$el)
-    }
-    window.removeEventListener('click', this.windowEvent)
   }
 }
 </script>

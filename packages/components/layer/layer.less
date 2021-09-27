@@ -6,29 +6,32 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 1000;
-  overflow: auto;
+  overflow: hidden;
 
-  &__inner {
+  &--inner {
     width: 50%;
-    margin: 100px auto;
-    background-color: hsla(0, 0%, 100%, 1);
+    margin: 0;
     border-radius: 10px;
+    box-sizing: border-box;
+    overflow: auto;
+    background-color: hsla(0, 0%, 100%, 1);
     box-shadow: 0 0 50px -10px rgba(0, 0, 0, 0.3);
     will-change: background-color, transform;
+    transform-origin: top left;
 
-    .vc-layer.is-fullscreen & {
-      width: 100vw;
-      height: 100vh;
+    .vc-layer.fullscreen & {
+      width: 100%;
+      height: 100%;
       margin: 0;
       border-radius: 0;
       overflow: auto;
     }
 
-    & > .vc-layer__main {
+    & > .vc-layer--main {
       padding: 10px;
     }
 
-    & > .vc-layer__footer {
+    & > .vc-layer--footer {
       padding: 10px;
       text-align: right;
 
@@ -37,8 +40,8 @@
       }
     }
   }
-  
-  &__header {
+
+  &--header {
     position: relative;
     font-size: 18px;
     color: #333;
@@ -53,8 +56,8 @@
       width: 20px;
       height: 20px;
       cursor: pointer;
-      opacity: .5;
-      transition: opacity .3s;
+      opacity: 0.5;
+      transition: opacity 0.3s;
 
       &:hover {
         opacity: 1;
