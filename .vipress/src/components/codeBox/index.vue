@@ -115,7 +115,7 @@ export default {
 
       blockquote {
         margin: 1em 1em 0;
-        padding: 0 1em;
+        padding: 1em;
         color: var(--page-txt-color);
         border-radius: 3px;
         background-color: var(--codebox-bg);
