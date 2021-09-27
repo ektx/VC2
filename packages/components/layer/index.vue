@@ -131,7 +131,6 @@ export default {
     },
 
     getClickPosition(evt) {
-      console.log(11)
       if (this.visible) return
       // 打开开始
       this.$emit('open')
