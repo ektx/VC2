@@ -138,23 +138,24 @@ export default {
       this.visible = true
       document.documentElement.style.overflow = 'hidden'
 
-      this.fromStyle.opacity = 0
-      this.toStyle.opacity = 1
+      this.fromStyle = { opacity: 0 }
+      this.toStyle = { opacity: 1 }
 
       if (this.fullscreen) {
         this.fromStyle.transform = 'translateY(100px)'
         this.toStyle.transform = 'translateY(0)'
       } else {
+        let width = this.getWidth()
         let targetDOMRect = evt
           ? evt.target.getBoundingClientRect()
           : { x: 0, y: 0 }
-        let width = this.getWidth()
         let offset = { ...{ x: 0, y: 0 }, ...this.offset }
         let toX = (window.innerWidth - width) / 2 + offset.x
         let toY = 100 + offset.y
         let fromX = evt ? targetDOMRect.x : toX
         let fromScale = evt ? 0 : 1
 
+        this.toStyle.width = width + 'px'
         this.fromStyle.transform = `translate(${fromX}px, ${targetDOMRect.y}px) scale(${fromScale})`
         this.toStyle.transform = `translate(${toX}px, ${toY}px) scale(1)`
       }
@@ -168,15 +169,29 @@ export default {
     getWidth() {
       // 0.5为弹层的默认宽度
       let width = window.innerWidth * 0.5
+      let fontSize = 0
 
-      if (this.width) {
-        if (this.width.endsWith('px')) {
-          width = parseInt(this.width)
-        }
+      switch (true) {
+        case this.width.endsWith('rem'):
+          ;({ fontSize } =
+            document.documentElement.style ||
+            window.getComputedStyle(document.documentElement))
+          width = parseFloat(this.width) * parseInt(fontSize)
+          break
+
+        case this.width.endsWith('em'):
+          ;({ fontSize } =
+            this.$el.style || window.getComputedStyle(this.$el))
+          width = parseFloat(this.width) * parseInt(fontSize)
+          break
+
         // 20vw 20%
-        else {
+        case /[vw|%]/i.test(this.width):
           width = window.innerWidth * (parseInt(this.width) / 100)
-        }
+          break
+
+        default:
+          width = parseInt(this.width)
       }
 
       return width
