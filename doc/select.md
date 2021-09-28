@@ -4,79 +4,65 @@
 
 ## 基础用法
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-select v-model="value" :options="options"/>
 </template>
 
-<script>
-export default {
-  setup() {
-    const value = ref('')
-    const options = [{
-      value: '选项1',
-      label: '黄金糕'
-    }, {
-      value: '选项2',
-      label: '双皮奶'
-    }, {
-      value: '选项3',
-      label: '蚵仔煎'
-    }, {
-      value: '选项4',
-      label: '龙须面'
-    }, {
-      value: '选项5',
-      label: '北京烤鸭'
-    }]
+<script setup>
+import { ref } from 'vue'
 
-    return {
-      value,
-      options
-    }
-  }
-}
+const value = ref('')
+const options = [{
+  value: '选项1',
+  label: '黄金糕'
+}, {
+  value: '选项2',
+  label: '双皮奶'
+}, {
+  value: '选项3',
+  label: '蚵仔煎'
+}, {
+  value: '选项4',
+  label: '龙须面'
+}, {
+  value: '选项5',
+  label: '北京烤鸭'
+}]
 </script>
 ```
 :::
 
 ## 有禁用选项
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-select v-model="value" :options="options"/>
 </template>
 
-<script>
-export default {
-  setup() {
-    const value = ref('选项2')
-    const options = [{
-      value: '选项1',
-      label: '黄金糕'
-    }, {
-      value: '选项2',
-      label: '双皮奶',
-      disabled: true
-    }, {
-      value: '选项3',
-      label: '蚵仔煎'
-    }, {
-      value: '选项4',
-      label: '龙须面'
-    }, {
-      value: '选项5',
-      label: '北京烤鸭'
-    }]
+<script setup>
+import { ref } from 'vue'
 
-    return {
-      value,
-      options
-    }
-  }
-}
+const value = ref('选项2')
+const options = [{
+  value: '选项1',
+  label: '黄金糕'
+}, {
+  value: '选项2',
+  label: '双皮奶',
+  disabled: true
+}, {
+  value: '选项3',
+  label: '蚵仔煎'
+}, {
+  value: '选项4',
+  label: '龙须面'
+}, {
+  value: '选项5',
+  label: '北京烤鸭'
+}]
 </script>
 ```
 :::
@@ -86,40 +72,33 @@ export default {
 
 选择器不可用状态
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-select v-model="value" :options="options" disabled/>
 </template>
 
-<script>
-export default {
-  setup() {
-    const value = ref('')
-    const options = [{
-      value: '选项1',
-      label: '黄金糕'
-    }, {
-      value: '选项2',
-      label: '双皮奶',
-      disabled: true
-    }, {
-      value: '选项3',
-      label: '蚵仔煎'
-    }, {
-      value: '选项4',
-      label: '龙须面'
-    }, {
-      value: '选项5',
-      label: '北京烤鸭'
-    }]
+<script setup>
+import { ref } from 'vue'
 
-    return {
-      value,
-      options
-    }
-  }
-}
+const value = ref('')
+const options = [{
+  value: '选项1',
+  label: '黄金糕'
+}, {
+  value: '选项2',
+  label: '双皮奶',
+  disabled: true
+}, {
+  value: '选项3',
+  label: '蚵仔煎'
+}, {
+  value: '选项4',
+  label: '龙须面'
+}, {
+  value: '选项5',
+  label: '北京烤鸭'
+}]
 </script>
 ```
 :::
@@ -128,39 +107,32 @@ export default {
 
 包含清空按钮，可将选择器清空为初始状态
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-select v-model="value" :options="options" multiple clearable/>
 </template>
 
 <script>
-export default {
-  setup() {
-    const value = ref([])
-    const options = [{
-      value: '选项1',
-      label: '黄金糕'
-    }, {
-      value: '选项2',
-      label: '双皮奶',
-    }, {
-      value: '选项3',
-      label: '蚵仔煎'
-    }, {
-      value: '选项4',
-      label: '龙须面'
-    }, {
-      value: '选项5',
-      label: '北京烤鸭'
-    }]
+import { ref } from 'vue'
 
-    return {
-      value,
-      options
-    }
-  }
-}
+const value = ref([])
+const options = [{
+  value: '选项1',
+  label: '黄金糕'
+}, {
+  value: '选项2',
+  label: '双皮奶',
+}, {
+  value: '选项3',
+  label: '蚵仔煎'
+}, {
+  value: '选项4',
+  label: '龙须面'
+}, {
+  value: '选项5',
+  label: '北京烤鸭'
+}]
 </script>
 ```
 :::
@@ -169,41 +141,34 @@ export default {
 
 适用性较广的基础多选，用 Tag 展示已选项
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-select v-model="value" :options="options" multiple/>
   <vc-select v-model="value" :options="options" multiple collapse-tags :max-tag-count="2"/>
 </template>
 
-<script>
-export default {
-  setup() {
-    const value = ref(['选项2', '选项4'])
+<script setup>
+import { ref } from 'vue'
 
-    const options = [{
-      value: '选项1',
-      label: '黄金糕'
-    }, {
-      value: '选项2',
-      label: '双皮奶'
-    }, {
-      value: '选项3',
-      label: '蚵仔煎'
-    }, {
-      value: '选项4',
-      label: '龙须面'
-    }, {
-      value: '选项5',
-      label: '北京烤鸭'
-    }]
+const value = ref(['选项2', '选项4'])
 
-    return {
-      value,
-      options
-    }
-  }
-}
+const options = [{
+  value: '选项1',
+  label: '黄金糕'
+}, {
+  value: '选项2',
+  label: '双皮奶'
+}, {
+  value: '选项3',
+  label: '蚵仔煎'
+}, {
+  value: '选项4',
+  label: '龙须面'
+}, {
+  value: '选项5',
+  label: '北京烤鸭'
+}]
 </script>
 ```
 :::
@@ -213,8 +178,8 @@ export default {
 
 可以自定义备选项
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-select v-model="value" :options="options">
     <template #option="item">
@@ -225,33 +190,26 @@ export default {
 </template>
 
 <script>
-export default {
-  setup() {
-    const value = ref('选项2')
+import { ref } from 'vue'
 
-    const options = [{
-      value: '选项1',
-      label: '黄金糕'
-    }, {
-      value: '选项2',
-      label: '双皮奶'
-    }, {
-      value: '选项3',
-      label: '蚵仔煎'
-    }, {
-      value: '选项4',
-      label: '龙须面'
-    }, {
-      value: '选项5',
-      label: '北京烤鸭'
-    }]
+const value = ref('选项2')
 
-    return {
-      value,
-      options
-    }
-  }
-}
+const options = [{
+  value: '选项1',
+  label: '黄金糕'
+}, {
+  value: '选项2',
+  label: '双皮奶'
+}, {
+  value: '选项3',
+  label: '蚵仔煎'
+}, {
+  value: '选项4',
+  label: '龙须面'
+}, {
+  value: '选项5',
+  label: '北京烤鸭'
+}]
 </script>
 ```
 :::
@@ -260,59 +218,51 @@ export default {
 
 备选项进行分组展示
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-select v-model="value" :options="options" />
 </template>
 
 <script>
-export default {
-  setup() {
-    const value = ref('Shanghai')
+import { ref } from 'vue'
+const value = ref('Shanghai')
 
-    const options = [
-      {
-        label: '热门城市',
-        children: [{
-          value: 'Shanghai',
-          label: '上海'
-        }, {
-          value: 'Beijing',
-          label: '北京'
-        }]
-      }, 
-      {
-        label: '城市名',
-        children: [{
-          value: 'Chengdu',
-          label: '成都'
-        }, {
-          value: 'Shenzhen',
-          label: '深圳'
-        }, {
-          value: 'Guangzhou',
-          label: '广州'
-        }, {
-          value: 'Dalian',
-          label: '大连'
-        }]
-      }]
-
-    return {
-      value,
-      options
-    }
-  }
-}
+const options = [
+{
+  label: '热门城市',
+  children: [{
+    value: 'Shanghai',
+    label: '上海'
+  }, {
+    value: 'Beijing',
+    label: '北京'
+  }]
+}, 
+{
+  label: '城市名',
+  children: [{
+    value: 'Chengdu',
+    label: '成都'
+  }, {
+    value: 'Shenzhen',
+    label: '深圳'
+  }, {
+    value: 'Guangzhou',
+    label: '广州'
+  }, {
+    value: 'Dalian',
+    label: '大连'
+  }]
+}]
 </script>
 ```
 :::
 
 ## 分组自定义模板
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-select v-model="value" :options="options" multiple>
     <template #header="item">
@@ -327,44 +277,36 @@ export default {
 </template>
 
 <script>
-export default {
-  setup() {
-    const value = ref('Shanghai')
+import { ref } from 'vue'
+const value = ref('Shanghai')
 
-    const options = [
-      {
-        label: '热门城市',
-        children: [{
-          value: 'Shanghai',
-          label: '上海'
-        }, {
-          value: 'Beijing',
-          label: '北京'
-        }]
-      }, 
-      {
-        label: '城市名',
-        children: [{
-          value: 'Chengdu',
-          label: '成都'
-        }, {
-          value: 'Shenzhen',
-          label: '深圳'
-        }, {
-          value: 'Guangzhou',
-          label: '广州'
-        }, {
-          value: 'Dalian',
-          label: '大连'
-        }]
-      }]
-
-    return {
-      value,
-      options
-    }
-  }
-}
+const options = [
+{
+  label: '热门城市',
+  children: [{
+    value: 'Shanghai',
+    label: '上海'
+  }, {
+    value: 'Beijing',
+    label: '北京'
+  }]
+}, 
+{
+  label: '城市名',
+  children: [{
+    value: 'Chengdu',
+    label: '成都'
+  }, {
+    value: 'Shenzhen',
+    label: '深圳'
+  }, {
+    value: 'Guangzhou',
+    label: '广州'
+  }, {
+    value: 'Dalian',
+    label: '大连'
+  }]
+}]
 </script>
 ```
 :::
@@ -374,54 +316,45 @@ export default {
 
 可以利用搜索功能快速查找选项
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-select v-model="value1" :options="options" filterable />
   <vc-select v-model="value2" :options="options" multiple filterable />
 </template>
 
 <script>
-export default {
-  setup() {
-    const value1 = ref('Shanghai')
-    const value2 = ref(['Shanghai'])
+import { ref } from 'vue'
+const value1 = ref('Shanghai')
+const value2 = ref(['Shanghai'])
 
-    const options = [
-      {
-        label: '热门城市',
-        children: [{
-          value: 'Shanghai',
-          label: '上海'
-        }, {
-          value: 'Beijing',
-          label: '北京'
-        }]
-      }, 
-      {
-        label: '城市名',
-        children: [{
-          value: 'Chengdu',
-          label: '成都'
-        }, {
-          value: 'Shenzhen',
-          label: '深圳'
-        }, {
-          value: 'Guangzhou',
-          label: '广州'
-        }, {
-          value: 'Dalian',
-          label: '大连'
-        }]
-      }]
-
-    return {
-      value1,
-      value2,
-      options
-    }
-  }
-}
+const options = [
+{
+  label: '热门城市',
+  children: [{
+    value: 'Shanghai',
+    label: '上海'
+  }, {
+    value: 'Beijing',
+    label: '北京'
+  }]
+}, 
+{
+  label: '城市名',
+  children: [{
+    value: 'Chengdu',
+    label: '成都'
+  }, {
+    value: 'Shenzhen',
+    label: '深圳'
+  }, {
+    value: 'Guangzhou',
+    label: '广州'
+  }, {
+    value: 'Dalian',
+    label: '大连'
+  }]
+}]
 </script>
 ```
 :::
@@ -430,54 +363,45 @@ export default {
 
 可以利用搜索功能快速查找选项
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-select v-model="value" :options="options" filterable :filterMethod="find"/>
 </template>
 
 <script>
-export default {
-  setup() {
-    const value = ref('')
+import { ref } from 'vue'
+const value = ref('')
 
-    const options = [{
-      value: '1',
-      label: '黄金糕'
-    }, {
-      value: '2',
-      label: '双皮奶'
-    }, {
-      value: '3',
-      label: '蚵仔煎'
-    }, {
-      value: '4',
-      label: '龙须面'
-    }, {
-      value: '5',
-      label: '北京烤鸭'
-    }]
+const options = [{
+  value: '1',
+  label: '黄金糕'
+}, {
+  value: '2',
+  label: '双皮奶'
+}, {
+  value: '3',
+  label: '蚵仔煎'
+}, {
+  value: '4',
+  label: '龙须面'
+}, {
+  value: '5',
+  label: '北京烤鸭'
+}]
 
-    function find(val, list) {
-      let result = list
+function find(val, list) {
+  let result = list
 
-      if (val) {
-        result = []
+  if (val) {
+    result = []
 
-        list.forEach(item => {
-          if (item.value == val) result.push(item)
-        })
-      }
-
-      return result
-    }
-
-    return {
-      value,
-      options,
-      find
-    }
+    list.forEach(item => {
+      if (item.value == val) result.push(item)
+    })
   }
+
+  return result
 }
 </script>
 ```
@@ -487,58 +411,49 @@ export default {
 
 可以利用搜索功能快速查找选项
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-select v-model="value" :options="options" filterable :remote-method="find" />
 </template>
 
 <script>
-export default {
-  setup() {
-    const value = ref('')
-    const options = ref([])
-    const list = ["Alabama", "Alaska", "Arizona",
-      "Arkansas", "California", "Colorado",
-      "Connecticut", "Delaware", "Florida",
-      "Georgia", "Hawaii", "Idaho", "Illinois",
-      "Indiana", "Iowa", "Kansas", "Kentucky",
-      "Louisiana", "Maine", "Maryland",
-      "Massachusetts", "Michigan", "Minnesota",
-      "Mississippi", "Missouri", "Montana",
-      "Nebraska", "Nevada", "New Hampshire",
-      "New Jersey", "New Mexico", "New York",
-      "North Carolina", "North Dakota", "Ohio",
-      "Oklahoma", "Oregon", "Pennsylvania",
-      "Rhode Island", "South Carolina",
-      "South Dakota", "Tennessee", "Texas",
-      "Utah", "Vermont", "Virginia",
-      "Washington", "West Virginia", "Wisconsin",
-      "Wyoming"]
+import { ref } from 'vue'
+const value = ref('')
+const options = ref([])
+const list = ["Alabama", "Alaska", "Arizona",
+  "Arkansas", "California", "Colorado",
+  "Connecticut", "Delaware", "Florida",
+  "Georgia", "Hawaii", "Idaho", "Illinois",
+  "Indiana", "Iowa", "Kansas", "Kentucky",
+  "Louisiana", "Maine", "Maryland",
+  "Massachusetts", "Michigan", "Minnesota",
+  "Mississippi", "Missouri", "Montana",
+  "Nebraska", "Nevada", "New Hampshire",
+  "New Jersey", "New Mexico", "New York",
+  "North Carolina", "North Dakota", "Ohio",
+  "Oklahoma", "Oregon", "Pennsylvania",
+  "Rhode Island", "South Carolina",
+  "South Dakota", "Tennessee", "Texas",
+  "Utah", "Vermont", "Virginia",
+  "Washington", "West Virginia", "Wisconsin",
+  "Wyoming"]
 
-    function find(val, cb) {
-      setTimeout(() => {
-        let result = []
+function find(val, cb) {
+  setTimeout(() => {
+    let result = []
 
-        list.forEach(item => {
-          if (item.toLowerCase().includes(val)) {
-            result.push({
-              label: item,
-              value: item
-            })
-          }
+    list.forEach(item => {
+      if (item.toLowerCase().includes(val)) {
+        result.push({
+          label: item,
+          value: item
         })
-        cb(result)
-        options.value = result
-      }, 1000)
-    }
-
-    return {
-      value,
-      options,
-      find
-    }
-  }
+      }
+    })
+    cb(result)
+    options.value = result
+  }, 1000)
 }
 </script>
 ```
@@ -549,40 +464,32 @@ export default {
 
 可以创建并选中选项中不存在的条目
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-select v-model="value" :options="options" filterable createTags/>
 </template>
 
 <script>
-export default {
-  setup() {
-    const value = ref('')
+import { ref } from 'vue'
+const value = ref('')
 
-    const options = [{
-      value: '选项1',
-      label: '黄金糕'
-    }, {
-      value: '选项2',
-      label: '双皮奶',
-    }, {
-      value: '选项3',
-      label: '蚵仔煎'
-    }, {
-      value: '选项4',
-      label: '龙须面'
-    }, {
-      value: '选项5',
-      label: '北京烤鸭'
-    }]
-
-    return {
-      value,
-      options
-    }
-  }
-}
+const options = [{
+  value: '选项1',
+  label: '黄金糕'
+}, {
+  value: '选项2',
+  label: '双皮奶',
+}, {
+  value: '选项3',
+  label: '蚵仔煎'
+}, {
+  value: '选项4',
+  label: '龙须面'
+}, {
+  value: '选项5',
+  label: '北京烤鸭'
+}]
 </script>
 ```
 :::
@@ -592,58 +499,46 @@ export default {
 
 > 请打开控制台查看事件的输出。
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-select v-model="value" :options="options" @change="change" @focus="focus" @blur="blur" @closed="closed"/>
 </template>
 
 <script>
-export default {
-  setup() {
-    const value = ref('')
-    const options = [{
-      value: '选项1',
-      label: '黄金糕'
-    }, {
-      value: '选项2',
-      label: '双皮奶'
-    }, {
-      value: '选项3',
-      label: '蚵仔煎'
-    }, {
-      value: '选项4',
-      label: '龙须面'
-    }, {
-      value: '选项5',
-      label: '北京烤鸭'
-    }]
+import { ref } from 'vue'
+const value = ref('')
+const options = [{
+  value: '选项1',
+  label: '黄金糕'
+}, {
+  value: '选项2',
+  label: '双皮奶'
+}, {
+  value: '选项3',
+  label: '蚵仔煎'
+}, {
+  value: '选项4',
+  label: '龙须面'
+}, {
+  value: '选项5',
+  label: '北京烤鸭'
+}]
 
-    function change(item) {
-      console.log('change', item)
-    }
+function change(item) {
+  console.log('change', item)
+}
 
-    function blur() {
-      console.log('blur')
-    }
+function blur() {
+  console.log('blur')
+}
 
-    function focus(val) {
-      console.log(val)
-    }
+function focus(val) {
+  console.log(val)
+}
 
-    function closed() {
-      console.log('cloosed')
-    }
-
-    return {
-      value,
-      options,
-      change,
-      blur,
-      focus,
-      closed
-    }
-  }
+function closed() {
+  console.log('cloosed')
 }
 </script>
 ```
@@ -652,76 +547,66 @@ export default {
 
 ## 别名用法
 
-::: demo
+::: codeBox
 
 > `label-alias` 设置名称别名  
 > `value-alias` 设置值的别名  
 
-```html
+```vue
 <template>
   <vc-select v-model="value" :options="options" label-alias="name" value-alias="result"/>
   <vc-select v-model="groupValue" :options="groupOptions" label-alias="name" value-alias="result"/>
 </template>
 
 <script>
-export default {
-  setup() {
-    const value = ref('选项2')
-    const groupValue = ref('Shanghai')
-    const options = [{
-      result: '选项1',
-      name: '黄金糕'
+import { ref } from 'vue'
+const value = ref('选项2')
+const groupValue = ref('Shanghai')
+const options = [{
+  result: '选项1',
+  name: '黄金糕'
+}, {
+  result: '选项2',
+  name: '双皮奶'
+}, {
+  result: '选项3',
+  name: '蚵仔煎'
+}, {
+  result: '选项4',
+  name: '龙须面'
+}, {
+  result: '选项5',
+  name: '北京烤鸭'
+}]
+
+const groupOptions = [
+  {
+    label: '热门城市',
+    children: [{
+      result: 'Shanghai',
+      name: '上海'
     }, {
-      result: '选项2',
-      name: '双皮奶'
-    }, {
-      result: '选项3',
-      name: '蚵仔煎'
-    }, {
-      result: '选项4',
-      name: '龙须面'
-    }, {
-      result: '选项5',
-      name: '北京烤鸭'
+      result: 'Beijing',
+      name: '北京'
     }]
-
-    const groupOptions = [
-      {
-        label: '热门城市',
-        children: [{
-          result: 'Shanghai',
-          name: '上海'
-        }, {
-          result: 'Beijing',
-          name: '北京'
-        }]
-      }, 
-      {
-        label: '城市名',
-        children: [{
-          result: 'Chengdu',
-          name: '成都'
-        }, {
-          result: 'Shenzhen',
-          name: '深圳'
-        }, {
-          result: 'Guangzhou',
-          name: '广州'
-        }, {
-          result: 'Dalian',
-          name: '大连'
-        }]
-      }
-    ]
-
-    return {
-      value,
-      groupValue,
-      options,
-      groupOptions
-    }
+  }, 
+  {
+    label: '城市名',
+    children: [{
+      result: 'Chengdu',
+      name: '成都'
+    }, {
+      result: 'Shenzhen',
+      name: '深圳'
+    }, {
+      result: 'Guangzhou',
+      name: '广州'
+    }, {
+      result: 'Dalian',
+      name: '大连'
+    }]
   }
-}
+]
 </script>
 ```
 :::
@@ -729,116 +614,100 @@ export default {
 
 ## 显示内容更新
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-select v-model="value" :options="options"/>
 </template>
 
 <script>
-export default {
-  setup() {
-    const value = ref('选项1')
-    const options = ref([{
-      value: '选项1',
-      label: '黄金糕'
-    }, {
-      value: '选项2',
-      label: '双皮奶'
-    }, {
-      value: '选项3',
-      label: '蚵仔煎'
-    }, {
-      value: '选项4',
-      label: '龙须面'
-    }, {
-      value: '选项5',
-      label: '北京烤鸭'
-    }])
+import { ref } from 'vue'
+const value = ref('选项1')
+const options = ref([{
+  value: '选项1',
+  label: '黄金糕'
+}, {
+  value: '选项2',
+  label: '双皮奶'
+}, {
+  value: '选项3',
+  label: '蚵仔煎'
+}, {
+  value: '选项4',
+  label: '龙须面'
+}, {
+  value: '选项5',
+  label: '北京烤鸭'
+}])
 
-    setTimeout(() => {
-      options.value = [{
-        value: '选项1',
-        label: '黄金糕11'
-      }, {
-        value: '选项2',
-        label: '双皮奶11'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎11'
-      }, {
-        value: '选项4',
-        label: '龙须面11'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭11'
-      }]
-    }, 1000)
-
-    return {
-      value,
-      options
-    }
-  }
-}
+setTimeout(() => {
+  options.value = [{
+    value: '选项1',
+    label: '黄金糕11'
+  }, {
+    value: '选项2',
+    label: '双皮奶11'
+  }, {
+    value: '选项3',
+    label: '蚵仔煎11'
+  }, {
+    value: '选项4',
+    label: '龙须面11'
+  }, {
+    value: '选项5',
+    label: '北京烤鸭11'
+  }]
+}, 1000)
 </script>
 ```
 :::
 
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-select v-model="value" :options="options" multiple clearable/>
 </template>
 
 <script>
-export default {
-  setup() {
-    const value = ref(['选项1','选项2'])
-    const options = ref([{
-      value: '选项1',
-      label: '黄金糕'
-    }, {
-      value: '选项2',
-      label: '双皮奶',
-    }, {
-      value: '选项3',
-      label: '蚵仔煎'
-    }, {
-      value: '选项4',
-      label: '龙须面'
-    }, {
-      value: '选项5',
-      label: '北京烤鸭'
-    }])
+import { ref } from 'vue'
+const value = ref(['选项1','选项2'])
+const options = ref([{
+  value: '选项1',
+  label: '黄金糕'
+}, {
+  value: '选项2',
+  label: '双皮奶',
+}, {
+  value: '选项3',
+  label: '蚵仔煎'
+}, {
+  value: '选项4',
+  label: '龙须面'
+}, {
+  value: '选项5',
+  label: '北京烤鸭'
+}])
 
-    setTimeout(() => {
+setTimeout(() => {
 
-      options.value = [{
-        value: '选项1',
-        label: '黄金糕V2'
-      }, {
-        value: '选项2',
-        label: '双皮奶V2',
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }]
-    }, 1000)
-
-    return {
-      value,
-      options
-    }
-  }
-}
+  options.value = [{
+    value: '选项1',
+    label: '黄金糕V2'
+  }, {
+    value: '选项2',
+    label: '双皮奶V2',
+  }, {
+    value: '选项3',
+    label: '蚵仔煎'
+  }, {
+    value: '选项4',
+    label: '龙须面'
+  }, {
+    value: '选项5',
+    label: '北京烤鸭'
+  }]
+}, 1000)
 </script>
 ```
 :::
