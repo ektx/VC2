@@ -7,10 +7,10 @@
     >
       <div ref="content" class="vc-layer--inner" :style="style" @click.stop>
         <div class="vc-layer--header">
-          <slot name="title">
+          <slot name="header">
             <span>{{ title }}</span>
+            <i class="vc-icon-close" @click="hideLayer"></i>
           </slot>
-          <i class="vc-icon-close" @click="hideLayer"></i>
         </div>
         <div class="vc-layer--main"><slot></slot></div>
         <div v-if="$slots.footer" class="vc-layer--footer">
