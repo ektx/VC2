@@ -6,8 +6,7 @@
     "types"
   ],
   "scripts": {
-    "serve": "vipress -p 3000",
-    "dev": "node ./bin/main.js",
+    "dev": "vipress -p 3000",
     "build": "node ./bin/build.js",
     "update": "node --experimental-json-modules ./bin/update.mjs",
     "create": "node ./bin/create.mjs && yarn run update",
@@ -26,12 +25,11 @@
     "vue-router": "^4.0.10"
   },
   "devDependencies": {
-    "@intsig/vipress": "^0.12.2",
+    "@intsig/vipress": "^0.12.4",
     "@types/express": "^4.17.11",
     "@types/prismjs": "^1.16.2",
-    "@vitejs/plugin-vue": "^1.4.0",
+    "@vitejs/plugin-vue": "^1.9.3",
     "@vue/compiler-sfc": "^3.1.5",
-    "@vuedx/typecheck": "^0.6.3",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "inquirer": "^7.3.3",
