@@ -7,10 +7,12 @@
       <div 
         v-for="item in progressList.children"
         :key="item.label"
-        :class="['vc-progress-bar__item', {'is-active': hasActive(item)}]" 
+        :class="[
+          'vc-progress-bar__item', 
+          {'is-active': hasActive(item), 'has-txt': textType === 'inner' }
+        ]" 
         :style="getItemStyle(item)"
       >
-        <span v-if="textType === 'inner'">{{ item.width }}%</span>
       </div>
     </div>
     <template v-if="format">
