@@ -115,18 +115,6 @@ export default {
 
       blockquote {
         margin: 1em 1em 0;
-        padding: 1em;
-        color: var(--page-txt-color);
-        border-radius: 3px;
-        background-color: var(--codebox-bg);
-        border: 1px solid var(--codebox-border);
-
-        code {
-          padding: 0.2em 0.5em;
-          border-radius: 3px;
-          color: #37474f;
-          background-color: var(--code-inline-bg);
-        }
       }
     }
     &--footer {

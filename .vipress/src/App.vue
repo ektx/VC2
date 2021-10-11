@@ -73,19 +73,22 @@ export default {
     width: 280px;
     overflow-y: auto;
     box-sizing: border-box;
-    color: transparent;
     content-visibility: auto;
     transform: translateX(0%);
-    will-change: transform, color;
-    transition: 
-      transform .3s ease-in-out,
-      color .3s ease-in-out;
+    transition: transform 0.3s ease-in-out;
+    will-change: transform;
 
-    &:hover {
-      color: var(--scroll-thumb-color);
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--scroll-thumb-color);
+      border-radius: 5px;
+    }
+    &::-webkit-scrollbar-track {
+      margin: 62px 0 2px 0;
     }
   }
-  
   & > main {
     position: relative;
     display: flex;
