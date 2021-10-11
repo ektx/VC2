@@ -3,8 +3,8 @@
 
 ## 基础效果
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   {{ value1 }}
   <vc-time-picker v-model="value1"/>
@@ -21,8 +21,8 @@
 export default {
   data() {
     return {
-    value1: new Date(2020, 11, 13, 13, 50),
-    value2: '03:06'
+      value1: new Date(2020, 11, 13, 13, 50),
+      value2: '03:06'
     }
   }
 }
@@ -35,8 +35,8 @@ export default {
 
 提供几个固定的时间点供用户选择
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   {{ value1 }}
   <vc-time-picker 
@@ -49,7 +49,7 @@ export default {
 export default {
   data() {
     return {
-    value1: new Date(2020, 11, 13, 13, 5, 8),
+      value1: new Date(2020, 11, 13, 13, 5, 8),
     }
   }
 }
@@ -59,17 +59,17 @@ export default {
 
 ## 禁用效果
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
-  <vc-time-picker disabled v-model="value1"/>
+  <vc-time-picker disabled v-model="value"/>
 </template>
 
 <script>
 export default {
   data() {
     return {
-    value1: new Date(2020, 11, 13, 13, 5, 8),
+      value: new Date(2020, 11, 13, 13, 5, 8),
     }
   }
 }
