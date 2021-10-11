@@ -2,8 +2,8 @@
 
 用于颜色选择，支持多种格式。
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <h3>Hex {{color}}</h3>
   <vc-color-picker v-model:value="color"/>
@@ -18,25 +18,21 @@
   <vc-color-picker v-model:value="color4" format="hsv"/>
 </template>
 
-<script>
-  export default {
-    setup() {
-      const color = ref('#f90')
-      const color2 = ref('rgb(76, 175, 80)')
-      const color3 = ref('hsl(340, 82%, 52%)')
-      const color4 = ref('hsv(10, 40%, 30%)')
-      
-      return { color, color2, color3, color4 }
-    }
-  }
+<script setup>
+import { ref } from 'vue'
+
+const color = ref('#f90')
+const color2 = ref('rgb(76, 175, 80)')
+const color3 = ref('hsl(340, 82%, 52%)')
+const color4 = ref('hsv(10, 40%, 30%)')
 </script>
 ```
 :::
 
 ## 透明度
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <h3>RGB {{ color1 }}</h3>
   <vc-color-picker v-model:value="color1" format="rgb"/>
@@ -48,16 +44,12 @@
   <vc-color-picker v-model:value="color3" format="hsv"/>
 </template>
 
-<script>
-export default {
-  setup() {
-    const color1 = ref('rgba(76, 175, 80, 0.5)')
-    const color2 = ref('hsla(340, 82%, 52%, 0.5)')
-    const color3 = ref('hsva(10, 40%, 30%, 0.5)')
-    
-    return { color1, color2, color3 }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const color1 = ref('rgba(76, 175, 80, 0.5)')
+const color2 = ref('hsla(340, 82%, 52%, 0.5)')
+const color3 = ref('hsva(10, 40%, 30%, 0.5)')
 </script>
 ```
 :::
@@ -65,11 +57,11 @@ export default {
 
 ## 圆形
 
-::: demo
+::: codeBox
 
 > `round` 可以设置为圆形效果。
 
-```html
+```vue
 <template>
   <h3>Hex {{color}}</h3>
   <vc-color-picker v-model:value="color" round/>
@@ -84,25 +76,21 @@ export default {
   <vc-color-picker v-model:value="color4" round format="hsv"/>
 </template>
 
-<script>
-  export default {
-    setup() {
-      const color = ref('#f90')
-      const color2 = ref('rgb(76, 175, 80)')
-      const color3 = ref('hsl(340, 82%, 52%)')
-      const color4 = ref('hsv(10, 40%, 30%)')
+<script setup>
+import { ref } from 'vue'
       
-      return { color, color2, color3, color4 }
-    }
-  }
+const color = ref('#f90')
+const color2 = ref('rgb(76, 175, 80)')
+const color3 = ref('hsl(340, 82%, 52%)')
+const color4 = ref('hsv(10, 40%, 30%)')
 </script>
 ```
 :::
 
 ## 值为空
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <h3>Hex {{color}}</h3>
   <vc-color-picker v-model:value="color" round/>
@@ -117,17 +105,13 @@ export default {
   <vc-color-picker v-model:value="color4" round format="hsv"/>
 </template>
 
-<script>
-  export default {
-    setup() {
-      const color = ref('')
-      const color2 = ref('')
-      const color3 = ref('')
-      const color4 = ref('')
+<script setup>
+import { ref } from 'vue'
       
-      return { color, color2, color3, color4 }
-    }
-  }
+const color = ref('')
+const color2 = ref('')
+const color3 = ref('')
+const color4 = ref('')
 </script>
 ```
 :::
