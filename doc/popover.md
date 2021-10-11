@@ -5,8 +5,8 @@ Popover 是基于 popper 扩展的功能。具体可以访问 [popper](https://p
 
 ## 基础效果
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-popover
     trigger="hover"
@@ -80,8 +80,8 @@ export default {
 
 可以在 Popover 中嵌套多种类型信息，以下为嵌套表格的例子。
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-popover
     trigger="click"
@@ -149,8 +149,8 @@ export default {
 
 当然，你还可以嵌套操作，这相比 Layer 更为轻量：
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
 <vc-popover
   v-model="visible"
@@ -172,9 +172,9 @@ export default {
 
 <script>
 export default {
-  setup() {
+  data() {
     return {
-      visible: ref(false)
+      visible: false
     }
   }
 }

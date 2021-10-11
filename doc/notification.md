@@ -2,17 +2,19 @@
 
 ## 基础效果
 
-::: demo
+::: codeBox
 
 > `duration` 设置为 **0** 时，将不会自动关闭
 
-```html
+```vue
 <template>
   <vc-button @click="auto">自动关闭</vc-button>
   <vc-button @click="close">手动关闭</vc-button>
 </template>
 
 <script>
+import { inject } from 'vue'
+
 export default {
   setup() {
     let notify = inject('vcNotification')
@@ -46,11 +48,11 @@ export default {
 
 可以让 Notification 从屏幕四角中的任意一角弹出。
 
-::: demo
+::: codeBox
 
 > 通过 `position` 来定位显示位置。
 
-```html
+```vue
 <template>
   <vc-button @click="open('top-right')">右上角</vc-button>
   <vc-button @click="open('bottom-right')">右下角</vc-button>
@@ -59,6 +61,8 @@ export default {
 </template>
 
 <script>
+import { ref, inject } from 'vue'
+
 export default {
   setup() {
     let message = inject('vcNotification')
@@ -84,11 +88,11 @@ export default {
 
 带有 icon，常用来显示「成功、警告、消息、错误」类的系统消息。
 
-::: demo
+::: codeBox
 
 > `type`
 
-```html
+```vue
 <template>
   <vc-button @click="open('info')">消息</vc-button>
   <vc-button @click="open('success')">成功</vc-button>
@@ -97,6 +101,8 @@ export default {
 </template>
 
 <script>
+import { ref, inject } from 'vue'
+
 export default {
   setup() {
     let message = inject('vcNotification')
@@ -120,14 +126,16 @@ export default {
 
 ## 自定义图片与图标
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-button @click="icon">使用图标</vc-button>
   <vc-button @click="img">使用图片</vc-button>
 </template>
 
 <script>
+import { ref, inject } from 'vue'
+
 export default {
   setup() {
     let message = inject('vcNotification')
@@ -159,13 +167,15 @@ export default {
 
 ## 事件回调
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-button @click="open">提示</vc-button>
 </template>
 
 <script>
+import { ref, inject } from 'vue'
+
 export default {
   setup() {
     let message = inject('vcNotification')

@@ -3,8 +3,8 @@
 
 ## 基础效果
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-upload 
     action="http://localhost:9000/api/file/admin/uploadPhoto"
@@ -65,8 +65,8 @@ export default {
 
 ## 手动上传
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-upload 
     action="http://localhost:9000/api/file/admin/uploadPhoto"

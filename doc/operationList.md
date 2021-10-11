@@ -3,8 +3,8 @@
 
 ## 基础效果
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-operation-list 
     v-model="value" 

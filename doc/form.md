@@ -6,8 +6,8 @@
 
 ### 左右布局效果
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-form ref="form" :model="formData" :rules="rules">
 
@@ -167,8 +167,8 @@ export default {
 
 ### 对齐方式
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-radio-group v-model="labelPosition" type="button">
     <vc-radio label="left">左对齐</vc-radio>
@@ -220,7 +220,6 @@ export default {
     }
   }
 }
-
 </script>
 ```
 :::
@@ -229,8 +228,8 @@ export default {
 
 当垂直方向空间受限且表单较简单时，可以在一行内放置表单。
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-form ref="form"  inline :model="formData" :rules="rules">
     <vc-form-item label="活动名称" prop="name">
@@ -249,7 +248,7 @@ export default {
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       formData: {
         name: '',
@@ -313,8 +312,8 @@ export default {
 
 ## 部分验证
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-form ref="form" label-width="80px" :model="formData" :rules="rules">
     <vc-form-item label="活动名称" prop="name">
@@ -338,7 +337,7 @@ export default {
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       formData: {
         name: '',
@@ -405,8 +404,8 @@ export default {
 
 > 自定义校验 **callback** 必须被调用。 更多高级用法可参考 [async-validator](https://github.com/yiminghe/async-validator)。
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-form ref="form" label-width="80px" :model="formData" :rules="rules">
     <vc-form-item label="密码" prop="passwd">
@@ -423,8 +422,10 @@ export default {
 </template>
 
 <script>
+import { ref, reactive } from "vue";
+
 export default {
-  setup () {
+  setup() {
     let validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'));
