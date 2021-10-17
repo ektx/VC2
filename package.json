@@ -7,6 +7,7 @@
   ],
   "scripts": {
     "dev": "vipress -p 3000",
+    "lib": "vipress build lib",
     "build": "node ./bin/build.js",
     "update": "node --experimental-json-modules ./bin/update.mjs",
     "create": "node ./bin/create.mjs && yarn run update",
@@ -25,7 +26,7 @@
     "vue-router": "^4.0.10"
   },
   "devDependencies": {
-    "@intsig/vipress": "^0.12.4",
+    "@intsig/vipress": "^0.13.0-beta.2",
     "@types/express": "^4.17.11",
     "@types/prismjs": "^1.16.2",
     "@vitejs/plugin-vue": "^1.9.3",
