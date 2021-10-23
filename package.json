@@ -2,7 +2,7 @@
   "name": "vc2",
   "version": "1.10.7",
   "files": [
-    "dist",
+    "lib",
     "types"
   ],
   "scripts": {
