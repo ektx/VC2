@@ -13,8 +13,9 @@
     "create": "node ./bin/create.mjs && yarn run update",
     "e2e": "./node_modules/.bin/cypress open"
   },
-  "module": "./dist/index.js",
-  "style": "./dist/layout.css",
+  "main": "./lib/index.js",
+  "module": "./lib/index.js",
+  "style": "./lib/layout.css",
   "typings": "types/index.d.ts",
   "author": "WenLong",
   "dependencies": {
