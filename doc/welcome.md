@@ -1,17 +1,11 @@
 # VC 2
 
-## 内网NPM
-
-[http://47.111.127.77:4873/-/web/detail/vc2](http://47.111.127.77:4873/-/web/detail/vc2)  
-
-## 线上文档
-
-[http://47.111.127.77:3000/](http://47.111.127.77:3000/doc/welcome)
-
 ## 安装
 
 ```bash
-yarn add vc2 --registry http://47.111.127.77:4873
+npm i vc2
+# or
+yarn add vc2
 ```
 
 ## 资料参考
