@@ -1,3 +1,10 @@
+import VC from '../packages/index'
+import '../packages/layout.less'
+
+export function init(app) {
+  app.use(VC)
+}
+
 /**
  * 菜单格式默认为以下
  * interface menu {

@@ -104,7 +104,7 @@ export default {
     box-sizing: border-box;
 
     article {
-      padding: 0 20px 0;
+      padding: 0 20px 100px;
     }
     
     .toc-box {
