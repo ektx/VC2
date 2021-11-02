@@ -8,7 +8,6 @@ import 'prismjs/themes/prism.css'
 import './assets/theme.less'
 import './assets/markdown-theme.less'
 
-import VCDemoCode from './components/VCDemo/index.vue'
 import CodeBox from './components/codeBox/index.vue'
 import TOC from './components/TOC/index.vue'
 
@@ -16,7 +15,6 @@ let app = createApp(App)
 
 app.use(Router)
 
-app.component('demo', VCDemoCode)
 app.component('codeBox', CodeBox)
 app.component('TOC', TOC)
 
