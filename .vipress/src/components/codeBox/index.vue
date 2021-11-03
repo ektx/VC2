@@ -8,7 +8,12 @@
     </div>
     <div class="code-source">
       <div 
-        class="code-source--main" 
+        class="control-bar" 
+        @mousedown="isHolderBar = true"
+        @mouseup="setControlBar"
+      ></div>
+      <div 
+        :class="['code-source--main',{'no-animate': isHolderBar}]" 
         :style="style"
         @transitionend="transitionend"
       >
@@ -32,13 +37,16 @@ export default {
       open: false,
       intersectionObserver: null,
       style: { height: 0 },
-      isFullScreen: false
+      isFullScreen: false,
+      isHolderBar: false,
+      varHeight: '50vh',
+      timer: 0
     }
   },
   watch: {
     open(val) {
       if (this.isFullScreen) {
-        this.style = { '--height': val ? '50vh' : 0 }
+        this.style = { '--height': val ? this.varHeight : 0 }
       } else {
         let H = this.$el.querySelector('.code-source--main').scrollHeight
   
@@ -54,6 +62,8 @@ export default {
   },
   mounted() {
     this.setSticky()
+    window.addEventListener('mousemove', this.resizeScreen, false)
+    window.addEventListener('mouseup', this.clearHoldBar, false)
   },
   methods: {
     transitionend() {
@@ -80,18 +90,62 @@ export default {
 
       if (!document.fullscreenElement) {
         this.$el.requestFullscreen()
-        this.style = this.open ? {'--height': '50vh'} : this.style
+        this.style = this.open ? { '--height': this.varHeight } : this.style
+        this.isFullScreen = true
       } else {
         document.exitFullscreen()
         this.style = this.open ? {} : { height: 0 }
+        this.isFullScreen = false
       }
-      this.isFullScreen = !document.fullscreenElement
+    },
+    setControlBar() {
+      if (!this.isFullScreen) return
+      this.timer ++
+
+      setTimeout(() => {
+        this.timer--
+      }, 400)
+      
+      if (this.timer >= 2) {
+        this.style = { '--height': '50vh' }
+      }
+    },
+    resizeScreen(evt) {
+      if (this.isHolderBar && this.isFullScreen) {
+        console.log('move...', evt.buttons)
+        if (this.timer) clearTimeout(this.timer)
+
+        let h = evt.clientY / window.innerHeight
+        let footerH = 33 / window.innerHeight 
+
+        h = (1 - footerH - h) * 100
+
+        if (h > 0) {
+          h = h > 90 ? 90 : h
+          this.open = true 
+        } else {
+          h = 0
+          this.open = false
+        }
+
+        this.varHeight = h + 'vh'
+
+        this.style = {
+          '--height': this.varHeight
+        }
+      }
+    },
+    clearHoldBar() {
+      console.log('Win Up')
+      this.isHolderBar = false
     }
   },
   beforeUnmount() {
     let sentinel = this.$el.querySelector('.code-source--sentinel')
 
     this.intersectionObserver.unobserve(sentinel)
+    window.removeEventListener('mousemove', this.resizeScreen)
+    window.removeEventListener('mouseup', this.clearHoldBar)
   },
 }
 </script>
