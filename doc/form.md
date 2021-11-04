@@ -11,7 +11,7 @@
 <template>
   <vc-form ref="form" :model="formData" :rules="rules">
 
-    <vc-form-item label="活动名称" prop="name">
+    <vc-form-item label="活动名称活动名称" prop="name">
       <vc-input v-model="formData.name"/>
     </vc-form-item>
 
@@ -64,7 +64,7 @@ export default {
   data () {
     return {
       formData: {
-        name: '123',
+        name: '',
         color: '',
         days: 0,
         time: '',
