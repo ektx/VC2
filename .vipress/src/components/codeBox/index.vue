@@ -40,7 +40,7 @@ export default {
       isFullScreen: false,
       isHolderBar: false,
       varHeight: '50vh',
-      timer: 0
+      clickCount: 0
     }
   },
   watch: {
@@ -100,21 +100,18 @@ export default {
     },
     setControlBar() {
       if (!this.isFullScreen) return
-      this.timer ++
+      this.clickCount ++
 
       setTimeout(() => {
-        this.timer--
+        this.clickCount--
       }, 400)
-      
-      if (this.timer >= 2) {
+
+      if (this.clickCount >= 2) {
         this.style = { '--height': '50vh' }
       }
     },
     resizeScreen(evt) {
       if (this.isHolderBar && this.isFullScreen) {
-        console.log('move...', evt.buttons)
-        if (this.timer) clearTimeout(this.timer)
-
         let h = evt.clientY / window.innerHeight
         let footerH = 33 / window.innerHeight 
 
@@ -133,11 +130,12 @@ export default {
         this.style = {
           '--height': this.varHeight
         }
+        document.documentElement.style.cursor = 'n-resize'
       }
     },
     clearHoldBar() {
-      console.log('Win Up')
       this.isHolderBar = false
+      document.documentElement.style = ''
     }
   },
   beforeUnmount() {

@@ -19,10 +19,6 @@
     border-top: 1px solid transparent;
     transition: border-color .3s ease-in-out;
 
-    &.is-open {
-      border-top-color: var(--codebox-border);
-    }
-
     &--main {
       overflow: hidden;
       transition: height .3s ease-in-out;
@@ -73,6 +69,20 @@
     }
   }
   
+  .control-bar {
+    width: 100%;
+    height: 3px;
+    background-color: transparent;
+    cursor: n-resize;
+    transition: background-color .3s ease-in-out;
+  }
+
+  &.is-open {
+    .control-bar {
+      background-color: var(--codebox-border);
+    }
+  }
+
   &.is-full-screen {
     display: flex;
     flex-direction: column;
@@ -97,12 +107,10 @@
         overflow: auto;
       }
     }
+
+    .control-bar:hover {
+      background-color: var(--codebox-border);
+    }
   }
 
-  .control-bar {
-    width: 100%;
-    height: 3px;
-    background-color: #00f;
-    cursor: n-resize;
-  }
 }
