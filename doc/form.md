@@ -64,9 +64,9 @@ export default {
   data () {
     return {
       formData: {
-        name: '',
+        name: '123',
         color: '',
-        days: '',
+        days: 0,
         time: '',
         isOwnExpense: false,
         region: [],

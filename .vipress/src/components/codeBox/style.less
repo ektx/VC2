@@ -73,16 +73,9 @@
     width: 100%;
     height: 3px;
     background-color: transparent;
-    cursor: n-resize;
     transition: background-color .3s ease-in-out;
   }
-
-  &.is-open {
-    .control-bar {
-      background-color: var(--codebox-border);
-    }
-  }
-
+  
   &.is-full-screen {
     display: flex;
     flex-direction: column;
@@ -90,6 +83,11 @@
     height: 100vh;
     border-radius: 0;
     position: relative;
+    
+    .control-bar {
+      cursor: n-resize;
+      background-color: var(--codebox-border);
+    }
 
     .code-display {
       flex: 1;
