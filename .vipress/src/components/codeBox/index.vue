@@ -1,8 +1,5 @@
 <template>
-  <div :class="[
-    'code-box',
-    { 'is-full-screen': isFullScreen, 'is-open': open}
-  ]">
+  <div :class="['code-box', { 'is-open': open}]">
     <div class="code-display">
       <slot name="child" />
     </div>
@@ -62,8 +59,9 @@ export default {
   },
   mounted() {
     this.setSticky()
-    window.addEventListener('mousemove', this.resizeScreen, false)
-    window.addEventListener('mouseup', this.clearHoldBar, false)
+    window.addEventListener('mousemove', this.resizeScreen)
+    window.addEventListener('mouseup', this.clearHoldBar)
+    this.$el.addEventListener('fullscreenchange', this.winResize)
   },
   methods: {
     transitionend() {
@@ -91,11 +89,9 @@ export default {
       if (!document.fullscreenElement) {
         this.$el.requestFullscreen()
         this.style = this.open ? { '--height': this.varHeight } : this.style
-        this.isFullScreen = true
       } else {
         document.exitFullscreen()
         this.style = this.open ? {} : { height: 0 }
-        this.isFullScreen = false
       }
     },
     setControlBar() {
@@ -133,6 +129,9 @@ export default {
         document.documentElement.style.cursor = 'n-resize'
       }
     },
+    winResize(evt) {
+      this.isFullScreen = document.fullscreenElement === evt.target
+    },
     clearHoldBar() {
       this.isHolderBar = false
       document.documentElement.style = ''
@@ -144,6 +143,7 @@ export default {
     this.intersectionObserver.unobserve(sentinel)
     window.removeEventListener('mousemove', this.resizeScreen)
     window.removeEventListener('mouseup', this.clearHoldBar)
+    this.$el.removeEventListener('fullscreenchange', this.winResize)
   },
 }
 </script>

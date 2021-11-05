@@ -3,7 +3,6 @@
   border-radius: 10px;
   border: 1px solid var(--codebox-border);
   background-color: var(--codebox-bg);
-  will-change: all;
   transition: all .3s ease-in-out;
 
   &:hover {
@@ -76,13 +75,14 @@
     transition: background-color .3s ease-in-out;
   }
   
-  &.is-full-screen {
+  &:fullscreen {
     display: flex;
     flex-direction: column;
     width: 100vw;
     height: 100vh;
     border-radius: 0;
     position: relative;
+    z-index: 1000;
     
     .control-bar {
       cursor: n-resize;
