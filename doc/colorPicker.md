@@ -6,16 +6,16 @@
 ```vue
 <template>
   <h3>Hex {{color}}</h3>
-  <vc-color-picker v-model:value="color"/>
+  <vc-color-picker v-model="color"/>
 
   <h3>RGB {{ color2 }}</h3>
-  <vc-color-picker v-model:value="color2" format="rgb"/>
+  <vc-color-picker v-model="color2" format="rgb"/>
 
   <h3>HSL {{ color3}}</h3>
-  <vc-color-picker v-model:value="color3" format="hsl"/>
+  <vc-color-picker v-model="color3" format="hsl"/>
 
   <h3>HSV {{ color4}}</h3>
-  <vc-color-picker v-model:value="color4" format="hsv"/>
+  <vc-color-picker v-model="color4" format="hsv"/>
 </template>
 
 <script setup>

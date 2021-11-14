@@ -1,33 +1,32 @@
 <template>
-  <div 
-    class="vc-color-picker__hsl-panel" 
+  <div
+    class="vc-color-picker__hsl-panel"
     :style="panelColor"
     @mousedown="mousedownEvt"
   >
-    <span 
-      class="vc-color-picker__hsl-cursor"
-      :style="cursorStyle"
-    >
+    <span class="vc-color-picker__hsl-cursor" :style="cursorStyle">
       <i></i>
     </span>
   </div>
 </template>
 
 <script>
-import { 
-  ref, 
-  computed, 
-  getCurrentInstance, 
-  onMounted, 
-  onUnmounted, 
-  watch, inject, nextTick 
+import {
+  ref,
+  computed,
+  getCurrentInstance,
+  onMounted,
+  onUnmounted,
+  watch,
+  inject,
+  nextTick
 } from 'vue'
 import { useMousePosition } from '../../utils/mouse'
 
 export default {
-  // inject: ['vcColorPicker'],
+  inject: ['vcColorPicker', 'store'],
   props: {
-    isOpened: Boolean,
+    isOpened: Boolean
   },
   setup(props) {
     const { ctx } = getCurrentInstance()
@@ -37,10 +36,10 @@ export default {
       x: 0,
       y: 0,
       layerX: 0,
-      layerY: 0,
+      layerY: 0
     })
     const elBCR = ref({})
-    const {x, y} = useMousePosition()
+    const { x, y } = useMousePosition()
     const vcColorPicker = inject('vcColorPicker', null)
 
     const cursorStyle = computed(() => ({
@@ -55,18 +54,18 @@ export default {
     })
 
     onMounted(() => {
-      document.addEventListener('mousemove', ctx.mousemoveEvt, false)
-      document.addEventListener('mouseup', ctx.mouseupEvt, false)
+      document.addEventListener('mousemove', ctx.mousemoveEvt)
+      document.addEventListener('mouseup', ctx.mouseupEvt)
     })
 
     onUnmounted(() => {
-      document.removeEventListener('mousemove', ctx.mousemoveEvt, false)
-      document.removeEventListener('mouseup', ctx.mouseupEvt, false)
+      document.removeEventListener('mousemove', ctx.mousemoveEvt)
+      document.removeEventListener('mouseup', ctx.mouseupEvt)
     })
 
     watch(
       () => props.isOpened,
-      (val) => {
+      val => {
         if (val) {
           nextTick(() => {
             ctx.setPosition()
@@ -78,19 +77,21 @@ export default {
     let _HSV = inject('VCColorPickerHSV')
     watch(
       () => _HSV.value,
-      (val) => {
+      val => {
         if (!vcColorPicker.isActive) ctx.setPosition()
       }
     )
 
     return {
-      x, y,
-      X, Y,
+      x,
+      y,
+      X,
+      Y,
       cursorStyle,
       panelColor,
       start,
       elBCR,
-      vcColorPicker,
+      vcColorPicker
     }
   },
   methods: {
@@ -100,11 +101,11 @@ export default {
 
     mousedownEvt(evt) {
       evt.stopPropagation()
-      let { layerX, layerY} = evt
+      let { layerX, layerY } = evt
 
       this.elBCR = this.$el.getBoundingClientRect()
       this.start = {
-        x: this.x, 
+        x: this.x,
         y: this.y,
         layerX,
         layerY
@@ -113,7 +114,7 @@ export default {
       this.Y = layerY
       this.vcColorPicker.isActive = true
       this.vcColorPicker.isDrag = true
-      
+
       this.mousemoveEvt(evt)
     },
 
@@ -124,8 +125,8 @@ export default {
     mousemoveEvt(evt) {
       if (this.vcColorPicker.isActive) {
         let { pageX, pageY } = evt
-        let {x, y, layerX, layerY} = this.start
-        let {width, height} = this.elBCR
+        let { x, y, layerX, layerY } = this.start
+        let { width, height } = this.elBCR
         let _x = layerX + pageX - x
         let _y = layerY + pageY - y
 
@@ -140,9 +141,12 @@ export default {
         // HSV
         let h = this.vcColorPicker.hsv.h || 0
         let v = Math.round((1 - _y / height) * 100)
-        let s = Math.round(_x / width * 100)
+        let s = Math.round((_x / width) * 100)
 
-        this.vcColorPicker.hsv = {h, s, v}
+        this.store.Saturation.value = s
+        this.store.Value.value = v
+        console.log(h, s, v)
+        this.vcColorPicker.hsv = { h, s, v }
       }
     },
 

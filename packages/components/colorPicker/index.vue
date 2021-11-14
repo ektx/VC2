@@ -1,39 +1,47 @@
 <template>
   <div class="vc-color-picker">
-    <div 
+    <div
       ref="colorEl"
       :class="[
-        'vc-color-picker__color', 
+        'vc-color-picker__color',
         { 'is-round': round, 'is-empty': !value }
-      ]" 
+      ]"
       @click="showDropdownEvt"
     >
       <span :style="colorStyle"></span>
     </div>
     <transition name="vc-zoom-in-top" @after-enter="afterEnterEvt">
-      <DropDown 
-        v-show="isVisible" 
-        :format="format"
-        :isOpened="isOpened"
-      />
+      <DropDown v-show="isVisible" :format="format" :isOpened="isOpened" />
     </transition>
   </div>
 </template>
 
 <script>
-import { 
-  ref, getCurrentInstance, 
-  onMounted, onUnmounted, 
-  computed, watch, provide, inject 
+import {
+  ref,
+  getCurrentInstance,
+  onMounted,
+  onUnmounted,
+  computed,
+  watch,
+  provide,
+  inject
 } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
 import { formatString, hsv2rgb, toHex, hsv2hsl } from './color'
+import store from './store'
+
+// const myStore = store()
 
 export default {
   name: 'VcColorPicker',
   components: { DropDown },
   props: {
+    modeValve: {
+      type: String,
+      default: ''
+    },
     // 颜色值
     value: {
       type: String,
@@ -56,37 +64,42 @@ export default {
   provide() {
     return {
       vcColorPicker: this,
+      store: this.myStore
     }
   },
+  data() {
+    return {
+      alpha: 1
+    }
+  },
+  mounted() {},
   setup(props, { emit }) {
     const { ctx } = getCurrentInstance()
     const vcFormItem = inject('vcFormItem', null)
+    const myStore = store()
+
     let timer = null
-    
+
     const dropdown = ref(null)
     const isActive = ref(false)
     const isVisible = ref(false)
     const isOpened = ref(false)
     const isDrag = ref(false)
-    const hsv = ref({__: true})
+    const hsv = ref({ __: true })
     const alpha = ref(1)
 
     provide('VCColorPickerHSV', hsv)
 
     const colorStyle = computed(() => {
-      let { h, s, v } = hsv.value
+      let { red, green, blue, alpha } = myStore
 
-      if (!props.value || h === undefined) return {}
-
-      let { r, g, b } = hsv2rgb(h, s, v)
-      
       return {
-        backgroundColor: `rgba(${r}, ${g}, ${b}, ${alpha.value})`
+        backgroundColor: `rgba(${red.value}, ${green.value}, ${blue.value}, ${alpha.value})`
       }
     })
 
     watch(
-      () =>  hsv.value,
+      () => hsv.value,
       (val, old) => {
         if (old.__) return
         delayFun()
@@ -95,7 +108,7 @@ export default {
     )
     watch(
       () => alpha.value,
-      (val) => delayFun()
+      val => delayFun()
     )
 
     onMounted(() => {
@@ -111,7 +124,7 @@ export default {
       isOpened.value = true
     }
 
-    function hideDropdown () {
+    function hideDropdown() {
       if (isDrag.value) {
         isDrag.value = false
       } else {
@@ -122,7 +135,7 @@ export default {
       }
     }
 
-    function delayFun () {
+    function delayFun() {
       if (timer) clearTimeout(timer)
 
       timer = setTimeout(() => {
@@ -130,9 +143,7 @@ export default {
       }, props.delay)
     }
 
-    
-
-    function formatHSV () {
+    function formatHSV() {
       let { hsv: _h, alpha: a } = formatString(props.value)
 
       hsv.value = _h
@@ -147,9 +158,9 @@ export default {
       isDrag,
       hsv,
       alpha,
-
+      myStore,
       colorStyle,
-      afterEnterEvt,
+      afterEnterEvt
     }
   },
   methods: {
@@ -159,39 +170,35 @@ export default {
       const dropdownEl = this.$el.querySelector('.vc-color-picker__drop-down')
 
       this.isVisible = true
-      
+
       formatString(this.value)
 
-      this.dropdown = createPopper(
-        this.$refs.colorEl,
-        dropdownEl,
-        {
-          placement: 'bottom',
-          modifiers: [
-            {
-              name: 'offset',
-              options: {
-                offset: [0, 5]
-              }
-            },
-            {
-              name: 'computeStyles',
-              options: {
-                adaptive: false,
-                gpuAcceleration: false
-              }
+      this.dropdown = createPopper(this.$refs.colorEl, dropdownEl, {
+        placement: 'bottom',
+        modifiers: [
+          {
+            name: 'offset',
+            options: {
+              offset: [0, 5]
             }
-          ],
-          strategy: 'fixed'
-        }
-      )
+          },
+          {
+            name: 'computeStyles',
+            options: {
+              adaptive: false,
+              gpuAcceleration: false
+            }
+          }
+        ],
+        strategy: 'fixed'
+      })
     }
   }
 }
 
 function updateValue(format, hsv, alpha, emit, vcFormItem) {
   let result = ''
-  let {h, s, v} = hsv
+  let { h, s, v } = hsv
 
   if (h !== undefined) {
     switch (format) {
@@ -201,8 +208,8 @@ function updateValue(format, hsv, alpha, emit, vcFormItem) {
         break
       }
       case 'rgb': {
-        let {r, g, b}= hsv2rgb(h, s, v)
-  
+        let { r, g, b } = hsv2rgb(h, s, v)
+
         if (alpha === 1) {
           result = `rgb(${r}, ${g}, ${b})`
         } else {
@@ -211,10 +218,10 @@ function updateValue(format, hsv, alpha, emit, vcFormItem) {
         break
       }
       case 'hsl': {
-        let {h: _h, s: _s, l} = hsv2hsl(h, s, v)
+        let { h: _h, s: _s, l } = hsv2hsl(h, s, v)
         if (alpha === 1) result = `hsl(${_h}, ${_s}, ${l})`
         else result = `hsla(${_h}, ${_s}, ${l}, ${alpha})`
-        break 
+        break
       }
       case 'hsv': {
         if (alpha === 1) result = `hsv(${h}, ${s}, ${v})`
