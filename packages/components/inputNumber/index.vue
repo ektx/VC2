@@ -1,21 +1,26 @@
 <template>
-  <div :class="['vc-input-number', {'is-disabled': disabled, 'is-clear': clearMode}]">
-    <button 
-      class="vc-input-number__decrease" 
+  <div
+    :class="[
+      'vc-input-number',
+      { 'is-disabled': disabled, 'is-clear': clearMode }
+    ]"
+  >
+    <button
+      class="vc-input-number__decrease"
       :disabled="isDecrease"
       @click.prevent="setValue(-1)"
     >
       <i class="vc-icon-minus"></i>
     </button>
-    <button 
-      class="vc-input-number__increase" 
+    <button
+      class="vc-input-number__increase"
       :disabled="isIncrease"
       @click.prevent="setValue(1)"
     >
       <i class="vc-icon-plus"></i>
     </button>
-    <input 
-      type="text" 
+    <input
+      type="number"
       class="vc-input-number__input"
       autocomplete="off"
       :disabled="disabled"
@@ -25,7 +30,7 @@
       :style="inputStyle"
       :value="intValue"
       @blur="blurEvt"
-    >
+    />
   </div>
 </template>
 
@@ -55,7 +60,7 @@ export default {
     },
     // 设置大小
     size: {
-      type: String,
+      type: [String, Number],
       default: '12px'
     },
     // 计数器步长
@@ -79,11 +84,13 @@ export default {
     clearMode: Boolean
   },
   computed: {
-    inputStyle () {
-      return {
-        fontSize: this.size,
-        width: this.width
-      }
+    inputStyle() {
+      let fontSize =
+        typeof this.size === 'number' ? this.size + 'px' : this.size
+      let width =
+        typeof this.width === 'number' ? this.width + 'px' : this.width
+
+      return { fontSize, width }
     },
     intValue: {
       get() {
@@ -105,6 +112,10 @@ export default {
       },
       set(val) {
         val = Number(val)
+
+        if (this.max !== Infinity && val > this.max) val = this.max
+        if (this.min !== -Infinity && val < this.min) val = this.min
+
         this.$emit('update:modelValue', val)
         this.$emit('change', val)
       }
@@ -120,8 +131,8 @@ export default {
     setValue(val) {
       if (this.disabled) return
 
-      let result = Number(this.intValue) + (val * this.step)
-      
+      let result = Number(this.intValue) + val * this.step
+
       if (result < this.min) return
       if (result > this.max) return
 
