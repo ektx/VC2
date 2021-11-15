@@ -23,10 +23,6 @@
 </template>
 
 <script>
-import { computed, inject } from 'vue'
-import { hsv2rgb } from './color'
-// import { Hue } from './store'
-
 export default {
   props: {
     format: String
@@ -35,35 +31,20 @@ export default {
   data() {
     return {
       Hue: this.store.Hue,
-      alpha: this.store.alpha
+      alpha: this.store.alpha,
+      r: this.store.red,
+      g: this.store.green,
+      b: this.store.blue
     }
   },
-  setup() {
-    const vcColorPicker = inject('vcColorPicker')
-
-    const alphaBarStyles = computed(() => {
-      let { h, s, v } = vcColorPicker.hsv
-      let { r, g, b } = hsv2rgb(h, s, v)
-      let from = `rgba(${r}, ${g}, ${b}, 0)`
-      let to = `rgb(${r}, ${g}, ${b})`
+  computed: {
+    alphaBarStyles() {
+      let from = `rgba(${this.r}, ${this.g}, ${this.b}, 0)`
+      let to = `rgb(${this.r}, ${this.g}, ${this.b})`
 
       return {
         background: `linear-gradient(to right, ${from} 0%, ${to} 100%)`
       }
-    })
-
-    // const hsvH = computed({
-    //   get() {
-    //     return vcColorPicker.hsv.h
-    //   },
-    //   set: val => {
-    //     vcColorPicker.hsv.h = val
-    //   }
-    // })
-
-    return {
-      // hsvH,
-      alphaBarStyles
     }
   }
 }

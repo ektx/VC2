@@ -28,6 +28,28 @@ export default {
   props: {
     isOpened: Boolean
   },
+  computed: {
+    panelColor() {
+      return {
+        backgroundColor: `hsl(${this.store.Hue.value}, 100%, 50%)`
+      }
+    }
+  },
+  watch: {
+    Value() {
+      if (!this.isDrag) this.setPosition()
+    },
+    Saturation() {
+      !this.isDrag && this.setPosition()
+    }
+  },
+  data() {
+    return {
+      Value: this.store.Value,
+      Saturation: this.store.Saturation,
+      isDrag: false
+    }
+  },
   setup(props) {
     const { ctx } = getCurrentInstance()
     const X = ref(0)
@@ -45,13 +67,6 @@ export default {
     const cursorStyle = computed(() => ({
       transform: `translate(${X.value}px, ${Y.value}px)`
     }))
-    const panelColor = computed(() => {
-      let { h } = vcColorPicker.hsv
-      h = h || 0
-      return {
-        backgroundColor: `hsl(${h}, 100%, 50%)`
-      }
-    })
 
     onMounted(() => {
       document.addEventListener('mousemove', ctx.mousemoveEvt)
@@ -88,17 +103,12 @@ export default {
       X,
       Y,
       cursorStyle,
-      panelColor,
       start,
       elBCR,
       vcColorPicker
     }
   },
   methods: {
-    clickEvt(evt) {
-      evt.stopPropagation()
-    },
-
     mousedownEvt(evt) {
       evt.stopPropagation()
       let { layerX, layerY } = evt
@@ -114,12 +124,15 @@ export default {
       this.Y = layerY
       this.vcColorPicker.isActive = true
       this.vcColorPicker.isDrag = true
+      this.isDrag = true
 
+      // 点击时 更新颜色
       this.mousemoveEvt(evt)
     },
 
     mouseupEvt(evt) {
       this.vcColorPicker.isActive = false
+      this.isDrag = false
     },
 
     mousemoveEvt(evt) {
@@ -139,25 +152,21 @@ export default {
         this.X = _x
         this.Y = _y
         // HSV
-        let h = this.vcColorPicker.hsv.h || 0
         let v = Math.round((1 - _y / height) * 100)
         let s = Math.round((_x / width) * 100)
 
-        this.store.Saturation.value = s
-        this.store.Value.value = v
-        console.log(h, s, v)
-        this.vcColorPicker.hsv = { h, s, v }
+        this.Saturation = s
+        this.Value = v
       }
     },
 
     setPosition() {
       this.elBCR = this.$el.getBoundingClientRect()
       let { width, height } = this.elBCR
-      let { s, v } = this.vcColorPicker.hsv
 
       if (width && height) {
-        this.X = Math.round(width * (s / 100))
-        this.Y = Math.round(height * (1 - v / 100))
+        this.X = Math.round(width * (this.Saturation / 100))
+        this.Y = Math.round(height * (1 - this.Value / 100))
       }
     }
   }
