@@ -6,7 +6,7 @@
         'vc-color-picker__color',
         { 'is-round': round, 'is-empty': !value }
       ]"
-      @click="showDropdownEvt"
+      @click.stop="showDropdownEvt"
     >
       <span :style="colorStyle"></span>
     </div>
@@ -32,13 +32,12 @@ import DropDown from './dropdown.vue'
 import { formatString, hsv2rgb, toHex, hsv2hsl } from './color'
 import store from './store'
 
-// const myStore = store()
-
 export default {
   name: 'VcColorPicker',
   components: { DropDown },
+  inject: ['vcFormItem'],
   props: {
-    modeValve: {
+    modelValue: {
       type: String,
       default: ''
     },
@@ -69,14 +68,18 @@ export default {
   },
   data() {
     return {
-      alpha: 1
+      alpha: this.myStore.alpha,
+      isDrag: this.myStore.isDrag
     }
   },
-  mounted() {},
+  mounted() {
+    this.formatHSV()
+    document.addEventListener('mouseup', this.hideDropdown, false)
+  },
   setup(props, { emit }) {
     const { ctx } = getCurrentInstance()
     const vcFormItem = inject('vcFormItem', null)
-    const myStore = store()
+    const myStore = store(props)
 
     let timer = null
 
@@ -84,9 +87,9 @@ export default {
     const isActive = ref(false)
     const isVisible = ref(false)
     const isOpened = ref(false)
-    const isDrag = ref(false)
+    // const isDrag = ref(false)
     const hsv = ref({ __: true })
-    const alpha = ref(1)
+    // const alpha = ref(1)
 
     provide('VCColorPickerHSV', hsv)
 
@@ -106,15 +109,10 @@ export default {
       },
       { deep: true }
     )
-    watch(
-      () => alpha.value,
-      val => delayFun()
-    )
-
-    onMounted(() => {
-      formatHSV()
-      document.addEventListener('mouseup', hideDropdown, false)
-    })
+    // watch(
+    //   () => alpha.value,
+    //   val => delayFun()
+    // )
 
     onUnmounted(() => {
       document.removeEventListener('mouseup', hideDropdown, false)
@@ -122,17 +120,6 @@ export default {
 
     function afterEnterEvt() {
       isOpened.value = true
-    }
-
-    function hideDropdown() {
-      if (isDrag.value) {
-        isDrag.value = false
-      } else {
-        if (isVisible.value) {
-          isVisible.value = false
-          if (vcFormItem) vcFormItem.checkValidate('blur')
-        }
-      }
     }
 
     function delayFun() {
@@ -143,35 +130,26 @@ export default {
       }, props.delay)
     }
 
-    function formatHSV() {
-      let { hsv: _h, alpha: a } = formatString(props.value)
-
-      hsv.value = _h
-      alpha.value = a
-    }
-
     return {
       dropdown,
       isActive,
       isVisible,
       isOpened,
-      isDrag,
+      // isDrag,
       hsv,
-      alpha,
+      // alpha,
       myStore,
       colorStyle,
       afterEnterEvt
     }
   },
   methods: {
-    showDropdownEvt(evt) {
-      evt.stopPropagation()
-
+    showDropdownEvt() {
       const dropdownEl = this.$el.querySelector('.vc-color-picker__drop-down')
 
       this.isVisible = true
 
-      formatString(this.value)
+      // formatString(this.value)
 
       this.dropdown = createPopper(this.$refs.colorEl, dropdownEl, {
         placement: 'bottom',
@@ -192,6 +170,27 @@ export default {
         ],
         strategy: 'fixed'
       })
+    },
+
+    formatHSV() {
+      let { hsv, alpha: a } = formatString(this.modelValue)
+      console.log(1, hsv, a)
+      // hsv.value = _h
+      this.myStore.Hue.value = hsv.h
+      this.myStore.Saturation.value = hsv.s
+      this.myStore.Value.value = hsv.v
+      this.alpha = a
+    },
+
+    hideDropdown() {
+      if (this.isDrag) {
+        this.isDrag = false
+      } else {
+        if (this.isVisible) {
+          this.isVisible = false
+          if (this.vcFormItem) this.vcFormItem.checkValidate('blur')
+        }
+      }
     }
   }
 }

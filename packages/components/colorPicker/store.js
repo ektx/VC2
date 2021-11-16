@@ -13,6 +13,8 @@ export default function store() {
   const Value = ref(0)
   const hex = ref('')
 
+  const isDrag = ref(false)
+
   watch([Hue, Saturation, Value], ([h, s, v]) => {
     console.log('HSVA', h, s, v)
     console.log(hsv2rgb(h, s, v))
@@ -56,6 +58,7 @@ export default function store() {
     Hue,
     Saturation,
     Value,
-    hex
+    hex,
+    isDrag
   }
 }

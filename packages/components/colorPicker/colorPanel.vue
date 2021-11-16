@@ -47,7 +47,7 @@ export default {
     return {
       Value: this.store.Value,
       Saturation: this.store.Saturation,
-      isDrag: false
+      isDrag: this.store.isDrag
     }
   },
   setup(props) {
@@ -123,7 +123,6 @@ export default {
       this.X = layerX
       this.Y = layerY
       this.vcColorPicker.isActive = true
-      this.vcColorPicker.isDrag = true
       this.isDrag = true
 
       // 点击时 更新颜色
@@ -132,7 +131,6 @@ export default {
 
     mouseupEvt(evt) {
       this.vcColorPicker.isActive = false
-      this.isDrag = false
     },
 
     mousemoveEvt(evt) {
