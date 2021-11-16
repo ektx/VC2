@@ -1,5 +1,5 @@
 import { ref, watch } from 'vue'
-import { rgb2hsv, hsv2rgb } from './color'
+import { rgb2hsv, hsv2rgb, toHex } from './color'
 
 export default function store() {
   const alpha = ref(1)
@@ -11,19 +11,20 @@ export default function store() {
   // 饱和度 0 ～ 100
   const Saturation = ref(0)
   const Value = ref(0)
+  const hex = ref('')
 
   watch([Hue, Saturation, Value], ([h, s, v]) => {
-    // if (watchEvent) return
-
     console.log('HSVA', h, s, v)
     console.log(hsv2rgb(h, s, v))
-    watchEvent = 'HSV'
-    // if (watchEvent === 'RGB') return
 
-    let { r, g, b } = hsv2rgb(h, s, v)
-    red.value = r
-    green.value = g
-    blue.value = b
+    if (watchEvent !== 'RGB') {
+      watchEvent = 'HSV'
+
+      let { r, g, b } = hsv2rgb(h, s, v)
+      red.value = r
+      green.value = g
+      blue.value = b
+    }
   })
 
   let watchEvent = null
@@ -34,7 +35,9 @@ export default function store() {
 
   watch([red, green, blue], ([r, g, b]) => {
     console.log('REGA', r, g, b)
-    // console.log(rgb2hsv(r, g, b))
+
+    hex.value = toHex({ r, g, b })
+
     if (watchEvent !== 'HSV') {
       watchEvent = 'RGB'
       const { h, s, v } = rgb2hsv(r, g, b)
@@ -52,6 +55,7 @@ export default function store() {
     blue,
     Hue,
     Saturation,
-    Value
+    Value,
+    hex
   }
 }

@@ -18,7 +18,6 @@
 
 <script>
 import Alpha from './alpha.vue'
-// import { red, blue, green } from './store'
 
 export default {
   components: { Alpha },
