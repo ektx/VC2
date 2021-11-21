@@ -23,7 +23,7 @@
     "async-validator": "^3.4.0",
     "prismjs": "^1.21.0",
     "resize-observer-polyfill": "^1.5.1",
-    "vue": "^3.2.20",
+    "vue": "^3.2.22",
     "vue-router": "^4.0.10"
   },
   "devDependencies": {
