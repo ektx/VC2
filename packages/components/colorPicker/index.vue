@@ -17,16 +17,7 @@
 </template>
 
 <script>
-import {
-  ref,
-  getCurrentInstance,
-  onMounted,
-  onUnmounted,
-  computed,
-  watch,
-  provide,
-  inject
-} from 'vue'
+import { ref, getCurrentInstance, computed, watch, provide, inject } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
 import { formatString, hsv2rgb, toHex, hsv2hsl } from './color'
@@ -38,11 +29,6 @@ export default {
   inject: ['vcFormItem'],
   props: {
     modelValue: {
-      type: String,
-      default: ''
-    },
-    // 颜色值
-    value: {
       type: String,
       default: ''
     },
@@ -69,12 +55,16 @@ export default {
   data() {
     return {
       alpha: this.myStore.alpha,
-      isDrag: this.myStore.isDrag
+      isDrag: this.myStore.isDrag,
+      isVisible: false
     }
   },
   mounted() {
     this.formatHSV()
-    document.addEventListener('mouseup', this.hideDropdown, false)
+    window.addEventListener('click', this.hideDropdown, false)
+  },
+  unmounted() {
+    window.removeEventListener('click', hideDropdown, true)
   },
   setup(props, { emit }) {
     const { ctx } = getCurrentInstance()
@@ -85,7 +75,7 @@ export default {
 
     const dropdown = ref(null)
     const isActive = ref(false)
-    const isVisible = ref(false)
+    // const isVisible = ref(false)
     const isOpened = ref(false)
     // const isDrag = ref(false)
     const hsv = ref({ __: true })
@@ -109,14 +99,6 @@ export default {
       },
       { deep: true }
     )
-    // watch(
-    //   () => alpha.value,
-    //   val => delayFun()
-    // )
-
-    onUnmounted(() => {
-      document.removeEventListener('mouseup', hideDropdown, false)
-    })
 
     function afterEnterEvt() {
       isOpened.value = true
@@ -133,11 +115,8 @@ export default {
     return {
       dropdown,
       isActive,
-      isVisible,
       isOpened,
-      // isDrag,
       hsv,
-      // alpha,
       myStore,
       colorStyle,
       afterEnterEvt
@@ -147,29 +126,31 @@ export default {
     showDropdownEvt() {
       const dropdownEl = this.$el.querySelector('.vc-color-picker__drop-down')
 
-      this.isVisible = true
+      this.isVisible = !this.isVisible
 
-      // formatString(this.value)
-
-      this.dropdown = createPopper(this.$refs.colorEl, dropdownEl, {
-        placement: 'bottom',
-        modifiers: [
-          {
-            name: 'offset',
-            options: {
-              offset: [0, 5]
+      if (this.isVisible) {
+        this.dropdown = createPopper(this.$refs.colorEl, dropdownEl, {
+          placement: 'bottom',
+          modifiers: [
+            {
+              name: 'offset',
+              options: {
+                offset: [0, 5]
+              }
+            },
+            {
+              name: 'computeStyles',
+              options: {
+                adaptive: false,
+                gpuAcceleration: false
+              }
             }
-          },
-          {
-            name: 'computeStyles',
-            options: {
-              adaptive: false,
-              gpuAcceleration: false
-            }
-          }
-        ],
-        strategy: 'fixed'
-      })
+          ],
+          strategy: 'fixed'
+        })
+      } else {
+        this.hideDropdown()
+      }
     },
 
     formatHSV() {
