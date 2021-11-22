@@ -37,10 +37,10 @@ export default {
   },
   watch: {
     Value() {
-      if (!this.isDrag) this.setPosition()
+      this.setPosition()
     },
     Saturation() {
-      !this.isDrag && this.setPosition()
+      this.setPosition()
     }
   },
   data() {
@@ -89,13 +89,13 @@ export default {
       }
     )
 
-    let _HSV = inject('VCColorPickerHSV')
-    watch(
-      () => _HSV.value,
-      val => {
-        if (!vcColorPicker.isActive) ctx.setPosition()
-      }
-    )
+    // let _HSV = inject('VCColorPickerHSV')
+    // watch(
+    //   () => _HSV.value,
+    //   val => {
+    //     if (!vcColorPicker.isActive) ctx.setPosition()
+    //   }
+    // )
 
     return {
       x,
@@ -159,6 +159,8 @@ export default {
     },
 
     setPosition() {
+      if (this.isDrag) return
+
       this.elBCR = this.$el.getBoundingClientRect()
       let { width, height } = this.elBCR
 

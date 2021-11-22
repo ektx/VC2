@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { ref, getCurrentInstance, computed, watch, provide, inject } from 'vue'
+import { ref, computed, watch, provide, inject } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
 import { formatString, hsv2rgb, toHex, hsv2hsl } from './color'
@@ -55,8 +55,18 @@ export default {
   data() {
     return {
       alpha: this.myStore.alpha,
+      Value: this.myStore.Value,
       isDrag: this.myStore.isDrag,
-      isVisible: false
+      isVisible: false,
+      isOpened: false
+    }
+  },
+  watch: {
+    Value() {
+      this.updateValue()
+    },
+    alpha() {
+      this.updateValue()
     }
   },
   mounted() {
@@ -67,21 +77,11 @@ export default {
     window.removeEventListener('click', hideDropdown, true)
   },
   setup(props, { emit }) {
-    const { ctx } = getCurrentInstance()
-    const vcFormItem = inject('vcFormItem', null)
     const myStore = store(props)
-
-    let timer = null
 
     const dropdown = ref(null)
     const isActive = ref(false)
-    // const isVisible = ref(false)
-    const isOpened = ref(false)
-    // const isDrag = ref(false)
     const hsv = ref({ __: true })
-    // const alpha = ref(1)
-
-    provide('VCColorPickerHSV', hsv)
 
     const colorStyle = computed(() => {
       let { red, green, blue, alpha } = myStore
@@ -91,35 +91,29 @@ export default {
       }
     })
 
-    watch(
-      () => hsv.value,
-      (val, old) => {
-        if (old.__) return
-        delayFun()
-      },
-      { deep: true }
-    )
+    // watch(
+    //   () => hsv.value,
+    //   (val, old) => {
+    //     if (old.__) return
+    //     delayFun()
+    //   },
+    //   { deep: true }
+    // )
 
-    function afterEnterEvt() {
-      isOpened.value = true
-    }
+    // function delayFun() {
+    //   if (timer) clearTimeout(timer)
 
-    function delayFun() {
-      if (timer) clearTimeout(timer)
-
-      timer = setTimeout(() => {
-        updateValue(props.format, hsv.value, alpha.value, emit, vcFormItem)
-      }, props.delay)
-    }
+    //   timer = setTimeout(() => {
+    //     updateValue(props.format, hsv.value, alpha.value, emit, vcFormItem)
+    //   }, props.delay)
+    // }
 
     return {
       dropdown,
       isActive,
-      isOpened,
       hsv,
       myStore,
-      colorStyle,
-      afterEnterEvt
+      colorStyle
     }
   },
   methods: {
@@ -156,7 +150,6 @@ export default {
     formatHSV() {
       let { hsv, alpha: a } = formatString(this.modelValue)
       console.log(1, hsv, a)
-      // hsv.value = _h
       this.myStore.Hue.value = hsv.h
       this.myStore.Saturation.value = hsv.s
       this.myStore.Value.value = hsv.v
@@ -172,47 +165,54 @@ export default {
           if (this.vcFormItem) this.vcFormItem.checkValidate('blur')
         }
       }
-    }
-  }
-}
+    },
 
-function updateValue(format, hsv, alpha, emit, vcFormItem) {
-  let result = ''
-  let { h, s, v } = hsv
+    afterEnterEvt() {
+      this.isOpened = true
+    },
 
-  if (h !== undefined) {
-    switch (format) {
-      case 'hex': {
-        let rgb = hsv2rgb(h, s, v)
-        result = toHex(rgb)
-        break
-      }
-      case 'rgb': {
-        let { r, g, b } = hsv2rgb(h, s, v)
+    updateValue() {
+      let result = ''
+      // let { h, s, v } = hsv
+      let h = this.myStore.Hue.value
+      let s = this.myStore.Saturation.value
+      let v = this.Value
 
-        if (alpha === 1) {
-          result = `rgb(${r}, ${g}, ${b})`
-        } else {
-          result = `rgba(${r}, ${g}, ${b}, ${alpha})`
+      if (h !== undefined) {
+        switch (this.format) {
+          case 'hex': {
+            let rgb = hsv2rgb(h, s, v)
+            result = toHex(rgb)
+            break
+          }
+          case 'rgb': {
+            let { r, g, b } = hsv2rgb(h, s, v)
+
+            if (this.alpha === 1) {
+              result = `rgb(${r}, ${g}, ${b})`
+            } else {
+              result = `rgba(${r}, ${g}, ${b}, ${this.alpha})`
+            }
+            break
+          }
+          case 'hsl': {
+            let { h: _h, s: _s, l } = hsv2hsl(h, s, v)
+            if (this.alpha === 1) result = `hsl(${_h}, ${_s}, ${l})`
+            else result = `hsla(${_h}, ${_s}, ${l}, ${this.alpha})`
+            break
+          }
+          case 'hsv': {
+            if (this.alpha === 1) result = `hsv(${h}, ${s}, ${v})`
+            else result = `hsva(${h}, ${s}, ${v}, ${this.alpha})`
+          }
         }
-        break
       }
-      case 'hsl': {
-        let { h: _h, s: _s, l } = hsv2hsl(h, s, v)
-        if (alpha === 1) result = `hsl(${_h}, ${_s}, ${l})`
-        else result = `hsla(${_h}, ${_s}, ${l}, ${alpha})`
-        break
-      }
-      case 'hsv': {
-        if (alpha === 1) result = `hsv(${h}, ${s}, ${v})`
-        else result = `hsva(${h}, ${s}, ${v}, ${alpha})`
-      }
+
+      this.$emit('update:modelValue', result)
+      this.$emit('change', result)
+
+      if (this.vcFormItem) this.vcFormItem.checkValidate('change')
     }
   }
-
-  emit('update:value', result)
-  emit('change', result)
-
-  if (vcFormItem) vcFormItem.checkValidate('change')
 }
 </script>

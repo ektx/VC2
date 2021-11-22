@@ -26,6 +26,8 @@ export default function store() {
       red.value = r
       green.value = g
       blue.value = b
+    } else {
+      watchEvent = ''
     }
   })
 
@@ -47,6 +49,8 @@ export default function store() {
       Hue.value = h
       Saturation.value = s
       Value.value = v
+    } else {
+      watchEvent = ''
     }
   })
 

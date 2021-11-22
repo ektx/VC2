@@ -1,5 +1,5 @@
 <template>
-  <div class="vc-color-picker__drop-down" @mouseup="mouseupEvt">
+  <div class="vc-color-picker__drop-down" @click.stop>
     <ColorPanel :isOpened="isOpened" />
 
     <div class="vc-color-picker__display-panel">
