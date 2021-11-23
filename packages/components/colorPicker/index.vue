@@ -79,9 +79,9 @@ export default {
   setup(props, { emit }) {
     const myStore = store(props)
 
-    const dropdown = ref(null)
+    // const dropdown = ref(null)
     const isActive = ref(false)
-    const hsv = ref({ __: true })
+    // const hsv = ref({ __: true })
 
     const colorStyle = computed(() => {
       let { red, green, blue, alpha } = myStore
@@ -91,27 +91,9 @@ export default {
       }
     })
 
-    // watch(
-    //   () => hsv.value,
-    //   (val, old) => {
-    //     if (old.__) return
-    //     delayFun()
-    //   },
-    //   { deep: true }
-    // )
-
-    // function delayFun() {
-    //   if (timer) clearTimeout(timer)
-
-    //   timer = setTimeout(() => {
-    //     updateValue(props.format, hsv.value, alpha.value, emit, vcFormItem)
-    //   }, props.delay)
-    // }
-
     return {
-      dropdown,
       isActive,
-      hsv,
+      // hsv,
       myStore,
       colorStyle
     }
@@ -173,7 +155,6 @@ export default {
 
     updateValue() {
       let result = ''
-      // let { h, s, v } = hsv
       let h = this.myStore.Hue.value
       let s = this.myStore.Saturation.value
       let v = this.Value

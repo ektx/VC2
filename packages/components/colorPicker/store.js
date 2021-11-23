@@ -1,5 +1,5 @@
 import { ref, watch } from 'vue'
-import { rgb2hsv, hsv2rgb, toHex } from './color'
+import { rgb2hsv, hsv2rgb, hsv2hsl, toHex } from './color'
 
 export default function store() {
   const alpha = ref(1)
@@ -12,6 +12,10 @@ export default function store() {
   const Saturation = ref(0)
   const Value = ref(0)
   const hex = ref('')
+
+  const HSL_Hue = ref('0%')
+  const HSL_S = ref('0%')
+  const Lightness = ref('0%')
 
   const isDrag = ref(false)
 
@@ -26,6 +30,12 @@ export default function store() {
       red.value = r
       green.value = g
       blue.value = b
+
+      const HSL = hsv2hsl(h, s, v)
+      console.error(HSL)
+      HSL_Hue.value = HSL.h
+      HSL_S.value = HSL.s
+      Lightness.value = HSL.l
     } else {
       watchEvent = ''
     }
@@ -63,6 +73,9 @@ export default function store() {
     Saturation,
     Value,
     hex,
+    HSL_Hue,
+    HSL_S,
+    Lightness,
     isDrag
   }
 }
