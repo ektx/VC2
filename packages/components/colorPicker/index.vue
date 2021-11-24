@@ -4,7 +4,7 @@
       ref="colorEl"
       :class="[
         'vc-color-picker__color',
-        { 'is-round': round, 'is-empty': !value }
+        { 'is-round': round, 'is-empty': !modelValue }
       ]"
       @click="showDropdownEvt"
     >

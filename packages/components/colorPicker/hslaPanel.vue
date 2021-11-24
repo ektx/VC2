@@ -1,56 +1,24 @@
 <template>
   <ul class="color-picker__hsla-panel color-picker__text-table">
     <li>
-      <input type="text" v-model="H" />
+      <input type="number" v-model="H" />
       <p>H</p>
     </li>
     <li>
-      <input type="text" v-model="S" />
+      <input type="number" v-model="S" max="100" min="0" />
       <p>S</p>
     </li>
     <li>
-      <input type="text" v-model="L" />
+      <input type="number" v-model="L" max="100" min="0" />
       <p>L</p>
     </li>
     <Alpha />
   </ul>
 </template>
 
-<script>
+<script setup>
+import { inject } from 'vue'
 import Alpha from './alpha.vue'
 
-export default {
-  name: 'VcColorPickerHSLAPanel',
-  inject: ['vcColorPicker', 'store'],
-  components: { Alpha },
-  data() {
-    return {
-      H: this.store.HSL_Hue,
-      S: this.store.HSL_S,
-      L: this.store.Lightness
-    }
-  }
-  // setup() {
-  //   const { ctx } = getCurrentInstance()
-
-  //   const hsl = computed(() => {
-  //     let { h, s, v } = ctx.vcColorPicker.hsv
-  //     let hsl = hsv2hsl(h, s, v)
-
-  //     return { ...hsl }
-  //   })
-
-  //   function changeEvt() {
-  //     let { h, s, l } = hsl.value
-  //     let { hsv } = formatString(`hsl(${h}, ${s}, ${l})`)
-
-  //     ctx.vcColorPicker.hsv = hsv
-  //   }
-
-  //   return {
-  //     hsl,
-  //     changeEvt
-  //   }
-  // }
-}
+const { HSL_Hue: H, HSL_S: S, Lightness: L } = inject('store')
 </script>

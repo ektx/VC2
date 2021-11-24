@@ -5,10 +5,11 @@ const hsv2hsl = function (hue = 0, sat = 0, val = 0) {
   let s = (sat * val) / ((hue = (2 - sat) * val) < 1 ? hue : 2 - hue) || 0
   let l = Math.round((hue / 2) * 100)
 
-  s = `${Math.round(s * 100)}%`
-  l = `${l}%`
+  s = Math.round(s * 100)
+  const s_str = s + '%'
+  const l_str = `${l}%`
 
-  return { h, s, l }
+  return { h, s, l, s_str, l_str }
 }
 
 // Need to handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
@@ -49,7 +50,8 @@ const toHex = function ({ r, g, b }) {
     value = Math.min(Math.round(value), 255)
     const high = Math.floor(value / 16)
     const low = value % 16
-    return '' + (INT_HEX_MAP[high] || high) + (INT_HEX_MAP[low] || low)
+    const val = '' + (INT_HEX_MAP[high] || high) + (INT_HEX_MAP[low] || low)
+    return val.length > 1 ? val : val.repeat(2)
   }
 
   if (isNaN(r) || isNaN(g) || isNaN(b)) return ''
@@ -219,4 +221,30 @@ function formatString(value) {
   return { hsv, alpha }
 }
 
-export { formatString, hsv2rgb, hsv2hsl, hsl2hsv, rgb2hsv, toHex }
+function hex2rgb(hex) {
+  let r = 0
+  let g = 0
+  let b = 0
+
+  hex = hex.startsWith('#') ? hex.slice(1) : hex
+
+  if (hex.length % 3 !== 0) return null
+
+  if (hex.length === 3) {
+    r = hex[0].repeat(2)
+    g = hex[1].repeat(2)
+    b = hex[2].repeat(2)
+  } else {
+    r = hex.slice(0, 2)
+    g = hex.slice(2, 4)
+    b = hex.slice(4, 6)
+  }
+
+  return {
+    r: parseInt(r, 16),
+    g: parseInt(g, 16),
+    b: parseInt(b, 16)
+  }
+}
+
+export { formatString, hsv2rgb, hsv2hsl, hsl2hsv, rgb2hsv, toHex, hex2rgb }

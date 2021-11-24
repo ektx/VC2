@@ -1,5 +1,5 @@
 import { ref, watch } from 'vue'
-import { rgb2hsv, hsv2rgb, hsv2hsl, toHex } from './color'
+import { rgb2hsv, hsv2rgb, hsv2hsl, toHex, hex2rgb } from './color'
 
 export default function store(emit) {
   const alpha = ref(1)
@@ -13,9 +13,11 @@ export default function store(emit) {
   const Value = ref(0)
   const hex = ref('')
 
-  const HSL_Hue = ref('0%')
-  const HSL_S = ref('0%')
-  const Lightness = ref('0%')
+  const HSL_Hue = ref(0)
+  // 定义饱和度; 0% 为灰色， 100% 全色
+  const HSL_S = ref(0)
+  // 定义亮度 0% 为暗, 50% 为普通, 100% 为白
+  const Lightness = ref(0)
 
   const format = ref('hex')
 
@@ -51,10 +53,31 @@ export default function store(emit) {
     updateVal()
   })
 
+  watch([hex], ([val]) => {
+    let color = hex2rgb(val)
+
+    console.log('hex', watchEvent)
+    if (watchEvent !== 'RGBA') {
+      watchEvent = 'hex'
+      if (color) {
+        let { r, g, b } = color
+        red.value = r
+        blue.value = b
+        green.value = g
+      }
+    } else {
+      watchEvent = ''
+    }
+
+    updateVal()
+  })
+
   watch([red, green, blue], ([r, g, b]) => {
     console.log('REGA', r, g, b)
 
-    hex.value = toHex({ r, g, b })
+    if (watchEvent !== 'hex') {
+      hex.value = toHex({ r, g, b })
+    }
 
     if (watchEvent !== 'HSV') {
       watchEvent = 'RGB'
@@ -66,21 +89,53 @@ export default function store(emit) {
     } else {
       watchEvent = ''
     }
+
+    watch([HSL_Hue, HSL_S, Lightness], ([h, s, l]) => {
+      console.log(h, s, l)
+    })
   })
 
   function updateVal() {
-    let result = getFormatStr(
-      Hue.value,
-      Saturation.value,
-      Value.value,
-      alpha.value,
-      format.value
-    )
+    let result = getFormatStr()
 
     emit('update:modelValue', result)
     emit('change', result)
 
     // if (this.vcFormItem) this.vcFormItem.checkValidate('change')
+  }
+
+  function getFormatStr() {
+    const a = alpha.value
+    let isOpacity = alpha.value === 1
+    let start = ''
+    let end = ''
+    let body = ''
+
+    switch (format.value) {
+      case 'hex': {
+        body = hex.value
+        break
+      }
+      case 'rgb': {
+        start = isOpacity ? 'rgb(' : 'rgba('
+        end = isOpacity ? ')' : `, ${a})`
+        body = `${red.value}, ${green.value}, ${blue.value}`
+        break
+      }
+      case 'hsl': {
+        start = isOpacity ? 'hsl(' : 'hsla('
+        end = isOpacity ? ')' : `, ${a})`
+        body = `${HSL_Hue.value}, ${HSL_S.value}%, ${Lightness.value}%`
+        break
+      }
+      case 'hsv': {
+        start = isOpacity ? 'hsv(' : 'hsva('
+        end = isOpacity ? ')' : `, ${a})`
+        body = `${Hue.value}, ${Saturation.value}, ${Value.value}`
+      }
+    }
+
+    return start + body + end
   }
 
   return {
@@ -98,40 +153,4 @@ export default function store(emit) {
     format,
     isDrag
   }
-}
-
-function getFormatStr(h, s, v, a, format) {
-  let result = ''
-
-  if (h !== undefined) {
-    switch (format) {
-      case 'hex': {
-        let rgb = hsv2rgb(h, s, v)
-        result = toHex(rgb)
-        break
-      }
-      case 'rgb': {
-        let { r, g, b } = hsv2rgb(h, s, v)
-
-        if (a === 1) {
-          result = `rgb(${r}, ${g}, ${b})`
-        } else {
-          result = `rgba(${r}, ${g}, ${b}, ${a})`
-        }
-        break
-      }
-      case 'hsl': {
-        let { h: _h, s: _s, l } = hsv2hsl(h, s, v)
-        if (a === 1) result = `hsl(${_h}, ${_s}, ${l})`
-        else result = `hsla(${_h}, ${_s}, ${l}, ${a})`
-        break
-      }
-      case 'hsv': {
-        if (a === 1) result = `hsv(${h}, ${s}, ${v})`
-        else result = `hsva(${h}, ${s}, ${v}, ${a})`
-      }
-    }
-  }
-
-  return result
 }
