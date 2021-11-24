@@ -89,14 +89,6 @@ export default {
       }
     )
 
-    // let _HSV = inject('VCColorPickerHSV')
-    // watch(
-    //   () => _HSV.value,
-    //   val => {
-    //     if (!vcColorPicker.isActive) ctx.setPosition()
-    //   }
-    // )
-
     return {
       x,
       y,

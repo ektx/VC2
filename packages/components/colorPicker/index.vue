@@ -6,7 +6,7 @@
         'vc-color-picker__color',
         { 'is-round': round, 'is-empty': !value }
       ]"
-      @click.stop="showDropdownEvt"
+      @click="showDropdownEvt"
     >
       <span :style="colorStyle"></span>
     </div>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { ref, computed, watch, provide, inject } from 'vue'
+import { ref, computed } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
 import { formatString, hsv2rgb, toHex, hsv2hsl } from './color'
@@ -54,7 +54,7 @@ export default {
   },
   data() {
     return {
-      alpha: this.myStore.alpha,
+      alpha: 0,
       Value: this.myStore.Value,
       isDrag: this.myStore.isDrag,
       isVisible: false,
@@ -62,11 +62,8 @@ export default {
     }
   },
   watch: {
-    Value() {
-      this.updateValue()
-    },
-    alpha() {
-      this.updateValue()
+    format(val) {
+      this.myStore.format.value = val
     }
   },
   mounted() {
@@ -74,14 +71,13 @@ export default {
     window.addEventListener('click', this.hideDropdown, false)
   },
   unmounted() {
-    window.removeEventListener('click', hideDropdown, true)
+    window.removeEventListener('click', this.hideDropdown, true)
   },
   setup(props, { emit }) {
-    const myStore = store(props)
+    const myStore = store(emit)
+    myStore.format.value = props.format
 
-    // const dropdown = ref(null)
     const isActive = ref(false)
-    // const hsv = ref({ __: true })
 
     const colorStyle = computed(() => {
       let { red, green, blue, alpha } = myStore
@@ -151,48 +147,6 @@ export default {
 
     afterEnterEvt() {
       this.isOpened = true
-    },
-
-    updateValue() {
-      let result = ''
-      let h = this.myStore.Hue.value
-      let s = this.myStore.Saturation.value
-      let v = this.Value
-
-      if (h !== undefined) {
-        switch (this.format) {
-          case 'hex': {
-            let rgb = hsv2rgb(h, s, v)
-            result = toHex(rgb)
-            break
-          }
-          case 'rgb': {
-            let { r, g, b } = hsv2rgb(h, s, v)
-
-            if (this.alpha === 1) {
-              result = `rgb(${r}, ${g}, ${b})`
-            } else {
-              result = `rgba(${r}, ${g}, ${b}, ${this.alpha})`
-            }
-            break
-          }
-          case 'hsl': {
-            let { h: _h, s: _s, l } = hsv2hsl(h, s, v)
-            if (this.alpha === 1) result = `hsl(${_h}, ${_s}, ${l})`
-            else result = `hsla(${_h}, ${_s}, ${l}, ${this.alpha})`
-            break
-          }
-          case 'hsv': {
-            if (this.alpha === 1) result = `hsv(${h}, ${s}, ${v})`
-            else result = `hsva(${h}, ${s}, ${v}, ${this.alpha})`
-          }
-        }
-      }
-
-      this.$emit('update:modelValue', result)
-      this.$emit('change', result)
-
-      if (this.vcFormItem) this.vcFormItem.checkValidate('change')
     }
   }
 }
