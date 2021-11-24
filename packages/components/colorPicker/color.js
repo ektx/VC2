@@ -50,8 +50,7 @@ const toHex = function ({ r, g, b }) {
     value = Math.min(Math.round(value), 255)
     const high = Math.floor(value / 16)
     const low = value % 16
-    const val = '' + (INT_HEX_MAP[high] || high) + (INT_HEX_MAP[low] || low)
-    return val.length > 1 ? val : val.repeat(2)
+    return '' + (INT_HEX_MAP[high] || high) + (INT_HEX_MAP[low] || low)
   }
 
   if (isNaN(r) || isNaN(g) || isNaN(b)) return ''

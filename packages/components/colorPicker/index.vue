@@ -26,7 +26,7 @@ import store from './store'
 export default {
   name: 'VcColorPicker',
   components: { DropDown },
-  inject: ['vcFormItem'],
+  // inject: ['vcFormItem'],
   props: {
     modelValue: {
       type: String,
@@ -74,10 +74,10 @@ export default {
     const isActive = ref(false)
 
     const colorStyle = computed(() => {
-      let { red, green, blue, alpha } = myStore
+      let { Hue, Saturation, Value, alpha } = myStore
 
       return {
-        backgroundColor: `rgba(${red.value}, ${green.value}, ${blue.value}, ${alpha.value})`
+        backgroundColor: `hsv(${Hue.value}, ${Saturation.value}, ${Value.value})`
       }
     })
 
@@ -139,7 +139,7 @@ export default {
       } else {
         if (this.isVisible) {
           this.isVisible = false
-          if (this.vcFormItem) this.vcFormItem.checkValidate('blur')
+          // if (this.vcFormItem) this.vcFormItem.checkValidate('blur')
         }
       }
     },

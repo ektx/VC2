@@ -89,6 +89,14 @@ export default {
       }
     )
 
+    // let _HSV = inject('VCColorPickerHSV')
+    // watch(
+    //   () => _HSV.value,
+    //   val => {
+    //     if (!vcColorPicker.isActive) ctx.setPosition()
+    //   }
+    // )
+
     return {
       x,
       y,
@@ -123,6 +131,7 @@ export default {
 
     mouseupEvt(evt) {
       this.vcColorPicker.isActive = false
+      this.isDrag = false
     },
 
     mousemoveEvt(evt) {

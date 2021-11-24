@@ -27,24 +27,25 @@ export default function store(emit) {
     console.log('HSVA', h, s, v)
     console.log(hsv2rgb(h, s, v))
 
-    if (watchEvent !== 'RGB') {
-      watchEvent = 'HSV'
+    // if (watchEvent !== 'RGB') {
+    //   watchEvent = 'HSV'
 
-      let { r, g, b } = hsv2rgb(h, s, v)
-      red.value = r
-      green.value = g
-      blue.value = b
+    //   let { r, g, b } = hsv2rgb(h, s, v)
+    //   red.value = r
+    //   green.value = g
+    //   blue.value = b
 
-      const HSL = hsv2hsl(h, s, v)
-      console.error(HSL)
-      HSL_Hue.value = HSL.h
-      HSL_S.value = HSL.s
-      Lightness.value = HSL.l
-    } else {
-      watchEvent = ''
+    //   const HSL = hsv2hsl(h, s, v)
+    //   console.error(HSL)
+    //   HSL_Hue.value = HSL.h
+    //   HSL_S.value = HSL.s
+    //   Lightness.value = HSL.l
+    // } else {
+    //   watchEvent = ''
+    // }
+    if (isDrag.value) {
+      updateVal()
     }
-
-    updateVal()
   })
 
   let watchEvent = null
@@ -54,49 +55,62 @@ export default function store(emit) {
   })
 
   watch([hex], ([val]) => {
-    let color = hex2rgb(val)
+    // let color = hex2rgb(val)
 
-    console.log('hex', watchEvent)
-    if (watchEvent !== 'RGBA') {
-      watchEvent = 'hex'
-      if (color) {
-        let { r, g, b } = color
-        red.value = r
-        blue.value = b
-        green.value = g
-      }
-    } else {
-      watchEvent = ''
+    console.log('hex', val)
+    // if (watchEvent !== 'RGBA') {
+    //   watchEvent = 'hex'
+    //   if (color) {
+    //     let { r, g, b } = color
+    //     red.value = r
+    //     blue.value = b
+    //     green.value = g
+    //   }
+    // } else {
+    //   watchEvent = ''
+    // }
+    let h = 0,
+      s = 0,
+      v = 0
+    const color = hex2rgb(val)
+    if (color) {
+      const { r, g, b } = color
+
+      ;({ h, s, v } = rgb2hsv(r, g, b))
+      Hue.value = h
+      Value.value = v
+      Saturation.value = s
+      updateVal('hex')
     }
-
-    updateVal()
   })
 
   watch([red, green, blue], ([r, g, b]) => {
-    console.log('REGA', r, g, b)
+    // console.log('REGA', r, g, b)
 
-    if (watchEvent !== 'hex') {
-      hex.value = toHex({ r, g, b })
-    }
+    // if (watchEvent !== 'hex') {
+    //   hex.value = toHex({ r, g, b })
+    // }
 
-    if (watchEvent !== 'HSV') {
-      watchEvent = 'RGB'
-      const { h, s, v } = rgb2hsv(r, g, b)
+    // if (watchEvent !== 'HSV') {
+    //   watchEvent = 'RGB'
+    //   const { h, s, v } = rgb2hsv(r, g, b)
 
-      Hue.value = h
-      Saturation.value = s
-      Value.value = v
-    } else {
-      watchEvent = ''
-    }
+    //   Hue.value = h
+    //   Saturation.value = s
+    //   Value.value = v
+    // } else {
+    //   watchEvent = ''
+    // }
 
-    watch([HSL_Hue, HSL_S, Lightness], ([h, s, l]) => {
-      console.log(h, s, l)
-    })
+    // watch([HSL_Hue, HSL_S, Lightness], ([h, s, l]) => {
+    //   console.log(h, s, l)
+    // })
+    updateVal()
   })
 
-  function updateVal() {
-    let result = getFormatStr()
+  function updateVal(type) {
+    console.log('Update...')
+    let result = getFormatStr(type)
 
     emit('update:modelValue', result)
     emit('change', result)
@@ -104,15 +118,33 @@ export default function store(emit) {
     // if (this.vcFormItem) this.vcFormItem.checkValidate('change')
   }
 
-  function getFormatStr() {
+  function getFormatStr(type) {
     const a = alpha.value
     let isOpacity = alpha.value === 1
     let start = ''
     let end = ''
     let body = ''
+    let h = Hue.value
+    let s = Saturation.value
+    let v = Value.value
+
+    switch (type) {
+      case 'hex':
+        // const color = hex2rgb(hex.value)
+        // if (color) {
+        //   const { r, g, b } = color
+
+        //   ;({ h, s, v } = rgb2hsv(r, g, b))
+        // }
+        break
+    }
 
     switch (format.value) {
       case 'hex': {
+        if (type !== 'hex') {
+          const { r, g, b } = hsv2rgb(Hue.value, Saturation.value, Value.value)
+          hex.value = toHex({ r, g, b })
+        }
         body = hex.value
         break
       }
