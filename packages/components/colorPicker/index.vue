@@ -20,7 +20,7 @@
 import { ref, computed } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
-import { formatString, hsv2rgb, toHex, hsv2hsl } from './color'
+import { formatString } from './color'
 import store from './store'
 
 export default {
@@ -38,11 +38,6 @@ export default {
       type: String,
       default: 'hex'
     },
-    // 延迟功能
-    delay: {
-      type: Number,
-      default: 100
-    },
     // 圆形效果
     round: Boolean
   },
@@ -54,7 +49,6 @@ export default {
   },
   data() {
     return {
-      alpha: 0,
       Value: this.myStore.Value,
       isDrag: this.myStore.isDrag,
       isVisible: false,
@@ -127,12 +121,11 @@ export default {
     },
 
     formatHSV() {
-      let { hsv, alpha: a } = formatString(this.modelValue)
-      console.log(1, hsv, a)
+      let { hsv, alpha } = formatString(this.modelValue)
       this.myStore.Hue.value = hsv.h
       this.myStore.Saturation.value = hsv.s
       this.myStore.Value.value = hsv.v
-      this.alpha = a
+      this.myStore.alpha.value = alpha
     },
 
     hideDropdown() {

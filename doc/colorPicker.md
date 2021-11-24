@@ -122,6 +122,5 @@ const color4 = ref('')
 |---|---|---|---|---|
 | v-model | **String** | 颜色值 | - | - |
 | format | **String** | 写入 v-model 的颜色的格式 | hex / hsl / hsv / rgb | hex |
-| delay | **Number** | 延迟功能 | - | 100 |
 | round | **Boolean** | 圆形效果 | - | - |
 
