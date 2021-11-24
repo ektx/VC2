@@ -17,18 +17,6 @@
     // 请先确保你的 vscode 安装 prettier
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "prettier": {
-    "arrowParens": "avoid",
-    // 去除对象最后一个逗号
-    "trailingComma": "none",
-    // 使用单引号
-    "singleQuote": true,
-    // 行尾不加分号
-    "semi": false,
-    "jsxBracketSameLine": false,
-    // 换行符风格 LF
-    "endOfLine": "lf"
-  },
   "css.validate": false,
   "scss.validate": false
 }
