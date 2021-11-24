@@ -74,7 +74,7 @@ export default {
     window.removeEventListener('click', this.hideDropdown, true)
   },
   setup(props, { emit }) {
-    const myStore = store(emit)
+    const myStore = store(emit, props)
     myStore.format.value = props.format
 
     const isActive = ref(false)
@@ -99,6 +99,7 @@ export default {
       const dropdownEl = this.$el.querySelector('.vc-color-picker__drop-down')
 
       this.isVisible = !this.isVisible
+      this.isActive = true
 
       if (this.isVisible) {
         this.dropdown = createPopper(this.$refs.colorEl, dropdownEl, {
@@ -135,6 +136,11 @@ export default {
     },
 
     hideDropdown() {
+      if (this.isActive) {
+        this.isActive = false
+        return
+      }
+
       if (this.isDrag) {
         this.isDrag = false
       } else {
