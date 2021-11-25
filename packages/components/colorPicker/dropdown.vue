@@ -25,7 +25,7 @@ import HSLAPanel from './hslaPanel.vue'
 import RGBAPanel from './rgbaPanel.vue'
 import HexPanel from './hexPanel.vue'
 import AlphaBar from './alphaBar.vue'
-import { getCurrentInstance, onMounted, ref, computed } from 'vue'
+import { getCurrentInstance, computed } from 'vue'
 
 export default {
   name: 'VcColorPickerDropdown',
@@ -50,7 +50,7 @@ export default {
     }
 
     const colorStyle = computed(() => {
-      return ctx.vcColorPicker.colorStyle
+      return ctx.vcColorPicker.currentColor
     })
 
     function clear() {

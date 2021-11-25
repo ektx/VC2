@@ -8,7 +8,7 @@
       ]"
       @click="showDropdownEvt"
     >
-      <span :style="colorStyle"></span>
+      <span :style="currentColor"></span>
     </div>
     <transition name="vc-zoom-in-top" @after-enter="afterEnterEvt">
       <DropDown v-show="isVisible" :format="format" :isOpened="isOpened" />
@@ -51,6 +51,7 @@ export default {
     return {
       Value: this.myStore.Value,
       isDrag: this.myStore.isDrag,
+      currentColor: this.myStore.currentColor,
       isVisible: false,
       isOpened: false
     }
@@ -73,19 +74,10 @@ export default {
 
     const isActive = ref(false)
 
-    const colorStyle = computed(() => {
-      let { Hue, Saturation, Value, alpha } = myStore
-
-      return {
-        backgroundColor: `hsv(${Hue.value}, ${Saturation.value}, ${Value.value})`
-      }
-    })
-
     return {
       isActive,
       // hsv,
-      myStore,
-      colorStyle
+      myStore
     }
   },
   methods: {

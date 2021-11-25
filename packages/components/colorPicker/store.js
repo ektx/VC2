@@ -1,5 +1,5 @@
 import { ref, watch } from 'vue'
-import { rgb2hsv, hsv2rgb, hsv2hsl, toHex, hex2rgb } from './color'
+import { rgb2hsv, hsv2rgb, hsv2hsl, toHex, hex2rgb, hsl2hsv } from './color'
 
 export default function store(emit) {
   const alpha = ref(1)
@@ -22,53 +22,22 @@ export default function store(emit) {
   const format = ref('hex')
 
   const isDrag = ref(false)
+  const currentColor = ref({})
 
   watch([Hue, Saturation, Value], ([h, s, v]) => {
     console.log('HSVA', h, s, v)
-    console.log(hsv2rgb(h, s, v))
 
-    // if (watchEvent !== 'RGB') {
-    //   watchEvent = 'HSV'
-
-    //   let { r, g, b } = hsv2rgb(h, s, v)
-    //   red.value = r
-    //   green.value = g
-    //   blue.value = b
-
-    //   const HSL = hsv2hsl(h, s, v)
-    //   console.error(HSL)
-    //   HSL_Hue.value = HSL.h
-    //   HSL_S.value = HSL.s
-    //   Lightness.value = HSL.l
-    // } else {
-    //   watchEvent = ''
-    // }
-    if (isDrag.value) {
-      updateVal()
-    }
+    updateVal({ h, s, v, type: 'hsv' })
   })
 
-  let watchEvent = null
-
-  watch([alpha], ([val]) => {
-    updateVal()
+  watch([alpha], () => {
+    updateVal({ type: 'alpha' })
   })
 
   watch([hex], ([val]) => {
-    // let color = hex2rgb(val)
+    if (isDrag.value) return
 
     console.log('hex', val)
-    // if (watchEvent !== 'RGBA') {
-    //   watchEvent = 'hex'
-    //   if (color) {
-    //     let { r, g, b } = color
-    //     red.value = r
-    //     blue.value = b
-    //     green.value = g
-    //   }
-    // } else {
-    //   watchEvent = ''
-    // }
     let h = 0,
       s = 0,
       v = 0
@@ -80,36 +49,59 @@ export default function store(emit) {
       Hue.value = h
       Value.value = v
       Saturation.value = s
-      updateVal('hex')
     }
   })
 
   watch([red, green, blue], ([r, g, b]) => {
-    // console.log('REGA', r, g, b)
+    console.log('REGA', r, g, b)
 
-    // if (watchEvent !== 'hex') {
-    //   hex.value = toHex({ r, g, b })
-    // }
+    if (isDrag.value) return
 
-    // if (watchEvent !== 'HSV') {
-    //   watchEvent = 'RGB'
-    //   const { h, s, v } = rgb2hsv(r, g, b)
-
-    //   Hue.value = h
-    //   Saturation.value = s
-    //   Value.value = v
-    // } else {
-    //   watchEvent = ''
-    // }
-
-    // watch([HSL_Hue, HSL_S, Lightness], ([h, s, l]) => {
-    //   console.log(h, s, l)
-    // })
-    updateVal()
+    const { h, s, v } = rgb2hsv(r, g, b)
+    Hue.value = h
+    Value.value = v
+    Saturation.value = s
   })
 
-  function updateVal(type) {
-    console.log('Update...')
+  watch([HSL_Hue, HSL_S, Lightness], ([h, s, l]) => {
+    if (isDrag.value) return
+
+    const hsv = hsl2hsv(h, s, l)
+    Hue.value = hsv.h
+    Value.value = hsv.v
+    Saturation.value = hsv.s
+  })
+
+  function updateVal({
+    h = Hue.value,
+    s = Saturation.value,
+    v = Value.value,
+    a = alpha.value,
+    type
+  }) {
+    console.log('Update...', type)
+    let { r, g, b } = hsv2rgb(h, s, v)
+
+    currentColor.value = {
+      backgroundColor: `rgba(${r}, ${g}, ${b}, ${a})`
+    }
+
+    if (isDrag.value) {
+      // RGB
+      red.value = r
+      green.value = g
+      blue.value = b
+
+      // hex
+      hex.value = toHex({ r, g, b })
+
+      // HSL
+      let hsl = hsv2hsl(h, s, v)
+      HSL_Hue.value = hsl.h
+      HSL_S.value = hsl.s
+      Lightness.value = hsl.l
+    }
+
     let result = getFormatStr(type)
 
     emit('update:modelValue', result)
@@ -118,7 +110,7 @@ export default function store(emit) {
     // if (this.vcFormItem) this.vcFormItem.checkValidate('change')
   }
 
-  function getFormatStr(type) {
+  function getFormatStr() {
     const a = alpha.value
     let isOpacity = alpha.value === 1
     let start = ''
@@ -128,24 +120,10 @@ export default function store(emit) {
     let s = Saturation.value
     let v = Value.value
 
-    switch (type) {
-      case 'hex':
-        // const color = hex2rgb(hex.value)
-        // if (color) {
-        //   const { r, g, b } = color
-
-        //   ;({ h, s, v } = rgb2hsv(r, g, b))
-        // }
-        break
-    }
-
     switch (format.value) {
       case 'hex': {
-        if (type !== 'hex') {
-          const { r, g, b } = hsv2rgb(Hue.value, Saturation.value, Value.value)
-          hex.value = toHex({ r, g, b })
-        }
         body = hex.value
+        body = body.startsWith('#') ? body : '#' + body
         break
       }
       case 'rgb': {
@@ -163,7 +141,7 @@ export default function store(emit) {
       case 'hsv': {
         start = isOpacity ? 'hsv(' : 'hsva('
         end = isOpacity ? ')' : `, ${a})`
-        body = `${Hue.value}, ${Saturation.value}, ${Value.value}`
+        body = `${h}, ${s}, ${v}`
       }
     }
 
@@ -183,6 +161,7 @@ export default function store(emit) {
     HSL_S,
     Lightness,
     format,
-    isDrag
+    isDrag,
+    currentColor
   }
 }
