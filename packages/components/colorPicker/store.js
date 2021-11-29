@@ -58,7 +58,7 @@ export default function store(emit) {
   })
 
   watch([red, green, blue], ([r, g, b]) => {
-    console.log('REGA', r, g, b)
+    console.log('REGA', r, g, b, isDrag.value)
 
     if (isDrag.value) return
 
@@ -107,6 +107,7 @@ export default function store(emit) {
     }
 
     let result = getFormatStr()
+    isDrag.value = false
 
     emit('update:modelValue', result)
     emit('change', result)
