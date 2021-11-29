@@ -24,10 +24,15 @@ export default function store(emit) {
   const isDrag = ref(false)
   const currentColor = ref({})
 
-  watch([Hue, Saturation, Value], ([h, s, v]) => {
-    console.log('HSVA', h, s, v)
+  watch([Hue], ([h]) => {
+    console.log('HSVA-H', h)
+    isDrag.value = true
+    updateVal()
+  })
+  watch([Saturation, Value], ([s, v]) => {
+    console.log('HSVA', s, v)
 
-    updateVal({ h, s, v, type: 'hsv' })
+    updateVal()
   })
 
   watch([alpha], () => {
@@ -64,6 +69,7 @@ export default function store(emit) {
   })
 
   watch([HSL_Hue, HSL_S, Lightness], ([h, s, l]) => {
+    console.log('HSL', h, s, l)
     if (isDrag.value) return
 
     const hsv = hsl2hsv(h, s, l)
@@ -72,14 +78,12 @@ export default function store(emit) {
     Saturation.value = hsv.s
   })
 
-  function updateVal({
-    h = Hue.value,
-    s = Saturation.value,
-    v = Value.value,
-    a = alpha.value,
-    type
-  }) {
-    console.log('Update...', type)
+  function updateVal() {
+    let h = Hue.value
+    let s = Saturation.value
+    let v = Value.value
+    let a = alpha.value
+    console.log('Update...')
     let { r, g, b } = hsv2rgb(h, s, v)
 
     currentColor.value = {
@@ -102,7 +106,7 @@ export default function store(emit) {
       Lightness.value = hsl.l
     }
 
-    let result = getFormatStr(type)
+    let result = getFormatStr()
 
     emit('update:modelValue', result)
     emit('change', result)

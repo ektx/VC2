@@ -113,11 +113,14 @@ export default {
     },
 
     formatHSV() {
-      let { hsv, alpha } = formatString(this.modelValue)
-      this.myStore.Hue.value = hsv.h
-      this.myStore.Saturation.value = hsv.s
-      this.myStore.Value.value = hsv.v
-      this.myStore.alpha.value = alpha
+      if (this.modelValue) {
+        let { hsv, alpha } = formatString(this.modelValue)
+        this.myStore.isDrag.value = true
+        this.myStore.Hue.value = hsv.h
+        this.myStore.Saturation.value = hsv.s
+        this.myStore.Value.value = hsv.v
+        this.myStore.alpha.value = alpha
+      }
     },
 
     hideDropdown() {
