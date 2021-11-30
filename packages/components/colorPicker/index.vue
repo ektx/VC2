@@ -11,7 +11,14 @@
       <span :style="currentColor"></span>
     </div>
     <transition name="vc-zoom-in-top" @after-enter="afterEnterEvt">
-      <DropDown v-show="isVisible" :format="format" :isOpened="isOpened" />
+      <DropDown
+        v-show="isVisible"
+        :format="format"
+        :isOpened="isOpened"
+        :H="H"
+        :S="S"
+        :V="V"
+      />
     </transition>
   </div>
 </template>
@@ -21,7 +28,6 @@ import { ref, computed } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
 import { formatString } from './color'
-import store from './store'
 
 export default {
   name: 'VcColorPicker',
@@ -49,16 +55,15 @@ export default {
   },
   data() {
     return {
-      Value: this.myStore.Value,
-      isDrag: this.myStore.isDrag,
-      currentColor: this.myStore.currentColor,
+      H: 0,
+      S: 0,
+      V: 0,
+      A: 0,
+      // Value: this.myStore.Value,
+      // isDrag: this.myStore.isDrag,
+      // currentColor: this.myStore.currentColor,
       isVisible: false,
       isOpened: false
-    }
-  },
-  watch: {
-    format(val) {
-      this.myStore.format.value = val
     }
   },
   mounted() {
@@ -67,18 +72,6 @@ export default {
   },
   unmounted() {
     window.removeEventListener('click', this.hideDropdown, true)
-  },
-  setup(props, { emit }) {
-    const myStore = store(emit, props)
-    myStore.format.value = props.format
-
-    const isActive = ref(false)
-
-    return {
-      isActive,
-      // hsv,
-      myStore
-    }
   },
   methods: {
     showDropdownEvt() {
@@ -115,11 +108,15 @@ export default {
     formatHSV() {
       if (this.modelValue) {
         let { hsv, alpha } = formatString(this.modelValue)
-        this.myStore.isDrag.value = true
-        this.myStore.Hue.value = hsv.h
-        this.myStore.Saturation.value = hsv.s
-        this.myStore.Value.value = hsv.v
-        this.myStore.alpha.value = alpha
+        // this.myStore.isDrag.value = true
+        // this.myStore.Hue.value = hsv.h
+        // this.myStore.Saturation.value = hsv.s
+        // this.myStore.Value.value = hsv.v
+        // this.myStore.alpha.value = alpha
+        this.H = hsv.h
+        this.S = hsv.s
+        this.V = hsv.v
+        this.A = alpha
       }
     },
 
@@ -141,6 +138,10 @@ export default {
 
     afterEnterEvt() {
       this.isOpened = true
+    },
+
+    updateVal({ h = this.H, s = this.S, v = this.V, a = this.A }) {
+      console.log('update:model', h, s, v, a)
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="vc-color-picker__drop-down" @click.stop>
-    <ColorPanel :isOpened="isOpened" />
+    <ColorPanel :S="S" :V="V" :isOpened="isOpened" />
 
     <div class="vc-color-picker__display-panel">
       <div class="current-color">
@@ -11,36 +11,39 @@
       </div>
       <AlphaBar :format="format" />
     </div>
-    <HexPanel v-if="format === 'hex'" />
+    <!-- <HexPanel v-if="format === 'hex'" />
     <HSVAPanel v-else-if="format === 'hsv'" />
     <HSLAPanel v-else-if="format === 'hsl'" />
-    <RGBAPanel v-else />
+    <RGBAPanel v-else /> -->
   </div>
 </template>
 
 <script>
 import ColorPanel from './colorPanel.vue'
-import HSVAPanel from './hsvaPanel.vue'
-import HSLAPanel from './hslaPanel.vue'
-import RGBAPanel from './rgbaPanel.vue'
-import HexPanel from './hexPanel.vue'
-import AlphaBar from './alphaBar.vue'
+// import HSVAPanel from './hsvaPanel.vue'
+// import HSLAPanel from './hslaPanel.vue'
+// import RGBAPanel from './rgbaPanel.vue'
+// import HexPanel from './hexPanel.vue'
+// import AlphaBar from './alphaBar.vue'
 import { getCurrentInstance, computed } from 'vue'
 
 export default {
   name: 'VcColorPickerDropdown',
   inject: ['vcColorPicker'],
   components: {
-    ColorPanel,
-    HSVAPanel,
-    HSLAPanel,
-    RGBAPanel,
-    HexPanel,
-    AlphaBar
+    ColorPanel
+    // HSVAPanel,
+    // HSLAPanel,
+    // RGBAPanel,
+    // HexPanel,
+    // AlphaBar
   },
   props: {
     format: String,
-    isOpened: Boolean
+    isOpened: Boolean,
+    H: Number,
+    S: Number,
+    V: Number
   },
   setup() {
     const { ctx } = getCurrentInstance()
