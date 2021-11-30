@@ -1,19 +1,26 @@
 <template>
-  <div class="code-box">
+  <div :class="['code-box', { 'is-open': open}]">
     <div class="code-display">
       <slot name="child" />
     </div>
-    <div :class="['code-source', { 'is-open': open }]">
+    <div class="code-source">
       <div 
-        class="code-source--main" 
-        :style="{ height }"
+        class="control-bar" 
+        @mousedown="isHolderBar = true"
+        @mouseup="setControlBar"
+      ></div>
+      <div 
+        :class="['code-source--main',{'no-animate': isHolderBar}]" 
+        :style="style"
         @transitionend="transitionend"
       >
         <slot />
       </div>
-      <div class="code-source--footer" @click="open = !open">
-        {{ open ? '收起' : '查看' }}
-      </div>
+      <ul class="code-source--footer" @click="open = !open">
+        <li>{{ open ? '收起' : '查看' }}</li>
+        <li @click.stop="toggleScreen">
+          {{ isFullScreen ? '退出' : '全屏' }}</li>
+      </ul>
       <div class="code-source--sentinel"></div>
     </div>
   </div>
@@ -26,28 +33,39 @@ export default {
     return {
       open: false,
       intersectionObserver: null,
-      height: 0
+      style: { height: 0 },
+      isFullScreen: false,
+      isHolderBar: false,
+      varHeight: '50vh',
+      clickCount: 0
     }
   },
   watch: {
     open(val) {
-      let H = this.$el.querySelector('.code-source--main').scrollHeight
-
-      this.height = H + 'px'
-
-      if (!val) {
-        requestAnimationFrame(() => {
-          this.height = 0
-        })
+      if (this.isFullScreen) {
+        this.style = { '--height': val ? this.varHeight : 0 }
+      } else {
+        let H = this.$el.querySelector('.code-source--main').scrollHeight
+  
+        this.style.height = H + 'px'
+  
+        if (!val) {
+          requestAnimationFrame(() => {
+            this.style.height = 0
+          })
+        }
       }
     },
   },
   mounted() {
     this.setSticky()
+    window.addEventListener('mousemove', this.resizeScreen)
+    window.addEventListener('mouseup', this.clearHoldBar)
+    this.$el.addEventListener('fullscreenchange', this.winResize)
   },
   methods: {
     transitionend() {
-      this.open && (this.height = 'auto')
+      this.open && (this.style.height = '')
     },
     setSticky() {
       let footer = this.$el.querySelector('.code-source--footer')
@@ -65,75 +83,69 @@ export default {
 
       this.intersectionObserver.observe(sentinel)
     },
+    toggleScreen() {
+      if (!document.fullscreenEnabled) return
+
+      if (!document.fullscreenElement) {
+        this.$el.requestFullscreen()
+        this.style = this.open ? { '--height': this.varHeight } : this.style
+      } else {
+        document.exitFullscreen()
+        this.style = this.open ? {} : { height: 0 }
+      }
+    },
+    setControlBar() {
+      if (!this.isFullScreen) return
+      this.clickCount ++
+
+      setTimeout(() => {
+        this.clickCount--
+      }, 400)
+
+      if (this.clickCount >= 2) {
+        this.style = { '--height': '50vh' }
+      }
+    },
+    resizeScreen(evt) {
+      if (this.isHolderBar && this.isFullScreen) {
+        let h = evt.clientY / window.innerHeight
+        let footerH = 33 / window.innerHeight 
+
+        h = (1 - footerH - h) * 100
+
+        if (h > 0) {
+          h = h > 90 ? 90 : h
+          this.open = true 
+        } else {
+          h = 0
+          this.open = false
+        }
+
+        this.varHeight = h + 'vh'
+
+        this.style = {
+          '--height': this.varHeight
+        }
+        document.documentElement.style.cursor = 'n-resize'
+      }
+    },
+    winResize(evt) {
+      this.isFullScreen = document.fullscreenElement === evt.target
+    },
+    clearHoldBar() {
+      this.isHolderBar = false
+      document.documentElement.style = ''
+    }
   },
   beforeUnmount() {
     let sentinel = this.$el.querySelector('.code-source--sentinel')
 
     this.intersectionObserver.unobserve(sentinel)
+    window.removeEventListener('mousemove', this.resizeScreen)
+    window.removeEventListener('mouseup', this.clearHoldBar)
+    this.$el.removeEventListener('fullscreenchange', this.winResize)
   },
 }
 </script>
 
-<style lang="less">
-.code-box {
-  margin: 1em 0;
-  border-radius: 10px;
-  border: 1px solid var(--codebox-border);
-  background-color: var(--codebox-bg);
-  will-change: background, box-shadow;
-  transition: 
-    background .3s ease-out,
-    border-color .3s ease-in-out, 
-    box-shadow .3s ease-out;
-
-  &:hover {
-    box-shadow: 2px 2px 15px var(--codebox-hover-shadow);
-  }
-
-  .code-display {
-    padding: 10px;
-  }
-
-  .code-source {
-    border-radius: 0 0 10px 10px;
-    border-top: 1px solid transparent;
-    transition: border-color .3s ease-in-out;
-
-    &.is-open {
-      border-top-color: var(--codebox-border);
-    }
-
-    &--main {
-      overflow: hidden;
-      transition: height .3s ease-in-out;
-      background-color: var(--page-bg-color);
-
-      & pre[class*='language-'] {
-        margin: 0;
-        background-color: transparent;
-      }
-
-      blockquote {
-        margin: 1em 1em 0;
-      }
-    }
-    &--footer {
-      position: sticky;
-      bottom: 0;
-      left: 0;
-
-      font-size: 12px;
-      color: #666;
-      line-height: 2.8em;
-      text-align: center;
-      border-top: 1px solid var(--codebox-border);
-      background-color: var(--codebox-footer-bg);
-      backdrop-filter: blur(5px);
-      cursor: pointer;
-      transition: 
-        color 0.3s ease-in-out, 
-        background-color 0.3s ease-in-out;
-    }
-  }
-}
-</style>
+<style lang="less" src="./style.less"></style>
