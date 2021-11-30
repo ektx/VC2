@@ -21,8 +21,8 @@
 export default {
   data() {
     return {
-    value1: new Date(2020, 11, 13, 13, 50),
-    value2: '03:06'
+      value1: new Date(2020, 11, 13, 13, 50),
+      value2: '03:06'
     }
   }
 }
@@ -49,7 +49,7 @@ export default {
 export default {
   data() {
     return {
-    value1: new Date(2020, 11, 13, 13, 5, 8),
+      value1: new Date(2020, 11, 13, 13, 5, 8),
     }
   }
 }
@@ -62,14 +62,14 @@ export default {
 ::: codeBox
 ```vue
 <template>
-  <vc-time-picker disabled v-model="value1"/>
+  <vc-time-picker disabled v-model="value"/>
 </template>
 
 <script>
 export default {
   data() {
     return {
-    value1: new Date(2020, 11, 13, 13, 5, 8),
+      value: new Date(2020, 11, 13, 13, 5, 8),
     }
   }
 }

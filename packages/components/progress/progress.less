@@ -26,11 +26,12 @@
         position: relative;
         height: 100%;
         width: calc(1% * var(--width));
-        // border-radius: inherit;
         color: var(--color, inherit);
         background-color: currentColor;
-        overflow: hidden;
-        transition: width .3s, background .3s;
+        transition: 
+          width .3s ease-in-out, 
+          background-color .3s ease-in-out;
+        will-change: width, background-color;
   
         &.is-active::after {
           position: absolute;
@@ -38,39 +39,39 @@
           left: 0;
           content: '';
           display: block;
-          width: 40%;
+          width: 100%;
           height: 100%;
-          transform: translateX(-100%);
-          background: rgb(255,255,255);
-          background: linear-gradient(
-            270deg, 
-            rgba(255,255,255,0) 0%, 
-            rgba(255,255,255,.2) 30%, 
-            rgba(255,255,255,.2) 70%, 
-            rgba(255,255,255,0) 100%
+          background-image: linear-gradient(
+            45deg, 
+            rgba(0, 0, 0, 0.05) 25%, 
+            transparent 25%, 
+            transparent 50%, 
+            rgba(0, 0, 0, 0.05) 50%, 
+            rgba(0, 0, 0, 0.05) 75%, 
+            transparent 75%, transparent
           );
-          animation: vc-progress-active 1.5s infinite linear;
+          background-size: 1em 1em;
+          animation: vc-progress-active .5s infinite linear;
         }
         
-        // 使用变量方式显示进度
-        // &::before {
-        //   display: block;
-        //   counter-reset: progress var(--width);
-        //   content: counter(progress) + '%';
-        // }
-        &::before,
-        span {
-          display: grid;
-          padding-bottom: 2px;
+        &::before {
+          display: none;
           height: 100%;
           margin: 0 3px;
           color: #fff;
+          text-shadow: 1px 1px rgba(0, 0, 0, .1);
           text-align: right;
           align-items: center;
           box-sizing: border-box;
+          counter-reset: progress var(--width);
+          content: counter(progress) + '%';
+        }
+        &.has-txt::before {
+          display: grid;
         }
       }
     }
+
     &-text {
       font-size: 12px;
       color: inherit;
@@ -95,10 +96,10 @@
   
     @keyframes vc-progress-active {
       0% {
-        left: 0%;
+        background-position: 0 0;
       }
       100% {
-        left: 150%;
+        background-position: 1em 0;
       }
     }
   

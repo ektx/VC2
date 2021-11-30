@@ -1,20 +1,21 @@
 {
   "name": "vc2",
-  "version": "1.10.7",
+  "version": "1.10.8",
   "files": [
-    "dist",
+    "lib",
     "types"
   ],
   "scripts": {
-    "serve": "vipress -p 3000",
-    "dev": "node ./bin/main.js",
+    "dev": "vipress -p 3000",
+    "lib": "vipress build lib",
     "build": "node ./bin/build.js",
     "update": "node --experimental-json-modules ./bin/update.mjs",
     "create": "node ./bin/create.mjs && yarn run update",
     "e2e": "./node_modules/.bin/cypress open"
   },
-  "module": "./dist/index.js",
-  "style": "./dist/layout.css",
+  "main": "./lib/index.js",
+  "module": "./lib/index.js",
+  "style": "./lib/layout.css",
   "typings": "types/index.d.ts",
   "author": "WenLong",
   "dependencies": {
@@ -22,22 +23,16 @@
     "async-validator": "^3.4.0",
     "prismjs": "^1.21.0",
     "resize-observer-polyfill": "^1.5.1",
-    "vue": "^3.1.5",
+    "vue": "^3.2.22",
     "vue-router": "^4.0.10"
   },
   "devDependencies": {
-    "@intsig/vipress": "^0.11.0-rc.4",
-    "@types/express": "^4.17.11",
+    "@intsig/vipress": "^0.13.1",
     "@types/prismjs": "^1.16.2",
-    "@vitejs/plugin-vue": "^1.4.0",
-    "@vue/compiler-sfc": "^3.1.5",
-    "@vuedx/typecheck": "^0.6.3",
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1",
+    "@vitejs/plugin-vue": "^1.9.3",
+    "@vue/compiler-sfc": "^3.2.20",
     "inquirer": "^7.3.3",
-    "less": "^3.13.1",
-    "markdown-it": "^11.0.1",
-    "markdown-it-for-inline": "^0.1.1",
+    "less": "^4.1.2",
     "trash": "^6.1.1"
   },
   "license": "MIT"

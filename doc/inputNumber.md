@@ -93,7 +93,7 @@ export default {
 
 ```vue
 <template>
-  <vc-input-number size="24px" width="100px" v-model="value"/>
+  <vc-input-number :size="24" width="100px" v-model="value"/>
 </template>
 
 <script>
@@ -139,8 +139,8 @@ export default {
 | min | `Number` | 设置计数器允许的最小值 | - | -Infinity |
 | max | `Number` | 设置计数器允许的最大值 | - | Infinity |
 | step | `Number` | 计数器步长 | - | 1 |
-| size | `String` | 设置大小 | - | 12px |
-| width | `String` | 设置宽度 | - | 8em |
+| size | `String/Number` | 设置大小 | - | 12px |
+| width | `String/Number` | 设置宽度 | - | 8em |
 | precision | `Number` | 数值精度 | - | 0 |
 | disabled | `Boolean` | 是否禁用计数器 | - | false |
 | clearMode | `Boolean` | 简洁模式 | - | false |

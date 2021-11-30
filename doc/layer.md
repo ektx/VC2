@@ -78,14 +78,14 @@ export default {
     }
   },
   methods: {
-    beforeClose(done) {
+    beforeClose() {
       this.VcConfirm({
         title: '提示',
         message: '你确定关闭吗',
         type: 'confirm'
       }).then(data => {
         console.log('确认了消息:'+data)
-        done()
+        this.open = false
       }).catch(err => {
         console.log('关闭了消息:'+err)
       })

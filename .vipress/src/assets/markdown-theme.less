@@ -54,17 +54,28 @@ article {
 
   p {
     margin: 1em 0;
-    line-height: 1.5;
+    line-height: 1.7;
   }
 
-  ul {
+  ul, ol {
     padding: 0 0 0 20px;
     margin: 10px 0;
     font-size: 14px;
     list-style-type: disc;
 
     li {
-      line-height: 1.8;
+      line-height: 1.7;
+
+      p {
+        margin: 0 0 .8em;
+
+        &:first-child {
+          margin-top: 0;
+        }
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
     }
 
     ul {
@@ -77,22 +88,17 @@ article {
     }
   }
 
-  ol {
-    font-size: 14px;
-    padding: 0 0 0 3em;
-    margin-bottom: 10px;
-  }
-
   a {
     color: #42b983;
+    border-bottom: 1px double;
 
     &:hover {
-      border-bottom: 1px solid currentColor;
+      border-bottom-width: 3px;
     }
   }
 
   table {
-    margin-bottom: 2rem;
+    margin: 1rem 0;
     width: 100%;
     max-width: 100%;
     color: var(--page-txt-color);
@@ -104,11 +110,11 @@ article {
           font-size: 16px;
           text-align: left;
           vertical-align: bottom;
-          border: 1px solid var(--article-line-color);
-          background-color: var(--article-line-color);
+          border: 1px solid var(--table-header-bg);
+          background-color: var(--table-header-bg);
           transition: 
-            background-color .4s ease-in-out,
-            border-color .4s ease-in-out;
+            background-color .3s ease-in-out,
+            border-color .3s ease-in-out;
         }
       }
     }
@@ -117,9 +123,9 @@ article {
         td {
           padding: 8px;
           font-size: 14px;
-          line-height: 1.4;
+          line-height: 1.6;
           vertical-align: top;
-          transition: background-color .4s ease-out;
+          transition: background-color .3s ease-out;
           
           &:nth-child(1),
           &:nth-child(2) {
@@ -133,6 +139,13 @@ article {
         }
       }
     }
+  }
+
+  mark {
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: #fff;
+    background-color: #ff9800;
   }
 
   // Emphasis
@@ -159,6 +172,10 @@ article {
       color: var(--page-txt-color);
     }
 
+    code {
+      background-color: var(--blockquote-code);
+    }
+
   }
 
   .vbook-warning-box {
@@ -177,10 +194,13 @@ article {
 
   code {
     padding: 0 5px 2px;
-    color: #d63200;
+    color: var(--code-inline-txt);
     border-radius: 5px;
     white-space: nowrap;
     background-color: var(--code-inline-bg);
+    transition: 
+      color .3s ease-in-out, 
+      background-color .3s ease-in-out;
   }
 
   pre[class*="language"] {

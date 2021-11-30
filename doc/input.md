@@ -27,14 +27,10 @@ const input = ref('')
 
 ```vue
 <template>
-  <vc-input v-model="input" disabled />
+  <VcInput disabled />
+  <br/>
+  <VcInput type="textarea" disabled />
 </template>
-
-<script setup>
-import { ref } from 'vue'
-
-const input = ref('disabled')
-</script>
 ```
 :::
 
@@ -48,13 +44,12 @@ const input = ref('disabled')
 ```vue
 <template>
   <vc-input v-model="input" clearable />
-  {{input}}
 </template>
 
 <script setup>
 import { ref } from 'vue'
 
-const input = ref('disabled')
+const input = ref('1234')
 </script>
 ```
 :::
@@ -68,7 +63,7 @@ const input = ref('disabled')
 
 ```vue
 <template>
-  <vc-input v-model="input" type="password"/>
+  <vc-input v-model="input" type="password" />
 </template>
 
 <script setup>
@@ -213,6 +208,7 @@ let textarea = ref('')
     @blur="changeNum" 
     @focus="getFocus" 
     @change="getChange" 
+    @keyup.enter="getEnter"
   />
   <br/>
   <vc-button @click="setFocus">手动获取焦点</vc-button>
@@ -237,6 +233,10 @@ const getFocus = event => {
 
 const getChange = event => {
   console.log('change:', event)
+}
+
+const getEnter = evt => {
+  console.log('enter', evt)
 }
 
 const getInput = event =>{

@@ -4,8 +4,8 @@
 
 当用户进行操作时会被触发，该对话框中断用户操作，直到用户确认知晓后才可关闭。
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-button @click="open">点击打开</vc-button>
 </template>
@@ -34,17 +34,21 @@ export default {
 
 提示用户确认其已经触发的动作，并询问是否进行此操作时会用到此对话框。
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-button @click="open()">点击打开</vc-button>
 </template>
 
 <script>
+import { ref, inject } from 'vue'
+
 export default {
   setup() {
+    const confirm = inject('VcConfirm')
+
     function open() {
-      this.VcConfirm({
+      confirm({
         title: '标题名称',
         message: '这是一段内容',
         type: 'confirm'
@@ -69,17 +73,21 @@ export default {
 
 当用户进行操作时会被触发，中断用户操作，提示用户进行输入的对话框。
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-button @click="open()">点击打开</vc-button>
 </template>
 
 <script>
+import { ref, inject } from 'vue'
+
 export default {
   setup() {
+    const confirm = inject('VcConfirm')
+
     function open() {
-      this.VcConfirm({
+      confirm({
         title: '提示',
         message: '请输入邮箱',
         type: 'prompt',
@@ -112,17 +120,21 @@ export default {
 
 可自定义按钮不同内容。
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-button @click="open()">点击打开</vc-button>
 </template>
 
 <script>
+import { ref, inject } from 'vue'
+
 export default {
   setup() {
+    const confirm = inject('VcConfirm')
+
     function open() {
-      this.VcConfirm({
+      confirm({
         title: '提示',
         message: '自定义按钮效果',
         buttons: [
@@ -167,17 +179,21 @@ export default {
 
 message 属性支持传入 HTML 片段。
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-button @click="open()">点击打开</vc-button>
 </template>
 
 <script>
+import { ref, inject } from 'vue'
+
 export default {
   setup() {
+    const confirm = inject('VcConfirm')
+
     function open() {
-      this.VcConfirm({
+      confirm({
         title: '提示',
         message: '<strong>这是 <i>HTML</i> 片段</strong>',
         useHTML: true

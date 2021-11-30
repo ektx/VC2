@@ -4,52 +4,39 @@
 
 ## 基础示例
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
-  <vc-switch v-model:value="value"></vc-switch>
+  <vc-switch v-model:value="value" />
 </template>
 
-<script>
-export default {
-  setup() {
-    let value = ref(true)
+<script setup>
+import { ref } from 'vue'
 
-    return {
-      value
-    }
-  }
-}
+const value = ref(true)
 </script>
 ```
 :::
 
 ## 自定义值
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
-  <vc-switch v-model:value="value" @change="change" :active-value="100" :inactive-value="0"></vc-switch>
+  <vc-switch v-model:value="value" @change="change" :active-value="100" :inactive-value="0" />
 </template>
 
-<script>
-export default {
-  setup() {
-    let value = ref(100);
-    let message = inject('vcMessage')
+<script setup>
+import { ref, inject } from 'vue'
 
-    const change = event =>{
-      message({
-        type: 'info',
-        message: event
-      }) 
-    }
+let value = ref(100);
+let message = inject('vcMessage')
 
-    return {
-      value,
-      change,
-    }
-  }
+function change (event) {
+  message({
+    type: 'info',
+    message: event
+  }) 
 }
 </script>
 ```
@@ -57,21 +44,21 @@ export default {
 
 ## 自定义颜色
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
-  <vc-switch :value="true" active-color="#13ce66" inactive-color="#ff4949"></vc-switch>
+  <vc-switch :value="true" active-color="#13ce66" inactive-color="#ff4949" />
 </template>
 ```
 :::
 
 ## 外部文字描述
 
-::: demo
+::: codeBox
 
 > `active-icon-class` 设置图标
 
-```html
+```vue
 <template>
   <vc-switch :value="true" active-icon="vc-icon-sunny" active-text="白天" inactive-icon="vc-icon-moon" inactive-text="夜晚" />
   
@@ -86,15 +73,22 @@ export default {
 
 ## 内部文字描述
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
-  <vc-switch inset :value="false" active-icon="vc-icon-check" inactive-icon="vc-icon-close"></vc-switch>
+  <vc-switch inset :value="false" active-icon="vc-icon-check" inactive-icon="vc-icon-close" />
 
   <br/>
   <br/>
 
-  <vc-switch inset :value="true" active-icon="vc-icon-check" inactive-icon="vc-icon-close" inactive-text="关闭" active-text="开启" />
+  <vc-switch 
+    inset 
+    :value="true" 
+    active-icon="vc-icon-check" 
+    inactive-icon="vc-icon-close" 
+    inactive-text="关闭" 
+    active-text="开启" 
+  />
 </template>
 ```
 :::
@@ -102,22 +96,22 @@ export default {
 
 ## 加载中
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
-  <vc-switch loading inactive-color="#ff4949"></vc-switch>
-  <vc-switch :value="true" loading></vc-switch>
+  <vc-switch loading inactive-color="#ff4949" />
+  <vc-switch :value="true" loading />
 </template>
 ```
 :::
 
 ## 禁用状态
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <div> 
-    <vc-switch v-model:value="switch1" :disabled="disabled"></vc-switch>
+    <vc-switch v-model:value="switch1" :disabled="disabled" />
     <br/>
     <vc-button @click="disabled = !disabled">Toggle Disabled</vc-button>
   </div>
@@ -125,6 +119,8 @@ export default {
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
   setup() {
     let switch1 = ref(true);
@@ -144,40 +140,40 @@ export default {
 
 ## 宽度控制
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
-  <vc-switch inset :width="100" :value="true" inactive-text="关闭" active-text="opened!"></vc-switch>
+  <vc-switch inset :width="100" :value="true" inactive-text="关闭" active-text="opened!" />
   
   <br/>
   <br/>
 
-  <vc-switch inset :value="false" inactive-text="去睡觉" active-text="😪zzzzzzz"></vc-switch>
+  <vc-switch inset :value="false" inactive-text="去睡觉" active-text="😪zzzzzzz" />
 </template>
 ```
 :::
 
 ## 大小控制
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
-  <vc-switch :value="true" :r="12"></vc-switch>
-  <vc-switch :value="true" :r="14"></vc-switch>
-  <vc-switch :value="true" :r="18"></vc-switch>
+  <vc-switch :value="true" :r="12" />
+  <vc-switch :value="true" :r="14" />
+  <vc-switch :value="true" :r="18" />
 </template>
 ```
 :::
 
 ## 按钮文字
 
-::: demo
+::: codeBox
 
 > `btn-text` 用于在按钮上添加文字。
 
-```html
+```vue
 <template>
-  <vc-switch :value="true" btn-text="弹幕"></vc-switch>
+  <vc-switch :value="true" btn-text="弹幕" />
 </template>
 ```
 :::

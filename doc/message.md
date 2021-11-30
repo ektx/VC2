@@ -4,8 +4,8 @@
 
 默认提醒 3s 后消失。
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-button @click="info">提醒</vc-button>
   <vc-button @click="success" color="success">成功</vc-button>
@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { ref, inject } from 'vue'
+
 export default {
   setup() {
     let message = inject('vcMessage')
@@ -51,11 +53,11 @@ export default {
 
 显示关闭按钮。
 
-::: demo
+::: codeBox
 
 > `duration` 设置为 0，则不会自动关闭。
 
-```html
+```vue
 <template>
   <vc-button @click="info">提醒</vc-button>
   <vc-button @click="success" color="success">成功</vc-button>
@@ -64,6 +66,8 @@ export default {
 </template>
 
 <script>
+import { ref, inject } from 'vue'
+
 export default {
   setup() {
     let message = inject('vcMessage')
@@ -115,13 +119,15 @@ export default {
 
 ## 定时功能
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-button @click="info">8s后关闭</vc-button>
 </template>
 
 <script>
+import { ref, inject } from 'vue'
+
 export default {
   setup() {
     let message = inject('vcMessage')
@@ -145,13 +151,15 @@ export default {
 
 ## 使用 HTML 片段
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-button @click="info">使用 HTML 片段</vc-button>
 </template>
 
 <script>
+import { ref, inject } from 'vue'
+
 export default {
   setup() {
     let message = inject('vcMessage')
@@ -177,14 +185,16 @@ export default {
 
 可以接收一个返回 `close()` 事件。
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-button @click="show">Show</vc-button>
   <vc-button @click="close">Close</vc-button>
 </template>
 
 <script>
+import { ref, inject } from 'vue'
+
 export default {
   setup() {
     let message = inject('vcMessage')
@@ -216,13 +226,15 @@ export default {
 
 ## 自定义样式
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   <vc-button @click="show">Show</vc-button>
 </template>
 
 <script>
+import { ref, inject } from 'vue'
+
 export default {
   setup() {
     let message = inject('vcMessage')

@@ -1,19 +1,22 @@
 <template>
-  <div class="code-box">
+  <div :class="['code-box', { 'is-open': open }]">
     <div class="code-display">
       <slot name="child" />
     </div>
     <div :class="['code-source', { 'is-open': open }]">
-      <div 
-        class="code-source--main" 
+      <div
+        class="code-source--main"
         :style="sourceStyle"
         @transitionend="transitionend"
       >
         <slot />
       </div>
-      <div class="code-source--footer" @click="open = !open">
-        {{ open ? '收起' : '查看' }}
-      </div>
+      <ul class="code-source--footer" @click="open = !open">
+        <li>{{ open ? '收起' : '查看' }}</li>
+        <li @click.stop="toggleScreen">
+          {{ isFullScreen ? '退出' : '全屏' }}
+        </li>
+      </ul>
       <div class="code-source--sentinel"></div>
     </div>
   </div>
@@ -44,6 +47,9 @@ export default {
   },
   mounted() {
     this.setSticky()
+    window.addEventListener('mousemove', this.resizeScreen)
+    window.addEventListener('mouseup', this.clearHoldBar)
+    this.$el.addEventListener('fullscreenchange', this.winResize)
   },
   methods: {
     transitionend() {
@@ -65,9 +71,8 @@ export default {
 
       this.intersectionObserver.observe(sentinel)
     },
-  },
-  beforeUnmount() {
-    let sentinel = this.$el.querySelector('.code-source--sentinel')
+    toggleScreen() {
+      if (!document.fullscreenEnabled) return
 
     this.intersectionObserver.unobserve(sentinel)
   },
@@ -81,9 +86,9 @@ export default {
   border: 1px solid var(--codebox-border);
   background-color: var(--codebox-bg);
   will-change: background, box-shadow;
-  transition: 
+  transition:
     background .3s ease-out,
-    border-color 0.3s ease-in-out, 
+    border-color 0.3s ease-in-out,
     box-shadow 0.3s ease-out;
 
   &:hover {
@@ -99,40 +104,46 @@ export default {
     border-top: 1px solid transparent;
     transition: border-color .3s ease-in-out;
 
-    &.is-open {
-      border-top-color: var(--codebox-border);
-    }
+      if (this.clickCount >= 2) {
+        this.style = { '--height': '50vh' }
+      }
+    },
+    resizeScreen(evt) {
+      if (this.isHolderBar && this.isFullScreen) {
+        let h = evt.clientY / window.innerHeight
+        let footerH = 33 / window.innerHeight
 
     &--main {
       overflow: hidden;
       transition: height .3s ease-in-out;
       background-color: var(--page-bg-color);
 
-      & pre[class*='language-'] {
-        margin: 0;
-        background-color: transparent;
-      }
-
-      blockquote {
-        margin: 1em 1em 0;
-        padding: 0 1em;
-        color: var(--page-txt-color);
-        border-radius: 3px;
-        background-color: var(--codebox-bg);
-        border: 1px solid var(--codebox-border);
-
-        code {
-          padding: 0.2em 0.5em;
-          border-radius: 3px;
-          color: #37474f;
-          background-color: var(--code-inline-bg);
+        if (h > 0) {
+          h = h > 90 ? 90 : h
+          this.open = true
+        } else {
+          h = 0
+          this.open = false
         }
+
+        this.varHeight = h + 'vh'
+
+        this.style = {
+          '--height': this.varHeight
+        }
+        document.documentElement.style.cursor = 'n-resize'
       }
+    },
+    winResize(evt) {
+      this.isFullScreen = document.fullscreenElement === evt.target
+    },
+    clearHoldBar() {
+      this.isHolderBar = false
+      document.documentElement.style = ''
     }
-    &--footer {
-      position: sticky;
-      bottom: 0;
-      left: 0;
+  },
+  beforeUnmount() {
+    let sentinel = this.$el.querySelector('.code-source--sentinel')
 
       font-size: 12px;
       color: #666;
@@ -142,10 +153,13 @@ export default {
       background-color: var(--codebox-footer-bg);
       backdrop-filter: blur(5px);
       cursor: pointer;
-      transition: 
-        color 0.3s ease-in-out, 
+      transition:
+        color 0.3s ease-in-out,
         background-color 0.3s ease-in-out;
     }
   }
 }
+</script>
+
+<style lang="less" src="./style.less">
 </style>

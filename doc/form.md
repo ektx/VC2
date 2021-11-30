@@ -68,7 +68,7 @@ export default {
       formData: {
         name: '',
         color: '',
-        days: '',
+        days: 0,
         time: '',
         isOwnExpense: false,
         region: [],
@@ -224,7 +224,6 @@ export default {
     }
   }
 }
-
 </script>
 ```
 :::
@@ -255,7 +254,7 @@ export default {
 import { ref } from 'vue'
 
 export default {
-  data () {
+  data() {
     return {
       formData: {
         name: '',
@@ -346,7 +345,7 @@ export default {
 import { ref } from 'vue'
 
 export default {
-  data () {
+  data() {
     return {
       formData: {
         name: '',
@@ -434,7 +433,7 @@ export default {
 import { ref, reactive } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     let validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'));

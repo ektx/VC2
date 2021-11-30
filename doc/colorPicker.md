@@ -6,16 +6,16 @@
 ```vue
 <template>
   <h3>Hex {{color}}</h3>
-  <vc-color-picker v-model:value="color"/>
+  <vc-color-picker v-model="color"/>
 
   <h3>RGB {{ color2 }}</h3>
-  <vc-color-picker v-model:value="color2" format="rgb"/>
+  <vc-color-picker v-model="color2" format="rgb"/>
 
   <h3>HSL {{ color3}}</h3>
-  <vc-color-picker v-model:value="color3" format="hsl"/>
+  <vc-color-picker v-model="color3" format="hsl"/>
 
   <h3>HSV {{ color4}}</h3>
-  <vc-color-picker v-model:value="color4" format="hsv"/>
+  <vc-color-picker v-model="color4" format="hsv"/>
 </template>
 
 <script setup>
@@ -35,13 +35,13 @@ const color4 = ref('hsv(10, 40%, 30%)')
 ```vue
 <template>
   <h3>RGB {{ color1 }}</h3>
-  <vc-color-picker v-model:value="color1" format="rgb"/>
+  <vc-color-picker v-model="color1" format="rgb"/>
 
   <h3>HSL {{ color2}}</h3>
-  <vc-color-picker v-model:value="color2" format="hsl"/>
+  <vc-color-picker v-model="color2" format="hsl"/>
 
   <h3>HSV {{ color3}}</h3>
-  <vc-color-picker v-model:value="color3" format="hsv"/>
+  <vc-color-picker v-model="color3" format="hsv"/>
 </template>
 
 <script setup>
@@ -64,21 +64,20 @@ const color3 = ref('hsva(10, 40%, 30%, 0.5)')
 ```vue
 <template>
   <h3>Hex {{color}}</h3>
-  <vc-color-picker v-model:value="color" round/>
+  <vc-color-picker v-model="color" round/>
 
   <h3>RGB {{ color2 }}</h3>
-  <vc-color-picker v-model:value="color2" round format="rgb"/>
+  <vc-color-picker v-model="color2" round format="rgb"/>
 
   <h3>HSL {{ color3}}</h3>
-  <vc-color-picker v-model:value="color3" round format="hsl"/>
+  <vc-color-picker v-model="color3" round format="hsl"/>
 
   <h3>HSV {{ color4}}</h3>
-  <vc-color-picker v-model:value="color4" round format="hsv"/>
+  <vc-color-picker v-model="color4" round format="hsv"/>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-
 const color = ref('#f90')
 const color2 = ref('rgb(76, 175, 80)')
 const color3 = ref('hsl(340, 82%, 52%)')
@@ -93,21 +92,20 @@ const color4 = ref('hsv(10, 40%, 30%)')
 ```vue
 <template>
   <h3>Hex {{color}}</h3>
-  <vc-color-picker v-model:value="color" round/>
+  <vc-color-picker v-model="color" round/>
 
   <h3>RGB {{ color2 }}</h3>
-  <vc-color-picker v-model:value="color2" round format="rgb"/>
+  <vc-color-picker v-model="color2" round format="rgb"/>
 
   <h3>HSL {{ color3}}</h3>
-  <vc-color-picker v-model:value="color3" round format="hsl"/>
+  <vc-color-picker v-model="color3" round format="hsl"/>
 
   <h3>HSV {{ color4}}</h3>
-  <vc-color-picker v-model:value="color4" round format="hsv"/>
+  <vc-color-picker v-model="color4" round format="hsv"/>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-
 const color = ref('')
 const color2 = ref('')
 const color3 = ref('')
@@ -120,8 +118,7 @@ const color4 = ref('')
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
 |---|---|---|---|---|
-| value | **String** | 颜色值 | - | - |
+| v-model | **String** | 颜色值 | - | - |
 | format | **String** | 写入 v-model 的颜色的格式 | hex / hsl / hsv / rgb | hex |
-| delay | **Number** | 延迟功能 | - | 100 |
 | round | **Boolean** | 圆形效果 | - | - |
 

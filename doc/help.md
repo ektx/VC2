@@ -4,12 +4,12 @@
 
 以下为组合式 api 组件的 demo 写法演示：
 
-::: demo
+::: codeBox
 
 > 默认 `ref` `reactive` `watch` `inject` 都已经注入，使用时，无需导入。  
 > 更多内容访问：[Vue3 Composition API](https://composition-api.vuejs.org/)
 
-```html
+```vue
 <template>
   测试 ref: <span>{{ msg }}</span> <br/>
   <input v-model="msg" />
@@ -81,8 +81,8 @@ hr {
 
 以下是选项式 api 的组件 demo 写法演示：
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   测试: {{ msg }} <br/>
   <input v-model="msg" />

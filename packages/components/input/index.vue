@@ -2,9 +2,9 @@
   <div 
     :class="[
       'vc-input', `is-${type}`,
-      {'is-focus': focusing, 'is-disabled': disabled },
-      $attrs.class
+      {'is-focus': focusing, 'is-disabled': disabled }
     ]"
+    v-bind="setAttrs($attrs, ['id','class','style'])"
   >
     <div class="vc-input__prefix-icon">
       <slot name="prefixIcon">
@@ -16,29 +16,21 @@
       v-if="type !== 'textarea'"
       ref="input"
       class="vc-input__text"
-      v-bind="ATTRS"
-      :value="modelValue"
+      v-bind="setAttrs($attrs, ['events'])"
+      v-model="modelValue"
       :disabled="disabled"
       :placeholder="placeholder"
       :type="TYPE"
-      @input="handleInputEvt"
-      @focus="handleFocus"
-      @blur="handleBlur"
-      @change="handleChange"
     />
     <textarea
       v-else
       ref="textarea"
       class="vc-input__textarea"
-      v-bind="ATTRS"
-      :value="modelValue"
+      v-bind="setAttrs($attrs, ['events'])"
+      v-model="modelValue"
       :placeholder="placeholder"
       :disabled="disabled"
       :style="textareaCalcStyle"
-      @input="handleInputEvt"
-      @focus="handleFocus"
-      @blur="handleBlur"
-      @change="handleChange"
     ></textarea>
 
     <div class="vc-input__suffix-icon">
@@ -46,7 +38,6 @@
         <i v-if="suffixIcon" :class="suffixIcon"></i>
       </slot>
     </div>
-
     <div
       class="vc-input__clearable"
       v-if="clearable && modelValue"
@@ -78,7 +69,7 @@ import {
   watch,
   inject,
 } from 'vue'
-import { getAttrs } from '../../utils/index'
+import { setAttrs } from '../../utils/index'
 import calcTextareaHeight from './calcTextareaHeight'
 
 export default {
@@ -139,7 +130,6 @@ export default {
     let textareaCalcStyle = ref(null);
     let TYPE = ref(props.type)
     let inputEl = null
-    const myValue = ref(null)
 
     const vcFormItem = inject("vcFormItem", null);
 
@@ -147,40 +137,6 @@ export default {
       maxLength: 0,
       nowLength: 0
     })
-
-    const handleInputEvt = evt => {
-      let { value  = '' } = evt.target
-
-      emit('input', evt)
-      emit('update:modelValue', value)
-
-      // 时时更新统计字数
-      if (props.showWordLimit) {
-        state.maxLength = inputEl.maxLength
-        state.nowLength = event.target.value.length
-      }
-
-      if (props.validateEvent && vcFormItem) {
-        vcFormItem.checkValidate('change')
-      }
-    }
-
-    const handleFocus = event => {
-      focusing.value = true
-      emit('focus', event)
-    }
-
-    const handleBlur = event => {
-      focusing.value = false
-      emit("blur", event)
-
-      if (props.validateEvent && vcFormItem) {
-        vcFormItem.checkValidate("blur")
-      }
-    }
-    const handleChange = event => {
-      emit("change", event)
-    }
 
     // 获取焦点
     const focus = () => { inputEl.focus() }
@@ -191,8 +147,20 @@ export default {
     
     // 动态获取文本域
     watch(
-      () => props.modelValue,
-      () => { resizeTextarea() }
+      ()=> props.modelValue,
+      (val) => { 
+        resizeTextarea()
+
+        // 时时更新统计字数
+        if (props.showWordLimit) {
+          state.maxLength = inputEl.maxLength
+          state.nowLength = val.length
+        }
+
+        if (props.validateEvent && vcFormItem) {
+          vcFormItem.checkValidate('change')
+        } 
+      }
     )
     const resizeTextarea = () => {
       if (props.type !== "textarea" || !props.autosize) return
@@ -238,18 +206,14 @@ export default {
       textareaCalcStyle,
       input,
       textarea,
-      handleInputEvt,
       clearMsg,
       togglePasswd,
-      handleFocus,
-      handleBlur,
-      handleChange,
       focus,
       blur,
       state,
       select,
-      ATTRS: getAttrs(attrs, ['class']),
-      TYPE
+      TYPE,
+      setAttrs
     };
   }
 }
