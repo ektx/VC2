@@ -27,7 +27,7 @@
 import { ref, computed } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
-import { formatString, hex2rgb, hsv2rgb, toHex } from './color'
+import { formatString, hex2rgb, hsv2rgb, toHex, rgb2hsv } from './color'
 
 export default {
   name: 'VcColorPicker',
@@ -181,6 +181,11 @@ export default {
             let color = hex2rgb(value)
             if (color) {
               ;({ r: this.R, g: this.G, b: this.B } = color)
+              ;({
+                h: this.H,
+                s: this.S,
+                v: this.V
+              } = rgb2hsv(this.R, this.G, this.B))
             }
             this.hex = value
             result = value
