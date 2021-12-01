@@ -9,10 +9,15 @@
 
 <script>
 export default {
-  inject: ['vcColorPicker', 'store'],
-  data() {
-    return {
-      hex: this.store.hex
+  inject: ['vcColorPicker'],
+  computed: {
+    hex: {
+      get() {
+        return this.vcColorPicker.hex
+      },
+      set(val) {
+        this.vcColorPicker.updateVal({ type: 'hex', value: val })
+      }
     }
   }
 }

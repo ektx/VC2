@@ -227,7 +227,7 @@ function hex2rgb(hex) {
 
   hex = hex.startsWith('#') ? hex.slice(1) : hex
 
-  if (hex.length % 3 !== 0) return null
+  if (!hex || hex.length % 3 !== 0) return null
 
   if (hex.length === 3) {
     r = hex[0].repeat(2)

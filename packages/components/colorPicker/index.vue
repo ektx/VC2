@@ -27,7 +27,7 @@
 import { ref, computed } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
-import { formatString } from './color'
+import { formatString, hex2rgb, hsv2rgb, toHex } from './color'
 
 export default {
   name: 'VcColorPicker',
@@ -59,11 +59,22 @@ export default {
       S: 0,
       V: 0,
       A: 0,
+      hex: '',
+      R: 0,
+      G: 0,
+      B: 0,
       // Value: this.myStore.Value,
       // isDrag: this.myStore.isDrag,
-      // currentColor: this.myStore.currentColor,
+      // currentColor: '',
       isVisible: false,
       isOpened: false
+    }
+  },
+  computed: {
+    currentColor() {
+      return {
+        backgroundColor: `rgba(${this.R}, ${this.G}, ${this.B}, ${this.A})`
+      }
     }
   },
   mounted() {
@@ -140,8 +151,45 @@ export default {
       this.isOpened = true
     },
 
-    updateVal({ h = this.H, s = this.S, v = this.V, a = this.A }) {
-      console.log('update:model', h, s, v, a)
+    updateVal({ type, value }) {
+      let result = ''
+      let h = this.H
+      let s = this.S
+      let v = this.V
+      let a = this.A
+
+      console.log('update:model', type, value)
+      switch (type) {
+        case 'plane': {
+          s = value.s
+          v = value.v
+          break
+        }
+        // case 'hex': {
+        //   this.hex = value
+        //   break
+        // }
+      }
+
+      switch (this.format) {
+        case 'hex': {
+          if (type === 'plane') {
+            ;({ r: this.R, g: this.G, b: this.B } = hsv2rgb(h, s, v))
+            result = toHex({ r: this.R, g: this.G, b: this.B })
+            this.hex = result
+          } else {
+            let color = hex2rgb(value)
+            if (color) {
+              ;({ r: this.R, g: this.G, b: this.B } = color)
+            }
+            this.hex = value
+            result = value
+          }
+          break
+        }
+      }
+
+      this.$emit('update:modelValue', result)
     }
   }
 }

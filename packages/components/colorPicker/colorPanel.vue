@@ -4,7 +4,7 @@
     :style="panelColor"
     @mousedown.stop="mousedownEvt"
   >
-    {{ S }}-{{ V }}
+    {{ S }}-{{ V }}-{{ panelColor }}
     <span class="vc-color-picker__hsl-cursor" :style="cursorStyle">
       <i></i>
     </span>
@@ -36,6 +36,9 @@ export default {
       return {
         backgroundColor: `hsl(${this.vcColorPicker.H}, 100%, 50%)`
       }
+    },
+    cursorStyle() {
+      return { transform: `translate(${this.X}px, ${this.Y}px)` }
     }
   },
   watch: {
@@ -52,11 +55,6 @@ export default {
       s: 0,
       v: 0,
       isDrag: false
-    }
-  },
-  computed: {
-    cursorStyle() {
-      return { transform: `translate(${this.X}px, ${this.Y}px)` }
     }
   },
   mounted() {
@@ -156,7 +154,7 @@ export default {
         let v = Math.round((1 - _y / height) * 100)
         let s = Math.round((_x / width) * 100)
 
-        this.vcColorPicker.updateVal({ v, s })
+        this.vcColorPicker.updateVal({ type: 'plane', value: { v, s } })
       }
     },
 
