@@ -152,6 +152,8 @@ export default {
     },
 
     updateVal({ type, value }) {
+      let start = ''
+      let end = ''
       let result = ''
       let h = this.H
       let s = this.S
@@ -165,15 +167,19 @@ export default {
           v = value.v
           break
         }
-        // case 'hex': {
-        //   this.hex = value
-        //   break
-        // }
+        case 'alpha': {
+          this.A = Number(value)
+          break
+        }
+        case 'Hue': {
+          this.H = value
+          break
+        }
       }
 
       switch (this.format) {
         case 'hex': {
-          if (type === 'plane') {
+          if (type !== 'hex') {
             ;({ r: this.R, g: this.G, b: this.B } = hsv2rgb(h, s, v))
             result = toHex({ r: this.R, g: this.G, b: this.B })
             this.hex = result
@@ -192,9 +198,21 @@ export default {
           }
           break
         }
+        case 'rgb': {
+          if (type === 'plane') {
+            ;({ r: this.R, g: this.G, b: this.B } = hsv2rgb(h, s, v))
+            result = `${this.R}, ${this.G}, ${this.B}`
+          } else if (type === 'alpha') {
+            result = `${this.R}, ${this.G}, ${this.B}`
+          }
+
+          start = this.A === 1 ? 'rgb(' : 'rgba('
+          end = this.A === 1 ? ')' : `, ${this.A})`
+          break
+        }
       }
 
-      this.$emit('update:modelValue', result)
+      this.$emit('update:modelValue', start + result + end)
     }
   }
 }

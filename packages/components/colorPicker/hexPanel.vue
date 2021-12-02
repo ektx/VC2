@@ -15,8 +15,8 @@ export default {
       get() {
         return this.vcColorPicker.hex
       },
-      set(val) {
-        this.vcColorPicker.updateVal({ type: 'hex', value: val })
+      set(value) {
+        this.vcColorPicker.updateVal({ type: 'hex', value })
       }
     }
   }

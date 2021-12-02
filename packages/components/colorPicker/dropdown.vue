@@ -24,7 +24,7 @@ import ColorPanel from './colorPanel.vue'
 // import HSLAPanel from './hslaPanel.vue'
 // import RGBAPanel from './rgbaPanel.vue'
 import HexPanel from './hexPanel.vue'
-// import AlphaBar from './alphaBar.vue'
+import AlphaBar from './alphaBar.vue'
 import { getCurrentInstance, computed } from 'vue'
 
 export default {
@@ -35,8 +35,8 @@ export default {
     // HSVAPanel,
     // HSLAPanel,
     // RGBAPanel,
-    HexPanel
-    // AlphaBar
+    HexPanel,
+    AlphaBar
   },
   props: {
     format: String,

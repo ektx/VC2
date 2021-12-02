@@ -12,18 +12,6 @@
 </template>
 
 <script>
-import {
-  ref,
-  computed,
-  getCurrentInstance,
-  onMounted,
-  onUnmounted,
-  watch,
-  inject,
-  nextTick
-} from 'vue'
-import { useMousePosition } from '../../utils/mouse'
-
 export default {
   inject: ['vcColorPicker', 'store'],
   props: {
@@ -44,6 +32,9 @@ export default {
   watch: {
     isOpened(val) {
       val && this.setPosition()
+    },
+    V() {
+      this.isOpened && this.setPosition()
     }
   },
   data() {
@@ -52,8 +43,8 @@ export default {
       // S: 0,
       X: 0,
       Y: 0,
-      s: 0,
-      v: 0,
+      // s: 0,
+      // v: 0,
       isDrag: false
     }
   },
@@ -66,64 +57,6 @@ export default {
     document.removeEventListener('mousemove', this.mousemoveEvt)
     document.removeEventListener('mouseup', this.mouseupEvt)
   },
-  // setup(props) {
-  //   const { ctx } = getCurrentInstance()
-  //   const X = ref(0)
-  //   const Y = ref(0)
-  //   const start = ref({
-  //     x: 0,
-  //     y: 0,
-  //     layerX: 0,
-  //     layerY: 0
-  //   })
-  //   const elBCR = ref({})
-  //   const { x, y } = useMousePosition()
-  //   const vcColorPicker = inject('vcColorPicker', null)
-
-  //   const cursorStyle = computed(() => ({
-  //     transform: `translate(${X.value}px, ${Y.value}px)`
-  //   }))
-
-  //   onMounted(() => {
-  //     document.addEventListener('mousemove', ctx.mousemoveEvt)
-  //     document.addEventListener('mouseup', ctx.mouseupEvt)
-  //   })
-
-  //   onUnmounted(() => {
-  //     document.removeEventListener('mousemove', ctx.mousemoveEvt)
-  //     document.removeEventListener('mouseup', ctx.mouseupEvt)
-  //   })
-
-  //   watch(
-  //     () => props.isOpened,
-  //     val => {
-  //       if (val) {
-  //         nextTick(() => {
-  //           ctx.setPosition()
-  //         })
-  //       }
-  //     }
-  //   )
-
-  //   // let _HSV = inject('VCColorPickerHSV')
-  //   // watch(
-  //   //   () => _HSV.value,
-  //   //   val => {
-  //   //     if (!vcColorPicker.isActive) ctx.setPosition()
-  //   //   }
-  //   // )
-
-  //   return {
-  //     x,
-  //     y,
-  //     X,
-  //     Y,
-  //     cursorStyle,
-  //     start,
-  //     elBCR,
-  //     vcColorPicker
-  //   }
-  // },
   methods: {
     mousedownEvt(evt) {
       this.isDrag = true

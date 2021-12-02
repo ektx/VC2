@@ -27,23 +27,41 @@ export default {
   props: {
     format: String
   },
-  inject: ['store'],
+  inject: ['vcColorPicker'],
   data() {
     return {
-      Hue: this.store.Hue,
-      alpha: this.store.alpha,
-      r: this.store.red,
-      g: this.store.green,
-      b: this.store.blue
+      // Hue: this.store.Hue,
+      // alpha: this.store.alpha,
+      // r: this.store.red,
+      // g: this.store.green,
+      // b: this.store.blue
     }
   },
   computed: {
     alphaBarStyles() {
-      let from = `rgba(${this.r}, ${this.g}, ${this.b}, 0)`
-      let to = `rgb(${this.r}, ${this.g}, ${this.b})`
+      let { R, G, B } = this.vcColorPicker
+      let from = `rgba(${R}, ${G}, ${B}, 0)`
+      let to = `rgb(${R}, ${G}, ${B})`
 
       return {
         background: `linear-gradient(to right, ${from} 0%, ${to} 100%)`
+      }
+    },
+    alpha: {
+      get() {
+        return this.vcColorPicker.A
+      },
+      set(value) {
+        this.vcColorPicker.updateVal({ type: 'alpha', value })
+      }
+    },
+    Hue: {
+      get() {
+        return this.vcColorPicker.H
+      },
+      set(value) {
+        value = Number(value)
+        this.vcColorPicker.updateVal({ type: 'Hue', value })
       }
     }
   }
