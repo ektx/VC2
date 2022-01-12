@@ -27,7 +27,7 @@
     "inquirer": "^7.3.3",
     "koa-router": "^9.0.1",
     "less": "^3.11.3",
-    "markdown-it": "^11.0.0",
+    "markdown-it": "^12.3.2",
     "trash": "^6.1.1",
     "vite": "^1.0.0-rc.4"
   },
