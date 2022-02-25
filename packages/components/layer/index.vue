@@ -68,34 +68,28 @@ export default {
       timer: null,
       style: {},
       fromStyle: {},
-      toStyle: {}
+      toStyle: {},
+      // 记录鼠标点击元素位置信息
+      mousePosition: null
     }
   },
   watch: {
-    show: {
-      handler(val, old) {
-        if (val) {
-          this.timer = setTimeout(() => {
-            this.getClickPosition()
-          }, 50)
-        } else {
-          old !== undefined && this.close()
-        }
-      },
-      immediate: true
+    show(val) {
+      if (val) this.toggleDisplay()
+      else this.close()
     }
   },
   mounted() {
     if (this.appendToBody) {
       document.body.appendChild(this.$el)
     }
-    window.addEventListener('click', this.windowEvent)
+    window.addEventListener('click', this.getClickPosition, true)
   },
   unmounted() {
-    if (this.appendToBody && this.$el) {
-      this.$el.parentNode.removeChild(this.$el)
+    if (this.$el) {
+      this.$el.remove()
     }
-    window.removeEventListener('click', this.windowEvent)
+    window.removeEventListener('click', this.getClickPosition, true)
   },
   methods: {
     layerBoxClick() {
@@ -121,16 +115,16 @@ export default {
       })
     },
 
-    windowEvent(evt) {
-      if (this.show) {
-        if (this.timer) {
-          this.timer = clearTimeout(this.timer)
-        }
-        evt && this.getClickPosition(evt)
-      }
+    getClickPosition(e) {
+      let { x, y } = e.target.getBoundingClientRect()
+      this.mousePosition = { x, y }
+
+      setTimeout(() => {
+        this.mousePosition = null
+      }, 100)
     },
 
-    getClickPosition(evt) {
+    toggleDisplay() {
       if (this.visible) return
       // 打开开始
       this.$emit('open')
@@ -146,17 +140,16 @@ export default {
         this.toStyle.transform = 'translateY(0)'
       } else {
         let width = this.getWidth()
-        let targetDOMRect = evt
-          ? evt.target.getBoundingClientRect()
-          : { x: 0, y: 0 }
         let offset = { ...{ x: 0, y: 0 }, ...this.offset }
         let toX = (window.innerWidth - width) / 2 + offset.x
         let toY = 100 + offset.y
-        let fromX = evt ? targetDOMRect.x : toX
-        let fromScale = evt ? 0 : 1
+        let { x = 0, y = 0 } = this.mousePosition || {}
+        let scale = this.mousePosition ? 0 : 1
+
+        x = this.mousePosition ? x : toX
 
         this.toStyle.width = width + 'px'
-        this.fromStyle.transform = `translate(${fromX}px, ${targetDOMRect.y}px) scale(${fromScale})`
+        this.fromStyle.transform = `translate(${x}px, ${y}px) scale(${scale})`
         this.toStyle.transform = `translate(${toX}px, ${toY}px) scale(1)`
       }
 
@@ -180,8 +173,7 @@ export default {
           break
 
         case this.width.endsWith('em'):
-          ;({ fontSize } =
-            this.$el.style || window.getComputedStyle(this.$el))
+          ;({ fontSize } = this.$el.style || window.getComputedStyle(this.$el))
           width = parseFloat(this.width) * parseInt(fontSize)
           break
 
@@ -199,8 +191,8 @@ export default {
 
     animate(from, to, cb) {
       const animate = this.$refs.content.animate([from, to], {
-        duration: 350,
-        easing: 'ease-in-out'
+        duration: 300,
+        easing: 'ease-out'
       })
       animate.onfinish = () => cb()
     }
