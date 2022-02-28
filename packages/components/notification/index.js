@@ -3,7 +3,7 @@ import App from './main.vue'
 
 const notifyObj = {}
 
-function Notification (options) {
+function Notification(options) {
   let visible = ref(false)
   let top = ref(-1)
   let bottom = ref(-1)
@@ -17,7 +17,7 @@ function Notification (options) {
     top,
     bottom,
     position,
-    close: Notification.close,
+    close: Notification.close
   }
 
   let app = createApp(App, options)
@@ -42,8 +42,8 @@ function Notification (options) {
     if (position.startsWith('top')) top.value = H + _t.value
     else bottom.value = H + _b.value
   } else {
-    if (position.startsWith('top')) top.value = 0  
-    else bottom.value = 0  
+    if (position.startsWith('top')) top.value = 0
+    else bottom.value = 0
   }
 
   visible.value = true
@@ -56,10 +56,7 @@ Notification.close = function (id) {
   notify.visible.value = false
 
   Object.values(notifyObj).forEach(item => {
-    if (
-      item.position === notify.position
-      && item.id > id
-    ) {
+    if (item.position === notify.position && item.id > id) {
       if (item.position.startsWith('top')) {
         item.top.value -= notify.el.offsetHeight
       } else {
