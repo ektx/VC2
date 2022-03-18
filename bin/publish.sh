@@ -16,7 +16,7 @@ echo -e "\n🚚 选择发布地址"
 REGISTRY=""
 address=(
   "Local"
-  # "NPM"
+  "NPM"
 )
 
 select add in ${address[@]}
