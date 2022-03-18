@@ -6,7 +6,7 @@
     "types"
   ],
   "scripts": {
-    "dev": "vipress -p 3000",
+    "dev": "vipress",
     "lib": "vipress build lib",
     "build": "node ./bin/build.js",
     "update": "node --experimental-json-modules ./bin/update.mjs",
