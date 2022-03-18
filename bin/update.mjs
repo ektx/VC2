@@ -6,18 +6,18 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const { version } = pack
 
-// 生成 layout.less
+// 生成 index.less
 function createCSS(list) {
-  let cssPath = path.join(__dirname, '../packages/layout.less')
+  let cssPath = path.join(__dirname, '../packages/index.less')
   let cssData = `/* 以下代码自动生成于 ${Date()} */\n\n`
 
   cssData += `@import './styles/var.less';\n`
   cssData += `@import './styles/transition.less';\n`
   cssData += list.join('\r\n')
 
-  fs.writeFile(cssPath, cssData, {encoding: 'utf8'}, (err) => {
+  fs.writeFile(cssPath, cssData, { encoding: 'utf8' }, err => {
     if (err) throw Error(err)
-    console.log('Layout.css is updated!!')
+    console.log('Index.css is updated!!')
   })
 }
 
@@ -43,7 +43,7 @@ const install = app => {
   })
 }`
 
-  compomentArr.forEach(({dir, file}) => {
+  compomentArr.forEach(({ dir, file }) => {
     let name = dir[0].toUpperCase() + dir.slice(1)
     let comName = 'vc' + name
 
@@ -59,18 +59,23 @@ const install = app => {
   })
 
   components = `\n\nconst components = [\n  ${components.join(',\n  ')}\n]\n`
-  exportObj = '\n\nexport default {\n  version: "'+ version+'",\n  ' + exportObj.join(',\n  ') + '\n}\n'
+  exportObj =
+    '\n\nexport default {\n  version: "' +
+    version +
+    '",\n  ' +
+    exportObj.join(',\n  ') +
+    '\n}\n'
 
-  data += imports.join('\n') + components + installStr + exportComponents + exportObj
+  data +=
+    imports.join('\n') + components + installStr + exportComponents + exportObj
 
-  fs.writeFile(savePath, data, {encoding: 'utf8'}, (err) => {
+  fs.writeFile(savePath, data, { encoding: 'utf8' }, err => {
     if (err) throw Error(err)
     console.log('Index.js is updated!!')
   })
 }
 
-
-(async function() {
+;(async function () {
   let componentsDir = path.join(__dirname, '../packages/components')
   let files = await fs.promises.readdir(componentsDir)
   let layoutArr = []
@@ -82,7 +87,9 @@ const install = app => {
       let _dir = path.join(componentsDir, dir)
 
       fs.readdir(_dir, (err, _files) => {
-        if (err) { return reject(err) }
+        if (err) {
+          return reject(err)
+        }
 
         _files.forEach(file => {
           if (path.extname(file) === '.less') {
@@ -95,7 +102,7 @@ const install = app => {
       })
     })
 
-    promisesAll.push( fun )
+    promisesAll.push(fun)
   })
 
   Promise.all(promisesAll).then(() => {
