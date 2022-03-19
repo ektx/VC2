@@ -1,9 +1,63 @@
 import Button from './components/button/index.vue'
+import ButtonGroup from './components/buttonGroup/index.vue'
+import Collapse from './components/collapse/index.vue'
+import CollapseItem from './components/collapseItem/index.vue'
+import ColorPicker from './components/colorPicker/index.vue'
+import Form from './components/form/index.vue'
+import FormItem from './components/formItem/index.vue'
+import Icon from './components/icon/index.vue'
+import Input from './components/input/index.vue'
+import InputNumber from './components/inputNumber/index.vue'
+import Layer from './components/layer/index.vue'
+import OperationList from './components/operationList/index.vue'
+import Pagination from './components/pagination/index.vue'
+import Popover from './components/popover/index.vue'
+import Progress from './components/progress/index.vue'
+import Radio from './components/radio/index.vue'
+import RadioGroup from './components/radioGroup/index.vue'
+import Select from './components/select/index.vue'
+import Switch from './components/switch/index.vue'
+import Table from './components/table/index.vue'
+import Tabs from './components/tabs/index.vue'
+import TabPane from './components/tabPane/index.vue'
+import TimePicker from './components/timePicker/index.vue'
+import Upload from './components/upload/index.vue'
+
+import Confirm from './components/confirm/main.js'
+import Message from './components/message/main.js'
 import Notification from './components/notification/main.js'
 
 export * from './components/index.js'
 
-const components = [Button, Notification]
+const components = [
+  Button,
+  ButtonGroup,
+  Collapse,
+  CollapseItem,
+  ColorPicker,
+  Form,
+  FormItem,
+  Icon,
+  Input,
+  InputNumber,
+  Layer,
+  OperationList,
+  Pagination,
+  Popover,
+  Progress,
+  Radio,
+  RadioGroup,
+  Select,
+  Switch,
+  Table,
+  Tabs,
+  TabPane,
+  TimePicker,
+  Upload,
+  Confirm,
+  Message,
+  Notification
+]
 
 const install = app => {
   components.forEach(item => {

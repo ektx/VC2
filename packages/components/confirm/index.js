@@ -1,45 +1,11 @@
-import { createApp, ref } from 'vue'
-import App from './main.vue'
+import './index.less'
+import App from './main.js'
 
-function Confirm (options) {
-  let visible = ref(false)
-  let el = document.createElement('div')
-  
-  return new Promise((resolve, reject) => {
-    options = {
-      type: 'confirm',
-      title: '提醒',
-      message: '',
-      ...options,
-      visible,
-      close: (data = '') => {
-        visible.value = false
-        resolve(data)
-      },
-      closed: () => {
-        document.body.removeChild(el)
-      },
-      resolve: data => {
-        visible.value = false
-        resolve(data)
-      },
-      reject: data => {
-        visible.value = false
-        reject(data)
-      }
-    }
-  
-    el.classList.add('vc-confirm-hold')
-    document.body.appendChild(el)
-  
-    let app = createApp(App, options)
-    app.mount(el)
-  
-    visible.value = true
-  })
+App.function.install = app => {
+  // for component API
+  app.provide(App.name, App.function)
+  // for option API
+  app.config.globalProperties[App.name] = App.function
 }
 
-export default {
-  name: 'VcConfirm',
-  function: Confirm
-}
+export default App.function
