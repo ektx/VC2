@@ -10,15 +10,22 @@ yarn add vc2
 
 ## 使用
 
-```ts
-import { createApp } from 'vue'
-import App from './App.vue'
+```js
+// 全局引用
 import VC2 from 'vc2'
-import 'vc2/lib/index.css'
+app.use(VC2)
 
-const app = createApp(App)
+// 单个组件引用 全局注册方案
+import { VcNotification } from 'vc2'
+app.use(VcNotification)
 
-app.use(VC2).mount('#app')
+// 单个组件单文件引用方式
+import { VcNotification } from 'vc2'
+
+// Option API
+export default {
+  components: { VcNotification }
+}
 ```
 
 ## 资料参考
