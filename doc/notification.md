@@ -12,33 +12,24 @@
   <vc-button @click="close">手动关闭</vc-button>
 </template>
 
-<script>
+<script setup>
 import { inject } from 'vue'
 
-export default {
-  setup() {
-    let notify = inject('vcNotification')
+let notify = inject('vcNotification')
 
-    function auto () {
-      notify({
-        title: '自动关闭',
-        message: '这是一个普通信息！'
-      })
-    }
+function auto () {
+  notify({
+    title: '自动关闭',
+    message: '这是一个普通信息！'
+  })
+}
 
-    function close () {
-      notify({
-        title: '手动关闭',
-        duration: 0,
-        message: '这条提醒需要你手动关闭它'
-      })
-    }
-
-    return {
-      auto,
-      close
-    }
-  }
+function close () {
+  notify({
+    title: '手动关闭',
+    duration: 0,
+    message: '这条提醒需要你手动关闭它'
+  })
 }
 </script>
 ```
@@ -61,22 +52,14 @@ export default {
 </template>
 
 <script>
-import { ref, inject } from 'vue'
-
 export default {
-  setup() {
-    let message = inject('vcNotification')
-
-    function open (position) {
-      message({
+  methods: {
+    open (position) {
+      this.vcNotification({
         position,
         title: '标题名称',
         message: '这是一个普通信息！'
       })
-    }
-
-    return {
-      open
     }
   }
 }
