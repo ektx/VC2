@@ -1,6 +1,6 @@
 import App from './index.vue'
 
-import './index.less'
+import '../../fonts/index.less'
 
 App.install = app => {
   app.component(App.name, App)
