@@ -1,15 +1,15 @@
 <template>
-  <div 
+  <div
     :class="[
-      'vc-form-item', 
-      { 
+      'vc-form-item',
+      {
         'is-column': isColumn,
         'is-required': isRequired,
         'is-error': validateState === 'error'
       }
     ]"
   >
-    <Label :label="label" :labelWidth="labelWidth || vcForm.labelWidth"/>
+    <Label :label="label" :labelWidth="labelWidth || vcForm.labelWidth" />
     <div class="vc-form-item__content">
       <slot></slot>
       <transition name="vc-fade-in">
@@ -19,7 +19,7 @@
           :error="validateMessage"
         >
           <div class="vc-form-item__error">
-            {{ validateMessage}}
+            {{ validateMessage }}
           </div>
         </slot>
       </transition>
@@ -49,20 +49,20 @@ export default {
     // 指定标题的宽度，支持'auto'
     labelWidth: String,
     prop: String,
-    inline: Boolean,
+    inline: Boolean
   },
   computed: {
-    isColumn () {
+    isColumn() {
       return this.vcForm.labelPosition === 'top'
     },
 
-    isRequired () {
+    isRequired() {
       let rules = this.getRules()
       let result = false
 
       if (rules && rules.length) {
         rules.every(rule => {
-          if (rule.required) { 
+          if (rule.required) {
             result = true
             return false
           }
@@ -72,26 +72,26 @@ export default {
       return result
     }
   },
-  data () {
+  data() {
     return {
       parentForm: null,
       validateState: '',
-      validateMessage: '',
+      validateMessage: ''
     }
   },
-  mounted () {
+  mounted() {
     if (this.$parent.$options.name === 'VcForm') {
       this.parentForm = this.$parent
     }
 
     if (this.prop) {
       if (this.parentForm) {
-        this.parentForm.fields.push( this )
+        this.parentForm.fields.push(this)
       }
     }
   },
   methods: {
-    validate (trigger, cb) {
+    validate(trigger, cb) {
       const rules = this.getRules()
       const descriptor = {}
 
@@ -100,8 +100,7 @@ export default {
       if (rules.length > 0) {
         rules.forEach(rule => {
           if (trigger) {
-            if (rule.trigger.includes(trigger))
-              descriptor[this.prop].push(rule)
+            if (rule.trigger.includes(trigger)) descriptor[this.prop].push(rule)
           } else {
             descriptor[this.prop].push(rule)
           }
@@ -115,7 +114,7 @@ export default {
 
       model[this.prop] = this.vcForm.model[this.prop]
 
-      validator.validate(model, { firstFields: true }, (err, fields) => {
+      validator.validate(model, { firstFields: true }, err => {
         this.validateState = err ? 'error' : 'success'
         this.validateMessage = err ? err[0].message : ''
 
@@ -127,8 +126,10 @@ export default {
       this.clearValidate()
 
       if (this.prop) {
-        let val = Reflect.has(this.vcForm.defaultValue, this.prop) ? this.vcForm.defaultValue[this.prop] : ''
-        
+        let val = Reflect.has(this.vcForm.defaultValue, this.prop)
+          ? this.vcForm.defaultValue[this.prop]
+          : ''
+
         this.vcForm.model[this.prop] = val
       }
     },
