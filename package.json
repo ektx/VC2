@@ -1,6 +1,6 @@
 {
   "name": "vc2",
-  "version": "0.0.0-rc.2",
+  "version": "0.0.0-rc.3",
   "files": [
     "lib",
     "types"
@@ -20,14 +20,13 @@
   "author": "WenLong",
   "dependencies": {
     "@popperjs/core": "^2.11.0",
-    "async-validator": "^3.4.0",
+    "async-validator": "^4.0.7",
     "resize-observer-polyfill": "^1.5.1",
     "vue": "^3.2.22",
     "vue-router": "^4.0.10"
   },
   "devDependencies": {
     "@intsig/vipress": "^0.14.1",
-    "@types/prismjs": "^1.16.2",
     "@vitejs/plugin-vue": "^1.9.3",
     "@vue/compiler-sfc": "^3.2.20",
     "inquirer": "^7.3.3",

@@ -1,27 +1,26 @@
 <template>
-  <div :class="[
-    'vc-progress', status,
-    {'is-hide-text': textType !== 'outer', 'is-space': format}
-  ]">
-    <div class="vc-progress-bar" :style="{'--height': strokeWidth}">
-      <div 
+  <div
+    :class="[
+      'vc-progress',
+      status,
+      { 'is-hide-text': textType !== 'outer', 'is-space': format }
+    ]"
+  >
+    <div class="vc-progress-bar" :style="{ '--height': strokeWidth }">
+      <div
         v-for="item in progressList.children"
         :key="item.label"
         :class="[
-          'vc-progress-bar__item', 
-          {'is-active': hasActive(item), 'has-txt': textType === 'inner' }
-        ]" 
+          'vc-progress-bar__item',
+          { 'is-active': hasActive(item), 'has-txt': textType === 'inner' }
+        ]"
         :style="getItemStyle(item)"
-      >
-      </div>
+      ></div>
     </div>
     <template v-if="format">
       <ul class="vc-progress__space-list">
-        <li 
-          v-for="item in progressList.children"
-          :key="item.label"
-        > 
-          <i :style="{background: item.color}"></i>{{ item.label }}
+        <li v-for="item in progressList.children" :key="item.label">
+          <i :style="{ background: item.color }"></i>{{ item.label }}
         </li>
       </ul>
     </template>
@@ -79,7 +78,7 @@ export default {
     // 空间效果格式化
     format: {
       type: Object,
-      default: () => (null)
+      default: () => null
     }
   },
   computed: {
@@ -93,7 +92,7 @@ export default {
         usedPerStr: '0%',
         children: {}
       }
-      
+
       if (typeof this.value === 'number') {
         let val = this.value / this.total
 
@@ -101,7 +100,7 @@ export default {
           label: '',
           color: '',
           percentage: val,
-          width: ~~(val * 100)
+          width: val * 100
         }
         obj.used = this.value
         obj.usedPer = val
@@ -115,7 +114,7 @@ export default {
             label: item.label,
             color: item.color,
             percentage: val,
-            width: ~~(val * 100)
+            width: val * 100
           }
         }
       }
@@ -124,12 +123,12 @@ export default {
     },
     statusIcon() {
       return `vc-icon-${this.status}`
-    },
+    }
   },
   methods: {
     getItemStyle({ width, color }) {
-      let obj = { 
-        '--width': width, 
+      let obj = {
+        '--width': width,
         '--color': color ? color : null
       }
 
@@ -152,7 +151,7 @@ export default {
             obj['--color'] = this.color(this.progressList.usedPer * 100)
             break
           }
-        } 
+        }
       }
 
       return obj
