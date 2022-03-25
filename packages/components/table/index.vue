@@ -153,7 +153,6 @@ export default {
     },
 
     updateHeaderSize() {
-      console.log('update size', this.$el)
       let { width } = this.$el.getBoundingClientRect()
       let setWitdh = 0
       let noSetWidth = 0
@@ -177,7 +176,6 @@ export default {
 
     watchRootDom() {
       this.resizeObserver = new ResizeObserver(() => {
-        console.log('Watch..')
         this.updateHeaderSize()
       })
 
