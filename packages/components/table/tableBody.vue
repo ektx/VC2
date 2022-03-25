@@ -1,8 +1,8 @@
 <template>
   <div class="vc-table__body" :style="bodyStyle">
-    <table v-if="data.length" :class="{'has-border': vcTable.border}">
+    <table v-if="data.length" :class="{ 'has-border': vcTable.border }">
       <colgroup>
-        <col v-for="(h,i) in header" :key="i" :width="h.width"/>
+        <col v-for="(h, i) in header" :key="i" :width="h.width" />
       </colgroup>
       <tbody>
         <tr v-for="(tr, i) in data" :key="i" :class="tr.classes">
@@ -13,7 +13,7 @@
         </tr>
       </tbody>
     </table>
-    <div v-else :class="['vc-table__empty', {'is-border': vcTable.border}]">
+    <div v-else :class="['vc-table__empty', { 'is-border': vcTable.border }]">
       <div v-if="!vcTable.loading">
         <slot name="empty"></slot>
       </div>
@@ -27,12 +27,14 @@ export default {
   props: {
     header: Array,
     data: Array,
-    mergeSpan: Array
+    mergeSpan: Array,
+    width: String
   },
   computed: {
     bodyStyle() {
       return {
-        height: this.vcTable.height
+        height: this.vcTable.height,
+        width: this.width
       }
     }
   },
@@ -42,7 +44,7 @@ export default {
     }
   },
   methods: {
-    getTDHTML (tr, td) {
+    getTDHTML(tr, td) {
       if (typeof td.key === 'function') {
         return td.key(tr)
       } else {
@@ -55,19 +57,18 @@ export default {
       let tbody = table.tBodies[0]
       let trs = tbody.rows
 
-      this.mergeSpan.forEach(({x, y, row, col}) => {
+      this.mergeSpan.forEach(({ x, y, row, col }) => {
         trs[y].cells[x].rowSpan = row
         trs[y].cells[x].colSpan = col
 
         // others row
-        for (let r = y; r < (y+row); r++) {
-          for (let c = x; c < (x+col); c++) {
+        for (let r = y; r < y + row; r++) {
+          for (let c = x; c < x + col; c++) {
             if (r !== y || c !== x) {
               trs[r].cells[c].style.display = 'none'
             }
           }
         }
-
       })
     }
   }
