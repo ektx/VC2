@@ -1,11 +1,22 @@
 <template>
-  <div class="vc-table__body" :style="bodyStyle">
+  <div
+    :class="[
+      'vc-table__body',
+      { 'highlight-current-row': highlightCurrentRow }
+    ]"
+    :style="bodyStyle"
+  >
     <table v-if="data.length" :class="{ 'has-border': vcTable.border }">
       <colgroup>
         <col v-for="(h, i) in header" :key="i" :width="h.width" />
       </colgroup>
       <tbody>
-        <tr v-for="(tr, i) in data" :key="i" :class="tr.classes">
+        <tr
+          v-for="(tr, i) in data"
+          :key="i"
+          :class="[tr.classes, { current: currentRow == tr }]"
+          @click="currentRow = tr"
+        >
           <td v-for="td in header" :key="td.label">
             <slot :name="td.slot" :item="tr" :index="i" :tr="tr" :td="td">
             </slot>
@@ -28,7 +39,18 @@ export default {
     header: Array,
     data: Array,
     mergeSpan: Array,
-    width: String
+    width: String,
+    highlightCurrentRow: Boolean
+  },
+  data() {
+    return {
+      currentRow: null
+    }
+  },
+  watch: {
+    currentRow(val, old) {
+      this.vcTable.$emit('currentChange', val, old)
+    }
   },
   computed: {
     bodyStyle() {

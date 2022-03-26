@@ -712,6 +712,71 @@ export default {
 :::
 
 
+## 单选功能
+
+基础的表格展示用法。
+
+::: codeBox 
+```vue
+<template>
+  <vc-table :data="data" :header="header" highlight-current-row @currentChange="change"/>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      header: [
+        {
+          label: '姓名',
+          key: 'name',
+          width: 100
+        },
+        {
+          label: '时间',
+          key: 'date',
+          width: 100
+        },
+        {
+          label: '地址',
+          key: 'address',
+        }
+      ],
+      data: [
+        {
+          date: "2016-05-02",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-04",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1517 弄"
+        },
+        {
+          date: "2016-05-01",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1519 弄"
+        },
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1516 弄"
+        }
+      ]
+    }
+  },
+  methods: {
+    change(val, old) {
+      console.log(val, old)
+    }
+  }
+}
+</script>
+```
+:::
+
+
 # Props
 | 参数 | 类型 | 说明 | 默认值 | 可选值 |
 | --- | --- | --- | --- | --- |

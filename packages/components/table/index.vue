@@ -26,6 +26,7 @@
         :data="currentData"
         :width="tableWidth"
         :mergeSpan="style?.mergeSpan"
+        :highlightCurrentRow="highlightCurrentRow"
       >
         <template
           v-for="head in _header"
@@ -115,7 +116,11 @@ export default {
     // 显示边框，默认无
     border: Boolean,
     // 样式控制
-    style: Object
+    style: Object,
+    highlightCurrentRow: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {

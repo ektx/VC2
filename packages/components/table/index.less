@@ -24,6 +24,7 @@
       background-color: #fff;
     }
   }
+
   tbody {
     td, th {
       padding: 10px 5px;
@@ -79,7 +80,20 @@
     overflow: auto;
     border-bottom: 1px solid #eee;
 
+    &.highlight-current-row {
+      .current {
+        td {
+          background-color: #f0f8ff;
+          border-color: #deeefb;
+        }
+
+        &:hover td {
+          background-color: #eee;
+        }
+      } 
+    }
   }
+
   &__empty {
     display: grid;
     height: 100%;
