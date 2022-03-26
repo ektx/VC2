@@ -7,38 +7,41 @@
       </div>
     </div>
 
-    <div class="vc-table--head" :style="{ width: tableWidth }">
-      <table ref="header" :class="{ 'has-border': border }">
-        <colgroup>
-          <col v-for="(h, i) in header" :key="i" :width="h.width" />
-        </colgroup>
-        <thead>
-          <tr>
-            <th v-for="item in header" :key="item.label">{{ item.label }}</th>
-          </tr>
-        </thead>
-      </table>
-    </div>
-    <TableBody
-      v-bind="$attrs"
-      :header="_header"
-      :data="currentData"
-      :width="tableWidth"
-      :mergeSpan="style?.mergeSpan"
-    >
-      <template
-        v-for="head in _header"
-        :key="head.label"
-        #[head.slot]="{ item, index, tr, td }"
+    <div class="vc-table--content">
+      <div class="vc-table--head" :style="{ width: tableWidth }">
+        <table ref="header" :class="{ 'has-border': border }">
+          <colgroup>
+            <col v-for="(h, i) in header" :key="i" :width="h.width" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th v-for="item in header" :key="item.label">{{ item.label }}</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <TableBody
+        v-bind="$attrs"
+        :header="_header"
+        :data="currentData"
+        :width="tableWidth"
+        :mergeSpan="style?.mergeSpan"
       >
-        <slot :name="head.slot" :item="item" :index="index">
-          {{ getTDHTML(tr, td) }}
-        </slot>
-      </template>
-      <template #empty>
-        <slot name="empty">没有数据</slot>
-      </template>
-    </TableBody>
+        <template
+          v-for="head in _header"
+          :key="head.label"
+          #[head.slot]="{ item, index, tr, td }"
+        >
+          <slot :name="head.slot" :item="item" :index="index">
+            {{ getTDHTML(tr, td) }}
+          </slot>
+        </template>
+        <template #empty>
+          <slot name="empty">没有数据</slot>
+        </template>
+      </TableBody>
+    </div>
+
     <div class="vc-table__pagination" v-show="pageTotal">
       <vc-pagination
         :index="pageIndex"
@@ -170,8 +173,6 @@ export default {
       } else {
         this.tableWidth = width + 'px'
       }
-
-      console.log(width, setWitdh)
     },
 
     watchRootDom() {
