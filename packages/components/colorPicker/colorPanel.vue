@@ -39,23 +39,18 @@ export default {
   },
   data() {
     return {
-      // V: 0,
-      // S: 0,
       X: 0,
       Y: 0,
-      // s: 0,
-      // v: 0,
       isDrag: false
     }
   },
   mounted() {
-    console.log(123)
-    document.addEventListener('mousemove', this.mousemoveEvt)
-    document.addEventListener('mouseup', this.mouseupEvt)
+    window.addEventListener('mousemove', this.mousemoveEvt)
+    window.addEventListener('mouseup', this.mouseupEvt)
   },
   unmounted() {
-    document.removeEventListener('mousemove', this.mousemoveEvt)
-    document.removeEventListener('mouseup', this.mouseupEvt)
+    window.removeEventListener('mousemove', this.mousemoveEvt)
+    window.removeEventListener('mouseup', this.mouseupEvt)
   },
   methods: {
     mousedownEvt(evt) {
@@ -87,7 +82,7 @@ export default {
         let v = Math.round((1 - _y / height) * 100)
         let s = Math.round((_x / width) * 100)
 
-        this.vcColorPicker.updateVal({ type: 'plane', value: { v, s } })
+        this.vcColorPicker.updateVal({ type: 'plane', hsv: { v, s } })
       }
     },
 

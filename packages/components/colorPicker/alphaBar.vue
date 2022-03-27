@@ -61,7 +61,7 @@ export default {
       },
       set(value) {
         value = Number(value)
-        this.vcColorPicker.updateVal({ type: 'Hue', value })
+        this.vcColorPicker.updateVal({ type: 'Hue', hsv: { h: value }, value })
       }
     }
   }
