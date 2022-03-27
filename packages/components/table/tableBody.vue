@@ -25,12 +25,13 @@
         >
           <td v-for="td in header" :key="td.key">
             <template v-if="td.key === '__SELECT_COLUMN__'">
-              <input
+              <Radio
                 v-if="showSelectColumn === 'radio'"
                 v-model="currentRow"
-                :value="tr"
-                type="radio"
-              />
+                :label="tr"
+                ><i></i
+              ></Radio>
+
               <input
                 v-else-if="showSelectColumn === 'checkbox'"
                 v-model="tr.checked"
@@ -59,8 +60,11 @@
 </template>
 
 <script>
+import Radio from '../radio/index.vue'
+
 export default {
   inject: ['vcTable'],
+  components: { Radio },
   props: {
     header: Array,
     data: Array,
@@ -132,7 +136,7 @@ export default {
         this.currentRow = item
       }
 
-      this.vcTable.$emit('currentChange', this.currentRow)
+      this.vcTable.$emit('selectChange', this.currentRow)
     },
 
     updateAllCheckbox() {

@@ -212,7 +212,7 @@ export default {
         if (item.checked) checked++
       })
 
-      if (this.showSelectColumn) {
+      if (this.showSelectColumn && typeof this.showSelectColumn !== 'boolean') {
         this._header.unshift({
           label: '',
           key: '__SELECT_COLUMN__',
@@ -250,7 +250,7 @@ export default {
 
       item.indeterminate = false
 
-      this.$emit('currentChange', item.checked ? this.data : [])
+      this.$emit('selectChange', item.checked ? this.data : [])
     }
   }
 }
