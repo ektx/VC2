@@ -3,7 +3,7 @@
     :class="[
       'vc-radio',
       {
-        'is-border': border, 
+        'is-border': border,
         'is-button': isButton,
         'is-checked': isChecked,
         'is-disabled': isDisabled
@@ -11,7 +11,7 @@
     ]"
     :style="sizeStyle"
   >
-    <span :class="['vc-radio__radio', {'is-min': isButton}]">
+    <span :class="['vc-radio__radio', { 'is-min': isButton }]">
       <input
         type="radio"
         class="vc-radio__input"
@@ -30,20 +30,16 @@
 </template>
 
 <script>
-import {
-  ref,
-  computed,
-  inject
-} from 'vue'
+import { ref, computed, inject } from 'vue'
 
 export default {
   name: 'VcRadio',
   props: {
     // 标签
-    label: [String, Number],
+    label: [String, Number, Boolean, Object],
     // 绑定值
     modelValue: {
-      type: [String, Number],
+      type: [String, Number, Boolean, Object],
       default: ''
     },
     // 是否禁用
@@ -73,8 +69,10 @@ export default {
       return intValue.value === props.label
     })
     const isDisabled = computed(() => {
-      return vcRadioGroup 
-        ? vcRadioGroup.disabled ? true : props.disabled
+      return vcRadioGroup
+        ? vcRadioGroup.disabled
+          ? true
+          : props.disabled
         : props.disabled
     })
 
@@ -96,7 +94,7 @@ export default {
           borderColor: background,
           color
         }
-      } 
+      }
       obj.fontSize = size + 'px'
 
       return obj
@@ -136,7 +134,7 @@ export default {
     }
 
     const intValue = computed({
-      get () {
+      get() {
         return vcRadioGroup ? vcRadioGroup.modelValue : props.modelValue
       },
       set(val) {
@@ -146,7 +144,6 @@ export default {
       }
     })
 
-
     return {
       intValue,
       isDisabled,
@@ -155,8 +152,8 @@ export default {
       sizeStyle,
       handleChange,
       handleFocus,
-      handleBlur,
+      handleBlur
     }
   }
-};
+}
 </script>
