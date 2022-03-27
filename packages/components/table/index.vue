@@ -11,22 +11,35 @@
       <div class="vc-table--head" :style="{ width: tableWidth }">
         <table ref="header" :class="{ 'has-border': border }">
           <colgroup>
-            <col v-for="(h, i) in header" :key="i" :width="h.width" />
+            <col v-for="(h, i) in _header" :key="i" :width="h.width" />
           </colgroup>
           <thead>
             <tr>
-              <th v-for="item in header" :key="item.label">{{ item.label }}</th>
+              <th v-for="item in _header" :key="item.key">
+                <template v-if="item.key === '__SELECT_COLUMN__'">
+                  <input
+                    v-if="showSelectColumn === 'checkbox'"
+                    v-model="item.checked"
+                    :indeterminate="item.indeterminate"
+                    type="checkbox"
+                    @change="checkboxChange(item)"
+                  />
+                </template>
+                {{ item.label }}
+              </th>
             </tr>
           </thead>
         </table>
       </div>
       <TableBody
+        ref="tableBody"
         v-bind="$attrs"
         :header="_header"
         :data="currentData"
         :width="tableWidth"
         :mergeSpan="style?.mergeSpan"
-        :highlightCurrentRow="highlightCurrentRow"
+        :highlightSelectedRow="highlightSelectedRow"
+        :showSelectColumn="showSelectColumn"
       >
         <template
           v-for="head in _header"
@@ -85,7 +98,8 @@ export default {
      */
     header: {
       type: Array,
-      default: () => []
+      default: () => [],
+      required: true
     },
     // 总条数
     pageTotal: {
@@ -117,9 +131,20 @@ export default {
     border: Boolean,
     // 样式控制
     style: Object,
-    highlightCurrentRow: {
+    // 高亮当前行
+    highlightSelectedRow: {
       type: Boolean,
       default: false
+    },
+    // 显示单选选择列
+    showSelectColumn: {
+      type: [Boolean, String],
+      default: false
+    },
+    // 显示多选选择列
+    selectColumnWidth: {
+      type: Number,
+      default: 30
     }
   },
   data() {
@@ -160,32 +185,72 @@ export default {
       }
     },
 
-    updateHeaderSize() {
+    updateTableSize() {
       let { width } = this.$el.getBoundingClientRect()
       let setWitdh = 0
       let noSetWidth = 0
+      let onHasWidthObjs = []
+      let defaultTdWidth = 100
+      let checked = false
 
-      this.header.forEach(item => {
+      this._header = []
+
+      this._header = this.header.map(item => {
+        let obj = { ...item }
+
         if (item.width) {
           setWitdh += item.width
         } else {
           noSetWidth += 1
+          onHasWidthObjs.push(obj)
         }
+
+        return obj
       })
 
+      this.data.forEach(item => {
+        if (item.checked) checked++
+      })
+
+      if (this.showSelectColumn) {
+        this._header.unshift({
+          label: '',
+          key: '__SELECT_COLUMN__',
+          width: this.selectColumnWidth + 'px',
+          checked: checked === this.data.length,
+          indeterminate: checked > 0 ? true : false
+        })
+      }
+
+      // 设置的宽度大于容器宽度
       if (setWitdh >= width) {
-        this.tableWidth = setWitdh + noSetWidth * 100 + 'px'
+        this.tableWidth = setWitdh + noSetWidth * defaultTdWidth + 'px'
       } else {
+        defaultTdWidth = (width - setWitdh) / noSetWidth
         this.tableWidth = width + 'px'
       }
+
+      onHasWidthObjs.forEach(item => {
+        item.width = defaultTdWidth
+      })
     },
 
     watchRootDom() {
       this.resizeObserver = new ResizeObserver(() => {
-        this.updateHeaderSize()
+        this.updateTableSize()
       })
 
       this.resizeObserver.observe(this.$el)
+    },
+
+    checkboxChange(item) {
+      this.data.forEach(list => {
+        list.checked = item.checked
+      })
+
+      item.indeterminate = false
+
+      this.$emit('currentChange', item.checked ? this.data : [])
     }
   }
 }

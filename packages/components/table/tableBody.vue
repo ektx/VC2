@@ -2,7 +2,7 @@
   <div
     :class="[
       'vc-table__body',
-      { 'highlight-current-row': highlightCurrentRow }
+      { 'highlight-current-row': highlightSelectedRow }
     ]"
     :style="bodyStyle"
   >
@@ -14,11 +14,37 @@
         <tr
           v-for="(tr, i) in data"
           :key="i"
-          :class="[tr.classes, { current: currentRow == tr }]"
-          @click="currentRow = tr"
+          :class="[
+            tr.classes,
+            {
+              current:
+                showSelectColumn === 'checkbox' ? tr.checked : currentRow == tr
+            }
+          ]"
+          @click="setSelected(tr)"
         >
-          <td v-for="td in header" :key="td.label">
-            <slot :name="td.slot" :item="tr" :index="i" :tr="tr" :td="td">
+          <td v-for="td in header" :key="td.key">
+            <template v-if="td.key === '__SELECT_COLUMN__'">
+              <input
+                v-if="showSelectColumn === 'radio'"
+                v-model="currentRow"
+                :value="tr"
+                type="radio"
+              />
+              <input
+                v-else-if="showSelectColumn === 'checkbox'"
+                v-model="tr.checked"
+                type="checkbox"
+              />
+            </template>
+            <slot
+              v-else
+              :name="td.slot"
+              :item="tr"
+              :index="i"
+              :tr="tr"
+              :td="td"
+            >
             </slot>
           </td>
         </tr>
@@ -40,16 +66,12 @@ export default {
     data: Array,
     mergeSpan: Array,
     width: String,
-    highlightCurrentRow: Boolean
+    highlightSelectedRow: Boolean,
+    showSelectColumn: [Boolean, String]
   },
   data() {
     return {
       currentRow: null
-    }
-  },
-  watch: {
-    currentRow(val, old) {
-      this.vcTable.$emit('currentChange', val, old)
     }
   },
   computed: {
@@ -61,9 +83,7 @@ export default {
     }
   },
   mounted() {
-    if (this.mergeSpan) {
-      this.setMergeSpan()
-    }
+    if (this.mergeSpan) this.setMergeSpan()
   },
   methods: {
     getTDHTML(tr, td) {
@@ -92,6 +112,39 @@ export default {
           }
         }
       })
+    },
+
+    setSelected(item) {
+      if (this.showSelectColumn === 'checkbox') {
+        if (item.checked) {
+          item.checked = false
+        } else {
+          item.checked = true
+        }
+
+        this.currentRow = []
+        this.data.forEach(list => {
+          if (list.checked) this.currentRow.push(list)
+        })
+
+        this.updateAllCheckbox()
+      } else {
+        this.currentRow = item
+      }
+
+      this.vcTable.$emit('currentChange', this.currentRow)
+    },
+
+    updateAllCheckbox() {
+      let firstChild = this.vcTable._header[0]
+
+      if (this.currentRow.length === this.data.length) {
+        firstChild.checked = true
+        firstChild.indeterminate = false
+      } else {
+        firstChild.checked = false
+        firstChild.indeterminate = this.currentRow.length ? true : false
+      }
     }
   }
 }
