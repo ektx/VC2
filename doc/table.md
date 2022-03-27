@@ -720,7 +720,7 @@ export default {
   <vc-table :data="data" :header="header" 
     show-select-column="radio" 
     highlight-selected-row 
-    @currentChange="change"
+    @selectChange="change"
   />
 </template>
 
@@ -768,8 +768,8 @@ export default {
     }
   },
   methods: {
-    change(val, old) {
-      console.log(val, old)
+    change(val) {
+      console.log(val)
     }
   }
 }
@@ -785,7 +785,7 @@ export default {
   <vc-table :data="data" :header="header" 
     show-select-column="checkbox" 
     highlight-selected-row 
-    @currentChange="change"
+    @selectChange="change"
   />
 </template>
 
@@ -834,8 +834,8 @@ export default {
     }
   },
   methods: {
-    change(val, old) {
-      console.log(val, old)
+    change(val) {
+      console.log(val)
     }
   }
 }
