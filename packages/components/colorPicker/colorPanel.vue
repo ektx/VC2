@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  inject: ['vcColorPicker', 'store'],
+  inject: ['vcColorPicker'],
   props: {
     isOpened: Boolean,
     S: Number,

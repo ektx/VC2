@@ -27,7 +27,14 @@
 import { ref, computed } from 'vue'
 import { createPopper } from '@popperjs/core'
 import DropDown from './dropdown.vue'
-import { formatString, hex2rgb, hsv2rgb, toHex, rgb2hsv } from './color'
+import {
+  formatString,
+  hex2rgb,
+  hsv2rgb,
+  toHex,
+  rgb2hsv,
+  hsv2hsl
+} from './color'
 
 export default {
   name: 'VcColorPicker',
@@ -49,8 +56,8 @@ export default {
   },
   provide() {
     return {
-      vcColorPicker: this,
-      store: this.myStore
+      vcColorPicker: this
+      // store: this.myStore
     }
   },
   data() {
@@ -72,17 +79,19 @@ export default {
   },
   computed: {
     currentColor() {
+      let { r, g, b } = hsv2rgb(this.H, this.S, this.V)
+
       return {
-        backgroundColor: `rgba(${this.R}, ${this.G}, ${this.B}, ${this.A})`
+        backgroundColor: `rgba(${r}, ${g}, ${b}, ${this.A})`
       }
     }
   },
   mounted() {
     this.formatHSV()
-    window.addEventListener('click', this.hideDropdown, false)
+    window.addEventListener('click', this.hideDropdown)
   },
   unmounted() {
-    window.removeEventListener('click', this.hideDropdown, true)
+    window.removeEventListener('click', this.hideDropdown)
   },
   methods: {
     showDropdownEvt() {
@@ -91,39 +100,32 @@ export default {
       this.isVisible = !this.isVisible
       this.isActive = true
 
-      if (this.isVisible) {
-        this.dropdown = createPopper(this.$refs.colorEl, dropdownEl, {
-          placement: 'bottom',
-          modifiers: [
-            {
-              name: 'offset',
-              options: {
-                offset: [0, 5]
-              }
-            },
-            {
-              name: 'computeStyles',
-              options: {
-                adaptive: false,
-                gpuAcceleration: false
-              }
+      this.dropdown = createPopper(this.$refs.colorEl, dropdownEl, {
+        placement: 'bottom',
+        modifiers: [
+          {
+            name: 'offset',
+            options: {
+              offset: [0, 5]
             }
-          ],
-          strategy: 'fixed'
-        })
-      } else {
-        this.hideDropdown()
-      }
+          },
+          {
+            name: 'computeStyles',
+            options: {
+              adaptive: false,
+              gpuAcceleration: false
+            }
+          }
+        ],
+        strategy: 'fixed'
+      })
     },
 
     formatHSV() {
       if (this.modelValue) {
         let { hsv, alpha } = formatString(this.modelValue)
-        // this.myStore.isDrag.value = true
-        // this.myStore.Hue.value = hsv.h
-        // this.myStore.Saturation.value = hsv.s
-        // this.myStore.Value.value = hsv.v
-        // this.myStore.alpha.value = alpha
+
+        console.warn(hsv)
         this.H = hsv.h
         this.S = hsv.s
         this.V = hsv.v
@@ -131,88 +133,57 @@ export default {
       }
     },
 
-    hideDropdown() {
-      if (this.isActive) {
-        this.isActive = false
-        return
-      }
+    hideDropdown(e) {
+      if (this.$el.contains(e.target)) return
 
-      if (this.isDrag) {
-        this.isDrag = false
-      } else {
-        if (this.isVisible) {
-          this.isVisible = false
-          // if (this.vcFormItem) this.vcFormItem.checkValidate('blur')
-        }
-      }
+      this.isVisible = false
     },
 
     afterEnterEvt() {
       this.isOpened = true
     },
 
-    updateVal({ type, value }) {
-      let start = ''
-      let end = ''
+    updateVal({ type, value, hsv }) {
       let result = ''
-      let h = this.H
-      let s = this.S
-      let v = this.V
-      let a = this.A
 
-      console.log('update:model', type, value)
-      switch (type) {
-        case 'plane': {
-          s = value.s
-          v = value.v
-          break
-        }
-        case 'alpha': {
-          this.A = Number(value)
-          break
-        }
-        case 'Hue': {
-          this.H = value
-          break
+      console.log('update:model', type, hsv, value)
+
+      this.H = Reflect.has(hsv, 'h') ? hsv.h : this.H
+      this.S = Reflect.has(hsv, 's') ? hsv.s : this.S
+      this.V = Reflect.has(hsv, 'v') ? hsv.v : this.V
+      this.A = Reflect.has(hsv, 'a') ? hsv.a : this.A
+
+      console.log(this.H)
+
+      if (type === this.format) {
+        result = value
+      } else {
+        switch (this.format) {
+          case 'hex': {
+            let { r, g, b } = hsv2rgb(this.H, this.S, this.V)
+            result = toHex({ r, g, b })
+            break
+          }
+          case 'rgb': {
+            let { r, g, b } = hsv2rgb(this.H, this.S, this.V)
+            let start = +this.A === 1 ? 'rgb' : 'rgba'
+            let end = +this.A === 1 ? ')' : `, ${this.A})`
+
+            result = `${start}(${r}, ${g}, ${b}${end}`
+            break
+          }
+          case 'hsl': {
+            let { h, s, l } = hsv2hsl(this.H, this.S, this.V)
+            let start = +this.A === 1 ? 'hsl' : 'hsla'
+            let end = +this.A === 1 ? ')' : `, ${this.A})`
+
+            result = `${start}(${h}, ${s}%, ${l}%${end}`
+            break
+          }
         }
       }
 
-      switch (this.format) {
-        case 'hex': {
-          if (type !== 'hex') {
-            ;({ r: this.R, g: this.G, b: this.B } = hsv2rgb(h, s, v))
-            result = toHex({ r: this.R, g: this.G, b: this.B })
-            this.hex = result
-          } else {
-            let color = hex2rgb(value)
-            if (color) {
-              ;({ r: this.R, g: this.G, b: this.B } = color)
-              ;({
-                h: this.H,
-                s: this.S,
-                v: this.V
-              } = rgb2hsv(this.R, this.G, this.B))
-            }
-            this.hex = value
-            result = value
-          }
-          break
-        }
-        case 'rgb': {
-          if (type === 'plane') {
-            ;({ r: this.R, g: this.G, b: this.B } = hsv2rgb(h, s, v))
-            result = `${this.R}, ${this.G}, ${this.B}`
-          } else if (type === 'alpha') {
-            result = `${this.R}, ${this.G}, ${this.B}`
-          }
-
-          start = this.A === 1 ? 'rgb(' : 'rgba('
-          end = this.A === 1 ? ')' : `, ${this.A})`
-          break
-        }
-      }
-
-      this.$emit('update:modelValue', start + result + end)
+      this.$emit('update:modelValue', result)
     }
   }
 }
