@@ -150,8 +150,17 @@ export default {
   data() {
     return {
       _pageIndex: this.pageIndex,
+      _header: this.header,
       resizeObserver: null,
       tableWidth: 'auto'
+    }
+  },
+  watch: {
+    header: {
+      handler() {
+        this.updateTableSize()
+      },
+      deep: true
     }
   },
   computed: {
@@ -164,10 +173,12 @@ export default {
 
         return this.data.slice(start, end)
       }
-    },
-    _header() {
-      return this.updateTableSize()
     }
+    // _header() {
+    //   let result = this.updateTableSize(this.header)
+    //   console.log(11, result)
+    //   return result
+    // }
   },
   mounted() {
     this.watchRootDom()
@@ -188,8 +199,6 @@ export default {
     },
 
     updateTableSize() {
-      if (!this.$el) return this.header
-
       let { width } = this.$el.getBoundingClientRect()
       let setWitdh = 0
       let noSetWidth = 0
@@ -197,7 +206,7 @@ export default {
       let defaultTdWidth = 100
       let checked = false
 
-      const head = this.header.map(item => {
+      this._header = this.header.map(item => {
         let obj = { ...item }
 
         if (item.width) {
@@ -215,7 +224,7 @@ export default {
       })
 
       if (this.showSelectColumn && typeof this.showSelectColumn !== 'boolean') {
-        head.unshift({
+        this._header.unshift({
           label: '',
           key: '__SELECT_COLUMN__',
           width: this.selectColumnWidth + 'px',
@@ -235,8 +244,6 @@ export default {
       onHasWidthObjs.forEach(item => {
         item.width = defaultTdWidth
       })
-
-      return head
     },
 
     watchRootDom() {
