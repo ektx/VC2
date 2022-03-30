@@ -24,17 +24,15 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
-import { createPopper } from '@popperjs/core'
-import DropDown from './dropdown.vue'
 import {
-  formatString,
-  hex2rgb,
-  hsv2rgb,
-  toHex,
-  rgb2hsv,
-  hsv2hsl
-} from './color'
+  computePosition,
+  autoUpdate,
+  flip,
+  shift,
+  offset
+} from '@floating-ui/dom'
+import DropDown from './dropdown.vue'
+import { formatString, hsv2rgb, toHex, hsv2hsl } from './color'
 
 export default {
   name: 'VcColorPicker',
@@ -57,7 +55,6 @@ export default {
   provide() {
     return {
       vcColorPicker: this
-      // store: this.myStore
     }
   },
   data() {
@@ -66,13 +63,7 @@ export default {
       S: 0,
       V: 0,
       A: 0,
-      hex: '',
-      R: 0,
-      G: 0,
-      B: 0,
-      // Value: this.myStore.Value,
-      // isDrag: this.myStore.isDrag,
-      // currentColor: '',
+      isEmpty: false,
       isVisible: false,
       isOpened: false
     }
@@ -98,26 +89,18 @@ export default {
       const dropdownEl = this.$el.querySelector('.vc-color-picker__drop-down')
 
       this.isVisible = !this.isVisible
-      this.isActive = true
 
-      this.dropdown = createPopper(this.$refs.colorEl, dropdownEl, {
-        placement: 'bottom',
-        modifiers: [
-          {
-            name: 'offset',
-            options: {
-              offset: [0, 5]
-            }
-          },
-          {
-            name: 'computeStyles',
-            options: {
-              adaptive: false,
-              gpuAcceleration: false
-            }
-          }
-        ],
-        strategy: 'fixed'
+      autoUpdate(this.$refs.colorEl, dropdownEl, () => {
+        computePosition(this.$refs.colorEl, dropdownEl, {
+          placement: 'bottom',
+          strategy: 'fixed',
+          middleware: [offset(6), flip(), shift({ padding: 5 })]
+        }).then(({ x, y }) => {
+          Object.assign(dropdownEl.style, {
+            left: `${x}px`,
+            top: `${y}px`
+          })
+        })
       })
     },
 
@@ -125,11 +108,13 @@ export default {
       if (this.modelValue) {
         let { hsv, alpha } = formatString(this.modelValue)
 
-        console.warn(hsv)
         this.H = hsv.h
         this.S = hsv.s
         this.V = hsv.v
         this.A = alpha
+        this.isEmpty = false
+      } else {
+        this.isEmpty = true
       }
     },
 
@@ -153,7 +138,10 @@ export default {
       this.V = Reflect.has(hsv, 'v') ? hsv.v : this.V
       this.A = Reflect.has(hsv, 'a') ? hsv.a : this.A
 
-      console.log(this.H)
+      if (this.isEmpty) {
+        this.A = 1
+        this.isEmpty = false
+      }
 
       if (type === this.format) {
         result = value
@@ -178,6 +166,13 @@ export default {
             let end = +this.A === 1 ? ')' : `, ${this.A})`
 
             result = `${start}(${h}, ${s}%, ${l}%${end}`
+            break
+          }
+          case 'hsv': {
+            let start = +this.A === 1 ? 'hsv' : 'hsva'
+            let end = +this.A === 1 ? ')' : `, ${this.A})`
+
+            result = `${start}(${this.H},${this.S},${this.V}${end}`
             break
           }
         }

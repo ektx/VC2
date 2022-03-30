@@ -4,7 +4,6 @@
     :style="panelColor"
     @mousedown.stop="mousedownEvt"
   >
-    {{ S }}-{{ V }}-{{ panelColor }}
     <span class="vc-color-picker__hsl-cursor" :style="cursorStyle">
       <i></i>
     </span>
