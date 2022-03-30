@@ -37,7 +37,11 @@ import { formatString, hsv2rgb, toHex, hsv2hsl } from './color'
 export default {
   name: 'VcColorPicker',
   components: { DropDown },
-  // inject: ['vcFormItem'],
+  inject: {
+    vcFormItem: {
+      default: null
+    }
+  },
   props: {
     modelValue: {
       type: String,
@@ -177,6 +181,8 @@ export default {
           }
         }
       }
+
+      if (this.vcFormItem) this.vcFormItem.checkValidate('change')
 
       this.$emit('update:modelValue', result)
     }
