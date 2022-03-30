@@ -1,5 +1,5 @@
 <template>
-  <div class="vc-color-picker__drop-down" @click.stop>
+  <div class="vc-color-picker__drop-down">
     <ColorPanel :S="S" :V="V" :isOpened="isOpened" />
 
     <div class="vc-color-picker__display-panel">
@@ -11,18 +11,19 @@
       </div>
       <AlphaBar :format="format" />
     </div>
+
     <HexPanel v-if="format === 'hex'" />
-    <!-- <HSVAPanel v-else-if="format === 'hsv'" />
+    <HSVAPanel v-else-if="format === 'hsv'" />
     <HSLAPanel v-else-if="format === 'hsl'" />
-    <RGBAPanel v-else /> -->
+    <RGBAPanel v-else />
   </div>
 </template>
 
 <script>
 import ColorPanel from './colorPanel.vue'
-// import HSVAPanel from './hsvaPanel.vue'
-// import HSLAPanel from './hslaPanel.vue'
-// import RGBAPanel from './rgbaPanel.vue'
+import HSVAPanel from './hsvaPanel.vue'
+import HSLAPanel from './hslaPanel.vue'
+import RGBAPanel from './rgbaPanel.vue'
 import HexPanel from './hexPanel.vue'
 import AlphaBar from './alphaBar.vue'
 import { getCurrentInstance, computed } from 'vue'
@@ -32,9 +33,9 @@ export default {
   inject: ['vcColorPicker'],
   components: {
     ColorPanel,
-    // HSVAPanel,
-    // HSLAPanel,
-    // RGBAPanel,
+    HSVAPanel,
+    HSLAPanel,
+    RGBAPanel,
     HexPanel,
     AlphaBar
   },
@@ -50,20 +51,9 @@ export default {
       return this.vcColorPicker.currentColor
     }
   },
-  setup() {
-    const { ctx } = getCurrentInstance()
-
-    function mouseupEvt(evt) {
-      if (!ctx.vcColorPicker.isDrag) evt.stopPropagation()
-    }
-
-    function clear() {
-      ctx.vcColorPicker.hsv = {}
-    }
-
-    return {
-      mouseupEvt,
-      clear
+  methods: {
+    clear() {
+      this.vcColorPicker.hsv = {}
     }
   }
 }

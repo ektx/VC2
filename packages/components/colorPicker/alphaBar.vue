@@ -52,7 +52,11 @@ export default {
         return this.vcColorPicker.A
       },
       set(value) {
-        this.vcColorPicker.updateVal({ type: 'alpha', value })
+        this.vcColorPicker.updateVal({
+          type: 'alpha',
+          hsv: { a: value },
+          value
+        })
       }
     },
     Hue: {
