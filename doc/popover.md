@@ -1,7 +1,7 @@
 
 # Popover 弹出框
 
-Popover 是基于 popper 扩展的功能。具体可以访问 [popper](https://popper.js.org/)。
+Popover 是基于 popper 扩展的功能。具体可以访问 [floating-ui](https://floating-ui.com/)。
 
 ## 基础效果
 
@@ -36,7 +36,7 @@ Popover 是基于 popper 扩展的功能。具体可以访问 [popper](https://p
     trigger="focus" 
     width="200px"
     title="标题"
-    placement="bottom"
+    placement="left"
     content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
   >
     <template #reference>
@@ -49,7 +49,7 @@ Popover 是基于 popper 扩展的功能。具体可以访问 [popper](https://p
     trigger="manual" 
     width="200px"
     title="标题"
-    placement="bottom"
+    placement="right"
     content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
   >
     <template #reference>
@@ -85,7 +85,7 @@ export default {
 <template>
   <vc-popover
     trigger="click"
-    width="450px"
+    :width="450"
     placement="right"
   >
     <vc-table :data="data" :header="header"/>
@@ -157,7 +157,6 @@ export default {
   trigger="manual" 
   width="200px"
   placement="left"
-  content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
 >
   <p>这是一段内容确定删除吗？</p>
   <div style="text-align: right; margin-top: 10px">
@@ -182,7 +181,62 @@ export default {
 ```
 :::
 
-## Poprs
+## 确认信息操作
+
+当然，你还可以嵌套操作，这相比 Layer 更为轻量：
+
+::: codeBox
+```vue
+<template>
+<vc-popover
+  trigger="click" 
+  width="200px"
+  content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+  confirm-button="OK"
+  cancel-button="No, Thanks"
+  @confirm="confirmEvent"
+  @cancel="cancelEvent"
+>
+  <template #reference>
+    <vc-button @click="visible = !visible">删除</vc-button>
+  </template>
+</vc-popover>
+
+<vc-popover
+  trigger="click" 
+  width="200px"
+  content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+  confirm-button
+  @confirm="confirmEvent"
+  @cancel="cancelEvent"
+>
+  <template #reference>
+    <vc-button @click="visible = !visible">只确认删除</vc-button>
+  </template>
+</vc-popover>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      visible: false
+    }
+  },
+  methods: {
+    confirmEvent() {
+      console.log('Yes')
+    },
+    cancelEvent() {
+      console.log('No...')
+    }
+  }
+}
+</script>
+```
+:::
+
+## 属性
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
 |---|---|---|---|---|
@@ -192,10 +246,19 @@ export default {
 | title | **String** | 标题 | - | - |
 | content | **String** | 显示的内容，也可以通过 slot 传入 `DOM` | - | - |
 | width | **String** | 宽度 | - | auto |
+| confirmButton | **Boolean/String** | 确认按钮 | - | false |
+| cancelButton | **Boolean/String** | 取消按钮 | - | false |
 
-## Slot
+## 插槽
 
 | 参数 | 说明 | 
 | --- | --- | 
 | - | Popover 内嵌 HTML 文本 |
 | reference | 触发 Popover 显示的 HTML 元素 |
+
+## 事件
+
+| 事件名 | 说明 | 回调参数 |
+| --- | --- | --- |
+| confirm | 确认信息时，返回 `true` | - |
+| cancel | 取消事件时触发，返回 `false` | - |
