@@ -1,11 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "esnext",
-    "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "paths": {
+      "@/*": ["src/*"]
     }
-  },
-  "exclude": ["node_modules"]
+  }
 }
