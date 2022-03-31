@@ -1,27 +1,27 @@
 <template>
   <div class="vc-time-picker">
-    <div 
+    <div
       :class="[
         'vc-time-picker__header',
-        {'is-active': visible, 'is-disabled': disabled}
+        { 'is-active': visible, 'is-disabled': disabled }
       ]"
     >
       <i class="vc-icon-time"></i>
-      <input ref="referenceArea" 
-        type="text" 
-        v-model="displayTime" 
+      <input
+        ref="referenceArea"
+        type="text"
+        v-model="displayTime"
         :disabled="disabled"
         :readonly="disabled"
         :placeholder="placeholder"
         @click.stop="createPopperLayer"
         @blur="modelBlurEvt"
-      >
+      />
     </div>
     <teleport to="body">
-      <transition name="vc-fade">
+      <transition name="vc-zoom-in-top">
         <div ref="popper" v-show="visible" class="vc-time-picker__clock-mod">
-          
-          <vc-clock 
+          <vc-clock
             :format="format"
             :time-block="timeBlock"
             v-model:hour="newDate.hour"
@@ -32,7 +32,6 @@
             <button @click.stop="close">取消</button>
             <button @click.stop="setUpdate">确认</button>
           </div>
-          <div class="arrow" data-popper-arrow></div>
         </div>
       </transition>
     </teleport>
@@ -40,7 +39,7 @@
 </template>
 
 <script>
-import { createPopper } from '@popperjs/core'
+import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom'
 import vcClock from './clock.vue'
 
 export default {
@@ -108,8 +107,12 @@ export default {
           formatArr.forEach((item, i) => {
             let type = 'hour'
             switch (item) {
-              case 'm': type = 'minutes'; break;
-              case 's': type = 'seconds'; break;
+              case 'm':
+                type = 'minutes'
+                break
+              case 's':
+                type = 'seconds'
+                break
             }
             result[type] = parseInt(valueArr[i]) || 0
           })
@@ -158,37 +161,27 @@ export default {
 
       this.visible = true
       if (!this.layer) {
-        this.layer = createPopper(
-          this.$refs.referenceArea,
-          this.$refs.popper,
-          {
+        const { referenceArea, popper } = this.$refs
+
+        this.layer = autoUpdate(referenceArea, popper, () => {
+          computePosition(referenceArea, popper, {
             placement: 'bottom',
-            modifiers: [
-              {
-                name: 'offset',
-                options: {
-                  offset: [0, 15]
-                }
-              },
-              {
-                name: 'computeStyles',
-                options: {
-                  adaptive: false,
-                  gpuAcceleration: false
-                }
-              }
-            ]
-          }
-        )
+            middleware: [flip(), offset(5)]
+          }).then(({ x, y }) => {
+            Object.assign(popper.style, {
+              left: x + 'px',
+              top: y + 'px'
+            })
+          })
+        })
       }
     },
 
     close() {
       if (this.visible) {
         this.vcFormItem && this.vcFormItem.checkValidate('blur')
-  
+
         this.visible = false
-        this.layer && this.layer.destroy()
         this.layer = null
         this.$emit('close')
       }
@@ -241,7 +234,7 @@ export default {
         value = new Date(
           d.getFullYear(),
           d.getMonth(),
-          d.getDate() +1,
+          d.getDate() + 1,
           this.newDate.hour,
           this.newDate.minutes,
           this.newDate.seconds
@@ -256,7 +249,7 @@ export default {
     // 失焦更新时间
     modelBlurEvt(evt) {
       let val = evt.target.value
-      
+
       if (val === this.displayTime) return
 
       let [hour = 0, min = 0, sec = 0] = val.match(/\d+/g)

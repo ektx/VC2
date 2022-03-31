@@ -23,7 +23,7 @@ import Switch from './switch'
 import Table from './table'
 import Tabs from './tabs'
 import TabPane from './TabPane'
-import TimePicker from './TimePicker'
+import TimePicker from './timePicker'
 import Upload from './upload'
 
 export const VcButton = Button
