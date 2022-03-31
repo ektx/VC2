@@ -175,48 +175,21 @@
 }
 
 .vc-select__dropdown {
-  width: 200px;
+  position: absolute;
   z-index: 2000;
+  width: 200px;
   border: 1px solid #ddd;
   background-color: #fff;
-  border-radius: 3px;
+  background-color: hsla(0, 0%, 100%, .85);
+  backdrop-filter: saturate(100%) blur(10px);
+  border-radius: 5px;
   box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
 
-  & > ul {
-    margin: 3px 0;
+  & ul {
+    margin: 5px 0;
+    padding: 0;
     max-height: 200px;
     overflow: auto;
   }
 
-  #arrow,
-  #arrow::before {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    z-index: -1;
-  }
-  
-  #arrow::before {
-    content: '';
-    transform: rotate(-45deg);
-    background: #fff;
-    border-color: #ddd;
-    border-style: solid;
-  }
-
-  &[data-popper-placement^='top'] > #arrow {
-    bottom: -5px;
-
-    &::before {
-      border-width: 0 0 1px 1px;
-    }
-  }
-
-  &[data-popper-placement^='bottom'] > #arrow {
-    top: -5px;
-
-    &::before {
-      border-width: 1px 1px 0 0;
-    }
-  }
 }

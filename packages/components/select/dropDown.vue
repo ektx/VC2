@@ -1,12 +1,11 @@
 <template>
   <div class="vc-select__dropdown">
-    <slot/>
-    <div id="arrow" data-popper-arrow></div>
+    <slot />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'VcSelectDropDown',
+  name: 'VcSelectDropDown'
 }
 </script>
