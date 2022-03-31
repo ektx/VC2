@@ -16,7 +16,7 @@
     </vc-form-item>
 
     <vc-form-item label="队旗颜色" prop="color">
-      <vc-color-picker v-model:value="formData.color" round/>
+      <vc-color-picker v-model="formData.color" round/>
     </vc-form-item>
 
     <vc-form-item label="住宿时间" prop="days">
@@ -446,13 +446,17 @@ export default {
       }
     }
     let validatePass2 = (rule, value, callback) => {
+      const errors =[]
       if (value === '') {
-        callback(new Error('请再次输入密码'));
+        // callback(new Error('请再次输入密码'));
+        errors.push('xxxxxxxx')
       } else if (value !== formData.passwd) {
-        callback(new Error('两次输入密码不一致!'));
+        // callback(new Error('两次输入密码不一致!'));
       } else {
-        callback();
+        // callback();
       }
+
+      return errors
     }
 
     const form = ref(null)
@@ -462,7 +466,7 @@ export default {
     })
     const rules = reactive({
       passwd: [
-        { validator: validatePass, trigger: 'blur' }
+        { required: true, validator: validatePass, message: '不能为空', trigger: 'blur' }
       ],
       checkPass: [
         { validator: validatePass2, trigger: 'blur' }
