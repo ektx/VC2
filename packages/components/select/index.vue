@@ -1,31 +1,31 @@
 <template>
-  <div 
+  <div
     :class="[
-      'vc-select', 
+      'vc-select',
       {
         'is-focus': isFocus,
-        'is-open': isOpen, 
-        'is-disabled': disabled, 
-        clearable,
+        'is-open': isOpen,
+        'is-disabled': disabled,
+        clearable
       }
-    ]" 
+    ]"
     @click.stop="focusEvt"
   >
-    <VS_Tags ref="tags" :selectedItem="selectedItem"/>
+    <VS_Tags ref="tags" :selectedItem="selectedItem" />
     <div ref="inputArea" class="vc-select__input">
-      <input 
-        type="text" 
-        autocomplete="off" 
-        :readonly="!filterable" 
+      <input
+        type="text"
+        autocomplete="off"
+        :readonly="!filterable"
         :placeholder="myPlaceholder"
         :value="intValue"
         @input="intValue = $event.target.value"
-      >
+      />
       <span v-if="isLoading">
-        <i class="vc-icon-loading"/>
+        <i class="vc-icon-loading" />
       </span>
-      <i v-else class="vc-icon-arrow-down"/>
-      <i class="vc-icon-error" @click="clearValue"/>
+      <i v-else class="vc-icon-arrow-down" />
+      <i class="vc-icon-error" @click="clearValue" />
     </div>
     <transition name="vc-zoom-in-top" @after-leave="afterLeave">
       <DropDown v-show="isOpen">
@@ -35,12 +35,12 @@
               <VCSGroup :item="item">
                 <template #label="item">
                   <slot name="header" v-bind="item">
-                    <div class="vc-select-group__label">{{item.label}}</div>
+                    <div class="vc-select-group__label">{{ item.label }}</div>
                   </slot>
                 </template>
                 <template #default="item">
                   <slot name="option" v-bind="item">
-                    <label>{{item[labelAlias]}}</label>
+                    <label>{{ item[labelAlias] }}</label>
                     <i v-if="item.selected" class="vc-icon-check"></i>
                   </slot>
                 </template>
@@ -49,7 +49,7 @@
             <VCSOption v-else :item="item">
               <template #default="item">
                 <slot name="option" v-bind="item">
-                  <label>{{item[labelAlias]}}</label>
+                  <label>{{ item[labelAlias] }}</label>
                   <i v-if="item.selected" class="vc-icon-check"></i>
                 </slot>
               </template>
@@ -65,21 +65,22 @@
 </template>
 
 <script>
-import { 
-  ref, 
-  onUnmounted, 
-  onMounted, 
+import {
+  ref,
+  onUnmounted,
+  onMounted,
   watch,
   computed,
   reactive,
-  inject,
+  inject
 } from 'vue'
-import { createPopper } from '@popperjs/core'
+// import { createPopper } from '@popperjs/core'
 import { copyArray } from '../../utils/copy'
 import DropDown from './dropDown.vue'
 import VS_Tags from './tags.vue'
 import VCSOption from './option.vue'
 import VCSGroup from './group.vue'
+import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom'
 
 export default {
   name: 'VcSelect',
@@ -98,7 +99,7 @@ export default {
     // 选项列表
     options: {
       type: Array,
-      default: () => ([])
+      default: () => []
     },
     // [TODO]弹层是否追加到body
     popperAppendToBody: {
@@ -107,7 +108,7 @@ export default {
     },
     // 是否多选
     multiple: Boolean,
-    // [TODO]多选时是否将选中值按文字的形式展示	
+    // [TODO]多选时是否将选中值按文字的形式展示
     collapseTags: Boolean,
     // 多选时最多显示多少个 tag
     maxTagCount: {
@@ -128,7 +129,7 @@ export default {
     // 自定义搜索方法
     filterMethod: Function,
     // 是否允许用户创建新条目
-    createTags: Boolean, 
+    createTags: Boolean,
     // 自定义远程搜索功能
     remoteMethod: Function,
     // 值别名
@@ -160,14 +161,14 @@ export default {
         if (props.filterable) {
           result = ''
         } else {
-          result = props.modelValue.length ? '' : props.placeholder 
+          result = props.modelValue.length ? '' : props.placeholder
         }
       } else {
         if (isFocus.value && Object.keys(selectedItem.value).length) {
           result = Object.values(selectedItem.value)[0][props.labelAlias]
         }
       }
-      return  result
+      return result
     })
 
     let tooltip = null
@@ -197,18 +198,16 @@ export default {
           list.forEach(option => {
             if (option.children) {
               let _arr = []
-  
+
               option.children.forEach(item => {
-                if (item[props.labelAlias].includes( val )) {
-                  _arr.push( item )
+                if (item[props.labelAlias].includes(val)) {
+                  _arr.push(item)
                 }
               })
-  
-              if (_arr.length)
-                result.push({...option, children: _arr})
+
+              if (_arr.length) result.push({ ...option, children: _arr })
             } else {
-              if (option[props.labelAlias].includes( val ))
-                result.push(option)
+              if (option[props.labelAlias].includes(val)) result.push(option)
             }
           })
         }
@@ -218,7 +217,7 @@ export default {
           if (key && !Reflect.has(selectedItem, key)) {
             result.unshift({
               [props.valueAlias]: key,
-              [props.labelAlias]: key,
+              [props.labelAlias]: key
             })
           }
         }
@@ -231,14 +230,16 @@ export default {
 
     watch(
       () => isFocus.value,
-      (val) => {
+      val => {
         if (val) {
           emit('focus', val)
         } else {
           emit('blur')
 
           if (!props.multiple && Object.values(selectedItem.value).length) {
-            intValue.value = Object.values(selectedItem.value)[0][props.labelAlias]
+            intValue.value = Object.values(selectedItem.value)[0][
+              props.labelAlias
+            ]
           }
 
           if (vcFormItem) vcFormItem.checkValidate('blur')
@@ -259,13 +260,13 @@ export default {
       query,
       isLoading,
 
-      vcFormItem,
+      vcFormItem
     }
   },
   watch: {
     intValue(val) {
       if (val) {
-        let done = () => this.isLoading = false
+        let done = () => (this.isLoading = false)
 
         if (this.remoteMethod) {
           this.isLoading = true
@@ -275,7 +276,7 @@ export default {
     }
   },
   methods: {
-    focusEvt () {
+    focusEvt() {
       if (this.disabled) return
       // 关闭其它层或事件
       document.body.click()
@@ -301,23 +302,17 @@ export default {
 
       tooltipEl.style.width = width + 'px'
 
-      this.tooltip = createPopper(this.$refs.inputArea, tooltipEl, {
-        placement: 'bottom',
-        modifiers: [
-          {
-            name: 'offset',
-            options: {
-              offset: [0, 10]
-            }
-          }, 
-          {
-            name: 'computeStyles',
-            options: {
-              adaptive: false,
-              gpuAcceleration: false
-            }
-          }
-        ]
+      const { inputArea } = this.$refs
+      this.tooltip = autoUpdate(inputArea, tooltipEl, () => {
+        computePosition(inputArea, tooltipEl, {
+          placement: 'bottom',
+          middleware: [flip(), offset(5)]
+        }).then(({ x, y }) => {
+          Object.assign(tooltipEl.style, {
+            left: x + 'px',
+            top: y + 'px'
+          })
+        })
       })
     },
 
@@ -358,14 +353,15 @@ export default {
       this.$emit('change', result, item)
     },
 
-    updateSelectedItem (item, isAdd) {
+    updateSelectedItem(item, isAdd) {
       let key = item[this.valueAlias]
 
       if (isAdd) {
         if (this.selectedItem[key]) {
-          if (item[this.labelAlias] === this.selectedItem[key][this.labelAlias]) return
+          if (item[this.labelAlias] === this.selectedItem[key][this.labelAlias])
+            return
         }
-  
+
         if (this.multiple) {
           this.selectedItem[key] = item
         } else {
@@ -391,7 +387,7 @@ export default {
     },
 
     afterLeave() {
-      this.tooltip.destroy()
+      // this.tooltip.destroy()
       this.$emit('closed')
     }
   }
