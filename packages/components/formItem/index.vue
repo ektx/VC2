@@ -100,7 +100,8 @@ export default {
       if (rules.length > 0) {
         rules.forEach(rule => {
           if (trigger) {
-            if (rule.trigger.includes(trigger)) descriptor[this.prop].push(rule)
+            if (rule.trigger && rule.trigger.includes(trigger))
+              descriptor[this.prop].push(rule)
           } else {
             descriptor[this.prop].push(rule)
           }
@@ -118,7 +119,7 @@ export default {
         this.validateState = err ? 'error' : 'success'
         this.validateMessage = err ? err[0].message : ''
 
-        cb(this.validateMessage)
+        cb(err)
       })
     },
 
