@@ -3,9 +3,9 @@
     <div
       v-show="visible"
       :class="['vc-layer', { fullscreen }]"
-      @click.stop.self="layerBoxClick"
+      @click.self="layerBoxClick"
     >
-      <div ref="content" class="vc-layer--inner" :style="style" @click.stop>
+      <div ref="content" class="vc-layer--inner" :style="style">
         <div class="vc-layer--header">
           <slot name="header">
             <span>{{ title }}</span>
