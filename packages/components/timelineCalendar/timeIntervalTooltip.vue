@@ -6,7 +6,7 @@
 
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs/esm'
 
 const props = defineProps({
   timeLine: Object,
