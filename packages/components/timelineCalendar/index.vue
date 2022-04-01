@@ -433,5 +433,3 @@ function mouseUp() {
   rootEl.value && (rootEl.value.style.userSelect = 'auto')
 }
 </script>
-
-<style lang="less" src="./index.less"></style>
