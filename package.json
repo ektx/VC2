@@ -21,6 +21,7 @@
   "dependencies": {
     "@floating-ui/dom": "^0.4.2",
     "async-validator": "^4.0.7",
+    "dayjs": "^1.11.0",
     "resize-observer-polyfill": "^1.5.1",
     "vue": "^3.2.22",
     "vue-router": "^4.0.10"

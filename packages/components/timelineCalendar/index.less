@@ -1,0 +1,253 @@
+@borderColor: #eee;
+@isOldBG: #f5f5f5;
+
+.timeline-calendar {
+  position: relative;
+  height: 300px;
+
+  &__content {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border: 1px solid @borderColor;
+  }
+
+  &__aside {
+    position: relative;
+    width: 200px;
+    height: 100%;
+    overflow-y: hidden;
+    overflow-x: auto;
+    box-sizing: border-box;
+    border-right: 1px solid @borderColor;
+
+    .table-head {
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 10;
+    }
+
+    .table-body {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      z-index: 0;
+      margin-top: -1px;
+      box-sizing: border-box;
+      overflow-x: hidden;
+      overflow-y: auto;
+      border-top: 1px solid @borderColor;
+      scrollbar-width: thin;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    .table-cell {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      padding: 0 5px;
+    }
+
+    .table-head {
+      .table-cell {
+        color: #333;
+        font-size: 14px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__calendar {
+    flex: 1;
+    position: relative;
+    overflow: auto;
+  }
+
+  .calendar-header {
+    overflow: auto;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &--row {
+      position: relative;
+    }
+    &--col {
+      position: absolute;
+      z-index: 1;
+      display: flex;
+      height: 100%;
+      color: #333;
+      font-size: 14px;
+      font-weight: bold;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      border-bottom: 1px solid @borderColor;
+      user-select: none;
+      cursor: pointer;
+
+      &.month {
+        justify-content: inherit;
+        padding: 0 5px;
+        color: #999;
+        font-weight: normal;
+      }
+
+      &.is-current {
+        color: #ff5722;
+      }
+    }
+  }
+
+  .calendar-body {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    overflow: auto;
+
+    &--grid {
+      overflow: hidden;
+    }
+
+    &--cell {
+      position: absolute;
+      z-index: 1;
+      display: inline-flex;
+      height: 100%;
+      box-sizing: border-box;
+      background-color: #fff;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+
+      &.is-old {
+        background-color: @isOldBG;
+      }
+    }
+
+    &--row {
+      position: relative;
+    }
+
+    // calendar-body--project
+    &--project {
+      &-item {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        z-index: 1;
+      }
+    }
+  }
+
+  .project-box {
+    width: 100%;
+    height: 100%;
+    padding: 1px;
+    box-sizing: border-box;
+
+    &--inner {
+      display: flex;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+      color: #333;
+      font-size: 14px;
+      border-radius: 5px;
+      background-color: #dff1ff;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-sizing: border-box;
+    }
+  }
+
+  .resize-handle-box {
+    width: 0;
+    position: relative;
+  }
+  .resize-handle-bar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 20;
+    width: 5px;
+    cursor: ew-resize;
+    opacity: 0;
+    background: @borderColor;
+    transition: opacity 0.3s ease-in-out;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+
+.timeline-calendar-tree {
+  border-bottom: 1px solid #f90;
+}
+
+.timeline-tree {
+  &-item {
+    &.open {
+      & > .timeline-tree-children {
+        height: auto;
+      }
+    }
+  }
+
+  &-head {
+    position: relative;
+    display: flex;
+    padding-left: 10px;
+    align-items: center;
+    box-sizing: border-box;
+    border-bottom: 1px solid @borderColor;
+
+    .has-child-ico {
+      width: 16px;
+      cursor: pointer;
+
+      i {
+        transition: transform 0.3s ease-in;
+      }
+
+      &.open i {
+        transform: rotate(90deg);
+      }
+    }
+
+    &--body {
+      display: inline-flex;
+    }
+  }
+
+  &-children {
+    height: 0;
+    overflow: hidden;
+  }
+}
+
+// 单位时间区间信息
+.tool-tip--unit-time {
+  position: fixed;
+  padding: 3px 5px;
+  font-size: 12px;
+  color: #fff;
+  border-radius: 3px;
+  background: #333;
+  pointer-events: none;
+  z-index: 100;
+}
