@@ -286,16 +286,22 @@ const timeLine = computed(() => {
   }
   let i = new Date(props.startTime)
   let n = new Date(props.endTime)
-  let now = Date.now()
+  let now = new Date()
+  let todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  let todayEnd = new Date(todayStart).setHours(23, 59, 59, 999)
 
   while (i < n) {
     let year = i.getFullYear()
     let month = i.getMonth()
     let week = getWeek(i)
+    let end = new Date(new Date(i).setHours(23, 59, 59, 999))
+    let isOld = end.getTime() < todayStart
+    let isCurrent = !isOld && i.getTime() < todayEnd
 
     if (week in result.weeks) {
-      result.weeks[week].end = i.toISOString()
-      result.weeks[week].isOld = i.getTime() < now
+      result.weeks[week].end = end.toISOString()
+      result.weeks[week].isOld = isOld
+      result.weeks[week].isCurrent = isCurrent
     } else {
       result.weeks[week] = {
         id: week,
@@ -303,9 +309,9 @@ const timeLine = computed(() => {
         month,
         week: getWeek(i, new Date(year, month + 1, 0)),
         start: i.toISOString(),
-        end: i.toISOString(),
-        isCurrent: i.getTime() < now,
-        isOld: i.getTime() < now
+        end,
+        isOld,
+        isCurrent
       }
     }
 
@@ -329,21 +335,14 @@ const timeLine = computed(() => {
   }
 
   Object.keys(result.weeks).forEach(key => {
-    let obj = result.weeks[key]
-    obj.end = new Date(obj.end)
-    // 优化结束时间为 23:59:59
-    obj.end.setHours(23, 59, 59)
-
-    if (result.weeks[key].isCurrent)
-      result.weeks[key].isCurrent = obj.end.getTime() > now
-
-    let { left, right } = getProjectItemStyle(obj)
+    let { left, right } = getProjectItemStyle(result.weeks[key])
     result.weeks[key].style = { left, right }
   })
 
   Object.keys(result.months).forEach(k => {
     result.months[k].style = getProjectItemStyle(result.months[k])
   })
+  console.log(result)
   console.timeEnd('timeLine')
   return result
 })
