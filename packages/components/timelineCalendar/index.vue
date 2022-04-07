@@ -143,8 +143,6 @@
               </div>
             </TimeTree>
           </div>
-
-          <div class="calendar-body--list"></div>
         </div>
       </div>
     </div>

@@ -39,8 +39,11 @@ function bindEvent() {
 
 function unBindEvent() {
   let el = document.querySelector('.calendar-header')
-  el.removeEventListener('mousemove', onMousemove)
-  el.removeEventListener('mouseleave', hideInfo)
+
+  if (el) {
+    el.removeEventListener('mousemove', onMousemove)
+    el.removeEventListener('mouseleave', hideInfo)
+  }
 }
 
 function hideInfo() {
