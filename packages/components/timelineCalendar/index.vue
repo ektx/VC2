@@ -113,15 +113,22 @@
                 }"
               >
                 <div
-                  v-for="week in timeLine.weeks"
+                  v-for="(week, i) in timeLine.weeks"
                   :key="week.id"
                   :style="week.style"
                   :class="[
                     'calendar-body--cell',
                     { 'is-current': week.isCurrent, 'is-old': week.isOld }
                   ]"
-                  @click="$emit('onCellClick', item, week, index)"
-                ></div>
+                  @click="$emit('onCellClick', { row: item, col: week, index })"
+                >
+                  <slot
+                    name="emptyItem"
+                    :row="item"
+                    :index="i - 1"
+                    :item="week"
+                  ></slot>
+                </div>
               </div>
 
               <div v-if="item.calendar" class="calendar-body--project">
@@ -130,10 +137,22 @@
                   v-for="(project, i) in item.calendar"
                   :key="i"
                   :style="getProjectItemStyle(project)"
-                  @click="$emit('onLabelClick', item, project, i)"
+                  @click="
+                    $emit('onLabelClick', {
+                      row: item,
+                      col: project,
+                      index: i
+                    })
+                  "
                 >
-                  <slot name="project-item">
-                    <div class="project-box" :item="project">
+                  <slot
+                    name="contentItem"
+                    :row="item"
+                    :item="project"
+                    :index="i"
+                    :style="project.style"
+                  >
+                    <div class="project-box">
                       <div class="project-box--inner" :style="project.style">
                         {{ project.inner }}
                       </div>
@@ -286,7 +305,6 @@ const timeLine = computed(() => {
   let n = new Date(props.endTime)
   let now = new Date()
   let todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-  let todayEnd = new Date(todayStart).setHours(23, 59, 59, 999)
 
   while (i < n) {
     let year = i.getFullYear()
@@ -294,22 +312,20 @@ const timeLine = computed(() => {
     let week = getWeek(i)
     let end = new Date(new Date(i).setHours(23, 59, 59, 999))
     let isOld = end.getTime() < todayStart
-    let isCurrent = !isOld && i.getTime() < todayEnd
 
     if (week in result.weeks) {
-      result.weeks[week].end = end.toISOString()
+      result.weeks[week].end = new Date(end)
       result.weeks[week].isOld = isOld
-      result.weeks[week].isCurrent = isCurrent
     } else {
       result.weeks[week] = {
         id: week,
         year,
         month,
         week: getWeek(i, new Date(year, month + 1, 0)),
-        start: i.toISOString(),
+        start: new Date(i),
         end,
         isOld,
-        isCurrent
+        isCurrent: isOld
       }
     }
 
@@ -333,8 +349,12 @@ const timeLine = computed(() => {
   }
 
   Object.keys(result.weeks).forEach(key => {
-    let { left, right } = getProjectItemStyle(result.weeks[key])
-    result.weeks[key].style = { left, right }
+    let item = result.weeks[key]
+    let { start, end } = item
+    let { left, right } = getProjectItemStyle(item)
+
+    item.style = { left, right }
+    item.isCurrent = now < end && now > start
   })
 
   Object.keys(result.months).forEach(k => {
