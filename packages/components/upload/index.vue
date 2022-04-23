@@ -1,24 +1,24 @@
 <template>
   <div class="vc-upload">
-    <input 
+    <input
       ref="input"
       type="file"
       :multiple="multiple"
       :name="name"
       @change="fileChangeEvt"
-    >
-    <FileList 
+    />
+    <FileList
       :list="fileList"
       @remove="remove"
       @selectFile="selectFile"
       @uploadFile="uploadFile"
     >
       <template v-if="$slots.target" #target>
-        <slot name="target"/>
+        <slot name="target" />
       </template>
 
       <template v-if="$slots.default" #default>
-        <slot/>
+        <slot />
       </template>
     </FileList>
   </div>
@@ -135,7 +135,7 @@ export default {
             status = 'error'
             exceedSize.push(file)
           }
-  
+
           fileList.push({
             file: file,
             name: file.name,
@@ -147,19 +147,21 @@ export default {
 
       if (exceedSize.length) {
         // 返回超出大小的文件列表
-        this.onExceedSize && this.onExceedSize({
-          list: exceedSize,       // 超出大小的文件数组
-          size: exceedSize.length // 总共超出的个数
-        })
+        this.onExceedSize &&
+          this.onExceedSize({
+            list: exceedSize, // 超出大小的文件数组
+            size: exceedSize.length // 总共超出的个数
+          })
         return
       }
 
       if (hasExceedLimit) {
         // 超出上传限制
-        this.onExceedLimit && this.onExceedLimit({
-          files,              // 当前选中文件
-          list: this.fileList // 目前已经上传文件å
-        })
+        this.onExceedLimit &&
+          this.onExceedLimit({
+            files, // 当前选中文件
+            list: this.fileList // 目前已经上传文件å
+          })
         return
       }
       // 在没有错误情况下，更新文件列表
@@ -178,8 +180,7 @@ export default {
       }
 
       this.fileList.forEach(file => {
-        if (file.__status === 'ready')
-          this.sendFile(file)
+        if (file.__status === 'ready') this.sendFile(file)
       })
     },
 
@@ -189,7 +190,7 @@ export default {
 
       let xhr = new XMLHttpRequest()
       xhr.open('POST', this.action, true)
-      xhr.onreadystatechange = ()=> {
+      xhr.onreadystatechange = () => {
         console.log('state change:', xhr.readyState)
         if (xhr.readyState == 4) {
           console.log('Done!')
@@ -202,17 +203,18 @@ export default {
       }
       xhr.onload = evt => {
         file.__status = 'uploaded'
-        this.onSuccess && this.onSuccess({
-          res: evt.target.response, // 服务器返回信息
-          file,                     // 上传文件
-          list: this.fileList       // 当前文件列表
-        })
+        this.onSuccess &&
+          this.onSuccess({
+            res: JSON.parse(evt.target.response), // 服务器返回信息
+            file, // 上传文件
+            list: this.fileList // 当前文件列表
+          })
       }
       xhr.onprogress = evt => {
         file.__status = 'uploading'
 
         if (evt.lengthComputable) {
-          file.__progress = evt.loaded / evt.total * 100
+          file.__progress = (evt.loaded / evt.total) * 100
         }
       }
       xhr.send(FD)
@@ -227,18 +229,17 @@ export default {
 
       if (result instanceof Promise) {
         result
-        .then(() => {
-          this.fileList.splice(index, 1)
-          this.onRemove && this.onRemove({file: item})
-        })
-        .catch(() => {
-          // .ignore
-        })
+          .then(() => {
+            this.fileList.splice(index, 1)
+            this.onRemove && this.onRemove({ file: item })
+          })
+          .catch(() => {
+            // .ignore
+          })
       } else {
         result && this.fileList.splice(index, 1)
-        result && this.onRemove && this.onRemove({file: item})
+        result && this.onRemove && this.onRemove({ file: item })
       }
-
     },
 
     selectFile() {
