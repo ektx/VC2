@@ -1,6 +1,6 @@
 {
   "id": "1810817",
-  "name": "工业云",
+  "name": "VC2",
   "font_family": "vc-icons",
   "css_prefix_text": "vc-icon-",
   "description": "",
@@ -2094,7 +2094,7 @@
     {
       "icon_id": "11488012",
       "name": "ali-clould",
-      "font_class": "ali-clould",
+      "font_class": "hard-disk",
       "unicode": "e74e",
       "unicode_decimal": 59214
     },
