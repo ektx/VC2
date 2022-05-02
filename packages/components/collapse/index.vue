@@ -1,6 +1,6 @@
 <template>
   <div class="vc-collapse">
-    <slot/>
+    <slot />
   </div>
 </template>
 
@@ -9,33 +9,37 @@ export default {
   name: 'VcCollapse',
   props: {
     // 当前激活的面板
-    value: {
+    modelValue: {
       type: Array,
-      default: () => ([])
+      default: []
     },
     // 是否手风琴模式
-    accordion: Boolean,
+    accordion: Boolean
   },
   provide() {
     return {
-      vcCollapse: this
+      Collapse: this
     }
   },
   methods: {
     itemClick(item) {
-      let result = this.value.slice()
+      // 复制旧值
+      let result = this.modelValue.slice()
 
       if (this.accordion) {
         result = item.isOpen ? [] : [item.value]
       } else {
         if (item.isOpen) {
-          result.splice(this.value.findIndex(val => (val === item.value)), 1)
+          result.splice(
+            this.modelValue.findIndex(val => val === item.value),
+            1
+          )
         } else {
           result.push(item.value)
         }
       }
 
-      this.$emit('update:value', result)
+      this.$emit('update:modelValue', result)
       this.$emit('change', result)
     }
   }
