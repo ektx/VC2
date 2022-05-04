@@ -7,7 +7,9 @@
       :name="name"
       @change="fileChangeEvt"
     />
+    <Avatar v-if="type === 'avatar'" v-bind="$attrs" @selectFile="selectFile" />
     <FileList
+      v-else
       :list="fileList"
       @remove="remove"
       @selectFile="selectFile"
@@ -25,14 +27,14 @@
 </template>
 
 <script>
-import VcButton from '../button/index.vue'
 import FileList from './fileList.vue'
+import Avatar from './avatar.vue'
 
 export default {
   name: 'VcUpload',
   components: {
     FileList,
-    VcButton
+    Avatar
   },
   props: {
     action: {

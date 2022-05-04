@@ -97,3 +97,42 @@
     }
   }
 }
+
+// 头像
+.vc-upload-avatar {
+  display: inline-flex;
+  width: 200px;
+  height: 200px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #eee;
+  box-sizing: border-box;
+  border-radius: 3px;
+  cursor: pointer;
+  will-change: box-shadow;
+  overflow: hidden;
+  transition: box-shadow .3s ease-in-out;
+
+  &:hover {
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, .05);
+  }
+
+  &__helper {
+    text-align: center;
+    color: #777;
+
+    i {
+      font-size: 18px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 12px;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
