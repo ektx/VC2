@@ -174,7 +174,7 @@ export default {
 
     uploadFile() {
       if (!this.action) {
-        console.error('[VC Error] 没有上传地址。')
+        console.error('[Upload Cpmponent Error] 没有上传地址')
         this.$emit('error', '没有上传地址')
         return
       }
