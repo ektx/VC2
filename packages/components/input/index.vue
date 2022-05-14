@@ -1,10 +1,7 @@
 <template>
-  <div 
-    :class="[
-      'vc-input', `is-${type}`,
-      {'is-focus': focusing, 'is-disabled': disabled }
-    ]"
-    v-bind="setAttrs($attrs, ['id','class','style'])"
+  <div
+    :class="['vc-input', `is-${type}`, { 'is-disabled': disabled }]"
+    v-bind="setAttrs($attrs, ['id', 'class', 'style'])"
   >
     <div class="vc-input__prefix-icon">
       <slot name="prefixIcon">
@@ -33,11 +30,6 @@
       :style="textareaCalcStyle"
     ></textarea>
 
-    <div class="vc-input__suffix-icon">
-      <slot name="suffixIcon">
-        <i v-if="suffixIcon" :class="suffixIcon"></i>
-      </slot>
-    </div>
     <div
       class="vc-input__clearable"
       v-if="clearable && modelValue"
@@ -46,29 +38,29 @@
       <i class="vc-icon-error"></i>
     </div>
 
-    <div 
-      v-if="type === 'password' && modelValue" 
-      class="vc-input__show-passwd" 
+    <div class="vc-input__suffix-icon">
+      <slot name="suffixIcon">
+        <i v-if="suffixIcon" :class="suffixIcon"></i>
+      </slot>
+    </div>
+
+    <div
+      v-if="type === 'password' && modelValue"
+      class="vc-input__show-passwd"
       @click="togglePasswd"
     >
       <i :class="TYPE === 'text' ? 'vc-icon-not-view' : 'vc-icon-view'"></i>
     </div>
 
-      <div v-if="showWordLimit" class="vc-input__num-length">
-        <span>{{state.nowLength}}</span>
-        <span>/{{state.maxLength}}</span>
-      </div>
+    <div v-if="showWordLimit" class="vc-input__num-length">
+      <span>{{ state.nowLength }}</span>
+      <span>/{{ state.maxLength }}</span>
+    </div>
   </div>
 </template>
 
 <script>
-import {
-  ref,
-  reactive,
-  onMounted,
-  watch,
-  inject,
-} from 'vue'
+import { ref, reactive, onMounted, watch, inject } from 'vue'
 import { setAttrs } from '../../utils/index'
 import calcTextareaHeight from './calcTextareaHeight'
 
@@ -126,12 +118,11 @@ export default {
   setup(props, { attrs, emit }) {
     const textarea = ref(null)
     const input = ref(null)
-    let focusing = ref(false);
-    let textareaCalcStyle = ref(null);
+    let textareaCalcStyle = ref(null)
     let TYPE = ref(props.type)
     let inputEl = null
 
-    const vcFormItem = inject("vcFormItem", null);
+    const vcFormItem = inject('vcFormItem', null)
 
     const state = reactive({
       maxLength: 0,
@@ -139,16 +130,22 @@ export default {
     })
 
     // 获取焦点
-    const focus = () => { inputEl.focus() }
+    const focus = () => {
+      inputEl.focus()
+    }
     // 失去焦点
-    const blur = () => { inputEl.blur() }
+    const blur = () => {
+      inputEl.blur()
+    }
     // 选中文字
-    const select = () => { inputEl.select() }
-    
+    const select = () => {
+      inputEl.select()
+    }
+
     // 动态获取文本域
     watch(
-      ()=> props.modelValue,
-      (val) => { 
+      () => props.modelValue,
+      val => {
         resizeTextarea()
 
         // 时时更新统计字数
@@ -159,17 +156,18 @@ export default {
 
         if (props.validateEvent && vcFormItem) {
           vcFormItem.checkValidate('change')
-        } 
+        }
       }
     )
+
     const resizeTextarea = () => {
-      if (props.type !== "textarea" || !props.autosize) return
-      
+      if (props.type !== 'textarea' || !props.autosize) return
+
       let minRows = 1
       let maxRows = null
-      
+
       if (typeof props.autosize === 'object') {
-        ({minRows, maxRows} = props.autosize)
+        ;({ minRows, maxRows } = props.autosize)
       }
 
       textareaCalcStyle.value = calcTextareaHeight(
@@ -183,7 +181,7 @@ export default {
       inputEl = input.value || textarea.value
 
       resizeTextarea()
-      
+
       if (props.showWordLimit) {
         state.maxLength = inputEl.maxLength
       }
@@ -202,7 +200,6 @@ export default {
     }
 
     return {
-      focusing,
       textareaCalcStyle,
       input,
       textarea,
@@ -214,7 +211,7 @@ export default {
       select,
       TYPE,
       setAttrs
-    };
+    }
   }
 }
 </script>

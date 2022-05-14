@@ -63,7 +63,7 @@ const input = ref('1234')
 
 ```vue
 <template>
-  <vc-input v-model="input" type="password" />
+  <vc-input v-model="input" clearable type="password"/>
 </template>
 
 <script setup>
@@ -86,9 +86,9 @@ const input = ref('12345678')
 <template>
   <div style="margin: 0 0 1rem 0">
     <strong>属性方式</strong>
-    <vc-input v-model="value1" suffix-icon="vc-icon-date" />
+    <vc-input v-model="value1" clearable suffix-icon="vc-icon-date" />
     <br />
-    <vc-input v-model="value2" prefix-icon="vc-icon-search" />
+    <vc-input v-model="value2" clearable prefix-icon="vc-icon-search" />
   </div>
   <div>
     <strong>插槽方式</strong>
@@ -177,10 +177,10 @@ let textarea2 = ref(null)
 ```vue
 <template>
   <div>
-    <vc-input v-model="input1" maxlength="10" show-word-limit />
-    <vc-input type="password" v-model="input1" maxlength="10" show-word-limit />
+    <vc-input v-model="input" maxlength="10" show-word-limit />
+    <vc-input type="password" v-model="input" maxlength="10" show-word-limit />
     
-    <vc-input type="textarea" maxlength="120" rows="2" v-model="textarea" show-word-limit />
+    <vc-input type="textarea" maxlength="120" rows="2" v-model="input" show-word-limit />
   </div>
   
 </template>
@@ -188,8 +188,7 @@ let textarea2 = ref(null)
 <script setup>
 import { ref } from 'vue'
 
-let input1 = ref('')
-let textarea = ref('')
+let input = ref('hello World')
 </script>
 ```
 :::

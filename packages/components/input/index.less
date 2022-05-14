@@ -3,15 +3,17 @@
 .vc-input {
   position: relative;
   display: flex;
-  padding:.4em;
+  padding: 0 .4em 0 .5em;
   vertical-align: middle;
   align-items: stretch;
   box-sizing: border-box;
   border: 1px solid #dcdfe6;
-  border-radius: 3px;
+  border-radius: .25em;
   background: #fff;
-  transition: border .35s;
-  overflow: hidden;
+  transition: 
+    border-color .2s ease-out,
+    box-shadow .2s ease-out;
+  will-change: border-color, box-shadow;
   cursor: text;
 
   &:hover {
@@ -20,6 +22,7 @@
   &:focus-within,
   &.is-focus {
     border-color: #409eff;
+    box-shadow: 0 0 0 2px rgb(195, 231, 255);
   }
   &.is-disabled {
     cursor: not-allowed;
@@ -36,21 +39,25 @@
       display: none;
     }
   }
+
   &__prefix-icon {
     padding-right: 5px;
   }
-  // &__suffix-icon {
-  //   padding-right: 5px;
-  // }
 
+  &__textarea,
   &__text {
     -webkit-appearance: none;
     width: 100%;
-    flex: 1;
     border: 0;
     outline: none;
-    cursor: inherit;
     background: transparent;
+    cursor: inherit;
+  }
+
+
+  &__text {
+    padding: .4em 0;
+    flex: 1;
   
     &::-webkit-input-placeholder{
       color: @placeholderColor;
@@ -62,35 +69,13 @@
     }
 
   }
-  &__show-passwd {
-    font-size: 16px;
-    padding-right: 4px;
-    color: #c0c4cc;
-    cursor: pointer;
-  }
 
-  &__clearable {
-    opacity: 0;
-    padding-right: 4px;
-    color: #c0c4cc;
-    transition: opacity .35s;
-    cursor: pointer;
-
-    .vc-input:hover &,
-    .is-focus & {
-      opacity: 1;
-    }
-  }
-  
   &__textarea {
+    margin: .4em 0;
     display: block;
     line-height: 1.5;
-    width: 100%;
-    border: none;
-    outline: none;
     resize: vertical;
     font-size: inherit;
-    background: transparent;
     font-family: inherit;
     
     &:hover {
@@ -102,7 +87,46 @@
     }
   }
 
+  &__clearable,
+  &__show-passwd {
+    display: flex;
+    padding: 0 3px;
+    align-items: center;
+    color: #000;
+    cursor: pointer;
+    transition: opacity .2s ease-out;
+  }
+
+  &__show-passwd {
+    font-size: 18px;
+    opacity: .2;
+
+    &:hover {
+      opacity: .5;
+    }
+  }
+
+  &__clearable {
+    opacity: 0;
+
+    .vc-input:hover & {
+      opacity: .2;
+      
+      &:hover {
+        opacity: .5;
+      }
+    }
+
+    & + div {
+      margin-left: 4px;
+    }
+  }
+  
+
+
   &__num-length {
+    display: flex;
+    align-items: center;
     padding-right: 6px;
   
     span {
@@ -113,8 +137,8 @@
 
     .is-textarea & {
       position: absolute;
-      bottom: 0;
-      right: 0;
+      bottom: 2px;
+      right: 10px;
     }
   }
 }
