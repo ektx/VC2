@@ -189,7 +189,7 @@ export default {
 :::
 
 
-## Poprs
+## 属性
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
 |---|---|---|---|---|
@@ -206,3 +206,16 @@ export default {
 | onExceedLimit | **Function** | 超出指定上传大小时触发 | - | - |
 | onSuccess | **Function** | 上传成功时触发 | - | - |
 | defaultFiles | **Function** | 默认展示文件列表 | - | - |
+
+
+## 头像专有属性
+
+| 参数 | 类型 | 说明 | 可选值 | 默认值 |
+|---|---|---|---|---|
+| src | **String** | 图片默认地址 | - | - |
+| placeholder | **String** | 上传提示信息 | - | `点击选择图片上传` |
+| avatarIcon | **String** | 上传提示图标 | - | - |
+| width | **String** | 宽度 | - | `200px` |
+| height | **String** | 高度 | - | `200px` |
+| radius | **String** | 圆角 | - | `3px` |
+| fit | **String** | 图片填充方式，具体访问 [Object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit) | - | `3px` |

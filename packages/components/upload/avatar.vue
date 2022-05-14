@@ -5,7 +5,7 @@
     :style="style"
   >
     <slot>
-      <img v-if="src" :src="src" alt="avatar" />
+      <img v-if="src" :src="src" alt="avatar" :style="{ 'object-fit': fit }" />
 
       <div v-else class="vc-upload-avatar__helper">
         <slot name="avatar-helper">
@@ -41,6 +41,11 @@ export default {
     radius: {
       type: String,
       default: '3px'
+    },
+    /** 'fill', 'contain', 'cover', 'none', 'scale-down' */
+    fit: {
+      type: String,
+      default: 'inherit'
     }
   },
   computed: {
