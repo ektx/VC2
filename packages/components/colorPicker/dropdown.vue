@@ -26,7 +26,7 @@ import HSLAPanel from './hslaPanel.vue'
 import RGBAPanel from './rgbaPanel.vue'
 import HexPanel from './hexPanel.vue'
 import AlphaBar from './alphaBar.vue'
-import { getCurrentInstance, computed } from 'vue'
+import { computed } from 'vue'
 
 export default {
   name: 'VcColorPickerDropdown',

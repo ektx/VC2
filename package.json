@@ -7,6 +7,7 @@
   ],
   "scripts": {
     "dev": "vipress",
+    "doc": "vipress build doc",
     "lib": "vipress build lib",
     "build": "node ./bin/build.js",
     "update": "node --experimental-json-modules ./bin/update.mjs",
