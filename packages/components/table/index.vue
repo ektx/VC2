@@ -16,21 +16,25 @@
           <thead>
             <tr>
               <th v-for="item in _header" :key="item.key">
-                <template v-if="item.key === '__SELECT_COLUMN__'">
-                  <input
-                    v-if="showSelectColumn === 'checkbox'"
-                    v-model="item.checked"
-                    :indeterminate="item.indeterminate"
-                    type="checkbox"
-                    @change="checkboxChange(item)"
-                  />
-                </template>
-                {{ item.label }}
+                <div class="cell">
+                  <template v-if="item.key === '__SELECT_COLUMN__'">
+                    <input
+                      v-if="showSelectColumn === 'checkbox'"
+                      v-model="item.checked"
+                      :indeterminate="item.indeterminate"
+                      type="checkbox"
+                      @change="checkboxChange(item)"
+                    />
+                  </template>
+                  {{ item.label }}
+                </div>
               </th>
             </tr>
           </thead>
         </table>
       </div>
+
+      <slot name="tbody"> </slot>
       <TableBody
         ref="tableBody"
         v-bind="$attrs"
@@ -46,9 +50,11 @@
           :key="head.label"
           #[head.slot]="{ item, index, tr, td }"
         >
-          <slot :name="head.slot" :item="item" :index="index">
-            {{ getTDHTML(tr, td) }}
-          </slot>
+          <div class="cell">
+            <slot :name="head.slot" :item="item" :index="index">
+              {{ getTDHTML(tr, td) }}
+            </slot>
+          </div>
         </template>
         <template #empty>
           <slot name="empty">没有数据</slot>
@@ -174,14 +180,13 @@ export default {
         return this.data.slice(start, end)
       }
     }
-    // _header() {
-    //   let result = this.updateTableSize(this.header)
-    //   console.log(11, result)
-    //   return result
-    // }
   },
   mounted() {
     this.watchRootDom()
+
+    this.$nextTick(() => {
+      console.log(this.$slots.tbody)
+    })
   },
   methods: {
     pageChangeEvt(index) {

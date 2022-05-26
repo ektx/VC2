@@ -844,7 +844,8 @@ export default {
 :::
 
 
-# Props
+# 表格属性
+
 | 参数 | 类型 | 说明 | 默认值 | 可选值 |
 | --- | --- | --- | --- | --- |
 | data | **Array** | 表格数据 | [] | - |
@@ -858,7 +859,8 @@ export default {
 | border | **Boolean** | 显示边框，默认无 | auto | - |
 | style | **Object** | 样式控制 | {} | - |
 
-## Header Props
+## 表格头属性
+
 | 参数 | 类型 | 说明 | 默认值 | 可选值 |
 | --- | --- | --- | --- | --- |
 | label | **String** | 标签 | - | - |
