@@ -843,71 +843,9 @@ export default {
 ```
 :::
 
-## 包含 Body
 
-基础的表格展示用法。
+# 表格属性
 
-::: codeBox 
-```vue
-<template>
-  <vc-table :data="data" :header="header">
-    <template #tbody="{ body }">
-      <div  style="border: 2px solid red">{{ body }}</div>
-    </template>
-  </vc-table>
-</template>
-
-<script>
-export default {
-  data () {
-    return {
-      header: [
-        {
-          label: '姓名',
-          key: 'name',
-          width: 100
-        },
-        {
-          label: '时间',
-          key: 'date',
-          width: 100
-        },
-        {
-          label: '地址',
-          key: 'address',
-        }
-      ],
-      data: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ]
-    }
-  }
-}
-</script>
-```
-:::
-
-
-# Props
 | 参数 | 类型 | 说明 | 默认值 | 可选值 |
 | --- | --- | --- | --- | --- |
 | data | **Array** | 表格数据 | [] | - |
@@ -921,7 +859,8 @@ export default {
 | border | **Boolean** | 显示边框，默认无 | auto | - |
 | style | **Object** | 样式控制 | {} | - |
 
-## Header Props
+## 表格头属性
+
 | 参数 | 类型 | 说明 | 默认值 | 可选值 |
 | --- | --- | --- | --- | --- |
 | label | **String** | 标签 | - | - |

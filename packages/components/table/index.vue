@@ -16,49 +16,50 @@
           <thead>
             <tr>
               <th v-for="item in _header" :key="item.key">
-                <template v-if="item.key === '__SELECT_COLUMN__'">
-                  <input
-                    v-if="showSelectColumn === 'checkbox'"
-                    v-model="item.checked"
-                    :indeterminate="item.indeterminate"
-                    type="checkbox"
-                    @change="checkboxChange(item)"
-                  />
-                </template>
-                {{ item.label }}
+                <div class="cell">
+                  <template v-if="item.key === '__SELECT_COLUMN__'">
+                    <input
+                      v-if="showSelectColumn === 'checkbox'"
+                      v-model="item.checked"
+                      :indeterminate="item.indeterminate"
+                      type="checkbox"
+                      @change="checkboxChange(item)"
+                    />
+                  </template>
+                  {{ item.label }}
+                </div>
               </th>
             </tr>
           </thead>
         </table>
       </div>
 
-      <slot name="tbody" :body="$refs.tableBody">
-        <TableBody
-          ref="tableBody"
-          v-bind="$attrs"
-          :header="_header"
-          :data="currentData"
-          :width="tableWidth"
-          :mergeSpan="style?.mergeSpan"
-          :highlightSelectedRow="highlightSelectedRow"
-          :showSelectColumn="showSelectColumn"
+      <slot name="tbody"> </slot>
+      <TableBody
+        ref="tableBody"
+        v-bind="$attrs"
+        :header="_header"
+        :data="currentData"
+        :width="tableWidth"
+        :mergeSpan="style?.mergeSpan"
+        :highlightSelectedRow="highlightSelectedRow"
+        :showSelectColumn="showSelectColumn"
+      >
+        <template
+          v-for="head in _header"
+          :key="head.label"
+          #[head.slot]="{ item, index, tr, td }"
         >
-          <template
-            v-for="head in _header"
-            :key="head.label"
-            #[head.slot]="{ item, index, tr, td }"
-          >
-            <div class="cell">
-              <slot :name="head.slot" :item="item" :index="index">
-                {{ getTDHTML(tr, td) }}
-              </slot>
-            </div>
-          </template>
-          <template #empty>
-            <slot name="empty">没有数据</slot>
-          </template>
-        </TableBody>
-      </slot>
+          <div class="cell">
+            <slot :name="head.slot" :item="item" :index="index">
+              {{ getTDHTML(tr, td) }}
+            </slot>
+          </div>
+        </template>
+        <template #empty>
+          <slot name="empty">没有数据</slot>
+        </template>
+      </TableBody>
     </div>
 
     <div class="vc-table__pagination" v-show="pageTotal">
