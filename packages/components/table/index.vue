@@ -31,29 +31,34 @@
           </thead>
         </table>
       </div>
-      <TableBody
-        ref="tableBody"
-        v-bind="$attrs"
-        :header="_header"
-        :data="currentData"
-        :width="tableWidth"
-        :mergeSpan="style?.mergeSpan"
-        :highlightSelectedRow="highlightSelectedRow"
-        :showSelectColumn="showSelectColumn"
-      >
-        <template
-          v-for="head in _header"
-          :key="head.label"
-          #[head.slot]="{ item, index, tr, td }"
+
+      <slot name="tbody" :body="$refs.tableBody">
+        <TableBody
+          ref="tableBody"
+          v-bind="$attrs"
+          :header="_header"
+          :data="currentData"
+          :width="tableWidth"
+          :mergeSpan="style?.mergeSpan"
+          :highlightSelectedRow="highlightSelectedRow"
+          :showSelectColumn="showSelectColumn"
         >
-          <slot :name="head.slot" :item="item" :index="index">
-            {{ getTDHTML(tr, td) }}
-          </slot>
-        </template>
-        <template #empty>
-          <slot name="empty">没有数据</slot>
-        </template>
-      </TableBody>
+          <template
+            v-for="head in _header"
+            :key="head.label"
+            #[head.slot]="{ item, index, tr, td }"
+          >
+            <div class="cell">
+              <slot :name="head.slot" :item="item" :index="index">
+                {{ getTDHTML(tr, td) }}
+              </slot>
+            </div>
+          </template>
+          <template #empty>
+            <slot name="empty">没有数据</slot>
+          </template>
+        </TableBody>
+      </slot>
     </div>
 
     <div class="vc-table__pagination" v-show="pageTotal">
@@ -174,14 +179,13 @@ export default {
         return this.data.slice(start, end)
       }
     }
-    // _header() {
-    //   let result = this.updateTableSize(this.header)
-    //   console.log(11, result)
-    //   return result
-    // }
   },
   mounted() {
     this.watchRootDom()
+
+    this.$nextTick(() => {
+      console.log(this.$slots.tbody)
+    })
   },
   methods: {
     pageChangeEvt(index) {

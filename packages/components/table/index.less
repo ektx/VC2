@@ -2,6 +2,7 @@
 
 .vc-table {
   position: relative;
+  background-color: #fff;
   
   &--content {
     width: 100%;
@@ -18,26 +19,27 @@
       padding: 10px 5px;
       font-size: 14px;
       text-align: left;
-      color: #666;
+      color: @table-text-color;
       border: none;
-      border-bottom: 2px solid #eee;
-      background-color: #fff;
+      border-bottom: 2px solid @table-border-color;
     }
   }
 
   tbody {
     td, th {
-      padding: 10px 5px;
-      font-size: 14px;
-      color: #666;
-      word-break: break-all;
-      border-bottom: 1px solid #eee;
-      background-color: #fff;
+      border-bottom: 1px solid @table-border-color;
       transition: background-color .3s ease-in-out;
+
+      .cell {
+        padding: 10px 5px;
+        font-size: 14px;
+        color: @table-text-color;
+        word-break: break-all;
+      }
 
       // 调整显示间隔
       .vc-radio, .vc-radio__label {
-        margin: 0;
+        margin: 0 0 0 5px;
       }
     }
 
@@ -50,7 +52,7 @@
 
   .has-border {
     td, th {
-      border: 1px solid #eee;
+      border: 1px solid @table-border-color;
     }
   }
 
@@ -66,13 +68,13 @@
     height: 100%;
     display: grid;
     place-items: center;
-    color: @color-text-regular;
+    color: @table-text-color;
     background: rgba(255, 255, 255, .5);
 
     .inner {
       text-align: center;
       p {
-        color: @color-text-regular;
+        color: @table-text-color;
       }
     }
 
@@ -83,7 +85,7 @@
 
   &__body {
     overflow: auto;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid @table-border-color;
 
     &.highlight-current-row {
       .current {
@@ -109,7 +111,7 @@
     text-align: center;
 
     &.is-border {
-      border: 1px solid #eee;
+      border: 1px solid @table-border-color;
     }
   }
 }
