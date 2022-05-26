@@ -1,3 +1,5 @@
+@import '../../styles/var.less';
+
 .default (@name, @color) {
   &.@{name} {
     color: @color;
@@ -100,10 +102,10 @@
     }
   }
 
-  .default(primary, #09f);
-  .default(success, #4CAF50);
-  .default(warn, #FF9800);
-  .default(error, #ff4d4f);
+  .default(primary, @btn-primary-color);
+  .default(success, @btn-success-color);
+  .default(warn, @btn-warn-color);
+  .default(error, @btn-error-color);
 
   &.plain {
     border-color: currentColor;
