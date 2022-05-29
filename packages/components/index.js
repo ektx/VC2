@@ -23,6 +23,8 @@ import Switch from './switch'
 import Table from './table'
 import Tabs from './tabs'
 import TabPane from './TabPane'
+import Tag from './tag'
+import TagGroup from './tagGroup'
 import TimelineCalendar from './timelineCalendar'
 import TimePicker from './timePicker'
 import Upload from './upload'
@@ -52,6 +54,8 @@ export const VcSwitch = Switch
 export const VcTable = Table
 export const VcTabs = Tabs
 export const VcTabPane = TabPane
+export const VcTag = Tag
+export const VcTagGroup = TagGroup
 export const VcTimelineCalendar = TimelineCalendar
 export const VcTimePicker = TimePicker
 export const VcUpload = Upload

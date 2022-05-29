@@ -20,6 +20,8 @@ import Switch from './components/switch/index.vue'
 import Table from './components/table/index.vue'
 import Tabs from './components/tabs/index.vue'
 import TabPane from './components/tabPane/index.vue'
+import Tag from './components/tag/index.vue'
+import TagGroup from './components/tagGroup/index.vue'
 import TimelineCalendar from './components/timelineCalendar/index.vue'
 import TimePicker from './components/timePicker/index.vue'
 import Upload from './components/upload/index.vue'
@@ -53,6 +55,8 @@ const components = [
   Table,
   Tabs,
   TabPane,
+  Tag,
+  TagGroup,
   TimelineCalendar,
   TimePicker,
   Upload,

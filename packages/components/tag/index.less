@@ -1,0 +1,73 @@
+@import '../../styles/var.less';
+
+.@{namespace}-tag {
+  position: relative;
+  display: inline-block;
+  padding: .6em .8em;
+  font-size: var(--size);
+  line-height: 1em;
+  color: @tag-text-color;
+  box-sizing: border-box;
+
+  &--success {
+    color: @tag-success-color;
+  }
+
+  &--info {
+    color: @tag-info-color;
+  }
+
+  &--warning {
+    color: @tag-warning-color;
+  }
+
+  &--danger {
+    color: @tag-danger-color;
+  }
+
+  &::after,
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  &::before {
+    background-color: currentColor;
+    border-radius: inherit;
+    opacity: .15;
+  }
+
+  &::after {
+    opacity: .3;
+    border-radius: inherit;
+    border: 1px solid currentColor;
+    border-width: var(--border);
+    box-sizing: border-box;
+  }
+
+  &--close {
+    padding: 1px;
+    margin-left: 8px;
+    font-size: 12px;
+    border-radius: 100%;
+    cursor: pointer;
+    transform: translateX(4px);
+    transition: 
+      background-color .3s ease-in-out,
+      color .3s ease-in-out;
+
+    &:hover {
+      background-color: currentColor;
+
+      &::before {
+        color: #fff;
+      }
+    }
+  }
+}

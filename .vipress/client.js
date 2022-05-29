@@ -48,6 +48,10 @@ export const menu = [
         to: '/doc/table'
       },
       {
+        label: 'Tag 标签',
+        to: '/doc/tag'
+      },
+      {
         label: 'Progress 进度条',
         to: '/doc/progress'
       },
