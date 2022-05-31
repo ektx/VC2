@@ -1,16 +1,12 @@
 <template>
-  <Banner 
-    :title="title" 
-    v-model:showAside="showAside" 
-    v-model:showToc="showToc" 
+  <Banner
+    :title="title"
+    v-model:showAside="showAside"
+    v-model:showToc="showToc"
     @click.stop
   />
   <section class="content">
-    <aside 
-      v-if="menu.length" 
-      :class="{ open: showAside }" 
-      @click.stop
-    >
+    <aside v-if="menu.length" :class="{ open: showAside }" @click.stop>
       <Navs :value="menu" />
     </aside>
     <main>
@@ -19,12 +15,8 @@
           <component :is="Component" />
         </transition>
       </router-view>
-      <div 
-        class="toc-box" 
-        :class="{ open: showToc }"
-        @click.stop
-      >
-        <TOC :list="TOCData" :offsetTop="100"/>
+      <div class="toc-box" :class="{ open: showToc }" @click.stop>
+        <TOC :list="TOCData" :offsetTop="100" />
       </div>
     </main>
   </section>
@@ -51,7 +43,7 @@ export default {
       showToc: false
     }
   },
-  mounted(){
+  mounted() {
     // 监听点击空白区域收回侧边栏
     window.addEventListener('click', () => {
       this.showAside = false
@@ -68,7 +60,7 @@ export default {
     top: 0;
     left: 0;
     bottom: 0;
-    z-index: 1;
+    z-index: 100;
     padding: 60px 0 0;
     width: 280px;
     color: transparent;
@@ -76,9 +68,7 @@ export default {
     box-sizing: border-box;
     content-visibility: auto;
     transform: translateX(0%);
-    transition: 
-      transform .3s ease-in-out,
-      color .3s ease-in-out;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
     will-change: transform, color;
 
     &::-webkit-scrollbar {
@@ -96,7 +86,7 @@ export default {
       color: var(--scroll-thumb-color);
     }
   }
-  
+
   & > main {
     position: relative;
     display: flex;
@@ -106,23 +96,21 @@ export default {
     article {
       padding: 0 20px 100px;
     }
-    
+
     .toc-box {
       width: 12rem;
       transition: width 0.3s ease;
 
-      .top-of-centent{
+      .top-of-centent {
         display: block;
         width: 12rem;
       }
     }
   }
-  
+
   .fade-slide-y-leave-active,
   .fade-slide-y-enter-active {
-    transition: 
-      opacity .35s ease-in-out,
-      transform .35s ease-in-out;
+    transition: opacity 0.35s ease-in-out, transform 0.35s ease-in-out;
   }
 
   .fade-slide-y-enter-from,
@@ -151,7 +139,7 @@ export default {
 }
 
 @media (max-width: 800px) {
- .content {
+  .content {
     & > main {
       .toc-box {
         position: fixed;
@@ -163,7 +151,7 @@ export default {
         background-color: var(--header-bg-color);
         backdrop-filter: blur(5px);
         transform: translateX(100%);
-        transition: transform .3s ease-in-out;
+        transition: transform 0.3s ease-in-out;
         will-change: transform;
         overflow: auto;
 
@@ -180,7 +168,7 @@ export default {
 }
 
 @media (max-width: 450px) {
- .content {
+  .content {
     & > aside {
       width: 70vw;
     }

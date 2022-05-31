@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { TOCData } from "../../../src/store/index.js"
+import { TOCData } from '../../../src/store/index.js'
 
 export default {
   name: 'home-view',
@@ -20,16 +20,12 @@ export default {
   },
   methods: {
     setTOCData() {
-      let result = [];
-      let heades = this.$el.querySelectorAll(":scope > .vipress-heading");
+      let result = []
+      let heades = this.$el.querySelectorAll(':scope > .vipress-heading')
 
-      heades.forEach((h) => result.push(h));
-      TOCData.value = result;
-    },
+      heades.forEach(h => result.push(h))
+      TOCData.value = result
+    }
   }
 }
 </script>
-
-<style>
-
-</style>
