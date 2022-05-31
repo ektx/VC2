@@ -2,6 +2,7 @@
   <div
     :class="['vc-input', `is-${type}`, { 'is-disabled': disabled }]"
     v-bind="setAttrs($attrs, ['id', 'class', 'style'])"
+    @click="onClick"
   >
     <div class="vc-input__prefix-icon">
       <slot name="prefixIcon">
@@ -199,6 +200,10 @@ export default {
       TYPE.value = TYPE.value == 'text' ? 'password' : 'text'
     }
 
+    function onClick() {
+      focus()
+    }
+
     return {
       textareaCalcStyle,
       input,
@@ -210,7 +215,8 @@ export default {
       state,
       select,
       TYPE,
-      setAttrs
+      setAttrs,
+      onClick
     }
   }
 }
