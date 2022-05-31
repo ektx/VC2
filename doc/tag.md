@@ -13,7 +13,7 @@
   <vc-tag color="#9c27b0">标签六</vc-tag>
 </template>
 
-<style>
+<style scoped>
 .vc-tag {
   margin: 0 10px 0 0;
 }
@@ -65,7 +65,10 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
+.vc-tag {
+  margin: 0 10px 0 0;
+}
 .vc-tag-group {
   margin: 10px 0 0;
 }
@@ -185,6 +188,52 @@ export default {
         { label: '标签四', type: 'warning', size: 12 }
       ]
     };
+  }
+}
+</script>
+
+<style lang="less">
+.vc-tag-group {
+  margin: 10px 0 0;
+}
+</style>
+```
+:::
+
+
+## 动态编辑标签
+
+动态编辑标签可以通过点击标签关闭按钮后触发的 close 事件来实现
+
+::: codeBox
+
+> 通过 `size` 来设置显示大小。
+
+```vue
+<template>
+  <vc-tag-group :list="tags" closable editable @update="onUpdate"/>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      tags: [
+        { label: '标签一', type: '' },
+        { label: '标签二', type: 'success' },
+        { label: '标签三', type: 'info' },
+        { label: '标签四', type: 'warning' }
+      ]
+    };
+  },
+  methods: {
+    onUpdate(item) {
+      console.log(item)
+      this.tags.push({
+        ...item,
+        color: '#9c27b0'
+      })
+    }
   }
 }
 </script>
