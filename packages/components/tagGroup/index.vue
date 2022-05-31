@@ -13,15 +13,36 @@
       @click="onClickItem(i)"
       >{{ tag[myAlias.label] }}</Tag
     >
+
+    <template v-if="editable">
+      <my-input
+        v-if="showInput"
+        ref="inputEl"
+        class="tag-input"
+        placeholder=""
+        v-model="inputValue"
+        @keyup.enter="enterInput"
+        @blur="blurInput"
+      />
+      <my-button
+        v-else
+        class="tag-button"
+        :icon="btnIcon"
+        @click="toggleInput"
+        >{{ btnText }}</my-button
+      >
+    </template>
   </div>
 </template>
 
 <script>
 import Tag from '../tag/index.vue'
+import MyButton from '../button/index.vue'
+import MyInput from '../input/index.vue'
 
 export default {
   name: 'VcTagGroup',
-  components: { Tag },
+  components: { Tag, MyButton, MyInput },
   props: {
     list: {
       type: Array,
@@ -34,6 +55,25 @@ export default {
     alias: {
       type: Object,
       default: () => ({})
+    },
+    /** 可编辑的 */
+    editable: {
+      type: Boolean,
+      default: false
+    },
+    btnIcon: {
+      type: String,
+      default: 'vc-icon-plus'
+    },
+    btnText: {
+      type: String,
+      default: 'New Tag'
+    }
+  },
+  data() {
+    return {
+      showInput: false,
+      inputValue: ''
     }
   },
   computed: {
@@ -59,6 +99,26 @@ export default {
 
     onClickItem(index) {
       this.$emit('clickItem', { index, item: this.list[index] })
+    },
+
+    toggleInput() {
+      this.showInput = !this.showInput
+
+      this.$nextTick(() => {
+        this.$refs.inputEl.focus()
+      })
+    },
+
+    enterInput() {
+      this.$emit('update', {
+        [this.myAlias.label]: this.inputValue
+      })
+
+      this.inputValue = ''
+    },
+
+    blurInput() {
+      this.showInput = !this.showInput
     }
   }
 }
