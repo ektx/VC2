@@ -1,16 +1,16 @@
 <template>
-  <button 
+  <button
     :class="[
-      'vc-button', 
-      color, 
-      {plain, animate, round, 'is-icon': !_hasSlot}
-    ]" 
+      'vc-button',
+      color,
+      { plain, animate, round, 'is-icon': !_hasSlot }
+    ]"
     type="button"
     :disabled="loading || disabled"
     @click="clickEvt"
   >
     <i v-if="_icon" :class="_icon"></i>
-    <span><slot/></span>
+    <span><slot /></span>
   </button>
 </template>
 
@@ -37,24 +37,25 @@ export default {
     loading: Boolean,
     // 禁用状态
     disabled: Boolean,
+    classes: String
   },
-  data () {
+  data() {
     return {
       animate: false
     }
   },
   computed: {
-    _icon () {
+    _icon() {
       return this.loading ? 'vc-icon-loading' : this.icon
     },
-    _hasSlot () {
+    _hasSlot() {
       return this.$slots.default
     }
   },
   methods: {
-    clickEvt () {
+    clickEvt() {
       this.animate = false
-      
+
       setTimeout(() => {
         this.animate = true
       }, 10)
