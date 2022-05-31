@@ -11,11 +11,13 @@
 export default {
   name: 'VcTag',
   props: {
+    /** 类型 用于快速设置颜色 */
     type: {
       type: String,
       values: ['success', 'info', 'warning', 'danger', ''],
       default: ''
     },
+    /** 设置颜色 */
     color: {
       type: String,
       default: ''
