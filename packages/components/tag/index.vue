@@ -1,5 +1,5 @@
 <template>
-  <div :class="['vc-tag', typeStr]" :style="style">
+  <div :class="['vc-tag', typeStr, `vc-tag--${theme}`]" :style="style">
     <span class="vc-tag--content">
       <slot />
     </span>
@@ -32,6 +32,11 @@ export default {
     size: {
       type: [String, Number],
       default: '14px'
+    },
+    theme: {
+      type: String,
+      values: ['light', 'dark', 'plain'],
+      default: 'light'
     }
   },
   computed: {
@@ -49,6 +54,11 @@ export default {
       }
 
       if (this.color) result.color = this.color
+
+      if (typeof this.size === 'number' && this.size < 12) {
+        result['--size'] = 12 + 'px'
+        result.transform = `scale(${this.size / 12})`
+      }
 
       return result
     }

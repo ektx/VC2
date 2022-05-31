@@ -9,6 +9,7 @@
       :closable="closable"
       :radius="radius"
       :border="border"
+      :theme="theme"
       @close="e => onTagClose(e, i)"
       @click="onClickItem(i)"
       >{{ tag[myAlias.label] }}</Tag
@@ -52,6 +53,7 @@ export default {
     radius: [String, Number],
     border: [String, Number],
     size: [String, Number],
+    theme: String,
     alias: {
       type: Object,
       default: () => ({})

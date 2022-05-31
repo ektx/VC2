@@ -182,10 +182,12 @@ export default {
   data() {
     return {
       tags: [
-        { label: '标签一', type: '', size: 18 },
-        { label: '标签二', type: 'success', size: 16 },
-        { label: '标签三', type: 'info', size: 14 },
-        { label: '标签四', type: 'warning', size: 12 }
+        { label: '标签一', size: 18, type: ''},
+        { label: '标签二', size: 16, type: 'success' },
+        { label: '标签三', size: 14, type: 'info' },
+        { label: '标签四', size: 12, type: 'warning' },
+        { label: '标签五', size: 10, type: 'danger' },
+        { label: '标签六', size: 5, color: '#9c27b0' }
       ]
     };
   }
@@ -245,3 +247,53 @@ export default {
 </style>
 ```
 :::
+
+## 不同主题
+
+Tag 组件提供了三个不同的主题：`dark`、`light` 和 `plain`
+
+::: codeBox
+
+> 通过 `size` 来设置显示大小。
+
+```vue
+<template>
+  <p>light - default</p>
+  <vc-tag-group :list="tags"/>
+  <p>dark</p>
+  <vc-tag-group :list="tags" theme="dark" />
+  <p>plain</p>
+  <vc-tag-group :list="tags" theme="plain" />
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      tags: [
+        { label: '标签一', type: '' },
+        { label: '标签二', type: 'success' },
+        { label: '标签三', type: 'info' },
+        { label: '标签四', type: 'warning' },
+        { label: '标签五', type: 'danger' },
+        { label: '标签六', color: '#9c27b0' }
+      ]
+    };
+  }
+}
+</script>
+
+<style lang="less">
+.vc-tag-group {
+  margin: 10px 0 0;
+}
+</style>
+```
+:::
+
+# Tag 属性
+
+| 参数 | 类型 | 说明 | 默认值 | 可选值 |
+| --- | --- | --- | --- | --- |
+| type | `String` | 类型 用于快速设置颜色 | - | success/info/warning/danger |
+| color | `String` | 设置颜色 | - | - | 

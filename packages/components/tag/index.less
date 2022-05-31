@@ -39,12 +39,6 @@
     pointer-events: none;
   }
 
-  &::before {
-    background-color: currentColor;
-    border-radius: inherit;
-    opacity: 0.15;
-  }
-
   &::after {
     opacity: 0.3;
     border-radius: inherit;
@@ -67,6 +61,58 @@
 
       &::before {
         color: #fff;
+      }
+    }
+  }
+
+  &--light {
+    &.@{namespace}-tag {
+      &::before {
+        background-color: currentColor;
+        border-radius: inherit;
+        opacity: 0.15;
+      }
+
+      &::after {
+        opacity: 0.3;
+        border-radius: inherit;
+        border: 1px solid currentColor;
+        border-width: var(--border);
+        box-sizing: border-box;
+      }
+    }
+  }
+
+  &--dark {
+    &.@{namespace}-tag {
+      span {
+        position: relative;
+        z-index: 2;
+        color: #fff;
+      }
+
+      &::before {
+        background-color: currentColor;
+        border-radius: inherit;
+      }
+
+      &::after {
+        border-radius: inherit;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-width: var(--border);
+        box-sizing: border-box;
+      }
+    }
+  }
+
+  &--plain {
+    &.@{namespace}-tag {
+      &::after {
+        opacity: 0.5;
+        border-radius: inherit;
+        border: 1px solid currentColor;
+        border-width: var(--border);
+        box-sizing: border-box;
       }
     }
   }
