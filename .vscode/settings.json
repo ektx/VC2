@@ -17,6 +17,15 @@
     // 请先确保你的 vscode 安装 prettier
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[css]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[less]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "css.validate": false,
-  "scss.validate": false
+  "scss.validate": false,
+  "editor.hover.delay": 1000
 }
