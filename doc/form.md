@@ -349,7 +349,7 @@ export default {
     </vc-form-item>
     <vc-form-item label="活动形式" prop="desc">
       
-      <vc-input style="height: 100px" type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"></vc-input>
+      <vc-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"></vc-input>
     </vc-form-item>
     <vc-form-item>
       <vc-button color="primary" @click="submitForm">提交</vc-button>
