@@ -9,7 +9,12 @@
       }
     ]"
   >
-    <Label :label="label" :labelWidth="labelWidth || vcForm.labelWidth" />
+    <Label
+      v-if="vcForm.inline ? label : true"
+      :label="label"
+      :labelWidth="labelWidth || vcForm.labelWidth"
+    />
+
     <div class="vc-form-item__content">
       <slot></slot>
       <transition name="vc-fade-in">
