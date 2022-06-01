@@ -45,7 +45,7 @@
     </vc-form-item>
 
     <vc-form-item label="活动形式" prop="desc">
-      <vc-input style="height: 100px" type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"/>
+      <vc-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"/>
     </vc-form-item>
 
     <vc-form-item>
@@ -164,6 +164,12 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.vc-button {
+  margin-right: 10px;
+}
+</style>
 ```
 :::
 
@@ -187,10 +193,11 @@ export default {
     <vc-form-item label="活动区域">
       <vc-select v-model="formData.region" :options="options"/>
     </vc-form-item>
+
     <vc-form-item label="活动形式" prop="desc">
-    
-      <vc-input style="height: 100px" type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"></vc-input>
+      <vc-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"></vc-input>
     </vc-form-item>
+
     <vc-form-item>
       <vc-button color="primary">提交</vc-button>
       <vc-button>取消</vc-button>
@@ -225,19 +232,25 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.vc-button {
+  margin-right: 10px;
+}
+</style>
 ```
 :::
 
 ### 行内表单
 
-当垂直方向空间受限且表单较简单时，可以在一行内放置表单。
+当垂直方向空间受限且表单较简单时，可以在一行内放置表单。  
+通过设置 `inline` 属性为 `true` 可以让表单域变为行内的表单域。
 
 ::: codeBox
 ```vue
 <template>
-  <vc-form ref="form"  inline :model="formData" :rules="rules">
+  <vc-form ref="form" inline :model="formData" :rules="rules">
     <vc-form-item label="活动名称" prop="name">
-      
       <vc-input type="text" v-model="formData.name" validate-event/>
     </vc-form-item>
     <vc-form-item label="活动区域" prop="region">
@@ -312,6 +325,12 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.vc-button {
+  margin-right: 10px;
+}
+</style>
 ```
 :::
 
@@ -403,6 +422,12 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.vc-button {
+  margin-right: 10px;
+}
+</style>
 ```
 :::
 
@@ -497,5 +522,11 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.vc-button {
+  margin-right: 10px;
+}
+</style>
 ```
 :::
