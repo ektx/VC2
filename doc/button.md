@@ -168,7 +168,7 @@
   <hr/>
 
   <vc-button :loading="value">加载中...</vc-button>
-  <vc-button :loading="value" icon="vc-icon-success" />
+  <vc-button :loading="value" color="primary" icon="vc-icon-success" />
 </template>
 
 <script setup>
