@@ -6,7 +6,7 @@
     border-color: currentColor;
     background-color: currentColor;
 
-    i,
+    .vc-button--icon,
     span {
       color: #fff;
     }
@@ -14,8 +14,8 @@
     &:hover {
       color: @color;
       border-color: @color;
-    } 
-    
+    }
+
     &.plain {
       color: @color;
 
@@ -27,10 +27,9 @@
         border-color: @color;
       }
     }
- 
   }
- 
-  &[type=text] {
+
+  &[type='text'] {
     &.@{name} {
       span {
         color: @color;
@@ -41,15 +40,15 @@
       color: inherit;
     }
   }
-  
+
   &[disabled] {
     &.@{name} {
       border-color: lighten(@color, 25%);
       background-color: lighten(@color, 25%);
-      
+
       &.plain {
         color: lighten(@color, 25%);
-        
+
         span {
           color: inherit;
         }
@@ -62,24 +61,23 @@
 
     cursor: not-allowed;
   }
-
 }
 
 .vc-button {
-  padding: .25em .8em .3em;
+  padding: 0.25em 0.8em 0.3em;
   font-size: 14px;
   color: #666;
   word-break: keep-all;
-  border-radius: .15em;
+  border-radius: 0.15em;
   border: 1px solid #ddd;
   background: #fff;
   box-sizing: border-box;
-  transition: all .3s ease-in-out;
+  transition: 0.1s;
   cursor: pointer;
   outline: none;
 
-  i + span:not(:empty) {
-    margin-left: 5px;
+  span {
+    transition: 0.1s;
   }
 
   &.default {
@@ -120,8 +118,8 @@
     border-radius: 1em;
   }
 
-  &[type=text] {
-    padding: 0 .2em;
+  &[type='text'] {
+    padding: 0 0.2em;
     border-radius: 1em;
     background-color: transparent;
     border-color: transparent;
@@ -130,24 +128,46 @@
       background-color: transparent;
       border-color: transparent;
     }
-    
+
     &[disabled] {
-      color:  #aaa;
+      color: #aaa;
       border-color: transparent;
       background-color: transparent;
     }
   }
 
   &.animate {
-    animation: ripple-ani .3s ease-out;
+    animation: ripple-ani 0.3s ease-out;
     will-change: box-shadow;
   }
 
-  &.is-icon.round {
-    padding: 0;
-    width: 2em;
-    height: 2em;
+  &.only-icon {
+    &.round {
+      padding: 0;
+      width: 2em;
+      height: 2em;
+    }
   }
+
+  &--icon {
+    display: inline-flex;
+    width: 1em;
+    overflow: hidden;
+
+    & + span {
+      margin-left: 5px;
+    }
+  }
+}
+
+.vc-button--loading-enter-active,
+.vc-button--loading-leave-active {
+  transition: width 0.2s ease-out;
+}
+
+.vc-button--loading-enter-from,
+.vc-button--loading-leave-to {
+  width: 0;
 }
 
 @keyframes ripple-ani {

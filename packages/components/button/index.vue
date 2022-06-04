@@ -3,14 +3,18 @@
     :class="[
       'vc-button',
       color,
-      { plain, animate, round, 'is-icon': !_hasSlot }
+      { plain, animate, round, 'only-icon': !_hasSlot, 'is-loading': loading }
     ]"
     type="button"
     :disabled="loading || disabled"
     @click="clickEvt"
   >
-    <i v-if="_icon" :class="_icon"></i>
-    <span><slot /></span>
+    <Transition name="vc-button--loading">
+      <div v-if="_icon" class="vc-button--icon">
+        <i :class="_icon"></i>
+      </div>
+    </Transition>
+    <span v-if="_hasSlot"><slot /></span>
   </button>
 </template>
 

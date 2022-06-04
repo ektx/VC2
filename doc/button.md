@@ -135,10 +135,10 @@
 ```vue
 <template>
   <vc-button-group>
-    <vc-button round color="primary">上一首</vc-button>
+    <vc-button round color="primary" icon="vc-icon-arrow-left">上一首</vc-button>
     <vc-button round color="primary">播放</vc-button>
     <vc-button round color="primary">暂停</vc-button>
-    <vc-button round color="primary">下一首</vc-button>
+    <vc-button round color="primary">下一首 <i class="vc-icon-arrow-right"/></vc-button>
   </vc-button-group>
 
   <vc-button-group>
@@ -164,9 +164,18 @@
 ::: codeBox
 ```vue
 <template>
-  <vc-button loading>加载中...</vc-button>
-  <vc-button loading icon="vc-icon-success" />
+  <vc-switch v-model:value="value" />
+  <hr/>
+
+  <vc-button :loading="value">加载中...</vc-button>
+  <vc-button :loading="value" icon="vc-icon-success" />
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+const value = ref(true)
+</script>
 
 <style scoped>
 .vc-button {
