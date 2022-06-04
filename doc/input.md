@@ -176,13 +176,11 @@ let textarea2 = ref(null)
 
 ```vue
 <template>
-  <div>
-    <vc-input v-model="input" maxlength="10" show-word-limit />
-    <vc-input type="password" v-model="input" maxlength="10" show-word-limit />
-    
-    <vc-input type="textarea" maxlength="120" rows="2" v-model="input" show-word-limit />
-  </div>
+  <vc-input v-model="input" maxlength="10" show-word-limit />
+
+  <vc-input type="password" v-model="input" maxlength="10" show-word-limit />
   
+  <vc-input type="textarea" maxlength="120" rows="2" v-model="input" show-word-limit />
 </template>
 
 <script setup>
@@ -190,6 +188,12 @@ import { ref } from 'vue'
 
 let input = ref('hello World')
 </script>
+
+<style lang="less" scoped>
+.vc-input {
+  margin-bottom: 10px;
+}
+</style>
 ```
 :::
 
@@ -210,9 +214,11 @@ let input = ref('hello World')
     @keyup.enter="getEnter"
   />
   <br/>
-  <vc-button @click="setFocus">手动获取焦点</vc-button>
-  <vc-button @click="setBlur">手动失去焦点</vc-button>
-  <vc-button @click="setSelect">手动选中文字</vc-button>
+  <vc-button-group>
+    <vc-button @click="setFocus">手动获取焦点</vc-button>
+    <vc-button @click="setBlur">手动失去焦点</vc-button>
+    <vc-button @click="setSelect">手动选中文字</vc-button>
+  </vc-button-group>
 </template>
 
 <script setup>
@@ -250,7 +256,7 @@ const setSelect = () => demo.value.select()
 :::
 
 
-## Input Attributes
+## 属性
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
 |---|---|---|---|---|
@@ -266,7 +272,7 @@ const setSelect = () => demo.value.select()
 | validate-event | **boolean** | 输入时是否触发表单的校验 | -- | true |
 
 
-## Input Events
+## 事件
 
 | 事件名称 | 说明 | 回调参数 |
 |---|---|---|
@@ -277,7 +283,7 @@ const setSelect = () => demo.value.select()
 | clear | 在点击由 clearable 属性生成的清空按钮时触发 | (event: Event) |
 
 
-## Input Methods
+## 方法
 | 事件名称 | 说明 | 参数 |
 |---|---|---|
 | focus | 使 input 获取焦点 | - |
