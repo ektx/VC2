@@ -4,7 +4,11 @@
     v-bind="setAttrs($attrs, ['id', 'class', 'style'])"
     @click="onClick"
   >
-    <div class="vc-input__prefix-icon">
+    <div v-if="$slots.prepend" class="vc-input__prepend">
+      <slot name="prepend"></slot>
+    </div>
+
+    <div v-if="$slots.prefixIcon || prefixIcon" class="vc-input__prefix-icon">
       <slot name="prefixIcon">
         <i v-if="prefixIcon" :class="prefixIcon"></i>
       </slot>
@@ -56,6 +60,10 @@
     <div v-if="showWordLimit" class="vc-input__num-length">
       <span>{{ state.nowLength }}</span>
       <span>/{{ state.maxLength }}</span>
+    </div>
+
+    <div v-if="$slots.append" class="vc-input__append">
+      <slot name="append"></slot>
     </div>
   </div>
 </template>

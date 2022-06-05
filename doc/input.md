@@ -166,6 +166,98 @@ let textarea2 = ref(null)
 ```
 :::
 
+## 复合型输入框
+
+可前置或后置元素，一般为标签或按钮复合型输入框
+
+::: codeBox
+```vue
+<template>
+  <vc-input v-model="value" clearable>
+    <template #prepend>Http://</template>
+  </vc-input>
+
+  <vc-input v-model="value" clearable>
+    <template #append>.com</template>
+  </vc-input>
+  
+  <vc-input v-model="value" clearable class="input-with-select">
+    <template #prepend>
+      <vc-select v-model="value2" :options="options"/>
+    </template>
+    <template #append>
+      <vc-button type="text" icon="vc-icon-bell" />
+    </template>
+  </vc-input>
+  
+  <vc-input v-model="value" clearable class="input-with-select">
+    <template #prepend>
+      <vc-button type="text" icon="vc-icon-star-off" />
+    </template>
+    <template #append>
+      <vc-select v-model="value2" :options="options"/>
+    </template>
+  </vc-input>
+
+  <vc-input v-model="value" clearable class="input-with-select">
+    <template #prepend>
+      <vc-button type="text" icon="vc-icon-star-off" />
+    </template>
+    <template #append>
+      <vc-select v-model="value2" :options="options"/>
+    </template>
+  </vc-input>
+  
+  <vc-input v-model="value" type="textarea" class="input-with-select">
+    <template #prepend>
+      <vc-button type="text" icon="vc-icon-star-off" />
+    </template>
+    <template #append>
+      <vc-select v-model="value2" :options="options"/>
+    </template>
+  </vc-input>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const value = ref('')
+const value2 = ref('')
+const options = [{
+  value: '选项1',
+  label: '黄金糕'
+}, {
+  value: '选项2',
+  label: '双皮奶'
+}, {
+  value: '选项3',
+  label: '蚵仔煎'
+}]
+</script>
+
+<style lang="less">
+.vc-input {
+  margin-bottom: 10px;
+}
+
+.input-with-select {
+  .vc-input__append,
+  .vc-input__prepend {
+    padding: 0;
+  }
+
+  .vc-select input {
+    border: 0;
+    background: transparent;
+  }
+
+  button {
+    width: 60px;
+  }
+}
+</style>
+```
+:::
 
 ## 输入长度限制
 
