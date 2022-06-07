@@ -7,26 +7,29 @@
 <template>
   <div>
     <vc-button >默认效果</vc-button>
-    <vc-button color="primary">主要效果</vc-button>
-    <vc-button color="success">成功</vc-button>
-    <vc-button color="warn">警告</vc-button>
-    <vc-button color="error">错误</vc-button>
+    <vc-button theme="primary">主要效果</vc-button>
+    <vc-button theme="success">成功</vc-button>
+    <vc-button theme="warn">警告</vc-button>
+    <vc-button theme="error">错误</vc-button>
+    <vc-button color="#9c27b0">自定义颜色</vc-button>
   </div>
   <br/>
   <div>
     <vc-button plain>默认效果</vc-button>
-    <vc-button plain color="primary">主要效果</vc-button>
-    <vc-button plain color="success">成功</vc-button>
-    <vc-button plain color="warn">警告</vc-button>
-    <vc-button plain color="error">错误</vc-button>
+    <vc-button plain theme="primary">主要效果</vc-button>
+    <vc-button plain theme="success">成功</vc-button>
+    <vc-button plain theme="warn">警告</vc-button>
+    <vc-button plain theme="error">错误</vc-button>
+    <vc-button plain color="#9c27b0">自定义颜色</vc-button>
   </div>
   <br/>
   <div>
     <vc-button round>默认效果</vc-button>
-    <vc-button round color="primary">主要效果</vc-button>
-    <vc-button round color="success">成功</vc-button>
-    <vc-button round color="warn">警告</vc-button>
-    <vc-button round color="error">错误</vc-button>
+    <vc-button round theme="primary">主要效果</vc-button>
+    <vc-button round theme="success">成功</vc-button>
+    <vc-button round theme="warn">警告</vc-button>
+    <vc-button round theme="error">错误</vc-button>
+    <vc-button round color="#9c27b0">自定义颜色</vc-button>
   </div>
 </template>
 
@@ -46,11 +49,24 @@
 ```vue
 <template>
   <div>
+    <p>默认效果</p>
     <vc-button type="text">默认效果</vc-button>
-    <vc-button type="text" color="primary">主要效果</vc-button>
-    <vc-button type="text" color="success">成功</vc-button>
-    <vc-button type="text" color="warn">警告</vc-button>
-    <vc-button type="text" color="error">错误</vc-button>
+    <vc-button type="text" theme="primary">主要效果</vc-button>
+    <vc-button type="text" theme="success">成功</vc-button>
+    <vc-button type="text" theme="warn">警告</vc-button>
+    <vc-button type="text" theme="error">错误</vc-button>
+    <vc-button type="text" color="#9c27b0">自定义颜色</vc-button>
+  </div>
+  
+  <div>
+    <p>带有背景色</p>
+    <vc-button type="text" bg >默认效果</vc-button>
+    <vc-button type="text" bg theme="primary">主要效果</vc-button>
+    <vc-button type="text" bg theme="success">成功</vc-button>
+    <vc-button type="text" bg theme="warn">警告</vc-button>
+    <vc-button type="text" bg theme="error">错误</vc-button>
+    <vc-button type="text" bg color="#9c27b0">自定义颜色</vc-button>
+    <vc-button type="text" bg="#f90" color="#9c27b0">自定义背景颜色</vc-button>
   </div>
 </template>
 
@@ -71,26 +87,29 @@
 <template>
   <div>
     <vc-button disabled>默认效果</vc-button>
-    <vc-button disabled color="primary">主要效果</vc-button>
-    <vc-button disabled color="success">成功</vc-button>
-    <vc-button disabled color="warn">警告</vc-button>
-    <vc-button disabled color="error">错误</vc-button>
+    <vc-button disabled theme="primary">主要效果</vc-button>
+    <vc-button disabled theme="success">成功</vc-button>
+    <vc-button disabled theme="warn">警告</vc-button>
+    <vc-button disabled theme="error">错误</vc-button>
+    <vc-button disabled color="#9c27b0">自定义颜色</vc-button>
   </div>
   <br/>
   <div>
     <vc-button disabled plain>默认效果</vc-button>
-    <vc-button disabled plain color="primary">主要效果</vc-button>
-    <vc-button disabled plain color="success">成功</vc-button>
-    <vc-button disabled plain color="warn">警告</vc-button>
-    <vc-button disabled plain color="error">错误</vc-button>
+    <vc-button disabled plain theme="primary">主要效果</vc-button>
+    <vc-button disabled plain theme="success">成功</vc-button>
+    <vc-button disabled plain theme="warn">警告</vc-button>
+    <vc-button disabled plain theme="error">错误</vc-button>
+    <vc-button disabled plain color="#9c27b0">自定义颜色</vc-button>
   </div>
   <br/>
   <div>
     <vc-button disabled type="text">默认效果</vc-button>
-    <vc-button disabled type="text" color="primary">主要效果</vc-button>
-    <vc-button disabled type="text" color="success">成功</vc-button>
-    <vc-button disabled type="text" color="warn">警告</vc-button>
-    <vc-button disabled type="text" color="error">错误</vc-button>
+    <vc-button disabled type="text" theme="primary">主要效果</vc-button>
+    <vc-button disabled type="text" theme="success">成功</vc-button>
+    <vc-button disabled type="text" theme="warn">警告</vc-button>
+    <vc-button disabled type="text" theme="error">错误</vc-button>
+    <vc-button disabled type="text" color="#9c27b0">自定义颜色</vc-button>
   </div>
 </template>
 
@@ -110,13 +129,13 @@
 ```vue
 <template>
   <vc-button icon="vc-icon-star-off" />
-  <vc-button color="primary" icon="vc-icon-bell" />
-  <vc-button color="success" icon="vc-icon-success" />
+  <vc-button theme="primary" icon="vc-icon-bell" />
+  <vc-button theme="success" icon="vc-icon-success" />
   <vc-button round icon="vc-icon-star-off" />
-  <vc-button round color="primary" icon="vc-icon-bell" />
-  <vc-button round color="success" icon="vc-icon-success" />
-  <vc-button color="warn" icon="vc-icon-warning">警告</vc-button>
-  <vc-button color="error" icon="vc-icon-close">错误</vc-button>
+  <vc-button round theme="primary" icon="vc-icon-bell" />
+  <vc-button round theme="success" icon="vc-icon-success" />
+  <vc-button theme="warn" icon="vc-icon-warning">警告</vc-button>
+  <vc-button theme="error" icon="vc-icon-close">错误</vc-button>
 </template>
 
 <style scoped>
@@ -135,10 +154,10 @@
 ```vue
 <template>
   <vc-button-group>
-    <vc-button round color="primary" icon="vc-icon-arrow-left">上一首</vc-button>
-    <vc-button round color="primary">播放</vc-button>
-    <vc-button round color="primary">暂停</vc-button>
-    <vc-button round color="primary">下一首 <i class="vc-icon-arrow-right"/></vc-button>
+    <vc-button round theme="primary" icon="vc-icon-arrow-left">上一首</vc-button>
+    <vc-button round theme="primary">播放</vc-button>
+    <vc-button round theme="primary">暂停</vc-button>
+    <vc-button round theme="primary">下一首 <i class="vc-icon-arrow-right"/></vc-button>
   </vc-button-group>
 
   <vc-button-group>
@@ -168,7 +187,7 @@
   <hr/>
 
   <vc-button :loading="value">加载中...</vc-button>
-  <vc-button :loading="value" color="primary" icon="vc-icon-success" />
+  <vc-button :loading="value" theme="primary" icon="vc-icon-success" />
 </template>
 
 <script setup>
