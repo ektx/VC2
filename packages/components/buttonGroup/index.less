@@ -6,41 +6,39 @@
     margin: 0;
     z-index: 0;
 
-    &:not(.default) {
-      border-width: 0 1px;
-    }
-
     &:hover {
-      z-index: 1;
+      z-index: 5;
     }
 
     &:first-child {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
 
-      &:not(.default) {
-        border-right-color: rgba(255, 255, 255, .5);
+      &::before {
+        border-right: none;
       }
     }
     &:last-child {
-      margin-left: -1px;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
 
       &:not(.default) {
-        border-left-color: rgba(255, 255, 255, .5);
+        border-left-color: rgba(255, 255, 255, 0.5);
       }
     }
 
     &:not(:first-child):not(:last-child) {
-      margin-left: -1px;
       border-radius: 0;
 
-      &:not(.default) {
-        border-left-color: rgba(255, 255, 255, .5);
-        border-right-color: rgba(255, 255, 255, .5);
+      &::before {
+        border-right: 0;
       }
     }
+  }
 
+  & > .customize-color {
+    &:not(:last-child) {
+      margin-right: 1px;
+    }
   }
 }
