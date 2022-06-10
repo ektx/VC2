@@ -86,7 +86,11 @@ export default {
       return obj
     },
     _bgClassName() {
-      return typeof this.bg !== 'boolean' ? 'customize-bg' : 'has-bg'
+      return typeof this.bg === 'boolean'
+        ? this.bg
+          ? 'has-bg'
+          : ''
+        : 'customize-bg'
     }
   }
 }
