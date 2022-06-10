@@ -202,6 +202,24 @@ export default {
 ```
 :::
 
+用于标记和选择。
+
+::: codeBox
+```vue
+<template>
+  <vc-tag type="info" padding="5px">标签三</vc-tag>
+  <vc-tag type="info" padding="5px 10px">标签三</vc-tag>
+  <vc-tag type="info" padding="5px 10px 15px 20px">标签三</vc-tag>
+</template>
+
+<style scoped>
+.vc-tag {
+  margin: 0 10px 0 0;
+}
+</style>
+```
+:::
+
 
 ## 动态编辑标签
 

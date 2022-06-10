@@ -14,11 +14,17 @@ export default {
     /** 类型 用于快速设置颜色 */
     type: {
       type: String,
-      values: ['success', 'info', 'warning', 'danger', ''],
-      default: ''
+      default: '',
+      validator(val) {
+        return ['success', 'info', 'warning', 'danger', ''].includes(val)
+      }
     },
     /** 设置颜色 */
     color: {
+      type: String,
+      default: ''
+    },
+    padding: {
       type: String,
       default: ''
     },
@@ -61,6 +67,8 @@ export default {
         result['--size'] = 12 + 'px'
         result.transform = `scale(${this.size / 12})`
       }
+
+      if (this.padding) result['padding'] = this.padding
 
       return result
     }
