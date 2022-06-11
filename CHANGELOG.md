@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## 1.14.0(2022-6-11)
+
+## Features
+
+- 添加 input 组件复合型输入框效果
+- 添加 tag 组件快捷设置 padding 能力
+
+### Fixes
+
+- 优化 input 组件示例文档
+- 优化 input 组件自动更新高度方案
+- 修复 button 组件加载动画失效
+- 优化 button 组件交互与显示效果
+
 ## 1.13.0(2022-6-1)
 
 - `New` 添加 tag 标签 组件
