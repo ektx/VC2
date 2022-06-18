@@ -10,7 +10,7 @@
     <p>这是一段信息</p>
     <template #footer>
       <vc-button type="text" @click="open = false">取消</vc-button>
-      <vc-button type="text" color="primary" @click="open = false">确认</vc-button>
+      <vc-button type="text" theme="primary" @click="open = false">确认</vc-button>
     </template>
   </vc-layer>
 </template>
@@ -37,7 +37,7 @@ export default {
     <p>这是一段信息</p>
     <template #footer>
       <vc-button @click="open = false">取消</vc-button>
-      <vc-button color="primary" @click="open = false">确认</vc-button>
+      <vc-button theme="primary" @click="open = false">确认</vc-button>
     </template>
   </vc-layer>
 </template>
@@ -60,9 +60,10 @@ export default {
 |---|---|---|:---:|:---:|
 | show | `Boolean` | 是否显示弹层 | false | - |
 | title | `String` | 弹层的标题 | 标题 | - |
+| noHeader | `Boolean` | 不需要头部 | false | - |
 | width | `String` | 调整弹层的宽度<br>eg: `width="200px"` | 50% | - |
 | closeModal | `Boolean` | 点击背景不消失 | false | - |
-| append-to-body | `Boolean` | 弹层自身是否插入至 body 元素上 | false | - |
+| appendToBody | `Boolean` | 弹层自身是否插入至 body 元素上 | false | - |
 | fullscreen | `Boolean` | 是否为全屏 | false | - |
 | beforeClose | `Function` | 关闭前的回调，会暂停弹层的关闭<br/>`function(done)`，done 用于关闭弹层 | - | - |
 

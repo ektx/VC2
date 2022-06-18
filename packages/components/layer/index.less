@@ -1,6 +1,7 @@
+@import '../../styles/var.less';
 @import '../../styles/transition.less';
 
-.vc-layer {
+.@{namespace}-layer {
   position: fixed;
   top: 0;
   left: 0;
@@ -20,7 +21,7 @@
     will-change: background-color, transform;
     transform-origin: top left;
 
-    .vc-layer.fullscreen & {
+    .@{namespace}-layer.fullscreen & {
       width: 100vw;
       height: 100%;
       margin: 0;
@@ -28,11 +29,11 @@
       overflow: auto;
     }
 
-    & > .vc-layer--main {
+    & > .@{namespace}-layer--main {
       padding: 10px;
     }
 
-    & > .vc-layer--footer {
+    & > .@{namespace}-layer--footer {
       padding: 10px;
       text-align: right;
 

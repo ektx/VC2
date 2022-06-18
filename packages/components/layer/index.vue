@@ -6,7 +6,7 @@
       @click.self="layerBoxClick"
     >
       <div ref="content" class="vc-layer--inner" :style="style">
-        <div class="vc-layer--header">
+        <div v-if="!noHeader" class="vc-layer--header">
           <slot name="header">
             <span>{{ title }}</span>
             <i class="vc-icon-close" @click="hideLayer"></i>
@@ -32,6 +32,11 @@ export default {
     title: {
       type: String,
       default: '标题'
+    },
+    // 不需要头部
+    noHeader: {
+      type: Boolean,
+      default: false
     },
     // 调整弹层的宽度
     width: {
