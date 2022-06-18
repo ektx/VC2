@@ -1,8 +1,19 @@
 # CHANGELOG
 
+## 1.14.1(2022-6-18)
+
+### Features
+
+- layer 组件添加 noHeader 快捷控制头部显示
+
+### Fixes
+
+- 调整 layer 组件样式
+- 调整 button 默认按钮样式
+
 ## 1.14.0(2022-6-11)
 
-## Features
+### Features
 
 - 添加 input 组件复合型输入框效果
 - 添加 tag 组件快捷设置 padding 能力
