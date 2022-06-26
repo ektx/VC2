@@ -9,6 +9,7 @@
         clearable
       }
     ]"
+    ref="el"
     @click.stop="focusEvt"
   >
     <VS_Tags ref="tags" :selectedItem="selectedItem" />
@@ -65,15 +66,7 @@
 </template>
 
 <script>
-import {
-  ref,
-  onUnmounted,
-  onMounted,
-  watch,
-  computed,
-  reactive,
-  inject
-} from 'vue'
+import { ref, onUnmounted, onMounted, watch, computed, inject } from 'vue'
 // import { createPopper } from '@popperjs/core'
 import { copyArray } from '../../utils/copy'
 import DropDown from './dropDown.vue'
@@ -144,6 +137,7 @@ export default {
     }
   },
   setup(props, { emit }) {
+    const el = ref(null)
     const isFocus = ref(false)
     const isOpen = ref(false)
     const selectedItem = ref({})
@@ -172,17 +166,19 @@ export default {
     })
 
     let tooltip = null
-    let hideDropdown = () => {
+    let hideDropdown = evt => {
+      if (el.value.contains(evt.target)) return
+
       isOpen.value = false
       isFocus.value = false
     }
 
     onUnmounted(() => {
-      document.removeEventListener('click', hideDropdown, false)
+      document.removeEventListener('click', hideDropdown, true)
     })
 
     onMounted(() => {
-      document.addEventListener('click', hideDropdown, false)
+      document.addEventListener('click', hideDropdown, true)
     })
 
     const myOptions = computed(() => {
@@ -259,7 +255,7 @@ export default {
       myOptions,
       query,
       isLoading,
-
+      el,
       vcFormItem
     }
   },
@@ -278,8 +274,6 @@ export default {
   methods: {
     focusEvt() {
       if (this.disabled) return
-      // 关闭其它层或事件
-      document.body.click()
 
       if (this.isOpen) {
         this.isOpen = false
@@ -318,6 +312,7 @@ export default {
 
     selectedEvt(evt, item) {
       evt.stopPropagation()
+
       if (item.disabled) return
 
       let result = ''
@@ -342,10 +337,12 @@ export default {
         this.intValue = item[this.labelAlias]
       }
 
+      // 不是多选则关闭选项列表
       if (!this.multiple) {
         this.isOpen = false
       }
 
+      // 触发表彰验证
       if (this.vcFormItem) {
         this.vcFormItem.checkValidate('change')
       }

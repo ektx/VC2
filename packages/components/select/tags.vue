@@ -1,13 +1,16 @@
 <template>
   <div v-if="vcSelect.multiple || vcSelect.createTags" class="vc-select-tags">
-    <span class="vc-tag" v-for="item in displayItem" :key="item.value">
+    <span class="vc-tag--item" v-for="item in displayItem" :key="item.value">
       {{ item[vcSelect.labelAlias] }}
       <i
         class="vc-icon-close"
         @click="evt => vcSelect.selectedEvt(evt, item)"
       />
     </span>
-    <span v-if="vcSelect.collapseTags && moreSize > 0" class="vc-tag more-tag">
+    <span
+      v-if="vcSelect.collapseTags && moreSize > 0"
+      class="vc-tag--item more-tag"
+    >
       +{{ moreSize }}
     </span>
     <input
