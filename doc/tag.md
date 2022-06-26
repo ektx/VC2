@@ -202,7 +202,7 @@ export default {
 ```
 :::
 
-用于标记和选择。
+## Padding 设置
 
 ::: codeBox
 ```vue
@@ -231,7 +231,14 @@ export default {
 
 ```vue
 <template>
-  <vc-tag-group :list="tags" closable editable @update="onUpdate"/>
+  <vc-tag-group 
+    :list="tags" 
+    closable 
+    editable 
+    @addItem="addItem" 
+    @removeItem="removeItem" 
+    @clickItem="clickItem"
+  />
 </template>
 
 <script>
@@ -247,12 +254,20 @@ export default {
     };
   },
   methods: {
-    onUpdate(item) {
-      console.log(item)
+    addItem(item) {
+      console.log('添加的标签为:', item)
       this.tags.push({
         ...item,
         color: '#9c27b0'
       })
+    },
+    removeItem(item) {
+      console.log('删除的标签为:', item)
+
+      this.tags.splice(item.index, 1)
+    },
+    clickItem(item) {
+      console.log('当前点击的标签为:', item)
     }
   }
 }
@@ -315,3 +330,35 @@ export default {
 | --- | --- | --- | --- | --- |
 | type | `String` | 类型 用于快速设置颜色 | - | success/info/warning/danger |
 | color | `String` | 设置颜色 | - | - | 
+| padding | `String` | 设置 padding | - | - | 
+| radius | `String/number` | 设置圆角 | - | - | 
+| border | `String/number` | 设置边框粗细 | `1px` | - | 
+| closable | `Boolean` | 是否可关闭 | `false` | - | 
+| size | `String/number` | 设置按钮大小 | `14px` | - | 
+| theme | `String` | 设置主题 | `light` | lighr/dark/plain | 
+# Tag Group 属性
+
+| 参数 | 类型 | 说明 | 默认值 | 可选值 |
+| --- | --- | --- | --- | --- |
+| list | `ListItem[]` | 标签列表 | - | success/info/warning/danger |
+| type | `String` | 类型 用于快速设置颜色 | - | success/info/warning/danger |
+| color | `String` | 设置颜色 | - | - | 
+| padding | `String` | 设置 padding | - | - | 
+| radius | `String/number` | 设置圆角 | - | - | 
+| border | `String/number` | 设置边框粗细 | `1px` | - | 
+| closable | `Boolean` | 是否可关闭 | `false` | - | 
+| size | `String/number` | 设置按钮大小 | `14px` | - | 
+| theme | `String` | 设置主题 | `light` | lighr/dark/plain | 
+| alias | `Object` | 设置 ListItem 属性对应的别名 | - | - | 
+| editable | `Boolean` | 可编辑的 | `false` | - | 
+| btnIcon | `String` | 按钮图标 | `vc-icon-plus` | - | 
+| btnText | `String` | 按钮文字 | `New Tag` | - | 
+
+## ListItem 属性
+
+| 参数 | 类型 | 说明 | 默认值 | 可选值 |
+| --- | --- | --- | --- | --- |
+| label | `String` | 显示内容 | - | - |
+| type | `String` | 类型 用于快速设置颜色 | - | success/info/warning/danger |
+| color | `String` | 设置颜色 | - | - | 
+| size | `String/number` | 设置按钮大小 | `14px` | - | 

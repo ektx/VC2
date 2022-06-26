@@ -24,27 +24,35 @@ export default {
       type: String,
       default: ''
     },
+    /** 设置 padding */
     padding: {
       type: String,
       default: ''
     },
+    /** 设置圆角 */
     radius: {
       type: [String, Number],
       default: '3px'
     },
+    /** 设置边框粗细 */
     border: {
       type: [String, Number],
       default: '1px'
     },
+    /** 是否可关闭 */
     closable: Boolean,
+    /** 设置按钮大小 */
     size: {
       type: [String, Number],
       default: '14px'
     },
+    /** 设置主题 */
     theme: {
       type: String,
-      values: ['light', 'dark', 'plain'],
-      default: 'light'
+      default: 'light',
+      validator(val) {
+        return ['light', 'dark', 'plain'].includes(val)
+      }
     }
   },
   computed: {

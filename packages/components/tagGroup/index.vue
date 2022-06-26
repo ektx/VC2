@@ -45,15 +45,18 @@ export default {
   name: 'VcTagGroup',
   components: { Tag, MyButton, MyInput },
   props: {
+    /** 标签列表 */
     list: {
       type: Array,
       default: []
     },
+    /** 是否可关闭 */
     closable: Boolean,
     radius: [String, Number],
     border: [String, Number],
     size: [String, Number],
     theme: String,
+    /** 设置 List 属性对应的别名 */
     alias: {
       type: Object,
       default: () => ({})
@@ -63,6 +66,7 @@ export default {
       type: Boolean,
       default: false
     },
+    /** 按钮图标 */
     btnIcon: {
       type: String,
       default: 'vc-icon-plus'
@@ -94,13 +98,20 @@ export default {
   },
   methods: {
     onTagClose(e, index) {
-      this.list.splice(index, 1)
-
-      this.$emit('change', { data: this.list, index, event: e })
+      this.$emit('removeItem', {
+        list: this.list,
+        item: this.list[index],
+        index,
+        event: e
+      })
     },
 
     onClickItem(index) {
-      this.$emit('clickItem', { index, item: this.list[index] })
+      this.$emit('clickItem', {
+        index,
+        item: this.list[index],
+        list: this.list
+      })
     },
 
     toggleInput() {
@@ -112,7 +123,7 @@ export default {
     },
 
     enterInput() {
-      this.$emit('update', {
+      this.$emit('addItem', {
         [this.myAlias.label]: this.inputValue
       })
 
