@@ -170,6 +170,12 @@ const options = [{
   label: '北京烤鸭'
 }]
 </script>
+
+<style>
+.vc-select {
+  margin-bottom: 10px;
+}
+</style>
 ```
 :::
 
