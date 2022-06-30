@@ -1,11 +1,11 @@
 <template>
   <div
-    :class="['resize-box', `to-${direction}`]"
+    :class="['vc-split-panel', `to-${direction}`]"
     :data="JSON.stringify(children)"
     :size="JSON.stringify(sizes)"
   >
     <div
-      class="resize-box-item"
+      class="vc-split-panel-item"
       v-for="(child, i) in sizes"
       :key="child.name"
       :style="getStyle(child)"
