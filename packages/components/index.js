@@ -19,6 +19,7 @@ import Progress from './progress'
 import Radio from './radio'
 import RadioGroup from './radioGroup'
 import Select from './select'
+import SplitPanel from './splitPanel'
 import Switch from './switch'
 import Table from './table'
 import Tabs from './tabs'
@@ -50,6 +51,7 @@ export const VcProgress = Progress
 export const VcRadio = Radio
 export const VcRadioGroup = RadioGroup
 export const VcSelect = Select
+export const VcSplitPanel = SplitPanel
 export const VcSwitch = Switch
 export const VcTable = Table
 export const VcTabs = Tabs

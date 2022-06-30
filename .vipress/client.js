@@ -124,6 +124,10 @@ export const menu = [
       {
         label: 'Popover 弹出框',
         to: '/doc/popover'
+      },
+      {
+        label: 'SplitPanel 分割面板',
+        to: '/doc/splitPanel'
       }
     ]
   },

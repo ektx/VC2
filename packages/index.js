@@ -16,6 +16,7 @@ import Progress from './components/progress/index.vue'
 import Radio from './components/radio/index.vue'
 import RadioGroup from './components/radioGroup/index.vue'
 import Select from './components/select/index.vue'
+import SplitPanel from './components/splitPanel/index.vue'
 import Switch from './components/switch/index.vue'
 import Table from './components/table/index.vue'
 import Tabs from './components/tabs/index.vue'
@@ -51,6 +52,7 @@ const components = [
   Radio,
   RadioGroup,
   Select,
+  SplitPanel,
   Switch,
   Table,
   Tabs,
