@@ -54,11 +54,11 @@ export const menu = [
       {
         label: 'Progress 进度条',
         to: '/doc/progress'
-      },
-      {
-        label: 'TimelineCalendar 时间线日历',
-        to: '/doc/timelineCalendar'
       }
+      // {
+      //   label: 'TimelineCalendar 时间线日历',
+      //   to: '/doc/timelineCalendar'
+      // }
     ]
   },
   {
