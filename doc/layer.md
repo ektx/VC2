@@ -116,7 +116,7 @@ export default {
 | 名称 | 说明 |
 | --- | --- |
 | — | 弹层的内容 |
-| title | 弹层标题区的内容 |
+| header | 弹层标题区的内容 |
 | footer | 按钮操作区的内容 |
 
 ## Events
