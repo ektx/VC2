@@ -6,6 +6,27 @@
 ```vue
 <template>
   <vc-button @click="open = !open">Open Layer - {{open}}</vc-button>
+  <vc-layer v-model:show="open" title="hello world" >
+    <p>这是一段信息</p>
+  </vc-layer>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const open = ref(false)
+</script>
+```
+:::
+
+## 自定义
+
+### 自定义按钮
+
+::: codeBox 
+```vue
+<template>
+  <vc-button @click="open = !open">Open Layer - {{open}}</vc-button>
   <vc-layer v-model:show="open" title="hello world" append-to-body>
     <p>这是一段信息</p>
     <template #footer>
@@ -26,6 +47,29 @@ export default {
 </script>
 ```
 :::
+
+### 自定义标题
+
+通过 `header` 插槽，你可以自定义标题效果，同时还可以通过设置 `noHeader` 来移除标题区域。
+
+::: codeBox 
+```vue
+<template>
+  <vc-button @click="open = !open">Open Layer - {{open}}</vc-button>
+  <vc-layer v-model:show="open">
+    <template #header>你好呀</template>
+    <p>这是一段信息</p>
+  </vc-layer>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const open = ref(false)
+</script>
+```
+:::
+
 
 ## 全屏效果
 
