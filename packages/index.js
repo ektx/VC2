@@ -9,6 +9,8 @@ import Icon from './components/icon/index.vue'
 import Input from './components/input/index.vue'
 import InputNumber from './components/inputNumber/index.vue'
 import Layer from './components/layer/index.vue'
+import Menu from './components/menu/index.vue'
+import MenuItem from './components/menuItem/index.vue'
 import OperationList from './components/operationList/index.vue'
 import Pagination from './components/pagination/index.vue'
 import Popover from './components/popover/index.vue'
@@ -45,6 +47,8 @@ const components = [
   Input,
   InputNumber,
   Layer,
+  Menu,
+  MenuItem,
   OperationList,
   Pagination,
   Popover,
@@ -81,6 +85,6 @@ const install = app => {
 }
 
 export default {
-  version: '0.0.0-rc.1',
+  version: '0.16.0',
   install
 }

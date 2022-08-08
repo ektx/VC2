@@ -10,6 +10,8 @@ import Icon from './icon'
 import Input from './input'
 import InputNumber from './inputNumber'
 import Layer from './layer'
+import Menu from './menu'
+import MenuItem from './menuItem'
 import Message from './message'
 import Notification from './notification'
 import OperationList from './operationList'
@@ -42,6 +44,8 @@ export const VcIcon = Icon
 export const VcInput = Input
 export const VcInputNumber = InputNumber
 export const VcLayer = Layer
+export const VcMenu = Menu
+export const VcMenuItem = MenuItem
 export const VcMessage = Message
 export const VcNotification = Notification
 export const VcOperationList = OperationList

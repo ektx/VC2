@@ -149,6 +149,15 @@ export const menu = [
     ]
   },
   {
+    label: '🧭 导航',
+    children: [
+      {
+        label: 'Menu 菜单',
+        to: '/doc/menu'
+      }
+    ]
+  },
+  {
     label: '开发指南',
     children: [
       {
