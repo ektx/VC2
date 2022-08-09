@@ -8,7 +8,8 @@
         'is-disabled': disabled,
         'is-open': isOpen,
         'is-active': isActive,
-        'is-exact-active': isExactActive
+        'is-exact-active': isExactActive,
+        'is-collapse': $$Menu.collapse
       }
     ]"
   >
@@ -19,14 +20,17 @@
       @mouseenter="onMouseEnterHeader"
       @mouseleave="onMouseLeaveHeader"
     >
-      <span :style="headerSapnStyle"><slot /></span>
+      <div :style="headerSapnStyle">
+        <slot name="icon"><i class="vc-icon-no-smoking"></i></slot>
+        <slot />
+      </div>
       <i v-if="$slots.children" class="vc-icon-arrow-right"></i>
     </div>
 
     <div
       ref="children"
       v-if="$slots.children"
-      :class="['vc-menu-child', `is-${$$Menu.mode}`]"
+      :class="['vc-menu-item--child', `is-${$$Menu.mode}`]"
     >
       <slot name="children" />
     </div>
@@ -67,7 +71,7 @@ export default {
     headerSapnStyle() {
       let obj = {}
 
-      if (this.level && this.$$Menu.mode === 'inline')
+      if (this.level && this.$$Menu.mode === 'inline' && !this.$$Menu.collapse)
         obj.paddingLeft = `calc(${this.level} * 1em)`
       return obj
     },
@@ -81,7 +85,7 @@ export default {
     // 是否为精确激活菜单
     isExactActive() {
       if (this.isActive) {
-        return this.$$Menu.modelValue.length === this.level + 1
+        return this.$$Menu.modelValue.slice(-1)[0] === this.value
       }
       return false
     },
@@ -94,10 +98,11 @@ export default {
         children.style.display = result ? 'block' : 'none'
       }
 
-      // if (this.timer) clearTimeout(this.timer)
-
       switch (this.$$Menu.mode) {
         case 'inline':
+          if (this.$$Menu.collapse && children) {
+            result && this.showTooltip()
+          }
           return result
 
         case 'vertical':
@@ -114,8 +119,10 @@ export default {
     // 点击时
     toggleChild() {
       if (this.disabled) return
-
+      // 有子级时 我们只担任展开或收缩
       if (this.$refs.children) {
+        // 如果是在折叠菜单时
+        if (this.$$Menu.collapse) return
         this.$$Menu.myExpand[this.level] = this.isOpen ? '' : this.value
       } else {
         this.$parent.updateValue([this.value])
@@ -127,40 +134,37 @@ export default {
 
       if (this.disabled) return
 
-      if (this.$$Menu.mode !== 'inline') {
+      if (this.$$Menu.mode !== 'inline' || this.$$Menu.collapse) {
         this.$parent.updateExpand([this.value])
       }
     },
 
     onMouseLeaveHeader() {
-      if (this.$$Menu.mode !== 'inline') this.$$Menu.clearMyExpand()
+      if (this.$$Menu.mode !== 'inline' || this.$$Menu.collapse)
+        this.$$Menu.clearMyExpand()
     },
 
     // 展示浮层
     showTooltip() {
       const { header, children } = this.$refs
 
-      if (this.$$Menu.mode === 'inline') {
-        Object.assign(children.style, {})
-      } else {
-        let placement = 'right-start'
+      let placement = 'right-start'
 
-        if (this.$$Menu.mode !== 'vertical') {
-          placement = this.level === 0 ? 'bottom-start' : 'right-start'
-        }
+      if (this.$$Menu.mode === 'horizontal') {
+        placement = this.level === 0 ? 'bottom-start' : 'right-start'
+      }
 
-        this.tooltip = autoUpdate(header, children, () => {
-          computePosition(header, children, {
-            placement,
-            middleware: [flip(), offset(5)]
-          }).then(({ x, y }) => {
-            Object.assign(children.style, {
-              left: x + 'px',
-              top: y + 'px'
-            })
+      this.tooltip = autoUpdate(header, children, () => {
+        computePosition(header, children, {
+          placement,
+          middleware: [flip(), offset(5)]
+        }).then(({ x, y }) => {
+          Object.assign(children.style, {
+            left: x + 'px',
+            top: y + 'px'
           })
         })
-      }
+      })
     },
 
     updateValue(val) {

@@ -1,5 +1,5 @@
 <template>
-  {{ myExpand }}
+  {{ myExpand }}-{{ collapse }}
   <div :class="['vc-menu', mode + '-mode']">
     <slot />
   </div>
@@ -38,6 +38,11 @@ export default {
     closeDelay: {
       type: Number,
       default: 100
+    },
+    // 是否水平折叠收起菜单（仅在 mode 为 vertical 时可用）
+    collapse: {
+      type: Boolean,
+      default: false
     }
   },
   watch: {
