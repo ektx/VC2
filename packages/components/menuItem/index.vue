@@ -11,13 +11,13 @@
         'is-exact-active': isExactActive
       }
     ]"
-    @mouseleave="onLeaveItem"
   >
     <div
       ref="header"
       class="vc-menu-item--header"
       @click="toggleChild"
       @mouseenter="onMouseEnterHeader"
+      @mouseleave="onMouseLeaveHeader"
     >
       <span :style="headerSapnStyle"><slot /></span>
       <i v-if="$slots.children" class="vc-icon-arrow-right"></i>
@@ -27,7 +27,6 @@
       ref="children"
       v-if="$slots.children"
       :class="['vc-menu-child', `is-${$$Menu.mode}`]"
-      @mouseleave="onLeaveLayer"
     >
       <slot name="children" />
     </div>
@@ -57,8 +56,8 @@ export default {
   },
   data() {
     return {
-      // isOpen: false,
-      tooltip: null
+      tooltip: null,
+      timer: null
     }
   },
   computed: {
@@ -87,52 +86,57 @@ export default {
       return false
     },
     isOpen() {
-      console.log(this.level, this.value, this.$$Menu.myExpand)
-      return this.$$Menu.myExpand[this.level] === this.value
-    }
-  },
-  // watch: {
-  //   isOpen(val) {
-  //     if (this.$refs.children)
-  //       this.$refs.children.style.display = val ? 'block' : 'none'
-  //   }
-  // },
-  mounted() {
-    this.updateOpen()
-  },
-  methods: {
-    toggleChild() {
+      // console.log(this.level, this.value, this.$$Menu.myExpand)
       let { children } = this.$refs
-
-      if (this.$parent.updateValue && !children) {
-        this.$parent.updateValue([this.value])
-      }
+      let result = this.$$Menu.myExpand[this.level] === this.value
 
       if (children) {
-        if (this.isOpen) {
-          this.isOpen = false
-        } else {
-          this.isOpen = true
-          this.showTooltip()
-        }
+        children.style.display = result ? 'block' : 'none'
+      }
+
+      // if (this.timer) clearTimeout(this.timer)
+
+      switch (this.$$Menu.mode) {
+        case 'inline':
+          return result
+
+        case 'vertical':
+          children && result && this.showTooltip()
+          return result
+
+        case 'horizontal':
+          children && result && this.showTooltip()
+          return result
+      }
+    }
+  },
+  methods: {
+    // 点击时
+    toggleChild() {
+      if (this.disabled) return
+
+      if (this.$refs.children) {
+        this.$$Menu.myExpand[this.level] = this.isOpen ? '' : this.value
+      } else {
+        this.$parent.updateValue([this.value])
       }
     },
 
     onMouseEnterHeader() {
-      console.log('onMouseEnterHeader')
+      this.$$Menu.clearTimer()
 
-      let { children } = this.$refs
+      if (this.disabled) return
 
-      if (children) {
-        if (this.isOpen) {
-          this.isOpen = false
-        } else {
-          this.isOpen = true
-          this.showTooltip()
-        }
+      if (this.$$Menu.mode !== 'inline') {
+        this.$parent.updateExpand([this.value])
       }
     },
 
+    onMouseLeaveHeader() {
+      if (this.$$Menu.mode !== 'inline') this.$$Menu.clearMyExpand()
+    },
+
+    // 展示浮层
     showTooltip() {
       const { header, children } = this.$refs
 
@@ -165,17 +169,10 @@ export default {
       }
     },
 
-    updateOpen() {
-      this.isOpen =
-        this.$$Menu.mode === 'inline' && this.isActive && this.$refs.children
-    },
-
-    onLeaveLayer() {
-      console.log('leave...')
-    },
-
-    onLeaveItem() {
-      console.log('leave item')
+    updateExpand(val) {
+      if (this.$parent.updateExpand) {
+        this.$parent.updateExpand([this.value, ...val])
+      }
     }
   }
 }

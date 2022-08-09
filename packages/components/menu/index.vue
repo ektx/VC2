@@ -1,4 +1,5 @@
 <template>
+  {{ myExpand }}
   <div :class="['vc-menu', mode + '-mode']">
     <slot />
   </div>
@@ -28,28 +29,50 @@ export default {
         return ['inline', 'horizontal', 'vertical'].includes(val)
       }
     },
+    // 默认扩展（只在inline模式下生效）
     expand: {
       type: Array,
       default: null
+    },
+    // 关闭弹层延迟
+    closeDelay: {
+      type: Number,
+      default: 100
     }
   },
-  computed: {
-    myExpand: {
-      get() {
-        return this.expand || this.modelValue
+  watch: {
+    expand: {
+      handler(val) {
+        if (this.mode === 'horizontal') this.myExpand = []
+        else this.myExpand = val ? this.expand : this.modelValue.slice()
       },
-      set(val) {
-        this.$emit('update:expand', val)
-      }
+      immediate: true
+    }
+  },
+  data() {
+    return {
+      myExpand: '',
+      timer: null
     }
   },
   methods: {
     updateValue(val) {
       this.$emit('update:modelValue', val)
+    },
+    // 更新扩展
+    updateExpand(val) {
+      this.myExpand = val
+    },
+    clearMyExpand() {
+      this.clearTimer()
+
+      this.timer = setTimeout(() => {
+        this.myExpand = []
+      }, this.closeDelay)
+    },
+    clearTimer() {
+      if (this.timer) clearTimeout(this.timer)
     }
-    // updateExpand(val) {
-    //   this.$emit('update:expand', val)
-    // }
   }
 }
 </script>
