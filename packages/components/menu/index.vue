@@ -1,6 +1,5 @@
 <template>
-  {{ myExpand }}-{{ collapse }}
-  <div :class="['vc-menu', mode + '-mode']">
+  <div :class="['vc-menu', mode + '-mode', { 'is-collapse': collapse }]">
     <slot />
   </div>
 </template>
@@ -48,8 +47,10 @@ export default {
   watch: {
     expand: {
       handler(val) {
-        if (this.mode === 'horizontal') this.myExpand = []
-        else this.myExpand = val ? this.expand : this.modelValue.slice()
+        if (this.mode === 'inline') {
+          if (this.collapse) this.myExpand = []
+          else this.myExpand = val ? val : this.modelValue.slice()
+        } else this.myExpand = []
       },
       immediate: true
     }

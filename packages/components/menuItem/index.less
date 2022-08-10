@@ -1,6 +1,7 @@
 @import '../../styles/var.less';
 
 .@{namespace}-menu-item {
+  font-size: 14px;
   color: @color-text-regular;
   cursor: pointer;
 
@@ -8,14 +9,7 @@
     display: flex;
     align-items: center;
     padding: 0 10px;
-    line-height: 28px;
-
-    div {
-      flex: 1;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
+    line-height: 2;
 
     &:hover {
       color: @primary-color;
@@ -23,17 +17,34 @@
     }
   }
 
+  &--icon {
+    display: flex;
+    align-items: center;
+    width: 1.5em;
+    aspect-ratio: 1 / 1;
+    // background-color: yellow;
+  }
+  &--hd-inner {
+    flex: 1;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  &--more {
+    margin: 0 0 0 5px;
+  }
+
   &.horizontal-mode.level-0,
   &.inline-mode {
     & > .@{namespace}-menu-item--header {
-      i {
+      .@{namespace}-menu-item--more {
         transform: rotate(90deg);
       }
     }
 
     &.is-open {
       & > .@{namespace}-menu-item--header {
-        i {
+        .@{namespace}-menu-item--more {
           transform: rotate(270deg);
         }
       }
@@ -67,6 +78,7 @@
   }
 
   &.inline-mode {
+    // 除在折叠菜单状态下 移除定位相关样式
     &:not(.is-collapse) {
       .@{namespace}-menu-item--child {
         padding: 0;
@@ -85,25 +97,35 @@
   }
 
   &.is-collapse {
-    .@{namespace}-menu-item--child {
-      padding: 5px 0;
-      position: absolute;
-      z-index: 2000;
-    }
     & > .@{namespace}-menu-item--header {
-      i {
-        transform: rotate(0deg);
+      justify-content: center;
+
+      .@{namespace}-menu-item {
+        &--icon {
+          justify-content: center;
+        }
+        &--more {
+          transform: rotate(0deg);
+        }
       }
     }
 
     &.is-open {
       & > .@{namespace}-menu-item--header {
-        i {
+        .@{namespace}-menu-item--more {
           transform: rotate(0deg);
         }
       }
-      & > .@{namespace}-menu-item--child {
-        display: none;
+    }
+
+    &.level-0 {
+      & > .@{namespace}-menu-item--header {
+        .@{namespace}-menu-item {
+          &--more,
+          &--hd-inner {
+            display: none;
+          }
+        }
       }
     }
   }

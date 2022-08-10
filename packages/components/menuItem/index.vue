@@ -20,11 +20,19 @@
       @mouseenter="onMouseEnterHeader"
       @mouseleave="onMouseLeaveHeader"
     >
-      <div :style="headerSapnStyle">
-        <slot name="icon"><i class="vc-icon-no-smoking"></i></slot>
-        <slot />
+      <div class="vc-menu-item--padding" :style="headerSapnStyle"></div>
+      <div v-if="icon || $slots.icon" class="vc-menu-item--icon">
+        <slot name="icon">
+          <i :class="icon"></i>
+        </slot>
       </div>
-      <i v-if="$slots.children" class="vc-icon-arrow-right"></i>
+      <div class="vc-menu-item--hd-inner">
+        <slot></slot>
+      </div>
+      <i
+        v-if="$slots.children"
+        class="vc-menu-item--more vc-icon-arrow-right"
+      ></i>
     </div>
 
     <div
@@ -54,6 +62,11 @@ export default {
     },
     /** 绑定的值 */
     value: {
+      type: String,
+      default: ''
+    },
+    // 图标（VC2 中图标）
+    icon: {
       type: String,
       default: ''
     }
@@ -91,16 +104,17 @@ export default {
     },
     isOpen() {
       // console.log(this.level, this.value, this.$$Menu.myExpand)
+      let { collapse, myExpand, mode } = this.$$Menu
       let { children } = this.$refs
-      let result = this.$$Menu.myExpand[this.level] === this.value
+      let result = myExpand[this.level] === this.value
 
       if (children) {
         children.style.display = result ? 'block' : 'none'
       }
 
-      switch (this.$$Menu.mode) {
+      switch (mode) {
         case 'inline':
-          if (this.$$Menu.collapse && children) {
+          if (collapse && children) {
             result && this.showTooltip()
           }
           return result
@@ -157,7 +171,7 @@ export default {
       this.tooltip = autoUpdate(header, children, () => {
         computePosition(header, children, {
           placement,
-          middleware: [flip(), offset(5)]
+          middleware: [flip(), offset(2)]
         }).then(({ x, y }) => {
           Object.assign(children.style, {
             left: x + 'px',
