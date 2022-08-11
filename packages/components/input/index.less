@@ -1,3 +1,4 @@
+@import '../../styles/var.less';
 @placeholderColor: #c0c4cc;
 
 .vc-input {
@@ -7,7 +8,7 @@
   vertical-align: middle;
   align-items: stretch;
   box-sizing: border-box;
-  border: 1px solid #dcdfe6;
+  border: 1px solid @input-border-color;
   border-radius: 0.25em;
   background: #fff;
   transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out;
@@ -15,22 +16,22 @@
   cursor: text;
 
   &:hover {
-    border-color: #c0c4cc;
+    border-color: @input-hover-color;
   }
   &:focus-within,
   &.is-focus {
-    border-color: #409eff;
+    border-color: @input-focus-color;
     box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.35);
   }
   &.is-disabled {
     cursor: not-allowed;
-    background-color: #f5f7fa;
+    background-color: @input-disabled-color;
   }
 
   &__suffix-icon,
   &__prefix-icon {
     display: flex;
-    padding: 0 0.4em;
+    padding: 0 0.5em;
     align-items: center;
     color: #c0c4cc;
 
@@ -40,8 +41,6 @@
   }
 
   &__prefix-icon {
-    padding-right: 5px;
-
     & + .vc-input__text {
       padding-left: 0;
     }
@@ -93,7 +92,7 @@
     display: flex;
     padding: 0 3px;
     align-items: center;
-    color: #000;
+    color: #333;
     cursor: pointer;
     transition: opacity 0.2s ease-out;
   }
