@@ -14,7 +14,7 @@ export default {
       [menuInjectionKey]: this
     }
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'change'],
   props: {
     modelValue: {
       type: Array,
@@ -84,8 +84,13 @@ export default {
     }
   },
   methods: {
-    updateValue(val) {
+    updateValue(val, item) {
       this.$emit('update:modelValue', val)
+      this.$emit('change', {
+        key: this.modelValue.slice(-1)[0],
+        path: this.modelValue,
+        item
+      })
     },
     // 更新扩展
     updateExpand(val) {

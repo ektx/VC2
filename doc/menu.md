@@ -7,7 +7,7 @@
 <template>
   {{ value }}
   <hr />
-  <vc-menu mode="horizontal" v-model="value">
+  <vc-menu mode="horizontal" v-model="value" @change="onChange">
     <vc-menu-item value="1">🏡 Home</vc-menu-item>
     <vc-menu-item value="2" disabled icon="vc-icon-warning-outline">
       禁用效果
@@ -35,6 +35,10 @@
 import { ref } from 'vue'
 
 const value = ref(['3', '3-2', '3-2-2'])
+
+const onChange = val => {
+  console.log(val)
+}
 </script>
 ```
 :::
@@ -45,7 +49,7 @@ const value = ref(['3', '3-2', '3-2-2'])
 ```vue
 <template>
   {{ inlineValue }} <hr />
-  <div style="width: 200px; border-right: 1px solid #eee">
+  <div style="width: 200px;">
     <vc-menu mode="inline" v-model="inlineValue">
       <vc-menu-item value="1">🏡 Home</vc-menu-item>
       <vc-menu-item value="2" disabled icon="vc-icon-warning-outline">禁用效果</vc-menu-item>
@@ -70,7 +74,7 @@ const value = ref(['3', '3-2', '3-2-2'])
   </div>
 
   {{ verticalValue }} <hr/>
-  <div style="width: 200px; border-right: 1px solid #eee">
+  <div style="width: 200px">
     <vc-menu mode="vertical" v-model="verticalValue">
       <vc-menu-item value="1">🏡 Home</vc-menu-item>
       <vc-menu-item value="2" disabled icon="vc-icon-warning-outline">禁用效果</vc-menu-item>
@@ -105,6 +109,8 @@ const verticalValue = ref(['2'])
 
 ## 折叠导航
 
+折叠导航时，需要设置一级导航的图标，否则可能丢失导航。
+
 ::: codeBox
 ```vue
 <template>
@@ -116,7 +122,7 @@ const verticalValue = ref(['2'])
     <vc-radio v-model="collapse" :label="false">展开</vc-radio>
   </vc-radio-group>
   {{ inlineValue }} <hr />
-  <vc-menu mode="inline" v-model="inlineValue" :collapse="collapse" style="width: 200px; border-right: 1px solid #eee">
+  <vc-menu mode="inline" v-model="inlineValue" :collapse="collapse" style="width: 200px">
     <vc-menu-item value="1" icon="vc-icon-s-shop">Home</vc-menu-item>
     <vc-menu-item value="2" disabled icon="vc-icon-warning-outline">禁用效果</vc-menu-item>
     <vc-menu-item value="3">
@@ -144,7 +150,7 @@ const verticalValue = ref(['2'])
     mode="vertical" 
     v-model="verticalValue" 
     :collapse="collapse" 
-    style="width: 200px; border-right: 1px solid #eee"
+    style="width: 200px"
   >
     <vc-menu-item value="1" icon="vc-icon-s-shop">Home</vc-menu-item>
     <vc-menu-item value="2" disabled icon="vc-icon-warning-outline">禁用效果</vc-menu-item>
@@ -179,7 +185,7 @@ const collapse = ref(true)
 <style lang="less" scoped>
 .customize-menu {
   :deep(.vc-menu-item--icon) {
-    font-size: 24px;
+    font-size: 24px; // <- 设置图标大小
   }
 }
 </style>

@@ -139,7 +139,7 @@ export default {
         if (this.$$Menu.collapse) return
         this.$$Menu.myExpand[this.level] = this.isOpen ? '' : this.value
       } else {
-        this.$parent.updateValue([this.value])
+        this.$parent.updateValue([this.value], this)
       }
     },
 
@@ -181,10 +181,8 @@ export default {
       })
     },
 
-    updateValue(val) {
-      if (this.$parent.updateValue) {
-        this.$parent.updateValue([this.value, ...val])
-      }
+    updateValue(val, that) {
+      this.$parent.updateValue([this.value, ...val], that)
     },
 
     updateExpand(val) {
