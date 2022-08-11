@@ -53,6 +53,28 @@ export default {
         } else this.myExpand = []
       },
       immediate: true
+    },
+    collapse: {
+      handler(val) {
+        if (!val) return
+        this.$nextTick(() => {
+          let findIconEl = this.$el.querySelector('.vc-menu-item--icon')
+          let width = null
+
+          if (findIconEl) {
+            let { paddingLeft, paddingRight } = getComputedStyle(
+              findIconEl.parentElement
+            )
+            ;({ width } = findIconEl.getBoundingClientRect())
+            width += parseInt(paddingLeft) + parseInt(paddingRight)
+          }
+
+          this.$el.style.width = width + 'px'
+          this.$el.style.color = 'red'
+          console.log(val, this.$el.querySelector('.vc-menu-item--icon'))
+        })
+      },
+      immediate: true
     }
   },
   data() {
