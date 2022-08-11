@@ -5,8 +5,13 @@
   color: #333;
   flex-direction: column;
   transition: width 0.2s ease-in-out;
+  background-color: @menu-bg-color;
 
   &.horizontal-mode {
     flex-direction: row;
+  }
+
+  &:not(.horizontal-mode) {
+    border-right: 1px solid @menu-aside-color;
   }
 }
