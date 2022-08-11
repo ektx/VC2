@@ -56,23 +56,7 @@ export default {
     },
     collapse: {
       handler(val) {
-        if (!val) return
-        this.$nextTick(() => {
-          let findIconEl = this.$el.querySelector('.vc-menu-item--icon')
-          let width = null
-
-          if (findIconEl) {
-            let { paddingLeft, paddingRight } = getComputedStyle(
-              findIconEl.parentElement
-            )
-            ;({ width } = findIconEl.getBoundingClientRect())
-            width += parseInt(paddingLeft) + parseInt(paddingRight)
-          }
-
-          this.$el.style.width = width + 'px'
-          this.$el.style.color = 'red'
-          console.log(val, this.$el.querySelector('.vc-menu-item--icon'))
-        })
+        this.updateCollapseSize()
       },
       immediate: true
     }
@@ -91,6 +75,7 @@ export default {
         path: this.modelValue,
         item
       })
+      this.updateCollapseSize()
     },
     // 更新扩展
     updateExpand(val) {
@@ -105,6 +90,23 @@ export default {
     },
     clearTimer() {
       if (this.timer) clearTimeout(this.timer)
+    },
+    updateCollapseSize() {
+      if (!this.collapse) return
+      this.$nextTick(() => {
+        let findIconEl = this.$el.querySelector('.vc-menu-item--icon')
+        let width = null
+
+        if (findIconEl) {
+          let { paddingLeft, paddingRight } = getComputedStyle(
+            findIconEl.parentElement
+          )
+          ;({ width } = findIconEl.getBoundingClientRect())
+          width += parseInt(paddingLeft) + parseInt(paddingRight)
+        }
+
+        this.$el.style.width = width + 'px'
+      })
     }
   }
 }
