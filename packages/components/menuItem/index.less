@@ -1,5 +1,19 @@
 @import '../../styles/var.less';
 
+.B_LeftIconPlaceholder {
+  .@{namespace}-menu-item--more {
+    display: inline-flex;
+    align-items: center;
+
+    & > * {
+      display: inline-block;
+      font-size: inherit;
+      width: 1em;
+      aspect-ratio: 1 / 1;
+    }
+  }
+}
+
 .@{namespace}-menu-item {
   font-size: 14px;
   line-height: 2em;
@@ -31,24 +45,40 @@
     overflow: hidden;
   }
   &--more {
-    margin: 0 0 0 5px;
+    margin: 0;
+
+    &.in-left {
+      margin-right: 5px;
+    }
+    &.in-right {
+      margin-left: 5px;
+    }
   }
 
-  &.horizontal-mode.level-0,
-  &.inline-mode {
-    & > .@{namespace}-menu-item--header {
-      .@{namespace}-menu-item--more {
-        transform: rotate(90deg);
-      }
-    }
-
-    &.is-open {
+  &.horizontal-mode {
+    &.level-0 {
       & > .@{namespace}-menu-item--header {
-        .@{namespace}-menu-item--more {
-          transform: rotate(270deg);
+        .@{namespace}-menu-item--more > * {
+          transform: rotate(90deg);
         }
       }
     }
+
+    &:not(.level-0) {
+      .B_LeftIconPlaceholder();
+    }
+  }
+
+  &.inline-mode {
+    &.is-open {
+      & > .@{namespace}-menu-item--header {
+        .@{namespace}-menu-item--more > * {
+          transform: rotate(90deg);
+        }
+      }
+    }
+
+    .B_LeftIconPlaceholder();
   }
 
   &.is-active {
@@ -104,7 +134,7 @@
         &--icon {
           justify-content: center;
         }
-        &--more {
+        &--more > * {
           transform: rotate(0deg);
         }
       }
@@ -112,7 +142,7 @@
 
     &.is-open {
       & > .@{namespace}-menu-item--header {
-        .@{namespace}-menu-item--more {
+        .@{namespace}-menu-item--more > * {
           transform: rotate(0deg);
         }
       }

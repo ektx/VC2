@@ -42,6 +42,12 @@ export default {
     collapse: {
       type: Boolean,
       default: false
+    },
+    // 更多图标位置
+    moreIconPosition: {
+      type: String,
+      default: 'right',
+      validator: val => ['left', 'right'].includes(val)
     }
   },
   watch: {

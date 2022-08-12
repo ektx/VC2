@@ -191,3 +191,71 @@ const collapse = ref(true)
 </style>
 ```
 :::
+
+## 更多图标位置设置
+
+
+::: codeBox
+```vue
+<template>
+  {{ value }}
+  <hr />
+  <vc-menu mode="horizontal" v-model="value" more-icon-position="left">
+    <vc-menu-item value="1">🏡 Home</vc-menu-item>
+    <vc-menu-item value="2" disabled icon="vc-icon-warning-outline">
+      禁用效果
+    </vc-menu-item>
+    <vc-menu-item value="3">
+      <template #icon><i class="vc-icon-wind-power"></i></template>
+      <span>子级效果</span>
+      <template #children>
+        <vc-menu-item value="3-1">标签一</vc-menu-item>
+        <vc-menu-item value="3-2">
+          <span>标签二</span>
+          <template #children>
+            <vc-menu-item value="3-2-1">Label One</vc-menu-item>
+            <vc-menu-item value="3-2-2">Label Two</vc-menu-item>
+            <vc-menu-item value="3-2-3">Label Three</vc-menu-item>
+          </template>
+        </vc-menu-item>
+        <vc-menu-item value="3-3">标签三</vc-menu-item>
+      </template>
+    </vc-menu-item>
+  </vc-menu>
+
+  {{ inlineValue }} <hr />
+  <div style="width: 200px;">
+    <vc-menu mode="inline" v-model="inlineValue" more-icon-position="left">
+      <vc-menu-item value="1">Home</vc-menu-item>
+      <vc-menu-item value="2" disabled>禁用效果</vc-menu-item>
+      <vc-menu-item value="3">
+        <span>子级效果</span>
+        <!-- 自定义展开收缩的标记 -->
+        <template #more="{status}">{{status ? '-' : '+'}}</template>
+        <template #children>
+          <vc-menu-item value="3-1">标签一</vc-menu-item>
+          <vc-menu-item value="3-2">
+            <span>标签二</span>
+            <template #children>
+              <vc-menu-item value="3-2-1">1、这是一个超长的标签 text text</vc-menu-item>
+              <vc-menu-item value="3-2-2">Label One</vc-menu-item>
+              <vc-menu-item value="3-2-3">Label Two</vc-menu-item>
+              <vc-menu-item value="3-2-4">Label Three</vc-menu-item>
+            </template>
+          </vc-menu-item>
+          <vc-menu-item value="3-3">标签三</vc-menu-item>
+        </template>
+      </vc-menu-item>
+    </vc-menu>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const value = ref(['3', '3-2', '3-2-2'])
+const inlineValue = ref(['3', '3-2', '3-2-2'])
+
+</script>
+```
+:::

@@ -21,6 +21,16 @@
       @mouseleave="onMouseLeaveHeader"
     >
       <div class="vc-menu-item--padding" :style="headerSapnStyle"></div>
+      <div
+        :class="['vc-menu-item--more ', `in-${$$Menu.moreIconPosition}`]"
+        v-if="$$Menu.moreIconPosition === 'left'"
+      >
+        <slot name="more" :status="isOpen">
+          <i
+            :class="[`${$slots.children ? 'vc-icon-arrow-right' : 'empty'}`]"
+          ></i>
+        </slot>
+      </div>
       <div v-if="icon || $slots.icon" class="vc-menu-item--icon">
         <slot name="icon">
           <i :class="icon"></i>
@@ -29,10 +39,14 @@
       <div class="vc-menu-item--hd-inner">
         <slot></slot>
       </div>
-      <i
-        v-if="$slots.children"
-        class="vc-menu-item--more vc-icon-arrow-right"
-      ></i>
+      <div
+        :class="['vc-menu-item--more ', `in-${$$Menu.moreIconPosition}`]"
+        v-if="$slots.children && $$Menu.moreIconPosition === 'right'"
+      >
+        <slot name="more" :status="isOpen">
+          <i class="vc-icon-arrow-right"></i>
+        </slot>
+      </div>
     </div>
 
     <div
