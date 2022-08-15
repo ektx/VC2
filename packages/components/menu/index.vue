@@ -16,6 +16,7 @@ export default {
   },
   emits: ['update:modelValue', 'change'],
   props: {
+    /** 默认值 */
     modelValue: {
       type: Array,
       default: () => []
@@ -33,7 +34,7 @@ export default {
       type: Array,
       default: null
     },
-    // 关闭弹层延迟
+    // 关闭弹层延迟(ms)
     closeDelay: {
       type: Number,
       default: 100

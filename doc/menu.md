@@ -259,3 +259,48 @@ const inlineValue = ref(['3', '3-2', '3-2-2'])
 </script>
 ```
 :::
+
+## Menu 属性
+
+| 参数 | 类型 | 说明 | 可选值 | 默认值 |
+|---|---|---|---|---|
+| modelValue/v-model | **String[]** | 值 | - | - |
+| mode | **string** | 模式 | inline/horizontal/vertical | - |
+| expand | **String[]** | 默认扩展（只在inline模式下生效） | - | - |
+| closeDelay | **Number** | 关闭弹层延迟(ms) | - | 100 |
+| collapse | **boolean** | 是否水平折叠收起菜单（仅在 mode 为 vertical 时可用） | - | false |
+| moreIconPosition | **String** | 更多图标位置 | - | right |
+
+## Menu 事件
+
+| 事件名称 | 说明 | 参数 |
+|---|---|---|
+| `update:modelValue` | 更新值 | - |
+| `change` | 变更时事件 | 如下 |
+
+```js
+const change = (key, path, item) {
+  // key string 值
+  // path string[] modelValue
+  // item Object 当前点击 MenuItem Vue实例
+}
+```
+
+
+## MenuItem 属性
+
+| 参数 | 类型 | 说明 | 可选值 | 默认值 |
+|---|---|---|---|---|
+| disabled | **Boolean** | 是否禁用 | - | false |
+| value | **string** | 绑定的值 | - | - |
+| icon | **String** | 图标（VC2 中图标） | - | - |
+
+## MenuItem Slot
+
+| 名称 | 说明 |
+| --- | --- |
+| default | 内容渲染 |
+| children | 子级渲染 |
+| more | 更多图标设置 |
+| icon | 自定义展开收缩图标设置 |
+
