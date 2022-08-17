@@ -34,7 +34,7 @@
 <script setup>
 import { ref } from 'vue'
 
-const value = ref(['3', '3-2', '3-2-2'])
+const value = ref('3-2-2')
 
 const onChange = val => {
   console.log(val)
@@ -61,7 +61,7 @@ const onChange = val => {
           <vc-menu-item value="3-2">
             <span>标签二</span>
             <template #children>
-              <vc-menu-item value="3-2-1">1、这是一个超长的标签 text text</vc-menu-item>
+              <vc-menu-item value="3-2-1">这是一个超长的标签 text text这是一个超长的标签 text text这是一个超长的标签 text text这是一个超长的标签 text text这是一个超长的标签 text text</vc-menu-item>
               <vc-menu-item value="3-2-2">Label One</vc-menu-item>
               <vc-menu-item value="3-2-3">Label Two</vc-menu-item>
               <vc-menu-item value="3-2-4">Label Three</vc-menu-item>
@@ -86,7 +86,7 @@ const onChange = val => {
           <vc-menu-item value="3-2">
             <span>标签二</span>
             <template #children>
-              <vc-menu-item value="3-2-1">1、这是一个超长的标签 text text</vc-menu-item>
+              <vc-menu-item value="3-2-1">这是一个超长的标签这是一个超长的标签</vc-menu-item>
               <vc-menu-item value="3-2-2">Label Two</vc-menu-item>
               <vc-menu-item value="3-2-3">Label Three</vc-menu-item>
             </template>
@@ -101,8 +101,56 @@ const onChange = val => {
 <script setup>
 import { ref } from 'vue'
 
-const inlineValue = ref(['3', '3-2', '3-2-2'])
-const verticalValue = ref(['2'])
+const inlineValue = ref('3-2-2')
+const verticalValue = ref('2')
+</script>
+```
+:::
+
+## 默认展开
+
+::: codeBox
+```vue
+<template>
+  {{ inlineValue }} <hr />
+  <div style="width: 200px;">
+    <vc-menu mode="inline" v-model="inlineValue" v-model:expand="expand">
+      <vc-menu-item value="1">🏡 Home</vc-menu-item>
+      <vc-menu-item value="2" disabled icon="vc-icon-warning-outline">禁用效果</vc-menu-item>
+      <vc-menu-item value="3">
+        <template #icon><i class="vc-icon-wind-power"></i></template>
+        <span>子级效果</span>
+        <template #children>
+          <vc-menu-item value="3-1">标签一</vc-menu-item>
+          <vc-menu-item value="3-2">
+            <span>标签二</span>
+            <template #children>
+              <vc-menu-item value="3-2-1">3-2-1</vc-menu-item>
+              <vc-menu-item value="3-2-2">Label One</vc-menu-item>
+              <vc-menu-item value="3-2-3">Label Two</vc-menu-item>
+              <vc-menu-item value="3-2-4">Label Three</vc-menu-item>
+            </template>
+          </vc-menu-item>
+          <vc-menu-item value="3-3">
+            标签三
+            <template #children>
+              <vc-menu-item value="3-3-1">3-3-1</vc-menu-item>
+              <vc-menu-item value="3-3-2">3-3-2</vc-menu-item>
+              <vc-menu-item value="3-3-3">3-3-3</vc-menu-item>
+              <vc-menu-item value="3-3-4">3-3-4</vc-menu-item>
+            </template>
+          </vc-menu-item>
+        </template>
+      </vc-menu-item>
+    </vc-menu>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const inlineValue = ref('3-2-2')
+const expand = ref(['3', '3-2', '3-3'])
 </script>
 ```
 :::
@@ -177,8 +225,8 @@ const verticalValue = ref(['2'])
 <script setup>
 import { ref } from 'vue'
 
-const inlineValue = ref(['3', '3-2', '3-2-2'])
-const verticalValue = ref(['2'])
+const inlineValue = ref('3-2-2')
+const verticalValue = ref('2')
 const collapse = ref(true)
 </script>
 
@@ -253,8 +301,8 @@ const collapse = ref(true)
 <script setup>
 import { ref } from 'vue'
 
-const value = ref(['3', '3-2', '3-2-2'])
-const inlineValue = ref(['3', '3-2', '3-2-2'])
+const value = ref('3-2-2')
+const inlineValue = ref('3-2-2')
 
 </script>
 ```

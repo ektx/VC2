@@ -104,23 +104,27 @@ export default {
     },
     // 是否为激活菜单或子菜单有激活
     isActive() {
-      if (this.$$Menu.modelValue && this.value) {
-        return this.$$Menu.modelValue[this.level] === this.value
-      }
-      return false
+      return this.$$Menu.activePath[this.level] === this.value
     },
     // 是否为精确激活菜单
     isExactActive() {
-      if (this.isActive) {
-        return this.$$Menu.modelValue.slice(-1)[0] === this.value
+      const result = this.$$Menu.modelValue === this.value
+
+      if (result) {
+        this.$nextTick(() => {
+          this.$$Menu.activePath = []
+
+          this.$$Menu.activePath[this.level] = this.value
+          this.$parent.updateActivePath && this.$parent.updateActivePath()
+        })
       }
-      return false
+
+      return result
     },
     isOpen() {
-      // console.log(this.level, this.value, this.$$Menu.myExpand)
       let { collapse, myExpand, mode } = this.$$Menu
       let { children } = this.$refs
-      let result = myExpand[this.level] === this.value
+      let result = [].concat(myExpand).includes(this.value)
 
       if (children) {
         children.style.display = result ? 'block' : 'none'
@@ -134,9 +138,6 @@ export default {
           return result
 
         case 'vertical':
-          children && result && this.showTooltip()
-          return result
-
         case 'horizontal':
           children && result && this.showTooltip()
           return result
@@ -151,13 +152,27 @@ export default {
       if (this.$refs.children) {
         // 如果是在折叠菜单时
         if (this.$$Menu.collapse) return
-        this.$$Menu.myExpand[this.level] = this.isOpen ? '' : this.value
+
+        if (this.$$Menu.mode === 'inline') {
+          const findIndex = this.$$Menu.myExpand.findIndex(
+            item => item === this.value
+          )
+
+          if (this.isOpen) {
+            this.$$Menu.myExpand.splice(findIndex, 1)
+          } else {
+            this.$$Menu.myExpand.push(this.value)
+          }
+        } else {
+          this.$$Menu.myExpand[this.level] = this.isOpen ? '' : this.value
+        }
       } else {
         this.$parent.updateValue([this.value], this)
       }
     },
 
     onMouseEnterHeader() {
+      console.log(this.$el)
       this.$$Menu.clearTimer()
 
       if (this.disabled) return
@@ -197,6 +212,12 @@ export default {
 
     updateValue(val, that) {
       this.$parent.updateValue([this.value, ...val], that)
+    },
+
+    updateActivePath() {
+      this.$$Menu.activePath[this.level] = this.value
+
+      this.$parent.updateActivePath && this.$parent.updateActivePath()
     },
 
     updateExpand(val) {

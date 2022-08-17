@@ -1,6 +1,6 @@
 <template>
   <div :class="['vc-menu', mode + '-mode', { 'is-collapse': collapse }]">
-    <slot />
+    <slot></slot>
   </div>
 </template>
 
@@ -18,8 +18,8 @@ export default {
   props: {
     /** 默认值 */
     modelValue: {
-      type: Array,
-      default: () => []
+      type: [String, Number],
+      default: ''
     },
     /** 模式 */
     mode: {
@@ -55,9 +55,8 @@ export default {
     expand: {
       handler(val) {
         if (this.mode === 'inline') {
-          if (this.collapse) this.myExpand = []
-          else this.myExpand = val ? val : this.modelValue.slice()
-        } else this.myExpand = []
+          if (!this.collapse) this.myExpand = val ? val : []
+        }
       },
       immediate: true
     },
@@ -70,16 +69,23 @@ export default {
   },
   data() {
     return {
-      myExpand: '',
+      activePath: [],
+      myExpand: [],
       timer: null
     }
   },
+  mounted() {
+    this.getActivePath()
+  },
   methods: {
+    getActivePath() {},
+
     updateValue(val, item) {
-      this.$emit('update:modelValue', val)
+      this.$emit('update:modelValue', val.slice(-1)[0])
+
       this.$emit('change', {
-        key: this.modelValue.slice(-1)[0],
-        path: this.modelValue,
+        key: this.modelValue,
+        path: val,
         item
       })
       this.updateCollapseSize()
