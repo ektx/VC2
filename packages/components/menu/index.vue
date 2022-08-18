@@ -34,6 +34,11 @@ export default {
       type: Array,
       default: null
     },
+    // 只在点击展开图标时展开
+    expandOnClickIcon: {
+      type: Boolean,
+      default: false
+    },
     // 关闭弹层延迟(ms)
     closeDelay: {
       type: Number,

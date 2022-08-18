@@ -16,7 +16,7 @@
     <div
       ref="header"
       class="vc-menu-item--header"
-      @click="toggleChild"
+      @click="toggleChild('node')"
       @mouseenter="onMouseEnterHeader"
       @mouseleave="onMouseLeaveHeader"
     >
@@ -24,6 +24,7 @@
       <div
         :class="['vc-menu-item--more ', `in-${$$Menu.moreIconPosition}`]"
         v-if="$$Menu.moreIconPosition === 'left'"
+        @click.stop="toggleChild('icon')"
       >
         <slot name="more" :status="isOpen">
           <i
@@ -42,6 +43,7 @@
       <div
         :class="['vc-menu-item--more ', `in-${$$Menu.moreIconPosition}`]"
         v-if="$slots.children && $$Menu.moreIconPosition === 'right'"
+        @click.stop="toggleChild('icon')"
       >
         <slot name="more" :status="isOpen">
           <i class="vc-icon-arrow-right"></i>
@@ -145,8 +147,16 @@ export default {
     }
   },
   methods: {
-    // 点击时
-    toggleChild() {
+    /**
+     * 收缩与展开节点功能
+     * @param {string} type 类型标记
+     **/
+    toggleChild(type) {
+      // 当只允许点击图标展开收缩时
+      if (this.$$Menu.expandOnClickIcon) {
+        if (type !== 'icon') return
+      }
+
       if (this.disabled) return
       // 有子级时 我们只担任展开或收缩
       if (this.$refs.children) {
@@ -172,7 +182,6 @@ export default {
     },
 
     onMouseEnterHeader() {
-      console.log(this.$el)
       this.$$Menu.clearTimer()
 
       if (this.disabled) return

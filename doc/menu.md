@@ -114,7 +114,7 @@ const verticalValue = ref('2')
 <template>
   {{ inlineValue }} <hr />
   <div style="width: 200px;">
-    <vc-menu mode="inline" v-model="inlineValue" v-model:expand="expand">
+    <vc-menu mode="inline" v-model="inlineValue" v-model:expand="expand" expand-on-click-icon>
       <vc-menu-item value="1">🏡 Home</vc-menu-item>
       <vc-menu-item value="2" disabled icon="vc-icon-warning-outline">禁用效果</vc-menu-item>
       <vc-menu-item value="3">
@@ -242,7 +242,6 @@ const collapse = ref(true)
 
 ## 更多图标位置设置
 
-
 ::: codeBox
 ```vue
 <template>
@@ -315,6 +314,7 @@ const inlineValue = ref('3-2-2')
 | modelValue/v-model | **String[]** | 值 | - | - |
 | mode | **string** | 模式 | inline/horizontal/vertical | - |
 | expand | **String[]** | 默认扩展（只在inline模式下生效） | - | - |
+| expandOnClickIcon | **boolean** | 只在点击展开图标时展开 | - | false |
 | closeDelay | **Number** | 关闭弹层延迟(ms) | - | 100 |
 | collapse | **boolean** | 是否水平折叠收起菜单（仅在 mode 为 vertical 时可用） | - | false |
 | moreIconPosition | **String** | 更多图标位置 | - | right |
