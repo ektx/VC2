@@ -152,14 +152,13 @@ export default {
      * @param {string} type 类型标记
      **/
     toggleChild(type) {
-      // 当只允许点击图标展开收缩时
-      if (this.$$Menu.expandOnClickIcon) {
-        if (type !== 'icon') return
-      }
-
       if (this.disabled) return
       // 有子级时 我们只担任展开或收缩
       if (this.$refs.children) {
+        // 当只允许点击图标展开收缩时
+        if (this.$$Menu.expandOnClickIcon) {
+          if (type !== 'icon') return
+        }
         // 如果是在折叠菜单时
         if (this.$$Menu.collapse) return
 
