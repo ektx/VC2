@@ -109,6 +109,8 @@ const verticalValue = ref('2')
 
 ## 默认展开
 
+通过指定 `expand` 可以设置默认展开元素。
+
 ::: codeBox
 ```vue
 <template>
