@@ -79,9 +79,11 @@ export default {
     }
   },
   watch: {
-    show(val) {
-      if (val) this.toggleDisplay()
-      else this.close()
+    show: {
+      handler(val) {
+        if (val) this.toggleDisplay()
+        else this.close()
+      }
     }
   },
   mounted() {
@@ -89,6 +91,10 @@ export default {
       document.body.appendChild(this.$el)
     }
     window.addEventListener('click', this.getClickPosition, true)
+
+    this.$nextTick(() => {
+      this.show && this.toggleDisplay()
+    })
   },
   unmounted() {
     if (this.$el) {
