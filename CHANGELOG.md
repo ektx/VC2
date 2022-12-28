@@ -10,6 +10,7 @@
 
 - layer 组件支持默认为 `true` 值
 - progress 组件支持 `max` 值为 0
+- input 组件 props 错误修复
 
 ## 1.14.1(2022-6-18)
 
