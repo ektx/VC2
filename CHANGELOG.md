@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 1.15.0（2022-12-28)
+
+### Features
+
+- splitPanel 组件
+
+### Fixes
+
+- layer 组件支持默认为 `true` 值
+- progress 组件支持 `max` 值为 0
+
 ## 1.14.1(2022-6-18)
 
 ### Features
