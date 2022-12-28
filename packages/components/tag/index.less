@@ -12,6 +12,10 @@
   border: none;
   cursor: pointer;
 
+  & + .@{namespace}-tag {
+    margin-left: calc(var(--size) / 2);
+  }
+
   &--success {
     color: @tag-success-color;
   }
