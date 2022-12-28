@@ -179,11 +179,10 @@ export default {
         ;({ minRows, maxRows } = props.autosize)
       }
 
-      textareaCalcStyle.value = calcTextareaHeight(
-        textarea.value,
-        minRows,
-        maxRows
-      )
+      textareaCalcStyle.value = {
+        ...calcTextareaHeight(textarea.value, minRows, maxRows),
+        resize: typeof props.autosize === 'boolean' ? 'vertical' : 'none'
+      }
     }
 
     onMounted(() => {

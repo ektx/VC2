@@ -153,8 +153,8 @@ export default {
 <template>
   <p>自动调整</p>
   <vc-input type="textarea" autosize v-model="textarea1" />
-  <p>指定最大与最小行数</p>
-  <vc-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="textarea2" />
+  <p>指定最大与最小行数，注意此时将不再支持手动调整大小。</p>
+  <vc-input type="textarea" :autosize="{ minRows: 3, maxRows: 4}" v-model="textarea2" />
 </template>
 
 <script setup>

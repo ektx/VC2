@@ -1,5 +1,5 @@
 <template>
-  <div class="vc-tag-group">
+  <div class="vc-tag-group" :style="styles">
     <Tag
       v-for="(tag, i) in list"
       :key="tag[myAlias.label]"
@@ -74,6 +74,10 @@ export default {
     btnText: {
       type: String,
       default: 'New Tag'
+    },
+    showBorder: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -94,6 +98,17 @@ export default {
         },
         this.alias
       )
+    },
+    styles() {
+      let result = {
+        borderRadius:
+          typeof this.radius === 'number' ? this.radius + 'px' : this.radius,
+        '--border':
+          typeof this.border === 'number' ? this.border + 'px' : this.border,
+        '--size': typeof this.size === 'number' ? this.size + 'px' : this.size
+      }
+
+      return result
     }
   },
   methods: {

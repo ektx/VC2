@@ -67,7 +67,6 @@
 
 <script>
 import { ref, onUnmounted, onMounted, watch, computed, inject } from 'vue'
-// import { createPopper } from '@popperjs/core'
 import { copyArray } from '../../utils/copy'
 import DropDown from './dropDown.vue'
 import VS_Tags from './tags.vue'
