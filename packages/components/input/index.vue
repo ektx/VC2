@@ -19,20 +19,22 @@
       ref="input"
       class="vc-input__text"
       v-bind="setAttrs($attrs, ['events'])"
-      v-model="modelValue"
+      :value="modelValue"
       :disabled="disabled"
       :placeholder="placeholder"
       :type="TYPE"
+      @input="evt => $emit('update:modelValue', evt.target.value)"
     />
     <textarea
       v-else
       ref="textarea"
       class="vc-input__textarea"
       v-bind="setAttrs($attrs, ['events'])"
-      v-model="modelValue"
+      :value="modelValue"
       :placeholder="placeholder"
       :disabled="disabled"
       :style="textareaCalcStyle"
+      @input="evt => $emit('update:modelValue', evt.target.value)"
     ></textarea>
 
     <div
