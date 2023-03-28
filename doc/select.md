@@ -424,7 +424,7 @@ function find(val, list) {
 ::: codeBox
 ```vue
 <template>
-  <vc-select v-model="value" :options="options" filterable :remote-method="find" />
+  <VcSelect v-model="value" :loading="loading" :options="options" filterable :remote-method="find" />
 </template>
 
 <script setup>
@@ -432,6 +432,7 @@ import { ref } from 'vue'
 
 const value = ref('')
 const options = ref([])
+const loading = ref(false)
 const list = ["Alabama", "Alaska", "Arizona",
   "Arkansas", "California", "Colorado",
   "Connecticut", "Delaware", "Florida",
@@ -450,21 +451,26 @@ const list = ["Alabama", "Alaska", "Arizona",
   "Washington", "West Virginia", "Wisconsin",
   "Wyoming"]
 
-function find(val, cb) {
+function find(val) {
+  loading.value = true
+
   setTimeout(() => {
     let result = []
 
-    list.forEach(item => {
-      if (item.toLowerCase().includes(val)) {
-        result.push({
-          label: item,
-          value: item
-        })
-      }
-    })
-    cb(result)
+    if (val) {
+      list.forEach(item => {
+        if (item.toLowerCase().includes(val)) {
+          result.push({
+            label: item,
+            value: item
+          })
+        }
+      })
+    }
+
     options.value = result
-  }, 1000)
+    loading.value = false
+  }, 2000)
 }
 </script>
 ```
@@ -744,6 +750,7 @@ setTimeout(() => {
 | filterMethod | **Function** | 自定义搜索方法 | - | - |
 | createTags | **Boolean** | 是否允许用户创建新条目 | - | false |
 | remoteMethod | **Function** | 自定义远程搜索功能 | - | - |
+| loading | **Boolean** | loading | - | false |
 | valueAlias | **String** | 值别名 | - | value |
 | labelAlias | **String** | 标签别名 | - | label |
 
