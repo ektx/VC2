@@ -65,13 +65,13 @@ esac
 
 # 获取版本信息
 VERSION=$(grep version package.json | awk -F'"' '{ print $4}')
-ONLINE_VERSION=$(npm show @intsig/vipress $REGISTRY | awk -F':' '/latest/ {print $2}')
+ONLINE_VERSION=$(npm show vc2 $REGISTRY | awk -F':' '/latest/ {print $2}')
 
 echo $VERSION
 
 if [ $PUBLISH_TAG == "beta" ]
 then
-  ONLINE_VERSION=$(npm show @intsig/vipress $REGISTRY | awk -F':' '/beta/ {print $2}')
+  ONLINE_VERSION=$(npm show vc2 $REGISTRY | awk -F':' '/beta/ {print $2}')
 fi 
 
 if [ $NEED_UNPUBLISH == 0 ] 
