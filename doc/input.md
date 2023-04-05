@@ -44,6 +44,10 @@ const input = ref('')
 ```vue
 <template>
   <vc-input v-model="input" clearable />
+
+  <vc-input clearable />
+
+  <vc-input type=textarea clearable />
 </template>
 
 <script setup>

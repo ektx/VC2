@@ -37,11 +37,7 @@
       @input="evt => $emit('update:modelValue', evt.target.value)"
     ></textarea>
 
-    <div
-      class="vc-input__clearable"
-      v-if="clearable && modelValue"
-      @click="clearMsg"
-    >
+    <div class="vc-input__clearable" v-if="clearable" @click="clearMsg">
       <i class="vc-icon-error"></i>
     </div>
 
@@ -199,6 +195,8 @@ export default {
 
     // 点击 清除图标 清除数据
     const clearMsg = () => {
+      if (!props.modelValue) inputEl.value = ''
+
       emit('update:modelValue', '')
       emit('change', '')
       emit('clear')
