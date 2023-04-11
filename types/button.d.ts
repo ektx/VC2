@@ -1,7 +1,6 @@
-
 export type ButtonColor = 'primary' | 'success' | 'warn' | 'error'
 
-export declare class VcButton {
+export declare const VcButton: import('vue').DefineComponent<{
   // 设置按钮效果
   color: ButtonColor
   // 镂空
@@ -14,4 +13,4 @@ export declare class VcButton {
   loading: boolean
   // 禁用状态
   disabled: boolean
-}
+}>

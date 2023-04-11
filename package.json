@@ -1,9 +1,10 @@
 {
   "name": "vc2",
-  "version": "1.15.1",
+  "version": "1.16.0",
   "files": [
     "lib",
-    "types"
+    "types",
+    "global.d.ts"
   ],
   "scripts": {
     "dev": "vipress",
@@ -17,7 +18,7 @@
   "main": "./lib/index.js",
   "module": "./lib/index.js",
   "style": "./lib/layout.css",
-  "typings": "types/index.d.ts",
+  "types": "types/index.d.ts",
   "author": "WenLong",
   "dependencies": {
     "@floating-ui/dom": "^0.5.4",
@@ -28,7 +29,7 @@
     "vue-router": "^4.0.10"
   },
   "devDependencies": {
-    "@intsig/vipress": "^0.14.1",
+    "@ektx/vipress": "^0.14.2",
     "@vitejs/plugin-vue": "^1.9.3",
     "@vue/compiler-sfc": "^3.2.37",
     "inquirer": "^7.3.3",

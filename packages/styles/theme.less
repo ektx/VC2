@@ -1,0 +1,52 @@
+@import './var.less';
+
+:root {
+  --vc-bg: #fff;
+  --vc-text-color-primary: #303133;
+  --el-text-color-regular: #606266;
+  --vc-border-color: #dcdfe6;
+  --vc-placeholder-color: #c0c4cc;
+
+  --primary-color: @primary-color;
+
+  // input
+  --vc-input-bg: var(--vc-bg);
+  --vc-input-color: var(--vc-text-color-primary);
+  --vc-input-border-color: var(--vc-border-color);
+  --vc-input-placeholder-color: var(--vc-placeholder-color);
+
+  // table
+  --vc-table-bg: var(--vc-bg);
+  --vc-table-color: var(--el-text-color-regular);
+  --vc-table-border-color: var(--vc-border-color);
+  --vc-table-hover-bg: #eee;
+  --vc-table-light-bg: #faedc4;
+  --vc-table-light-border-color: #ffdc73;
+
+  // pagination
+  --pagination-color: var(--vc-text-color-primary);
+  --pagination-show-bg: var(--el-text-color-regular);
+  --pagination-disabled-color: #ccc;
+}
+
+.dark {
+  --vc-bg: #000;
+  --vc-text-color-primary: #e5eaf3;
+  --el-text-color-regular: #cfd3dc;
+  --vc-border-color: #333;
+  --vc-placeholder-color: #777;
+
+  // input
+  --vc-input-bg: var(--vc-bg);
+
+  // table
+  --vc-table-bg: var(--vc-bg);
+  --vc-table-border-color: #333;
+  --vc-table-hover-bg: #222;
+  --vc-table-light-bg: #2c281b;
+  --vc-table-light-border-color: #4c3c23;
+
+  // pagination
+  --pagination-show-bg: #222;
+  --pagination-disabled-color: #333;
+}
