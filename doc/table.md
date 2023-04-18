@@ -310,6 +310,7 @@ export default {
       this.loading = '加载中...'
 
       setTimeout(() => {
+        debugger
         this.loading = false
         if (index === 1) this.total = 1000
   
@@ -319,11 +320,11 @@ export default {
         for (; i < l; i++) {
           this.data.push({
             date: `${2020 +i}-09-09`,
-            name: `秦${i}世`,
+            name: `秦${i + 1}世`,
             address: `上海市普陀区金沙江路 ${1518 + i} 弄`
           })
         }
-      }, 500)
+      }, 1000)
 
     }
   }

@@ -192,7 +192,6 @@ export default {
     pageChangeEvt(index) {
       this.$emit('update:pageIndex', index)
       this.$emit('pageChange', index)
-      this.$emit('page-change', index)
     },
 
     getTDHTML(tr, td) {

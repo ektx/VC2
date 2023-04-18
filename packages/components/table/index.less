@@ -1,8 +1,8 @@
 @import '../../styles/theme.less';
 
-.vc-table {
+.@{namespace}-table {
   position: relative;
-  background-color: var(--vc-table-bg);
+  background-color: e('var(@{table}-bg)');
 
   &--content {
     width: 100%;
@@ -16,13 +16,13 @@
 
   thead {
     th {
-      border-bottom: 2px solid var(--vc-table-border-color);
+      border-bottom: 2px solid e('var(@{table}-border-color)');
 
       .cell {
         padding: 10px 5px;
         font-size: 14px;
         text-align: left;
-        color: var(--vc-table-color);
+        color: e('var(@{table}-header-color)');
         border: none;
       }
     }
@@ -31,12 +31,12 @@
   tbody {
     td,
     th {
-      border-bottom: 1px solid var(--vc-table-border-color);
+      border-bottom: 1px solid e('var(@{table}-border-color)');
 
       .cell {
         padding: 10px 5px;
         font-size: 14px;
-        color: var(--vc-table-color);
+        color: e('var(@{table}-color)');
         word-break: break-all;
       }
 
@@ -50,7 +50,7 @@
     tr:hover {
       td,
       th {
-        background-color: var(--vc-table-hover-bg);
+        background-color: e('var(@{table}-hover-bg)');
       }
     }
   }
@@ -58,7 +58,7 @@
   .has-border {
     td,
     th {
-      border: 1px solid var(--vc-table-border-color);
+      border: 1px solid e('var(@{table}-border-color)');
     }
   }
 
@@ -75,13 +75,13 @@
     height: 100%;
     display: grid;
     place-items: center;
-    color: var(--vc-table-color);
-    background: rgba(255, 255, 255, 0.5);
+    color: e('var(@{table}-color)');
+    background: e('var(@{table}-mod-bg)');
 
     .inner {
       text-align: center;
       p {
-        color: var(--vc-table-color);
+        color: e('var(@{table}-color)');
       }
     }
 
@@ -92,17 +92,17 @@
 
   &__body {
     overflow: auto;
-    border-bottom: 1px solid var(--vc-table-border-color);
+    border-bottom: 1px solid e('var(@{table}-border-color)');
 
     &.highlight-current-row {
       .current {
         td {
-          background-color: var(--vc-table-light-bg);
-          border-color: var(--vc-table-light-border-color);
+          background-color: e('var(@{table}-light-bg)');
+          border-color: e('var(@{table}-light-border-color)');
         }
 
         &:hover td {
-          background-color: var(--vc-table-hover-bg);
+          background-color: e('var(@{table}-hover-bg)');
         }
       }
     }
@@ -118,7 +118,7 @@
     text-align: center;
 
     &.is-border {
-      border: 1px solid var(--vc-table-border-color);
+      border: 1px solid e('var(@{table}-border-color)');
     }
   }
 }

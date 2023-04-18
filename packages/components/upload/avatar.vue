@@ -17,45 +17,41 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'VcUploadAvatar',
-  props: {
-    src: String,
-    placeholder: {
-      type: String,
-      default: '点击选择图片上传'
-    },
-    avatarIcon: {
-      type: String,
-      default: 'vc-icon-picture-outline'
-    },
-    width: {
-      type: String,
-      default: '200px'
-    },
-    height: {
-      type: String,
-      default: '200px'
-    },
-    radius: {
-      type: String,
-      default: '3px'
-    },
-    /** 'fill', 'contain', 'cover', 'none', 'scale-down' */
-    fit: {
-      type: String,
-      default: 'inherit'
-    }
+<script setup>
+import { computed } from 'vue'
+
+const props = defineProps({
+  src: String,
+  placeholder: {
+    type: String,
+    default: '点击选择图片上传'
   },
-  computed: {
-    style() {
-      return {
-        width: this.width,
-        height: this.height,
-        borderRadius: this.radius
-      }
-    }
+  avatarIcon: {
+    type: String,
+    default: 'vc-icon-upload-cloud'
+  },
+  width: {
+    type: String,
+    default: '200px'
+  },
+  height: {
+    type: String,
+    default: '200px'
+  },
+  radius: {
+    type: String,
+    default: '3px'
+  },
+  /** 'fill', 'contain', 'cover', 'none', 'scale-down' */
+  fit: {
+    type: String,
+    default: 'inherit'
   }
-}
+})
+
+const style = computed(() => ({
+  width: props.width,
+  height: props.height,
+  borderRadius: props.radius
+}))
 </script>

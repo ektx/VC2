@@ -1,4 +1,4 @@
-@import '../../styles/var.less';
+@import '../../styles/theme.less';
 @import '../../styles/transition.less';
 
 .@{namespace}-layer {
@@ -17,7 +17,7 @@
     margin: 0;
     border-radius: 10px;
     box-sizing: border-box;
-    background-color: hsla(0, 0%, 100%, 1);
+    background-color: var(--vc-layer-bg);
     box-shadow: 0 0 50px -10px rgba(0, 0, 0, 0.3);
     will-change: background-color, transform;
     transform-origin: top left;
@@ -47,7 +47,7 @@
   &--header {
     position: relative;
     font-size: 18px;
-    color: #333;
+    color: var(--vc-layer-header-color);
     font-weight: 400;
     text-align: left;
     padding: 15px 40px 10px 10px;

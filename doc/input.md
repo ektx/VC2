@@ -47,7 +47,7 @@ const input = ref('')
 
   <vc-input clearable />
 
-  <vc-input type=textarea clearable />
+  <vc-input type=textarea clearable/>
 </template>
 
 <script setup>
@@ -376,6 +376,7 @@ const setSelect = () => demo.value.select()
 | focus | 在 Input 获得焦点时触发 | (event: Event) |
 | change | 仅在输入框失去焦点或用户按下回车时触发 | (event: Event) |
 | input | 在 Input 值改变时触发 | (event: Event) |
+| enter | 在按 `Enter` 键时触发 | (event: Event) |
 | clear | 在点击由 clearable 属性生成的清空按钮时触发 | (event: Event) |
 
 

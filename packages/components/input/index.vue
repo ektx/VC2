@@ -24,6 +24,7 @@
       :placeholder="placeholder"
       :type="TYPE"
       @input="evt => $emit('update:modelValue', evt.target.value)"
+      @keyup.enter="e => $emit('enter', e)"
     />
     <textarea
       v-else
@@ -35,6 +36,7 @@
       :disabled="disabled"
       :style="textareaCalcStyle"
       @input="evt => $emit('update:modelValue', evt.target.value)"
+      @keyup.enter="e => $emit('enter', e)"
     ></textarea>
 
     <div class="vc-input__clearable" v-if="clearable" @click="clearMsg">
