@@ -3,39 +3,6 @@
 .vc-tabs {
   position: relative;
 
-  &__next-btn,
-  &__prev-btn {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 20px;
-    z-index: 1;
-    line-height: 43px;
-    text-align: center;
-    cursor: pointer;
-
-    &.is-disabled {
-      opacity: .5;
-      cursor: not-allowed;
-    }
-  }
-  &__prev-btn {
-    left: 0;
-  }
-  &__next-btn {
-    right: 0;
-  }
-
-  &__head {
-    &:after {
-      display: block;
-      content: '';
-      clear: both;
-      margin: -1px 0 0;
-      border-bottom: 1px solid #ddd;
-    }
-  }
-
   &__scroll {
     position: relative;
     overflow: hidden;
@@ -45,8 +12,8 @@
     }
   }
 
-  // vc-tabs__nav
-  &__nav {
+  // vc-tabs--nav
+  &--nav {
     float: left;
     position: relative;
     margin: 0;
@@ -55,41 +22,39 @@
     // min-width: 100%;
     box-sizing: border-box;
     white-space: nowrap;
-    transition: transform .35s, width .35s;
+    transition: transform 0.35s, width 0.35s;
 
-    .vc-tabs__item {
+    .vc-tabs--item {
       display: inline-block;
       padding: 0px 15px;
       font-size: 14px;
       line-height: 3em;
-      height: 3em;
       color: @color-text-regular;
       user-select: none;
       cursor: pointer;
-      transition: color .3s;
+      transition: color 0.3s;
 
       .vc-icon-close {
         margin-left: 5px;
         opacity: 0;
-        transition: opacity .35s;
+        transition: opacity 0.35s;
       }
 
       &.is-active {
         color: #09f;
 
         .vc-icon-close {
-          opacity: .7;
+          opacity: 0.7;
         }
       }
       &.is-disabled {
-        pointer-events: none;
         color: @color-text-secondary;
         cursor: not-allowed;
       }
 
       &:hover {
         .vc-icon-close {
-          opacity: .7;
+          opacity: 0.7;
         }
       }
     }
@@ -103,6 +68,45 @@
     height: 2px;
     z-index: 1;
     background-color: #09f;
-    transition: transform .35s, width .35s;
+    transition: transform 0.35s, width 0.35s;
   }
+}
+
+.vc-tabs--header {
+  display: flex;
+  width: 100%;
+  border-bottom: 2px solid #ddd;
+  // background: rgb(144, 206, 248);
+}
+
+.vc-tabs--nav-wrap {
+  position: relative;
+  flex: 1;
+  width: 100%;
+}
+
+.vc-tabs--virtual-content {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.vc-tabs--virtual-scroll {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  // background-color: yellowgreen;
+
+  .vc-tabs:hover & {
+    opacity: 1;
+  }
+}
+.vc-tabs--virtual-scrollbar {
+  width: 10px;
+  height: 100%;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
 }

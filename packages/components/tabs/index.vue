@@ -1,136 +1,159 @@
 <template>
   <div class="vc-tabs">
-    <div class="vc-tabs__head">
-      <div 
-        v-if="isOver" 
-        :class="[
-          'vc-tabs__prev-btn', 
-          {'is-disabled': isPrevDisable}
-        ]" 
-        @click="moveNav(-100)"
-      >
-        <i class="vc-icon-arrow-left"/>
+    <div class="vc-tabs--header">
+      <div class="vc-tabs--nav-wrap">
+        <div
+          ref="virtualBoxRrf"
+          class="vc-tabs--virtual-content"
+          @wheel.prevent="onWheel"
+        >
+          <Nav2 :list="list"></Nav2>
+        </div>
+        <div
+          ref="virtualScrollRef"
+          v-show="virtualVisible"
+          class="vc-tabs--virtual-scroll"
+        >
+          <div class="vc-tabs--virtual-scrollbar"></div>
+        </div>
       </div>
-      <div 
-        v-if="isOver" 
-        :class="[
-          'vc-tabs__next-btn',
-          {'is-disabled': isNextDisable}
-        ]" 
-        @click="moveNav(100)"
-      >
-        <i class="vc-icon-arrow-right"></i>
-      </div>
-
-      <div :class="['vc-tabs__scroll', {'is-over': isOver }]">
-        <Nav ref="nav" :list="list" :removeTab="removeTab"></Nav>
+      <div class="vc-append">
+        <slot name="append"></slot>
       </div>
     </div>
-    <div class="vc-tabs__body">
-      <slot/>
+
+    <div class="vc-tabs--body">
+      <slot></slot>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
+import {
+  ref,
+  getCurrentInstance,
+  provide,
+  watch,
+  useSlots,
+  onMounted,
+  nextTick
+} from 'vue'
 import Nav from './tabNav.vue'
+import Nav2 from './tabNav'
+import { tabsRootContextKey } from './constants'
 
-export default {
-  name: 'VcTabs',
-  components: { Nav },
-  props: {
-    // 选中对象
-    value: {
-      type: [String, Number],
-      default: ''
-    },
-  },
-  provide() {
-    return { vcTabs: this }
-  },
-  watch: {
-    value (val) {
-      this.list.forEach(item => {
-        if (item.id === val) this.activeTab = item
-      })
-    },
-
-    activeTab (val, old) {
-      if (old) old.active = false
-      if (!val) {
-        this.$emit('update:value', '')
-        return
-      }
-
-      val.active = true
-      this.$emit('update:value', val.id)
-    },
-  },
-  data() {
-    return {
-      list: [],
-      activeTab: null,
-      isOver: false,
-      isPrevDisable: false,
-      isNextDisable: false,
-    }
-  },
-  methods: {
-    updatePanel () {
-      let slots = this.$slots.default()
-      if (slots) {
-        let paneSlots = []
-        this.list = []
-        this.activeTab = null
-
-        // 对于动态生成的 pane
-        if (typeof slots[0].type === 'symbol') {
-          slots = slots[0].children
-        }
-        slots.forEach((vnode, index) => {
-          if (vnode.type.name === 'vcTabPane') {
-            const id = vnode.props.name || vnode.props.label
-            const item = {
-              icon: vnode.props.icon || '',
-              label: vnode.props.label,
-              id,
-              active: id === this.value,
-              disabled: Reflect.has(vnode.props, 'disabled') 
-                ? typeof vnode.props.disabled === 'boolean' ? vnode.props.disabled : true 
-                : false,
-              closable: Reflect.has(vnode.props, 'closable'),
-            }
-            this.list.push(item)
-
-            // 如果不存在默认值
-            if (!this.value) {
-              // 设置第一个tab为活动值
-              if (index === 0) this.activeTab = item
-            } else {
-              if (id === this.value) this.activeTab = item
-            }
-          }
-        })
-      } else {
-        this.list = []
-      }
-    },
-
-    moveNav (step) {
-      this.$refs.nav.moveNav(step)
-    },
-
-    removeTab (tab) {
-      let index = this.list.findIndex(item => item.id === tab.id)
-      this.list.splice(index, 1)
-      // 更新当前标签
-      if (this.activeTab && tab.id === this.activeTab.id) {
-        this.activeTab = null
-      } 
-
-      this.$emit('tab-remove', tab, index)
-      this.$emit('tabRemove', tab, index)
-    }
+const props = defineProps({
+  // 选中对象
+  modelValue: {
+    type: [String, Number],
+    default: ''
   }
+})
+const emits = defineEmits(['update:modelValue'])
+
+const list = ref([])
+const activeTab = ref(null)
+const isOver = ref(false)
+const isPrevDisable = ref(false)
+const isNextDisable = ref(false)
+const virtualBoxRrf = ref(null)
+const virtualScrollRef = ref(null)
+const virtualVisible = ref(false)
+
+const instance = getCurrentInstance()
+const slots = useSlots()
+console.log(slots)
+console.log(instance)
+provide(tabsRootContextKey, {
+  instance,
+  props,
+  updatePanel,
+  removePanel,
+  emits
+})
+
+// watch(
+//   () => props.value,
+//   val => {
+//     this.list.forEach(item => {
+//       if (item.id === val) this.activeTab = item
+//     })
+//   }
+// )
+
+onMounted(() => {})
+
+const onWheel = e => {
+  console.log(e, e.currentTarget)
+  if (/mac/i.test(navigator.userAgent)) {
+    e.currentTarget.scrollLeft -= e.deltaY
+  } else {
+    e.currentTarget.scrollLeft += e.deltaY
+  }
+
+  updateVirtualScroll()
+}
+
+function updatePanel(pane) {
+  console.log('update...', pane)
+  let index = list.value.findIndex(item => item.id === pane.id)
+
+  if (index > -1) {
+    list.value.splice(index, 1)
+  }
+
+  list.value.push(pane)
+
+  nextTick(() => {
+    focusActive()
+    updateVirtualScroll()
+  })
+}
+
+function removePanel(id) {
+  let index = list.value.findIndex(item => item.id === id)
+
+  list.value.splice(index, 1)
+}
+
+const removeTab = tab => {
+  let index = this.list.findIndex(item => item.id === tab.id)
+  this.list.splice(index, 1)
+  // 更新当前标签
+  if (this.activeTab && tab.id === this.activeTab.id) {
+    this.activeTab = null
+  }
+
+  this.$emit('tab-remove', tab, index)
+  this.$emit('tabRemove', tab, index)
+}
+
+function focusActive() {
+  const activeEl = virtualBoxRrf.value.querySelector('.is-active')
+  const { clientWidth } = virtualBoxRrf.value
+
+  if (!activeEl) return
+  console.log(1, activeEl.offsetLeft)
+  // activeEl && activeEl.scrollIntoView()
+  virtualBoxRrf.value.scrollLeft =
+    activeEl.offsetLeft - clientWidth + activeEl.clientWidth
+}
+
+function updateVirtualScroll() {
+  if (!virtualBoxRrf.value) return
+
+  const { clientWidth, scrollWidth } = virtualBoxRrf.value
+  const barEl = virtualScrollRef.value.querySelector(
+    '.vc-tabs--virtual-scrollbar'
+  )
+
+  virtualVisible.value = clientWidth < scrollWidth
+
+  Object.assign(barEl.style, {
+    width: (clientWidth * 100) / scrollWidth + '%',
+    transform: `translate(${
+      (virtualBoxRrf.value.scrollLeft * 100) / clientWidth
+    }%, 0px)`
+  })
 }
 </script>
