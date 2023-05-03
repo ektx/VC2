@@ -23,9 +23,15 @@ const TabNav = defineComponent({
       tabsRoot.emits('update:modelValue', tabProps.name)
     }
 
+    const closeEvt = (id, tabProps, index, e) => {
+      tabsRoot.removePanel(id)
+      tabsRoot.emits('remove', tabProps, index, e)
+    }
+
     return () => {
-      const tabs = props.list.map(item => {
-        const { id, label, name, disabled, icon } = item.props
+      const tabs = props.list.map((item, index) => {
+        const { id } = item
+        const { label, name, disabled, icon } = item.props
         const tabIcon = icon ? <i class={icon}></i> : null
         const tabLabel = item.slots.label
           ? item.slots.label?.()
@@ -42,14 +48,17 @@ const TabNav = defineComponent({
                 'is-disabled': disabled
               }
             ]}
-            onClick={e => onTabClick(item.props, e)}
+            onClick={e => onTabClick(item.props, index, e)}
           >
             <span class={[`vc-tab-pane--${id}`, 'vc-tabs__item-label']}>
               {tabLabel}
             </span>
 
             {item.props.closable ? (
-              <i class="vc-icon-close" onClick="evt => closeEvt(evt, tab)"></i>
+              <i
+                class="vc-icon-close"
+                onClick={e => closeEvt(id, item.props, index, e)}
+              ></i>
             ) : (
               ''
             )}

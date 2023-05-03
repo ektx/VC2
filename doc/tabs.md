@@ -116,13 +116,13 @@ const value = ref('home')
 ```
 :::
 
-## 自定义增加标签页触发器
+## 动态添加
 
 ::: codeBox 
 ```vue
 <template>
   <vc-button @click="handleClick">Add</vc-button>
-  <vc-tabs v-model="activeName" @tabRemove="remove">
+  <vc-tabs v-model="activeName" @remove="remove">
     <vc-tab-pane 
       v-for="tab in list"
       :key="tab.name"
@@ -164,7 +164,7 @@ const value = ref('home')
         this.activeName = name
       },
       remove(tab, index) {
-        this.list.splice(index, 1)
+        // this.list.splice(index, 1)
       }
     }
   };

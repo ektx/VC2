@@ -35,8 +35,9 @@
   --pagination-disabled-color: #ccc;
 
   // layer
-  --vc-layer-bg: var(--vc-bg);
-  --vc-layer-header-color: var(--vc-text-color-primary);
+  @{layer}-bg: var(--vc-bg);
+  @{layer}-mod-bg: rgba(#000, 0.2);
+  @{layer}-header-color: var(--vc-text-color-primary);
 }
 
 .dark {
@@ -61,4 +62,7 @@
   // pagination
   --pagination-show-bg: #222;
   --pagination-disabled-color: #333;
+
+  // layer
+  @{layer}-mod-bg: rgba(#fff, 0.1);
 }

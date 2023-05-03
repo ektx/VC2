@@ -49,7 +49,7 @@ const props = defineProps({
     default: ''
   }
 })
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'remove'])
 
 const list = ref([])
 const activeTab = ref(null)

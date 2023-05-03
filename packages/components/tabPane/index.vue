@@ -10,6 +10,7 @@ import {
   getCurrentInstance,
   inject,
   nextTick,
+  onBeforeUnmount,
   onMounted,
   onUpdated,
   useSlots
@@ -66,5 +67,9 @@ onMounted(() => {
     props,
     slots
   })
+})
+
+onBeforeUnmount(() => {
+  tabsRoot.removePanel(instance.uid)
 })
 </script>
