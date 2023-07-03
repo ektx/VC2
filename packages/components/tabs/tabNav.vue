@@ -29,13 +29,12 @@
 
 <script setup>
 import { inject, renderSlot } from 'vue'
-import { tabsRootContextKey } from './constants'
 
 const props = defineProps({
   list: Array
 })
 
-const tabsRoot = inject(tabsRootContextKey)
+const tabsRoot = inject('tabsRootContextKey')
 
 function onClick(props, e) {
   console.log(props, e)

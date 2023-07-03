@@ -15,7 +15,6 @@ import {
   onUpdated,
   useSlots
 } from 'vue'
-import { tabsRootContextKey } from '../tabs/constants'
 
 const props = defineProps({
   // 选项卡标题
@@ -38,7 +37,7 @@ const props = defineProps({
 
 const instance = getCurrentInstance()
 const slots = useSlots()
-const tabsRoot = inject(tabsRootContextKey)
+const tabsRoot = inject('tabsRootContextKey')
 
 const id = computed(() => {
   return props.name || props.label

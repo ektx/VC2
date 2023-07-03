@@ -1,1 +1,3 @@
-export const menuInjectionKey = Symbol()
+const menuInjectionKey = Symbol()
+
+export { menuInjectionKey }

@@ -11,6 +11,7 @@
     "doc": "vipress build doc",
     "lib": "vipress build lib",
     "build": "node ./bin/build.js",
+    "build2": "gulp -f ./bin/build2.js",
     "update": "node --experimental-json-modules ./bin/update.mjs",
     "create": "node ./bin/create.mjs && yarn run update",
     "e2e": "./node_modules/.bin/cypress open"
@@ -21,6 +22,7 @@
   "types": "types/index.d.ts",
   "author": "WenLong",
   "dependencies": {
+    "@ektx/vipress": "^0.15.0",
     "@floating-ui/dom": "^0.5.4",
     "async-validator": "^4.0.7",
     "dayjs": "^1.11.0",
@@ -29,12 +31,19 @@
     "vue-router": "^4.0.10"
   },
   "devDependencies": {
-    "@ektx/vipress": "^0.15.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
     "@vitejs/plugin-vue": "^4.1.0",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "@vue/compiler-sfc": "^3.2.37",
+    "esbuild": "^0.17.18",
+    "gulp": "^4.0.2",
     "inquirer": "^7.3.3",
     "less": "^4.1.2",
+    "postcss": "^8.4.23",
+    "prismjs": "^1.29.0",
+    "rollup": "^3.21.4",
+    "rollup-plugin-esbuild": "^5.0.0",
+    "rollup-plugin-postcss": "^4.0.2",
     "trash": "^6.1.1"
   },
   "license": "MIT"

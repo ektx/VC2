@@ -28,14 +28,14 @@
         :show-level="showLevel"
       >
         <template v-slot="{ item, index }">
-          <slot :item="item" :index="index" />
+          <slot :item="item" :index="index"></slot>
         </template>
       </TimeTree>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -44,7 +44,7 @@ export default defineComponent({
     data: {
       type: Array,
       default: () => []
-    } as any,
+    },
     level: {
       type: Number,
       default: 0

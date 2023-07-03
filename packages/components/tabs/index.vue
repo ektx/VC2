@@ -40,7 +40,6 @@ import {
 } from 'vue'
 import Nav from './tabNav.vue'
 import Nav2 from './tabNav'
-import { tabsRootContextKey } from './constants'
 
 const props = defineProps({
   // 选中对象
@@ -64,7 +63,7 @@ const instance = getCurrentInstance()
 const slots = useSlots()
 console.log(slots)
 console.log(instance)
-provide(tabsRootContextKey, {
+provide('tabsRootContextKey', {
   instance,
   props,
   updatePanel,

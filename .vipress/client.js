@@ -1,8 +1,12 @@
-import VC from '../packages/index'
-import '../packages/index.less'
+// import VC from '../packages/index'
+import VC from '../lib/index'
+// import '../packages/index.less'
+// import btn from '../dist/es/button/index.js'
+// import btn from '../dist/lib/button/index'
 
 export function init(app) {
   app.use(VC)
+  // app.use(btn)
 }
 
 /**

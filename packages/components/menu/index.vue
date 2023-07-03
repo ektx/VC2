@@ -24,7 +24,7 @@ export default {
     /** 模式 */
     mode: {
       type: String,
-      default: '',
+      default: 'inline',
       validator: val => {
         return ['inline', 'horizontal', 'vertical'].includes(val)
       }

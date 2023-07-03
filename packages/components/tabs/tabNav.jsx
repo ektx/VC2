@@ -1,19 +1,11 @@
-import {
-  defineComponent,
-  getCurrentInstance,
-  inject,
-  onMounted,
-  onUpdated,
-  watch
-} from 'vue'
-import { tabsRootContextKey } from './constants'
+import { defineComponent, inject } from 'vue'
 
 const TabNav = defineComponent({
   props: {
     list: Array
   },
   setup(props, { emit }) {
-    const tabsRoot = inject(tabsRootContextKey)
+    const tabsRoot = inject('tabsRootContextKey')
 
     const onTabClick = (tabProps, e) => {
       if (tabProps.disabled) return
