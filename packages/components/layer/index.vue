@@ -146,23 +146,18 @@ export default {
       this.fromStyle = { opacity: 0 }
       this.toStyle = { opacity: 1 }
 
-      if (this.fullscreen) {
-        this.fromStyle.transform = 'translateY(100px)'
-        this.toStyle.transform = 'translateY(0)'
-      } else {
-        let width = this.getWidth()
-        let offset = { ...{ x: 0, y: 0 }, ...this.offset }
-        let toX = (window.innerWidth - width) / 2 + offset.x
-        let toY = 100 + offset.y
-        let { x = 0, y = 0 } = this.mousePosition || {}
-        let scale = this.mousePosition ? 0 : 1
+      let width = this.fullscreen ? '100vw' : this.getWidth()
+      let offset = { ...{ x: 0, y: 0 }, ...this.offset }
+      let toX = (window.innerWidth - width) / 2 + offset.x
+      let toY = 100 + offset.y
+      let { x = 0, y = 0 } = this.mousePosition || {}
+      let scale = this.mousePosition ? 0 : 1
 
-        x = this.mousePosition ? x : toX
+      x = this.mousePosition ? x : toX
 
-        this.toStyle.width = width + 'px'
-        this.fromStyle.transform = `translate(${x}px, ${y}px) scale(${scale})`
-        this.toStyle.transform = `translate(${toX}px, ${toY}px) scale(1)`
-      }
+      this.fromStyle.transform = `translate(${x}px, ${y}px) scale(${scale})`
+      this.toStyle.width = width + 'px'
+      this.toStyle.transform = `translate(${toX}px, ${toY}px) scale(1)`
 
       this.animate(this.fromStyle, this.toStyle, () => {
         this.style = this.toStyle
@@ -203,7 +198,7 @@ export default {
     animate(from, to, cb) {
       const animate = this.$refs.content.animate([from, to], {
         duration: 300,
-        easing: 'ease-out'
+        easing: 'cubic-bezier(0.87, 0, 0.13, 1)'
       })
       animate.onfinish = () => cb()
     }
