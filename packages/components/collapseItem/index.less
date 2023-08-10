@@ -1,43 +1,52 @@
 @import '../../styles/var.less';
 
-.vc-collapse-item {
-  color: @color-text-primary;
-  border-top: 1px solid #ebeef5;
+.@{namespace}-collapse-item {
+  color: var(@textColorRegular);
+  border-top: 1px solid var(@collapse-border-color);
 
   &__header {
     display: flex;
     padding: 10px 0;
     font-size: 14px;
+    color: var(@collapse-header-color);
     font-weight: bold;
     line-height: 1.6;
+    justify-content: space-between;
     align-items: center;
-  }
-
-  &__title {
-    flex: 1;
+    cursor: pointer;
   }
 
   &__icon {
-    transition: transform .35s;
-
-    &.is-open {
-      transform: rotate(90deg);
-    }
+    transition: transform 0.3s;
+  }
+  &.is-open &__icon {
+    transform: rotate(90deg);
   }
 
   &__wrap {
-    transition: height .35s;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s;
     overflow: hidden;
   }
 
-  &__content {
-    padding: 0 0 10px;
-    box-sizing: border-box;
+  &.is-open &__wrap {
+    grid-template-rows: 1fr;
   }
 
-  &.is-disabled {
-    color: @color-text-secondary;
+  &__content {
+    min-height: 0;
+    padding: 0px;
+    box-sizing: border-box;
+    transition: padding 0.3s;
+  }
+
+  &.is-open &__content {
+    padding: 0px 0px 10px;
+  }
+
+  &.is-disabled &__header {
+    color: var(@collapse-disabled-color);
     cursor: not-allowed;
   }
-  
 }

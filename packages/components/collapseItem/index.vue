@@ -9,19 +9,10 @@
       <div class="vc-collapse-item__title">
         <slot name="title">{{ title }}</slot>
       </div>
-      <i
-        :class="[
-          'vc-collapse-item__icon vc-icon-arrow-right',
-          { 'is-open': isOpen }
-        ]"
-      ></i>
+      <i class="vc-collapse-item__icon vc-icon-arrow-right"></i>
     </div>
 
-    <div
-      class="vc-collapse-item__wrap"
-      :style="_contentStyle"
-      @transitionend="transitionend"
-    >
+    <div class="vc-collapse-item__wrap">
       <div class="vc-collapse-item__content">
         <slot />
       </div>
@@ -44,45 +35,15 @@ export default {
     disabled: Boolean
   },
   inject: ['Collapse'],
-  data() {
-    return {
-      _contentStyle: {
-        height: 0
-      }
-    }
-  },
   computed: {
     isOpen() {
       return this.Collapse.modelValue.includes(this.value)
-    }
-  },
-  watch: {
-    isOpen: {
-      handler(val) {
-        setTimeout(() => {
-          let { scrollHeight: H } = this.$el.querySelector(
-            '.vc-collapse-item__wrap'
-          )
-
-          this._contentStyle.height = H + 'px'
-
-          if (!val) {
-            requestAnimationFrame(() => {
-              this._contentStyle.height = '0px'
-            })
-          }
-        })
-      },
-      immediate: true
     }
   },
   methods: {
     toggleEvt() {
       if (this.disabled) return
       this.Collapse.itemClick(this)
-    },
-    transitionend() {
-      if (this.isOpen) this._contentStyle.height = 'auto'
     }
   }
 }
