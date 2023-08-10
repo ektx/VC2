@@ -172,7 +172,8 @@ const expand = ref(['3', '3-2', '3-3'])
     <vc-radio v-model="collapse" :label="false">展开</vc-radio>
   </vc-radio-group>
   {{ inlineValue }} <hr />
-  <vc-menu mode="inline" v-model="inlineValue" :collapse="collapse" style="width: 200px">
+
+  <vc-menu mode="inline" v-model="inlineValue" :collapse="collapse">
     <vc-menu-item value="1" icon="vc-icon-s-shop">Home</vc-menu-item>
     <vc-menu-item value="2" disabled icon="vc-icon-warning-outline">禁用效果</vc-menu-item>
     <vc-menu-item value="3">
@@ -200,7 +201,7 @@ const expand = ref(['3', '3-2', '3-3'])
     mode="vertical" 
     v-model="verticalValue" 
     :collapse="collapse" 
-    style="width: 200px"
+    :width="300"
   >
     <vc-menu-item value="1" icon="vc-icon-s-shop">Home</vc-menu-item>
     <vc-menu-item value="2" disabled icon="vc-icon-warning-outline">禁用效果</vc-menu-item>
