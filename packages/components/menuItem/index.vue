@@ -51,13 +51,24 @@
       </div>
     </div>
 
-    <div
-      ref="children"
-      v-if="$slots.children"
-      :class="['vc-menu-item--child', `is-${$$Menu.mode}`]"
+    <teleport
+      to="body"
+      :disabled="$$Menu.mode === 'inline' && !$$Menu.collapse"
     >
-      <slot name="children" />
-    </div>
+      <div
+        ref="children"
+        v-if="$slots.children"
+        :class="[
+          'vc-menu-item--child',
+          `is-${$$Menu.mode}`,
+          { 'is-open': isOpen }
+        ]"
+      >
+        <div class="vc-menu-item--child-inner">
+          <slot name="children"></slot>
+        </div>
+      </div>
+    </teleport>
   </div>
 </template>
 
@@ -127,10 +138,6 @@ export default {
       let { collapse, myExpand, mode } = this.$$Menu
       let { children } = this.$refs
       let result = [].concat(myExpand).includes(this.value)
-
-      if (children) {
-        children.style.display = result ? 'block' : 'none'
-      }
 
       switch (mode) {
         case 'inline':
@@ -207,8 +214,9 @@ export default {
 
       this.tooltip = autoUpdate(header, children, () => {
         computePosition(header, children, {
+          strategy: 'fixed',
           placement,
-          middleware: [flip(), offset(2)]
+          middleware: [flip(), offset({ mainAxis: 3 })]
         }).then(({ x, y }) => {
           Object.assign(children.style, {
             left: x + 'px',

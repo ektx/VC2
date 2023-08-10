@@ -1,5 +1,8 @@
 <template>
-  <div :class="['vc-menu', mode + '-mode', { 'is-collapse': collapse }]">
+  <div
+    :class="['vc-menu', mode + '-mode', { 'is-collapse': collapse }]"
+    :style="style"
+  >
     <slot></slot>
   </div>
 </template>
@@ -49,6 +52,14 @@ export default {
       type: Boolean,
       default: false
     },
+    width: {
+      type: Number,
+      default: 200
+    },
+    collapseWidth: {
+      type: Number,
+      default: 40
+    },
     // 更多图标位置
     moreIconPosition: {
       type: String,
@@ -76,7 +87,8 @@ export default {
     return {
       activePath: [],
       myExpand: [],
-      timer: null
+      timer: null,
+      style: {}
     }
   },
   mounted() {
@@ -110,20 +122,8 @@ export default {
       if (this.timer) clearTimeout(this.timer)
     },
     updateCollapseSize() {
-      if (!this.collapse) return
-      this.$nextTick(() => {
-        let findIconEl = this.$el.querySelector('.vc-menu-item--icon')
-        let width = null
-
-        if (findIconEl) {
-          let { paddingLeft, paddingRight } = getComputedStyle(
-            findIconEl.parentElement
-          )
-          ;({ width } = findIconEl.getBoundingClientRect())
-          width += parseInt(paddingLeft) + parseInt(paddingRight)
-        }
-
-        this.$el.style.width = width + 'px'
+      Object.assign(this.style, {
+        '--w': this.collapse ? this.collapseWidth : this.width
       })
     }
   }
