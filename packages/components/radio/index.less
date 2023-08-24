@@ -13,31 +13,40 @@
     display: block;
     width: 100%;
     height: 100%;
+    padding: 2px;
     border: 1px solid #ddd;
     border-radius: 100%;
-    transition: box-shadow .35s;
-    box-shadow: inset 0 0 0 0 #409eff;
     outline: none;
-    will-change: box-shadow;
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: border 0.35s;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border-radius: 100%;
+      vertical-align: top;
+      transition: background-color 0.35s;
+    }
 
     &:checked {
       border-color: #409eff;
-      box-shadow: inset 0 0 0 .25em #409eff;
+
+      &&::before {
+        background-color: #409eff;
+      }
     }
   }
 
   &__radio {
     display: inline-block;
     width: 1em;
-    height: 1em;
-    border-radius: 100%;
-    transition: box-shadow .35s;
-    will-change: box-shadow;
+    aspect-ratio: 1 / 1;
     vertical-align: middle;
-
-    &:focus-within {
-      box-shadow: 0 0 0 2px rgba(64, 158, 255, .3);
-    }
+    border-radius: 100%;
 
     &.is-min {
       width: 0;
@@ -48,16 +57,17 @@
 
   &__label {
     margin: 0 5px;
+    vertical-align: middle;
   }
 
   &.is-button {
     position: relative;
     margin: 0 -1px 0 0px;
-    padding: .4em .7em;
+    padding: 0.4em 0.7em;
     border-radius: 0;
     border: 1px solid #ddd;
     z-index: 0;
-    transition: background-color .3s, border .3s;
+    transition: background-color 0.3s, border 0.3s;
 
     &.is-checked {
       color: #fff;
@@ -68,13 +78,13 @@
   }
 
   &.is-border {
-    padding: .4em .7em;
+    padding: 0.4em 0.7em;
     border: 1px solid #ddd;
     border-radius: 3px;
   }
 
   &.is-disabled {
-    opacity: .5;
+    opacity: 0.5;
     filter: grayscale(1);
     cursor: not-allowed;
   }

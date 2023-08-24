@@ -11,11 +11,11 @@ export default {
   },
   inject: ['vcTabs'],
   computed: {
-    comBarStyle () {
+    comBarStyle() {
       let { x, width } = this.barStyle
 
       x = x ? x : 0
-      width= width ? width : 0
+      width = width ? width : 0
 
       return {
         width,
@@ -36,24 +36,24 @@ export default {
       let { width, paddingLeft } = window.getComputedStyle(el)
       let { width: boxWidth } = box.getBoundingClientRect()
       let { x = 0 } = this.$parent.navStyle
-     
+
       let moveX = el.offsetLeft + parseInt(paddingLeft)
-      
+
       // 左右 tab 溢出修正
       if (moveX < Math.abs(x)) {
-        this.$parent.navStyle.x = - el.offsetLeft 
+        this.$parent.navStyle.x = -el.offsetLeft
       }
       // 如果活动标签不可见时
       if (moveX + x + parseInt(width) > boxWidth) {
-        this.$parent.navStyle.x = boxWidth - (moveX + parseInt(width) + parseInt(paddingLeft))
+        this.$parent.navStyle.x =
+          boxWidth - (moveX + parseInt(width) + parseInt(paddingLeft))
       }
 
       this.barStyle = {
         width,
         x: moveX
       }
-    },
-
+    }
   }
 }
 </script>

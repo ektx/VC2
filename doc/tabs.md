@@ -1,4 +1,4 @@
-# Tabs 标签页
+# 🚧 Tabs 标签页
 分隔内容上有关联但属于不同类别的数据集合。
 
 ## 基础效果
@@ -65,10 +65,10 @@
 ::: codeBox 
 ```vue
 <template>
-  <vc-tabs>
-    <vc-tab-pane icon="vc-icon-os-apple" label="MacOS">MacOS</vc-tab-pane>
-    <vc-tab-pane icon="vc-icon-os-windows" label="Windows">Windows</vc-tab-pane>
-    <vc-tab-pane icon="vc-icon-os-linux" label="Linux">Linux</vc-tab-pane>
+  <vc-tabs :modelValue="`mac`">
+    <vc-tab-pane icon="vc-icon-os-apple" label="MacOS" name="mac">MacOS</vc-tab-pane>
+    <vc-tab-pane icon="vc-icon-os-windows" label="Windows" name="win">Windows</vc-tab-pane>
+    <vc-tab-pane icon="vc-icon-os-linux" label="Linux" name="lin">Linux</vc-tab-pane>
   </vc-tabs>
 </template>
 ```

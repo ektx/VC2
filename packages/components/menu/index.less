@@ -4,7 +4,6 @@
   display: flex;
   color: #333;
   flex-direction: column;
-  width: calc(var(--w) * 1px);
   transition: width 0.2s ease-in-out;
   background-color: @menu-bg-color;
 
@@ -13,6 +12,7 @@
   }
 
   &:not(.horizontal-mode) {
+    width: calc(var(--w) * 1px);
     border-right: 1px solid @menu-aside-color;
   }
 }

@@ -5,7 +5,7 @@
         <div
           ref="virtualBoxRrf"
           class="vc-tabs--virtual-content"
-          @wheel.prevent="onWheel"
+          @wheel="onWheel"
         >
           <Nav2 :list="list"></Nav2>
         </div>
@@ -82,8 +82,16 @@ provide('tabsRootContextKey', {
 
 onMounted(() => {})
 
+/**
+ * @param {MouseEvent} e
+ */
 const onWheel = e => {
-  console.log(e, e.currentTarget)
+  const { clientWidth, scrollWidth } = virtualBoxRrf.value
+
+  if (scrollWidth <= clientWidth) return
+
+  e.preventDefault()
+
   if (/mac/i.test(navigator.userAgent)) {
     e.currentTarget.scrollLeft -= e.deltaY
   } else {
