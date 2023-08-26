@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Alpha from './alpha.vue'
+import Alpha from '../alpha.vue'
 
 export default {
   name: 'VcColorPickerHSLAPanel',

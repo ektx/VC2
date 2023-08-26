@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { hsv2rgb, toHex, hex2rgb, rgb2hsv } from './color'
+import { hsv2rgb, toHex, hex2rgb, rgb2hsv } from '../color'
 
 export default {
   inject: ['vcColorPicker'],

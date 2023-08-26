@@ -1,5 +1,6 @@
 import Button from './button'
 import ButtonGroup from './buttonGroup'
+import Checkbox from './checkbox'
 import Collapse from './collapse'
 import CollapseItem from './collapseItem'
 import ColorPicker from './colorPicker'
@@ -34,6 +35,7 @@ import Upload from './upload'
 
 export const VcButton = Button
 export const VcButtonGroup = ButtonGroup
+export const VcCheckbox = Checkbox
 export const VcCollapse = Collapse
 export const VcCollapseItem = CollapseItem
 export const VcColorPicker = ColorPicker

@@ -74,10 +74,14 @@ export default {
   },
   computed: {
     currentColor() {
-      let { r, g, b } = hsv2rgb(this.H, this.S, this.V)
+      if (this.modelValue) {
+        let { r, g, b } = hsv2rgb(this.H, this.S, this.V)
 
-      return {
-        backgroundColor: `rgba(${r}, ${g}, ${b}, ${this.A})`
+        return {
+          backgroundColor: `rgba(${r}, ${g}, ${b}, ${this.A})`
+        }
+      } else {
+        return ''
       }
     }
   },

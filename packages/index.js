@@ -1,5 +1,6 @@
 import Button from './components/button/index.vue'
 import ButtonGroup from './components/buttonGroup/index.vue'
+import Checkbox from './components/checkbox/index.vue'
 import Collapse from './components/collapse/index.vue'
 import CollapseItem from './components/collapseItem/index.vue'
 import ColorPicker from './components/colorPicker/index.vue'
@@ -38,6 +39,7 @@ export * from './components/index.js'
 const components = [
   Button,
   ButtonGroup,
+  Checkbox,
   Collapse,
   CollapseItem,
   ColorPicker,
