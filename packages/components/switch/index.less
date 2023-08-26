@@ -7,7 +7,7 @@
   font-size: 14px;
   vertical-align: middle;
   box-sizing: border-box;
-  transition: opacity .35s;
+  transition: opacity 0.35s;
   cursor: pointer;
 
   &__inset {
@@ -18,7 +18,7 @@
     align-items: center;
     opacity: 0;
     padding: 0 3px;
-    transition: opacity .35s;
+    transition: opacity 0.35s;
 
     i,
     span {
@@ -50,7 +50,7 @@
   &__label {
     color: @color-text-primary;
     font-size: 14px;
-    transition: color .35s;
+    transition: color 0.35s;
 
     &-left {
       margin-right: 8px;
@@ -65,7 +65,7 @@
   }
 
   &.is-disabled {
-    opacity: .7;
+    opacity: 0.7;
     cursor: not-allowed;
   }
 }
@@ -74,7 +74,7 @@
   margin: 0;
   display: inline-block;
   position: relative;
-  min-width: 2.5em;
+  min-width: 2em;
   height: 20px;
   outline: none;
   color: #ddd;
@@ -82,7 +82,7 @@
   border: 2px solid;
   border-radius: 1em;
   vertical-align: middle;
-  transition: color .35s;
+  transition: color 0.35s;
 
   .is-checked & {
     color: #0099ff;
@@ -92,30 +92,30 @@
     position: absolute;
     top: 0;
     left: 0;
-    padding: 0 .5em;
+    padding: 0 0.5em;
     height: 1em;
     line-height: 1em;
     word-break: keep-all;
     font-style: inherit;
     border-radius: 1em;
     background-color: #fff;
-    transition: padding .35s, transform .35s, left .35s;
+    transition: padding 0.35s, transform 0.35s, left 0.35s;
 
     &:empty {
       padding: 0;
       width: 1em;
     }
-    
+
     &.has-text {
-      padding: 0 .25em;
+      padding: 0 0.25em;
     }
 
     .is-checked & {
-      left: 100%;  
-      transform: translate(-100%, 0%);    
+      left: 100%;
+      transform: translate(-100%, 0%);
     }
     .vc-switch__core:active & {
-      padding: 0 .6em;   
+      padding: 0 0.6em;
     }
     .vc-icon-loading {
       position: absolute;
@@ -131,5 +131,3 @@
     vertical-align: top;
   }
 }
-
-
