@@ -81,6 +81,10 @@ export const menu = [
         to: '/doc/radio'
       },
       {
+        label: 'Checkbox 多选框',
+        to: '/doc/checkbox'
+      },
+      {
         label: 'Switch 开关',
         to: '/doc/switch'
       },
