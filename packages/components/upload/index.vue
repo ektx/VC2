@@ -7,7 +7,12 @@
       :name="name"
       @change="fileChangeEvt"
     />
-    <Avatar v-if="type === 'avatar'" v-bind="$attrs" @selectFile="selectFile" />
+    <Avatar
+      v-if="type === 'avatar'"
+      v-bind="$props"
+      @selectFile="selectFile"
+      @upload="uploadFile"
+    />
     <FileList
       v-else
       :list="fileList"
@@ -16,11 +21,11 @@
       @uploadFile="uploadFile"
     >
       <template v-if="$slots.target" #target>
-        <slot name="target" />
+        <slot name="target"></slot>
       </template>
 
       <template v-if="$slots.default" #default>
-        <slot />
+        <slot></slot>
       </template>
     </FileList>
   </div>
@@ -99,6 +104,11 @@ export default {
     defaultFiles: {
       type: Array,
       default: []
+    },
+    /** 支持剪贴板数据 */
+    useClipboard: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -107,6 +117,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$attrs)
     this.updateFileList()
   },
   methods: {
@@ -170,18 +181,18 @@ export default {
       this.fileList = this.fileList.concat(fileList)
 
       if (this.autoUpload && !hasExceedLimit) {
-        this.uploadFile()
+        this.uploadFile(this.fileList)
       }
     },
 
-    uploadFile() {
+    uploadFile(fileList) {
       if (!this.action) {
         console.error('[Upload Cpmponent Error] 没有上传地址')
         this.$emit('error', '没有上传地址')
         return
       }
 
-      this.fileList.forEach(file => {
+      fileList.forEach(file => {
         if (file.__status === 'ready') this.sendFile(file)
       })
     },

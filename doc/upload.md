@@ -10,42 +10,15 @@
 <template>
   <vc-upload 
     type="avatar"
-    action="http://localhost:4080/api/upload"
+    action="http://localhost:8091/api/mall/upload?type=store/26/goods"
     :src="src"
   />
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      src: ''
-    }
-  },
-  methods: {
-    handlerExceedSize({list, size}) {
-      this.vcMessage.warning('有文件超出上传大小')
-      console.log('超出大小文件：', list, size)
-    },
-    handlerExceedLimit({files, list}) {
-      this.vcMessage.warning(`当前上传承制最多 4 个文件，选择了 ${files.length} 个文件，已经上传了 ${list.length} 文件`)
-    },
-    handlerSuccess({res, file, list}) {
-      this.src = 'http://localhost:4080' + res.path
-      console.log(file, res, list, '上传成功')
-    },
-    beforeRemove({file}) {
-      return this.VcConfirm({
-        title: '提示',
-        message: `你确定要删除 ${file.name} 吗？`,
-        type: 'confirm'
-      })
-    },
-    remove({file}) {
-      this.vcMessage.success(`${file.name} 删除成功`)
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const src = ref('')
 </script>
 ```
 :::
@@ -233,6 +206,28 @@ export default {
     }
   }
 }
+</script>
+```
+:::
+
+### 使用剪贴板上传
+
+::: codeBox
+```vue
+<template>
+  <vc-upload 
+    type="avatar"
+    action="http://localhost:8091/api/mall/upload?type=store/26/goods"
+    placeholder="点击使用剪贴板数据"
+    useClipboard
+    :src="src"
+  />
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const src = ref('')
 </script>
 ```
 :::
