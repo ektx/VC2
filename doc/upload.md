@@ -10,7 +10,7 @@
 <template>
   <vc-upload 
     type="avatar"
-    action="http://localhost:8091/api/mall/upload?type=store/26/goods"
+    action=" http://localhost:4080/api/upload"
     :src="src"
   />
 </template>

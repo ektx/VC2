@@ -202,7 +202,6 @@ export default {
       FD.append(this.name, file.file)
 
       let xhr = new XMLHttpRequest()
-      xhr.open('POST', this.action, true)
       xhr.onreadystatechange = () => {
         console.log('state change:', xhr.readyState)
         if (xhr.readyState == 4) {
@@ -223,13 +222,16 @@ export default {
             list: this.fileList // 当前文件列表
           })
       }
-      xhr.onprogress = evt => {
-        file.__status = 'uploading'
 
-        if (evt.lengthComputable) {
-          file.__progress = (evt.loaded / evt.total) * 100
-        }
+      if (xhr.upload) {
+        xhr.upload.addEventListener('progress', e => {
+          file.__status = 'uploading'
+          file.__progress = e.total > 0 ? (e.loaded / e.total) * 100 : 0
+        })
       }
+
+      xhr.open('POST', this.action, true)
+
       xhr.send(FD)
     },
 
