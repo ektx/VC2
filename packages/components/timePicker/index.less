@@ -4,10 +4,11 @@
 .vc-time-picker {
   &__clock-mod {
     position: absolute;
+    z-index: 10;
     border-radius: 5px;
-    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     background-color: #fff;
-    background-color: hsla(0, 0%, 100%, .85);
+    background-color: hsla(0, 0%, 100%, 0.85);
     backdrop-filter: saturate(100%) blur(10px);
   }
 
@@ -22,7 +23,7 @@
       font-size: 12px;
       border: none;
       outline: none;
-      background-color: #fff;
+      background-color: transparent;
       cursor: pointer;
 
       &:last-child {
@@ -36,7 +37,7 @@
   position: relative;
   font-size: 14px;
   color: #333;
-  
+
   & input {
     padding: 5px 25px;
     width: 200px;
@@ -45,7 +46,7 @@
     border: 1px solid #dcdfe6;
     box-sizing: border-box;
     outline: none;
-    transition: border .3s;
+    transition: border 0.3s;
 
     &:hover {
       border-color: #bbb;
@@ -58,7 +59,7 @@
     left: 6px;
     transform: translateY(-50%);
     color: #ccc;
-    transition: color .3s;
+    transition: color 0.3s;
   }
 
   &.is-active {
@@ -81,30 +82,29 @@
 }
 
 .loop( @count )when( @count > 0) {
-  li:nth-child(@{count}){
+  li:nth-child(@{count}) {
     transform: rotate(@count * 30deg);
-    
+
     span {
-      transform: translate(0, -50%) rotate( (9 - @count) * 30deg)
+      transform: translate(0, -50%) rotate((9 - @count) * 30deg);
     }
   }
-  
-  .loop((@count - 1))
+
+  .loop((@count - 1));
 }
 
 .loop2( @count )when( @count > 0) {
-  li:nth-child(@{count}){
+  li:nth-child(@{count}) {
     transform: rotate(@count * 6deg);
   }
-  
-  .loop2((@count - 1))
+
+  .loop2((@count - 1));
 }
 
 // clock mod ============================
 .vc-time-picker__clock {
   width: 100%;
   padding: 10px 10px 0;
-  background-color: #fff;
   border-radius: 3px;
   box-sizing: border-box;
 
@@ -160,11 +160,9 @@
         &:hover {
           color: #fff;
           background-color: #333;
-          transition: background-color .3s, color .3s;
+          transition: background-color 0.3s, color 0.3s;
         }
       }
-
-
     }
   }
 
@@ -186,9 +184,8 @@
         }
       }
     }
-    .loop(12)
+    .loop(12);
   }
-
 
   &-minutes-mod {
     position: relative;
@@ -247,7 +244,7 @@
         }
 
         &:hover {
-          background-color: rgba(0, 0, 0, .3);
+          background-color: rgba(0, 0, 0, 0.3);
 
           &::after {
             background-color: #fff;
@@ -274,7 +271,7 @@
       }
     }
 
-    &.seconds{
+    &.seconds {
       li {
         &.is-active {
           background-color: #f00;
@@ -292,7 +289,7 @@
       }
     }
 
-    .loop2(60)
+    .loop2(60);
   }
 
   &-sub-index {
