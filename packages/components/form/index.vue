@@ -1,6 +1,6 @@
 <template>
   <form :class="['vc-form', { inline }]">
-    <slot />
+    <slot></slot>
   </form>
 </template>
 
@@ -17,7 +17,10 @@ export default {
   props: {
     // 表单域标签的宽度，例如 '50px'。作为 Form 直接子元素的 form-item 会继承该值。
     // 支持 auto。
-    labelWidth: String,
+    labelWidth: {
+      type: String,
+      default: '80px'
+    },
     // 数据
     model: Object,
     // 规则

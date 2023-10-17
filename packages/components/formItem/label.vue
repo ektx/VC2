@@ -1,16 +1,20 @@
 <template>
-  <div :class="[
-    'vc-form-item__label', 
-    `text-align-${vcForm.labelPosition}`,
-    {
-      'is-no-asterisk': vcForm.hideRequiredAsterisk
-    }
-  ]" :style="labelStyle">
+  <div
+    :class="[
+      'vc-form-item__label',
+      `text-align-${vcForm.labelPosition}`,
+      {
+        'is-no-asterisk': vcForm.hideRequiredAsterisk
+      }
+    ]"
+    :style="labelStyle"
+  >
     <label v-if="label">{{ label }}</label>
-    <span 
-      v-if="vcForm.labelSuffix && label" 
+    <span
+      v-if="vcForm.labelSuffix && label"
       class="vc-form-item__label-suffix"
-    >{{ vcForm.labelSuffix }}</span>
+      >{{ vcForm.labelSuffix }}</span
+    >
   </div>
 </template>
 
@@ -18,6 +22,7 @@
 export default {
   inject: ['vcForm'],
   props: {
+    // 标题
     label: {
       type: String,
       default: ''
@@ -25,21 +30,17 @@ export default {
     // 指定标题的宽度，支持'auto'
     labelWidth: {
       type: String,
-      default: 'auto'
+      default: '80px'
     }
   },
   computed: {
     labelStyle() {
       let result = {}
 
-      if (this._labelWidth) {
-        let width = this._labelWidth
-        if (!isNaN(this._labelWidth)) {
-          width += 'px'
-        }
-        result.width = width
+      if (this.vcForm) {
+        result.width = this.vcForm.labelWidth
       } else {
-        this.isAutoFrom = 'watch'
+        result.width = this.labelWidth
       }
 
       return result
@@ -47,38 +48,8 @@ export default {
   },
   data() {
     return {
-      _labelWidth: 0,
-      isAutoFrom: ''
+      _labelWidth: 0
     }
-  },
-  mounted() {
-    this.updateLabelWidth()
-  },
-  updated() {
-    if (this.isAutoFrom === 'watch') {
-      this.updateLabelWidth()
-      this.isAutoFrom = 'update'
-    } 
-    else if (this.isAutoFrom === '') {
-      this._labelWidth = 0
-    }
-  },
-  methods: {
-    updateLabelWidth () {
-      if (this.labelWidth === 'auto') {
-        let labelStyleWidth = window.getComputedStyle(this.$el).width
-        let W = Math.ceil(parseFloat(labelStyleWidth))
-  
-        if (W > this.vcForm.autoLabelWidth) {
-          this.vcForm.autoLabelWidth = W
-          this._labelWidth = W
-        } else {
-          this._labelWidth = this.vcForm.autoLabelWidth
-        }
-      } else {
-        this._labelWidth = this.labelWidth
-      }
-    },
   }
 }
 </script>

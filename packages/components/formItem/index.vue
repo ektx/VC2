@@ -124,7 +124,7 @@ export default {
         this.validateState = err ? 'error' : 'success'
         this.validateMessage = err ? err[0].message : ''
 
-        cb(err)
+        cb && cb(err)
       })
     },
 

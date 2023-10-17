@@ -2,6 +2,7 @@
 
 .vc-form-item {
   display: flex;
+  gap: 10px;
   margin-bottom: 18px;
   font-size: 14px;
   line-height: 2.25em;
@@ -26,19 +27,21 @@
 
   &__label {
     display: inline-block;
-    padding: 0 5px 0 0;
     color: @color-text-regular;
     vertical-align: top;
 
     label {
       vertical-align: middle;
     }
-  
+
     .is-required &:not(.is-no-asterisk):before {
       content: '*';
+      margin: 3px;
+      font-size: 14px;
+      font-weight: bold;
       color: #ff4d4f;
     }
-  
+
     &.text-align {
       &-right {
         text-align: right;
@@ -47,7 +50,7 @@
         text-align: left;
       }
     }
-  
+
     &-suffix {
       padding: 0 2px;
     }
@@ -68,7 +71,7 @@
     .vc-time-picker {
       .vc-time-picker__header {
         input {
-          border-color: #ff4d4f; 
+          border-color: #ff4d4f;
         }
         .vc-icon-time {
           color: #ff4d4f;
@@ -81,7 +84,7 @@
 .vc-fade-in-enter-active,
 .vc-fade-in-leave-active {
   opacity: 1;
-  transition: opacity .2s;
+  transition: opacity 0.2s;
   transform-origin: center top;
 }
 .vc-fade-in-enter-from,
