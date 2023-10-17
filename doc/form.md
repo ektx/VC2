@@ -199,7 +199,7 @@ export default {
     </vc-form-item>
 
     <vc-form-item>
-      <vc-button color="primary">提交</vc-button>
+      <vc-button theme="primary">提交</vc-button>
       <vc-button>取消</vc-button>
     </vc-form-item>
   </vc-form>
@@ -257,7 +257,7 @@ export default {
       <vc-select v-model="formData.region" :options="options"/>
     </vc-form-item>
     <vc-form-item>
-      <vc-button color="primary" @click="submitForm">查询</vc-button>
+      <vc-button theme="primary" @click="submitForm">查询</vc-button>
       <vc-button @click="resetForm">重置</vc-button>
     </vc-form-item>
   </vc-form>
@@ -352,7 +352,7 @@ export default {
       <vc-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"></vc-input>
     </vc-form-item>
     <vc-form-item>
-      <vc-button color="primary" @click="submitForm">提交</vc-button>
+      <vc-button theme="primary" @click="submitForm">提交</vc-button>
       <vc-button @click="resetForm">重置</vc-button>
     </vc-form-item>
   </vc-form>
@@ -448,7 +448,7 @@ export default {
       <vc-input type="password" v-model="formData.checkPass" validate-event/>
     </vc-form-item>
     <vc-form-item>
-      <vc-button color="primary" @click="submitForm">提交</vc-button>
+      <vc-button theme="primary" @click="submitForm">提交</vc-button>
       <vc-button @click="resetForm">重置</vc-button>
     </vc-form-item>
   </vc-form>
