@@ -8,12 +8,9 @@
         'is-error': validateState === 'error'
       }
     ]"
+    :style="style"
   >
-    <Label
-      v-if="vcForm.inline ? label : true"
-      :label="label"
-      :labelWidth="labelWidth || vcForm.labelWidth"
-    />
+    <Label :label="label" :labelWidth="labelWidth || vcForm.labelWidth"></Label>
 
     <div class="vc-form-item__content">
       <slot></slot>
@@ -54,7 +51,9 @@ export default {
     // 指定标题的宽度，支持'auto'
     labelWidth: String,
     prop: String,
-    inline: Boolean
+    inline: Boolean,
+    gridColumn: String,
+    gridRow: String
   },
   computed: {
     isColumn() {
@@ -75,6 +74,16 @@ export default {
         })
       }
       return result
+    },
+
+    style() {
+      let obj = {}
+
+      if (this.gridColumn) {
+        obj.gridColumn = this.gridColumn
+      }
+
+      return obj
     }
   },
   data() {

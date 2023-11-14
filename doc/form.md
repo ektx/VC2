@@ -250,28 +250,70 @@ export default {
 ```vue
 <template>
   <vc-form ref="form" inline :model="formData" :rules="rules">
+
     <vc-form-item label="活动名称" prop="name">
-      <vc-input type="text" v-model="formData.name" validate-event/>
+      <vc-input v-model="formData.name"/>
     </vc-form-item>
+
+    <vc-form-item label="队旗颜色" prop="color">
+      <vc-color-picker v-model="formData.color" round/>
+    </vc-form-item>
+
+    <vc-form-item label="住宿时间" prop="days">
+      <vc-radio-group v-model="formData.days">
+        <vc-radio :label="1">1天</vc-radio>
+        <vc-radio :label="2">2天</vc-radio>
+        <vc-radio :label="3">2天以上</vc-radio>
+      </vc-radio-group>
+    </vc-form-item>
+
+
+    <vc-form-item label="费用方式" prop="isOwnExpense">
+      <vc-switch v-model:value="formData.isOwnExpense" active-text="备用金" inactive-text="报销"/>
+    </vc-form-item>
+    
     <vc-form-item label="活动区域" prop="region">
-      <vc-select v-model="formData.region" :options="options"/>
+      <vc-select v-model="formData.region" :options="options" multiple/>
     </vc-form-item>
+
+    <vc-form-item label="活动人数" prop="total">
+      <vc-input-number v-model="formData.total"/>
+    </vc-form-item>
+    <!-- 时间选择 -->
+    <vc-form-item label="出发时间" prop="time">
+      <vc-time-picker v-model="formData.time"/>
+    </vc-form-item>
+
+    <vc-form-item label="活动形式" prop="desc" grid-column="span 2">
+      <vc-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"/>
+    </vc-form-item>
+
     <vc-form-item>
-      <vc-button theme="primary" @click="submitForm">查询</vc-button>
+      <vc-button theme="primary" @click="submitForm">提交</vc-button>
       <vc-button @click="resetForm">重置</vc-button>
+      <vc-button @click="clearForm">清除错误</vc-button>
     </vc-form-item>
+
   </vc-form>
+
+  {{ formData }}
 </template>
 
 <script>
 import { ref } from 'vue'
 
 export default {
-  data() {
+  data () {
     return {
       formData: {
         name: '',
-        region: '',
+        color: '',
+        days: 0,
+        time: '',
+        isOwnExpense: false,
+        region: [],
+        desc: 'text',
+        total: 0
       },
       options: [{
         value: 'Beijing',
@@ -283,10 +325,38 @@ export default {
       rules: {
         name: [
           { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: ['blur', 'change'] }
+        ],
+        color: [
+          { required: true, message: '队旗颜色不能为空', trigger: 'blur' },
+        ],
+        days: [
+          { 
+            required: true, 
+            type: 'number',
+            message: '住宿时间不能为空', 
+            trigger: ['blur', 'change'],
+          },
+          { 
+            min: 2,
+            type: 'number', 
+            message: '住宿时间不能小于 2', 
+            trigger: ['blur', 'change'],
+          },
+        ],
+        time: [
+          { 
+            type: 'date',
+            required: true, 
+            message: '出发时间不能为空', 
+            trigger: ['blur', 'change'],
+          }
+        ],
+        isOwnExpense: [
+          {required: true, type: 'boolean', message: '费用方式不可为空', trigger: 'change'}
         ],
         region: [
-          { required: true, message: '请选择活动区域', trigger: 'change' }
+          { required: true, type: 'array', message: '请选择活动区域', trigger: ['blur', 'change'] }
         ],
         date1: [
           { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
@@ -299,6 +369,9 @@ export default {
         ],
         resource: [
           { required: true, message: '请选择活动资源', trigger: 'change' }
+        ],
+        total: [
+          {required: true, type: 'number', min: 1,  message: '活动人数不能为0', trigger: 'change'}
         ],
         desc: [
           { required: true, message: '请填写活动形式', trigger: 'blur' }
@@ -321,6 +394,12 @@ export default {
     resetForm() {
       console.log('reset...')
       this.$refs.form.resetFields()
+    },
+    change(event) {
+      console.log(event.target.value)
+    },
+    clearForm() {
+      this.$refs.form.clearValidate()
     }
   }
 }
