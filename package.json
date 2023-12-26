@@ -1,5 +1,5 @@
 {
-  "name": "vc2",
+  "name": "@ektx/vc2",
   "version": "1.16.2",
   "files": [
     "lib",
