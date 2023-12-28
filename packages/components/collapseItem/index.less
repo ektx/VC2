@@ -14,6 +14,14 @@
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
+
+    &.is-sticky {
+      position: sticky;
+      top: 0;
+      left: 0;
+      backdrop-filter: var(@backdropFilter);
+      background: var(@backdropFilterBg);
+    }
   }
 
   &__icon {
@@ -24,25 +32,15 @@
   }
 
   &__wrap {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.3s;
+    transition: height 0.3s ease-in-out;
+    will-change: height;
     overflow: hidden;
-  }
-
-  &.is-open &__wrap {
-    grid-template-rows: 1fr;
   }
 
   &__content {
     min-height: 0;
-    padding: 0px;
-    box-sizing: border-box;
-    transition: padding 0.3s;
-  }
-
-  &.is-open &__content {
     padding: 0px 0px 10px;
+    box-sizing: border-box;
   }
 
   &.is-disabled &__header {
