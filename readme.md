@@ -8,6 +8,12 @@ Vue 3.x UI 组件库
 yarn dev
 ```
 
+## build lib
+
+```sh
+npm run lib
+```
+
 ## Publish
 
 ```sh

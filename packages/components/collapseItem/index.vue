@@ -47,7 +47,9 @@ export default {
   inject: ['Collapse'],
   data() {
     return {
-      wrapStyle: {}
+      wrapStyle: {
+        height: 0
+      }
     }
   },
   computed: {
@@ -59,18 +61,13 @@ export default {
     isOpen: {
       async handler(val) {
         await this.$nextTick()
+        const { scrollHeight: h } = this.$refs.wrap
 
-        if (true) {
-          const { scrollHeight: h } = this.$refs.wrap
+        this.wrapStyle = { height: (val ? 0 : h) + 'px' }
 
-          this.wrapStyle = { height: h + 'px' }
-
-          if (!val) {
-            requestAnimationFrame(() => {
-              this.wrapStyle.height = '0px'
-            })
-          }
-        }
+        requestAnimationFrame(() => {
+          this.wrapStyle = { height: (val ? h : 0) + 'px' }
+        })
       },
       immediate: true
     }

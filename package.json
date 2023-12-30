@@ -1,6 +1,6 @@
 {
   "name": "@ektx/vc2",
-  "version": "1.16.4",
+  "version": "1.16.5",
   "files": [
     "lib",
     "types",

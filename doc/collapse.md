@@ -171,6 +171,7 @@ export default {
 |---|---|---|---|---|
 | v-model | **Array** | 当前激活的面板 | - | [] |
 | accordion | **Boolean** | 是否手风琴模式 | - | false |
+| noBorder | **Boolean** | 移除边框 | - | false |
 
 ## Events
 
@@ -178,10 +179,11 @@ export default {
 | --- | --- | --- |
 | change | 当前激活面板改变时触发 | (Array) => {} |
 
-## Item Poprs
+## CollapseItem
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
 |---|---|---|---|---|
 | value | **String/Number** | 唯一标志符 | - | - |
 | title | **String** | 面板标题 | - | - |
 | disabled | **Boolean** | 是否禁用 | - | - |
+| sticky | **Boolean** | 启用粘性 | - | - |

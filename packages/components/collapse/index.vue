@@ -1,10 +1,12 @@
 <template>
-  <div class="vc-collapse">
-    <slot />
+  <div :class="['vc-collapse', hasClass('noBorder')]">
+    <slot></slot>
   </div>
 </template>
 
 <script>
+import { hasClass } from '../../utils'
+
 export default {
   name: 'VcCollapse',
   props: {
@@ -14,7 +16,9 @@ export default {
       default: []
     },
     // 是否手风琴模式
-    accordion: Boolean
+    accordion: Boolean,
+    /** 移除边框 */
+    noBorder: Boolean
   },
   provide() {
     return {
@@ -22,6 +26,8 @@ export default {
     }
   },
   methods: {
+    hasClass,
+
     itemClick(item) {
       // 复制旧值
       let result = this.modelValue.slice()
