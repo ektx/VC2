@@ -3,110 +3,61 @@
 .@{namespace}-button {
   position: relative;
   padding: 0.25em 0.8em 0.3em;
-  font-size: 14px;
+  font-size: calc(var(--size) * 1px);
   word-break: keep-all;
   border-radius: 0.15em;
   border: none;
-  color: @btn-default-text-color;
+  color: var(--color, @btn-default-text-color);
   box-sizing: border-box;
-  background-color: transparent;
-  transition: 0.1s;
+  background-color: var(--bg, #eee);
+  transition: all 0.2s;
   cursor: pointer;
   outline: none;
 
-  &::after,
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
-    border-radius: inherit;
-    box-sizing: inherit;
-  }
-
-  &::before {
-    background-color: transparent;
-    border: 1px solid currentColor;
-    opacity: 0.3;
-    transition: opacity 0.2s, background 0.2s;
-  }
-
-  &::after {
-    opacity: 0;
-    background-color: rgba(0, 0, 0, 0.05);
-    transition: opacity 0.2s, background 0.2s;
-  }
-
   span {
+    color: inherit;
     position: relative;
     z-index: 2;
     transition: 0.1s;
   }
 
-  &[disabled] {
-    opacity: 0.6;
-    cursor: not-allowed;
-
-    span {
-      color: @btn-disabled-text-color;
-    }
-  }
-
   &:hover {
-    &::before {
-      opacity: 0.4;
-    }
-    &::after {
-      opacity: 1;
-    }
+    background: #f5f5f5;
   }
 
   &:active {
-    &::after {
-      opacity: 1;
-      background-color: rgba(0, 0, 0, 0.1);
-    }
+    filter: brightness(0.8);
+    transform: translate(0, 1px);
   }
 
-  &.plain {
-    background-color: transparent;
+  &[disabled] {
+    opacity: 0.8;
+    cursor: not-allowed;
+    filter: grayscale(1);
 
-    &[disabled] {
-      background-color: transparent;
+    &:active {
+      transform: none;
     }
   }
 
   // 自定义与颜色 =============================
   &--theme-primary {
-    color: @btn-primary-color;
+    --bg: @btn-primary-color;
   }
   &--theme-success {
-    color: @btn-success-color;
+    --bg: @btn-success-color;
   }
   &--theme-warn {
-    color: @btn-warn-color;
+    --bg: @btn-warn-color;
   }
   &--theme-error {
-    color: @btn-error-color;
+    --bg: @btn-error-color;
   }
-  &.customize-color {
+
+  &[class*='--theme-'],
+  &.customize-bg {
     span {
-      color: #fff;
-    }
-
-    &::before {
-      opacity: 1;
-      background-color: currentColor;
-      // border: 1px solid currentColor;
-    }
-
-    &::after {
-      background-color: rgba(255, 255, 255, 0.1);
-      background: linear-gradient(transparent, rgba(255, 255, 255, 0.2));
+      color: var(--color, #fff);
     }
 
     .@{namespace}-button--icon {
@@ -114,111 +65,76 @@
     }
 
     &:hover {
-      &::before {
-        opacity: 1;
-      }
-      &::after {
-        opacity: 1;
-      }
+      background: ~'hsl(from var(--bg) h s calc(l * 1.2))';
+    }
+  }
+
+  &.customize-color {
+    span {
+      color: var(--color);
+    }
+  }
+
+  &.plain {
+    color: var(--bg, @btn-default-text-color);
+    background: transparent;
+    border: 1px solid var(--bg, #eee);
+
+    span {
+      color: inherit;
     }
 
-    &:active {
-      &::after {
-        opacity: 1;
-        background-color: rgba(0, 0, 0, 0.1);
-      }
+    &:hover {
+      filter: none;
+      background: ~'hsl(from var(--bg) h s calc(l * 1.8))';
     }
 
-    // plain --------------------------------
-    &.plain {
-      span {
-        color: currentColor;
-      }
-
-      &::before {
-        opacity: 0.4;
-        background-color: transparent;
-      }
-
-      &::after {
-        opacity: 0.05;
-        background-color: currentColor;
-      }
+    &[disabled] {
+      filter: grayscale(1);
 
       &:hover {
-        &::before {
-          opacity: 0.6;
-        }
-        &::after {
-          opacity: 0.15;
-        }
-      }
-
-      &:active {
-        &::after {
-          opacity: 0.2;
-        }
-      }
-
-      &[disabled] {
-        background-color: transparent;
+        background: transparent;
       }
     }
   }
 
   // type=text ===============================
   &[type='text'] {
-    &.has-bg {
-      &::before {
-        opacity: 0.1;
-        background-color: currentColor;
+    color: var(--bg, @btn-default-text-color);
+    background: transparent;
+
+    &:hover {
+      background: transparent;
+    }
+
+    &[class*='--theme-'] {
+      span {
+        color: var(--bg);
+      }
+    }
+    &[class*='--theme-'].has-bg {
+      background: ~'hsl(from var(--bg) h s calc(l * 1.8))';
+    }
+
+    &.customize-color {
+      &.has-bg {
+        background: ~'hsl(from var(--color) h s calc(l * 2))';
       }
 
       &:hover {
-        &::before {
-          opacity: 0.2;
-        }
+        filter: brightness(1.1);
+      }
+
+      span {
+        color: var(--color);
       }
     }
 
     &.customize-bg {
-      &::before {
-        opacity: 1;
-        background-color: var(--bg);
-      }
+      background: var(--bg);
 
       &:hover {
-        &::before {
-          opacity: 0.9;
-          background-color: var(--bg);
-        }
-      }
-    }
-
-    &.customize-color {
-      span {
-        color: currentColor;
-      }
-    }
-
-    &::before {
-      background-color: transparent;
-      border-color: transparent;
-    }
-
-    &:hover {
-      &::before {
-        opacity: 0.6;
-      }
-      &::after {
-        opacity: 0.1;
-        background-color: currentColor;
-      }
-    }
-
-    &:active {
-      &::after {
-        opacity: 0.2;
+        filter: brightness(1.1);
       }
     }
   }
@@ -236,8 +152,8 @@
   }
 
   &--icon {
-    position: relative;
-    z-index: 2;
+    // position: relative;
+    // z-index: 2;
     display: inline-flex;
     width: 1em;
     color: @btn-default-text-color;
