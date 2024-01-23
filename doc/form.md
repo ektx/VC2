@@ -288,7 +288,7 @@ export default {
       <vc-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"/>
     </vc-form-item>
 
-    <vc-form-item>
+    <vc-form-item grid-column="span 2">
       <vc-button theme="primary" @click="submitForm">提交</vc-button>
       <vc-button @click="resetForm">重置</vc-button>
       <vc-button @click="clearForm">清除错误</vc-button>
@@ -520,7 +520,7 @@ export default {
 ```vue
 <template>
   <vc-form ref="form" label-width="80px" :model="formData" :rules="rules">
-    <vc-form-item label="密码" prop="passwd">
+    <vc-form-item label="密码" prop="passwd" help="这里输入不少于8位字符" validate-status="error">
       <vc-input type="password" v-model="formData.passwd" validate-event/>
     </vc-form-item>
     <vc-form-item label="确认密码" prop="checkPass">
@@ -533,73 +533,63 @@ export default {
   </vc-form>
 </template>
 
-<script>
+<script setup>
 import { ref, reactive } from 'vue'
 
-export default {
-  setup() {
-    let validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'));
-      } else {
-        // 测试数据调用
-        if (formData.checkPass !== '') {
-          form.value.validateField('checkPass');
-        }
-        callback();
-      }
+let validatePass = (rule, value, callback) => {
+  if (value === '') {
+    callback(new Error('请输入密码'));
+  } else {
+    // 测试数据调用
+    if (formData.checkPass !== '') {
+      form.value.validateField('checkPass');
     }
-    let validatePass2 = (rule, value, callback) => {
-      const errors =[]
-      if (value === '') {
-        // callback(new Error('请再次输入密码'));
-        errors.push('xxxxxxxx')
-      } else if (value !== formData.passwd) {
-        // callback(new Error('两次输入密码不一致!'));
-      } else {
-        // callback();
-      }
-
-      return errors
-    }
-
-    const form = ref(null)
-    const formData = reactive({
-      passwd: '',
-      checkPass: '',
-    })
-    const rules = reactive({
-      passwd: [
-        { required: true, validator: validatePass, message: '不能为空', trigger: 'blur' }
-      ],
-      checkPass: [
-        { validator: validatePass2, trigger: 'blur' }
-      ],
-    })
-
-    let submitForm = () => {
-      form.value.validate((valid) => {
-        if (valid) {
-          console.log('submit!');
-        } else {
-          console.log('error submit!!');
-        }
-      });
-    }
-
-    function resetForm() {
-      form.value.resetFields()
-    }
-
-    return {
-      form,
-      formData,
-      rules,
-      submitForm,
-      resetForm
-    }
+    callback();
   }
 }
+let validatePass2 = (rule, value, callback) => {
+  const errors =[]
+  if (value === '') {
+    // callback(new Error('请再次输入密码'));
+    errors.push('xxxxxxxx')
+  } else if (value !== formData.passwd) {
+    // callback(new Error('两次输入密码不一致!'));
+  } else {
+    // callback();
+  }
+
+  return errors
+}
+
+const form = ref(null)
+const formData = reactive({
+  passwd: '',
+  checkPass: '',
+})
+const rules = reactive({
+  passwd: [
+    { required: true, validator: validatePass, message: '不能为空', trigger: 'blur' }
+  ],
+  checkPass: [
+    { validator: validatePass2, trigger: 'blur' }
+  ],
+})
+
+let submitForm = () => {
+  form.value.validate(valid => {
+    if (valid) {
+      console.log('submit!');
+    } else {
+      console.log('error submit!!');
+    }
+  });
+}
+
+function resetForm() {
+  form.value.resetFields()
+}
+
+   
 </script>
 
 <style lang="less" scoped>

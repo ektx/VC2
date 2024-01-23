@@ -1,6 +1,6 @@
 @import '../../styles/var.less';
 
-.vc-form-item {
+.@{namespace}-form-item {
   display: flex;
   gap: 10px;
   margin-bottom: 18px;
@@ -17,12 +17,18 @@
     vertical-align: top;
   }
 
-  &__error {
+  &__info {
     position: absolute;
     left: 0;
     font-size: 12px;
     line-height: 16px;
-    color: #ff4d4f;
+    color: #999;
+  }
+
+  &:where(.is-error) {
+    .@{namespace}-form-item__info {
+      color: #ff4d4f;
+    }
   }
 
   &__label {
@@ -53,30 +59,6 @@
 
     &-suffix {
       padding: 0 2px;
-    }
-  }
-
-  &.is-error {
-    // 输入框
-    // .vc-input {
-    //   border-color: #ff4d4f;
-    // }
-
-    // 计数器
-    // .vc-input-number__input {
-    //   border-color: #ff4d4f;
-    // }
-
-    // 时间选择器
-    .vc-time-picker {
-      .vc-time-picker__header {
-        input {
-          border-color: #ff4d4f;
-        }
-        .vc-icon-time {
-          color: #ff4d4f;
-        }
-      }
     }
   }
 }

@@ -8,6 +8,8 @@
   @{textColorSecondary}: #909399;
   @{borderColor}: #dcdfe6;
   @{placeholderColor}: #c0c4cc;
+  @{hoverColor}: #aaa;
+  @{focusColor}: @primary-color;
 
   @{primaryColor}: @primary-color;
   @{backdropFilter}: saturate(180%) blur(20px);
@@ -16,7 +18,8 @@
   // input
   @{input}-bg: e('var(@{bg})');
   @{input}-disabled-bg: e('var(@{disBg})');
-  @{input}-hover-color: e('var(@{primaryColor})');
+  @{input}-hover-color: e('var(@{hoverColor})');
+  @{input}-focus-color: e('var(@{focusColor})');
   @{input}-color: e('var(@{textColorPrimary})');
   @{input}-border-color: e('var(@{borderColor})');
   @{input}-placeholder-color: e('var(@{placeholderColor})');

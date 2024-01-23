@@ -2,10 +2,10 @@
   <div
     :class="[
       'vc-form-item',
+      validateState,
       {
         'is-column': isColumn,
-        'is-required': isRequired,
-        'is-error': validateState === 'error'
+        'is-required': isRequired
       }
     ]"
     :style="style"
@@ -13,14 +13,14 @@
     <Label :label="label" :labelWidth="labelWidth || vcForm.labelWidth"></Label>
 
     <div class="vc-form-item__content">
-      <slot></slot>
+      <slot :status="validateStatus"></slot>
       <transition name="vc-fade-in">
         <slot
-          v-if="validateState === 'error'"
+          v-if="validateMessage.length"
           name="error"
           :error="validateMessage"
         >
-          <div class="vc-form-item__error">
+          <div class="vc-form-item__info">
             {{ validateMessage }}
           </div>
         </slot>
@@ -53,7 +53,20 @@ export default {
     prop: String,
     inline: Boolean,
     gridColumn: String,
-    gridRow: String
+    gridRow: String,
+    /** 设置提示文案 */
+    help: {
+      type: String,
+      default: ''
+    },
+    /** 校验状态 */
+    validateStatus: {
+      type: String,
+      default: '',
+      validator: val => {
+        return ['', 'error', 'success'].includes(val)
+      }
+    }
   },
   computed: {
     isColumn() {
@@ -88,21 +101,16 @@ export default {
   },
   data() {
     return {
-      parentForm: null,
       validateState: '',
       validateMessage: ''
     }
   },
   mounted() {
-    if (this.$parent.$options.name === 'VcForm') {
-      this.parentForm = this.$parent
+    if (this.prop && this.vcForm && this.vcForm.fields) {
+      this.vcForm.fields.push(this)
     }
 
-    if (this.prop) {
-      if (this.parentForm) {
-        this.parentForm.fields.push(this)
-      }
-    }
+    if (this.help) this.validateMessage = this.help
   },
   methods: {
     validate(trigger, cb) {
@@ -130,7 +138,7 @@ export default {
       model[this.prop] = this.vcForm.model[this.prop]
 
       validator.validate(model, { firstFields: true }, err => {
-        this.validateState = err ? 'error' : 'success'
+        this.validateState = err ? 'is-error' : 'is-success'
         this.validateMessage = err ? err[0].message : ''
 
         cb && cb(err)
@@ -151,7 +159,7 @@ export default {
 
     clearValidate() {
       this.validateState = ''
-      this.validateMessage = ''
+      this.validateMessage = this.help || ''
     },
 
     getRules() {

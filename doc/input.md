@@ -239,7 +239,7 @@ const options = [{
 }]
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .vc-input {
   margin-bottom: 10px;
 }
