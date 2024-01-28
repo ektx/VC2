@@ -3,6 +3,7 @@
     :class="[
       'vc-form-item',
       validateState,
+      validateStatus ? 'is-' + validateStatus : '',
       {
         'is-column': isColumn,
         'is-required': isRequired
@@ -10,21 +11,15 @@
     ]"
     :style="style"
   >
-    <Label :label="label" :labelWidth="labelWidth || vcForm.labelWidth"></Label>
+    <Label :label="label"></Label>
 
     <div class="vc-form-item__content">
       <slot :status="validateStatus"></slot>
-      <transition name="vc-fade-in">
-        <slot
-          v-if="validateMessage.length"
-          name="error"
-          :error="validateMessage"
-        >
-          <div class="vc-form-item__info">
-            {{ validateMessage }}
-          </div>
+      <div ref="errRef" class="vc-form-item__info">
+        <slot name="error" :error="validateMessage">
+          {{ validateMessage }}
         </slot>
-      </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -32,6 +27,7 @@
 <script>
 import Label from './label.vue'
 import AsyncValidator from 'async-validator'
+import { getValueOfPath, setValueOfPath } from '../../utils'
 
 export default {
   name: 'VcFormItem',
@@ -68,6 +64,22 @@ export default {
       }
     }
   },
+  watch: {
+    async validateMessage(val) {
+      await this.$nextTick()
+
+      if (val) {
+        let h = this.$refs.errRef.scrollHeight
+
+        Object.assign(this.$refs.errRef.style, {
+          height: h + 'px',
+          transform: `translateY(0%)`
+        })
+      } else {
+        this.$refs.errRef.style = null
+      }
+    }
+  },
   computed: {
     isColumn() {
       return this.vcForm.labelPosition === 'top'
@@ -90,7 +102,9 @@ export default {
     },
 
     style() {
-      let obj = {}
+      let obj = {
+        '--labelWidth': this.labelWidth
+      }
 
       if (this.gridColumn) {
         obj.gridColumn = this.gridColumn
@@ -149,11 +163,9 @@ export default {
       this.clearValidate()
 
       if (this.prop) {
-        let val = Reflect.has(this.vcForm.defaultValue, this.prop)
-          ? this.vcForm.defaultValue[this.prop]
-          : ''
+        const val = getValueOfPath(this.vcForm.defaultValue, this.prop)
 
-        this.vcForm.model[this.prop] = val
+        setValueOfPath(this.vcForm.model, this.prop, val)
       }
     },
 

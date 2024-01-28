@@ -7,7 +7,6 @@
         'is-no-asterisk': vcForm.hideRequiredAsterisk
       }
     ]"
-    :style="labelStyle"
   >
     <label v-if="label">{{ label }}</label>
     <span
@@ -18,38 +17,16 @@
   </div>
 </template>
 
-<script>
-export default {
-  inject: ['vcForm'],
-  props: {
-    // 标题
-    label: {
-      type: String,
-      default: ''
-    },
-    // 指定标题的宽度，支持'auto'
-    labelWidth: {
-      type: String,
-      default: '80px'
-    }
-  },
-  computed: {
-    labelStyle() {
-      let result = {}
+<script setup>
+import { inject } from 'vue'
 
-      if (this.vcForm) {
-        result.width = this.vcForm.labelWidth
-      } else {
-        result.width = this.labelWidth
-      }
-
-      return result
-    }
-  },
-  data() {
-    return {
-      _labelWidth: 0
-    }
+const props = defineProps({
+  // 标题
+  label: {
+    type: String,
+    default: ''
   }
-}
+})
+
+const vcForm = inject('vcForm', null)
 </script>

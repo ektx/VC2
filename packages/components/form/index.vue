@@ -1,11 +1,11 @@
 <template>
-  <form :class="['vc-form', { inline }]">
+  <form :class="['vc-form', { inline }]" :style="myStyle">
     <slot></slot>
   </form>
 </template>
 
 <script>
-import merge from '../../utils/merge'
+import { toRaw } from 'vue'
 
 export default {
   name: 'VcForm',
@@ -54,9 +54,16 @@ export default {
       defaultValue: {}
     }
   },
+  computed: {
+    myStyle() {
+      return {
+        '--labelWidth': this.labelWidth
+      }
+    }
+  },
   mounted() {
     if (this.model) {
-      this.defaultValue = merge({}, this.model)
+      this.defaultValue = structuredClone(toRaw(this.model))
     }
   },
   methods: {

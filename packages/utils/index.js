@@ -63,3 +63,37 @@ export function props2class(name) {
 export function hasClass(props, name) {
   return this.$props[props] ? props2class(name ?? props) : ''
 }
+
+/**
+ * 从路径中获取对象中值
+ * @param {object} obj 取值对象
+ * @param {string} path 对象路径
+ * @returns {any} 返回获取的值
+ */
+export function getValueOfPath(obj, path) {
+  let paths = path.split('.')
+  let res = obj
+  let prop
+
+  while ((prop = paths.shift())) {
+    res = typeof res === 'object' ? res[prop] : undefined
+  }
+  return res
+}
+
+/**
+ * 设置字符串路径嵌套对象属性
+ * @param {proxy} obj 代理对象
+ * @param {string} path keys值字符串
+ * @param {any} value 要设置的内容
+ */
+export function setValueOfPath(obj, path, value) {
+  let paths = path.split('.')
+  let res = obj
+
+  while (paths.length > 1 && Reflect.has(res, paths[0])) {
+    res = res[paths.shift()]
+  }
+
+  res[paths[0]] = value
+}

@@ -2,8 +2,7 @@
 
 .@{namespace}-form-item {
   display: flex;
-  gap: 10px;
-  margin-bottom: 18px;
+  margin-bottom: 10px;
   font-size: 14px;
   line-height: 2.25em;
 
@@ -12,17 +11,18 @@
   }
 
   &__content {
-    position: relative;
-    flex: 1;
-    vertical-align: top;
+    flex: 0 0 calc(100% - var(--labelWidth, 25%));
   }
 
   &__info {
-    position: absolute;
-    left: 0;
+    height: 0;
+    overflow: hidden;
     font-size: 12px;
     line-height: 16px;
     color: #999;
+    transform: translateY(-100%);
+    transition: height 0.2s ease-out, transform 0.2s ease-out;
+    will-change: transform;
   }
 
   &:where(.is-error) {
@@ -32,9 +32,12 @@
   }
 
   &__label {
+    flex: 0 0 var(--labelWidth, 25%);
     display: inline-block;
+    padding-right: 10px;
     color: @color-text-regular;
     vertical-align: top;
+    box-sizing: border-box;
 
     label {
       vertical-align: middle;

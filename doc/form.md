@@ -599,3 +599,103 @@ function resetForm() {
 </style>
 ```
 :::
+
+
+## 复杂对象
+
+::: codeBox
+```vue
+<template>
+  <vc-form ref="form" label-width="80px" :model="formData" :rules="rules">
+    <vc-form-item label="活动名称" prop="user.name">
+      <vc-input type="text" v-model="formData.user.name" validate-event/>
+    </vc-form-item>
+    <vc-form-item label="活动区域" prop="info.region">
+      <vc-select v-model="formData.info.region" :options="options"/>
+    </vc-form-item>
+    <vc-form-item label="活动形式" prop="desc">
+      <vc-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"></vc-input>
+    </vc-form-item>
+    <vc-form-item>
+      <vc-button theme="primary" @click="submitForm">提交</vc-button>
+      <vc-button @click="resetForm">重置</vc-button>
+    </vc-form-item>
+  </vc-form>
+
+  {{ formData }}
+</template>
+
+<script>
+import { ref } from 'vue'
+
+export default {
+  data() {
+    return {
+      formData: {
+        user: { 
+          name: ''
+        },
+        info: {
+          region: ''
+        },
+        desc: ''
+      },
+      options: [{
+        value: 'Beijing',
+        label: '北京'
+      }, {
+        value: 'Shanghai',
+        label: '上海'
+      }],
+      rules: {
+        'user.name': [
+          { required: true, message: '请输入活动名称', trigger: 'blur' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ],
+        region: [
+          { required: true, message: '请选择活动区域', trigger: 'change' }
+        ],
+        date1: [
+          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+        ],
+        date2: [
+          { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+        ],
+        type: [
+          { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+        ],
+        resource: [
+          { required: true, message: '请选择活动资源', trigger: 'change' }
+        ],
+        desc: [
+          { required: true, message: '请填写活动形式', trigger: 'blur' }
+        ]
+      }
+    }
+  },
+  methods: {
+    submitForm() {
+      this.$refs.form.validate( (valid) => {
+        if (valid) {
+          console.log('submit!');
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    resetForm() {
+      console.log('reset...')
+      this.$refs.form.resetFields()
+    }
+  }
+}
+</script>
+
+<style lang="less" scoped>
+.vc-button {
+  margin-right: 10px;
+}
+</style>
+```
+:::
