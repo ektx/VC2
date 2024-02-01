@@ -49,6 +49,7 @@ const onChange = val => {
 ```vue
 <template>
   {{ inlineValue }} <hr />
+  <h4>mode=inline</h4>
   <div style="width: 200px;">
     <vc-menu mode="inline" v-model="inlineValue">
       <vc-menu-item value="1">🏡 Home</vc-menu-item>
@@ -74,6 +75,7 @@ const onChange = val => {
   </div>
 
   {{ verticalValue }} <hr/>
+  <h4>mode=vertical</h4>
   <div style="width: 200px">
     <vc-menu mode="vertical" v-model="verticalValue">
       <vc-menu-item value="1">🏡 Home</vc-menu-item>
@@ -202,6 +204,7 @@ const expand = ref(['3', '3-2', '3-3'])
     v-model="verticalValue" 
     :collapse="collapse" 
     :width="300"
+    minWidth="60px"
   >
     <vc-menu-item value="1" icon="vc-icon-s-shop">Home</vc-menu-item>
     <vc-menu-item value="2" disabled icon="vc-icon-warning-outline">禁用效果</vc-menu-item>

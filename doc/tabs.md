@@ -65,12 +65,18 @@
 ::: codeBox 
 ```vue
 <template>
-  <vc-tabs :modelValue="`mac`">
+  <vc-tabs v-model="value">
     <vc-tab-pane icon="vc-icon-os-apple" label="MacOS" name="mac">MacOS</vc-tab-pane>
     <vc-tab-pane icon="vc-icon-os-windows" label="Windows" name="win">Windows</vc-tab-pane>
     <vc-tab-pane icon="vc-icon-os-linux" label="Linux" name="lin">Linux</vc-tab-pane>
   </vc-tabs>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+const value = ref('mac')
+</script>
 ```
 :::
 
@@ -99,10 +105,7 @@
       分类
     </vc-tab-pane>
     <vc-tab-pane name="my">
-      <template #label>
-        我的
-        <i class="vc-icon-date"></i>
-      </template>
+      <template #label>🤣 我的</template>
       我的
     </vc-tab-pane>
   </vc-tabs>
