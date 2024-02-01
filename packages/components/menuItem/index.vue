@@ -6,7 +6,6 @@
       'level-' + level,
       {
         'is-disabled': disabled,
-        'is-open': isOpen,
         'is-active': isActive,
         'is-exact-active': isExactActive,
         'is-collapse': $$Menu.collapse
@@ -15,7 +14,7 @@
   >
     <div
       ref="header"
-      class="vc-menu-item--header"
+      :class="['vc-menu-item--header', { 'is-open': isOpen }]"
       @click="toggleChild('node')"
       @mouseenter="onMouseEnterHeader"
       @mouseleave="onMouseLeaveHeader"
@@ -61,7 +60,7 @@
         :class="[
           'vc-menu-item--child',
           `is-${$$Menu.mode}`,
-          { 'is-open': isOpen }
+          { 'is-open': isOpen, 'is-fixed': isFixed }
         ]"
       >
         <div class="vc-menu-item--child-inner">
@@ -112,7 +111,7 @@ export default {
       let obj = {}
 
       if (this.level && this.$$Menu.mode === 'inline' && !this.$$Menu.collapse)
-        obj.paddingLeft = `calc(${this.level} * 1em)`
+        obj.paddingLeft = `calc(${this.level} * 1.5em)`
       return obj
     },
     // 是否为激活菜单或子菜单有激活
@@ -134,23 +133,24 @@ export default {
 
       return result
     },
+    isFixed() {
+      const { collapse, mode } = this.$$Menu
+
+      return (
+        (collapse === true && mode === 'inline') ||
+        ['vertical', 'horizontal'].includes(mode)
+      )
+    },
     isOpen() {
-      let { collapse, myExpand, mode } = this.$$Menu
+      let { myExpand } = this.$$Menu
       let { children } = this.$refs
       let result = [].concat(myExpand).includes(this.value)
 
-      switch (mode) {
-        case 'inline':
-          if (collapse && children) {
-            result && this.showTooltip()
-          }
-          return result
-
-        case 'vertical':
-        case 'horizontal':
-          children && result && this.showTooltip()
-          return result
+      if (this.isFixed && children && result) {
+        this.showTooltip()
       }
+
+      return result
     }
   },
   methods: {
@@ -159,6 +159,8 @@ export default {
      * @param {string} type 类型标记
      **/
     toggleChild(type) {
+      const { mode, updateValue, clearMyExpand } = this.$$Menu
+
       if (this.disabled) return
       // 有子级时 我们只担任展开或收缩
       if (this.$refs.children) {
@@ -169,7 +171,7 @@ export default {
         // 如果是在折叠菜单时
         if (this.$$Menu.collapse) return
 
-        if (this.$$Menu.mode === 'inline') {
+        if (mode === 'inline') {
           const findIndex = this.$$Menu.myExpand.findIndex(
             item => item === this.value
           )
@@ -179,11 +181,11 @@ export default {
           } else {
             this.$$Menu.myExpand.push(this.value)
           }
-        } else {
-          this.$$Menu.myExpand[this.level] = this.isOpen ? '' : this.value
         }
       } else {
-        this.$parent.updateValue([this.value], this)
+        updateValue([this.value], this)
+
+        if (mode !== 'inline') clearMyExpand()
       }
     },
 
@@ -198,8 +200,9 @@ export default {
     },
 
     onMouseLeaveHeader() {
-      if (this.$$Menu.mode !== 'inline' || this.$$Menu.collapse)
+      if (this.$$Menu.mode !== 'inline' || this.$$Menu.collapse) {
         this.$$Menu.clearMyExpand()
+      }
     },
 
     // 展示浮层
@@ -212,7 +215,15 @@ export default {
         placement = this.level === 0 ? 'bottom-start' : 'right-start'
       }
 
+      if (this.tooltip) return
+
       this.tooltip = autoUpdate(header, children, () => {
+        if (!this.isOpen && this.tooltip) {
+          this.tooltip()
+          this.tooltip = null
+          return
+        }
+
         computePosition(header, children, {
           strategy: 'fixed',
           placement,

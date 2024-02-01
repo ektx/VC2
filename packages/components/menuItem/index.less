@@ -1,19 +1,5 @@
 @import '../../styles/var.less';
 
-.B_LeftIconPlaceholder {
-  .@{namespace}-menu-item--more {
-    display: inline-flex;
-    align-items: center;
-
-    & > * {
-      display: inline-block;
-      font-size: inherit;
-      width: 1em;
-      aspect-ratio: 1 / 1;
-    }
-  }
-}
-
 .@{namespace}-menu-item {
   font-size: 14px;
   line-height: 2em;
@@ -22,8 +8,9 @@
 
   &--header {
     display: flex;
+    height: var(--itemH, 40px);
     align-items: center;
-    padding: 0 10px;
+    box-sizing: border-box;
 
     &:hover {
       color: @primary-color;
@@ -34,51 +21,61 @@
   &--icon {
     display: flex;
     align-items: center;
-    width: 1.5em;
-    aspect-ratio: 1 / 1;
-    // background-color: yellow;
+    justify-content: center;
+    width: var(--itemH);
+    aspect-ratio: 1;
   }
   &--hd-inner {
     flex: 1;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+
+    :where(.is-collapse) & {
+      display: none;
+    }
+
+    :where(.is-fixed) & {
+      display: block;
+      padding: 0 10px;
+    }
   }
+
   &--more {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     margin: 0;
+    width: 28px;
+    aspect-ratio: 1;
 
-    &.in-left {
-      margin-right: 5px;
-    }
-    &.in-right {
-      margin-left: 5px;
-    }
-  }
+    i {
+      transition: transform 0.3s ease-in-out;
 
-  &.horizontal-mode {
-    &.level-0 {
-      & > .@{namespace}-menu-item--header {
-        .@{namespace}-menu-item--more > * {
-          transform: rotate(90deg);
-        }
+      :where(.inline-mode) & {
+        transform: rotate(90deg);
+      }
+
+      :where(.inline-mode .@{namespace}-menu-item--header.is-open) & {
+        transform: rotate(-90deg);
+      }
+
+      :where(.is-fixed) & {
+        transform: rotate(0deg);
       }
     }
 
-    &:not(.level-0) {
-      .B_LeftIconPlaceholder();
-    }
-  }
-
-  &.inline-mode {
-    &.is-open {
-      & > .@{namespace}-menu-item--header {
-        .@{namespace}-menu-item--more > * {
-          transform: rotate(90deg);
-        }
-      }
+    :where(.is-collapse) & {
+      display: none;
     }
 
-    .B_LeftIconPlaceholder();
+    :where(.is-fixed) & {
+      display: inline-flex;
+    }
+
+    :where(.horizontal-mode .level-0) & {
+      transform: rotate(90deg);
+    }
   }
 
   &.is-active {
@@ -92,87 +89,55 @@
   }
 
   &--child {
-    display: grid;
-    grid-template-rows: 0fr;
-    grid-template-columns: calc(var(--w) * 1px);
+    visibility: hidden;
     padding: 0;
-    position: fixed;
-    z-index: 2000;
     background-color: #fff;
     background-color: hsla(0, 0%, 100%, 0.85);
     backdrop-filter: saturate(100%) blur(10px);
-    border-radius: 5px;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    transform: translateY(-5px);
-    transition: grid-template-rows 0.3s, padding 0.3s, transform 0.3s;
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out,
+      transform 0.3s ease-in-out;
     overflow: hidden;
 
     &-inner {
       min-height: 0;
+      min-width: 0;
     }
 
     &.is-open {
-      padding: 5px 0;
+      visibility: visible;
+      opacity: 1;
       transform: translateY(0);
-      grid-template-rows: 1fr;
     }
 
-    .@{namespace}-menu-item--header {
-      min-width: 150px;
-    }
-  }
+    &.is-fixed {
+      padding: 5px 0;
+      position: fixed;
+      z-index: 2000;
+      border-radius: 5px;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 
-  &.inline-mode {
-    // 除在折叠菜单状态下 移除定位相关样式
-    &:not(.is-collapse) {
-      .@{namespace}-menu-item--child {
-        padding: 0;
-        position: initial;
-        border: none;
-        box-shadow: none;
-        border-radius: 0;
-        transform: none;
+      .@{namespace}-menu-item--header {
+        min-width: 150px;
       }
     }
 
-    // &.is-open {
-    //   & > .@{namespace}-menu-item--child {
-    //     display: block;
-    //   }
-    // }
+    &.is-inline {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.3s ease-in-out, opacity 0.3s ease-in-out,
+        visibility 0.3s ease-in-out, transform 0.3s ease-in-out;
+
+      &.is-open {
+        grid-template-rows: 1fr;
+      }
+    }
   }
 
   &.is-collapse {
     & > .@{namespace}-menu-item--header {
       justify-content: center;
-
-      .@{namespace}-menu-item {
-        &--icon {
-          justify-content: center;
-        }
-        &--more > * {
-          transform: rotate(0deg);
-        }
-      }
-    }
-
-    &.is-open {
-      & > .@{namespace}-menu-item--header {
-        .@{namespace}-menu-item--more > * {
-          transform: rotate(0deg);
-        }
-      }
-    }
-
-    &.level-0 {
-      & > .@{namespace}-menu-item--header {
-        .@{namespace}-menu-item {
-          &--more,
-          &--hd-inner {
-            display: none;
-          }
-        }
-      }
     }
   }
 

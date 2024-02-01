@@ -52,12 +52,19 @@ export default {
       type: Boolean,
       default: false
     },
+    /** 默认宽度 */
     width: {
-      type: Number,
+      type: [Number, String],
       default: 200
     },
-    collapseWidth: {
-      type: Number,
+    /** 最少宽度 */
+    minWidth: {
+      type: [Number, String],
+      default: 40
+    },
+    /** 单个菜单高度 */
+    itemHeight: {
+      type: [Number, String],
       default: 40
     },
     // 更多图标位置
@@ -79,6 +86,8 @@ export default {
     collapse: {
       handler(val) {
         this.updateCollapseSize()
+
+        if (val) this.myExpand = []
       },
       immediate: true
     }
@@ -91,12 +100,7 @@ export default {
       style: {}
     }
   },
-  mounted() {
-    this.getActivePath()
-  },
   methods: {
-    getActivePath() {},
-
     updateValue(val, item) {
       this.$emit('update:modelValue', val.slice(-1)[0])
 
@@ -122,8 +126,14 @@ export default {
       if (this.timer) clearTimeout(this.timer)
     },
     updateCollapseSize() {
+      let w = this.collapse ? this.minWidth : this.width
+
       Object.assign(this.style, {
-        '--w': this.collapse ? this.collapseWidth : this.width
+        '--w': typeof w === 'string' ? w : w + 'px',
+        '--itemH':
+          typeof this.itemHeight === 'string'
+            ? this.itemHeight
+            : this.itemHeight + 'px'
       })
     }
   }
