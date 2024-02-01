@@ -2,20 +2,7 @@
   <div class="vc-tabs">
     <div class="vc-tabs--header">
       <div class="vc-tabs--nav-wrap">
-        <div
-          ref="virtualBoxRrf"
-          class="vc-tabs--virtual-content"
-          @wheel="onWheel"
-        >
-          <Nav2 :list="list"></Nav2>
-        </div>
-        <div
-          ref="virtualScrollRef"
-          v-show="virtualVisible"
-          class="vc-tabs--virtual-scroll"
-        >
-          <div class="vc-tabs--virtual-scrollbar"></div>
-        </div>
+        <Nav2 :list="list"></Nav2>
       </div>
       <div class="vc-append">
         <slot name="append"></slot>
@@ -98,7 +85,7 @@ const onWheel = e => {
     e.currentTarget.scrollLeft += e.deltaY
   }
 
-  updateVirtualScroll()
+  // updateVirtualScroll()
 }
 
 function updatePanel(pane) {
@@ -112,8 +99,8 @@ function updatePanel(pane) {
   list.value.push(pane)
 
   nextTick(() => {
-    focusActive()
-    updateVirtualScroll()
+    // focusActive()
+    // updateVirtualScroll()
   })
 }
 
