@@ -12,6 +12,10 @@
 
   &__content {
     flex: 0 0 calc(100% - var(--labelWidth, 25%));
+
+    :where(.@{namespace}-form-item.is-column) & {
+      flex: 1;
+    }
   }
 
   &__info {
@@ -62,6 +66,11 @@
 
     &-suffix {
       padding: 0 2px;
+    }
+
+    :where(.@{namespace}-form-item.is-column) & {
+      flex: 1;
+      padding: 0;
     }
   }
 }
