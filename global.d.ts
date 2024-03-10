@@ -1,7 +1,7 @@
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     /** buttom */
-    VcButton: typeof import('./types/button')['VcButton']
+    VcButton: typeof import('vc2')['VcButton']
   }
 }
 

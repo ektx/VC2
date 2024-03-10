@@ -1,16 +1,31 @@
-export type ButtonColor = 'primary' | 'success' | 'warn' | 'error'
+import { PropType } from 'vue'
 
 export declare const VcButton: import('vue').DefineComponent<{
-  // 设置按钮效果
-  color: ButtonColor
-  // 镂空
-  plain: boolean
-  // 圆角
-  round: boolean
-  // 图标
-  icon: string
-  // 加载状态
-  loading: boolean
-  // 禁用状态
-  disabled: boolean
+  size: {
+    type: NumberConstructor
+    default: number
+  }
+  theme: {
+    type: StringConstructor
+    default: string
+    validator(val: unknown): boolean
+  }
+  /** 设置颜色 */
+  color: {
+    type: StringConstructor
+    default: string
+  }
+  plain: BooleanConstructor
+  round: BooleanConstructor
+  icon: {
+    type: StringConstructor
+    default: string
+  }
+  loading: BooleanConstructor
+  disabled: BooleanConstructor
+  classes: StringConstructor
+  bg: {
+    type: (StringConstructor | BooleanConstructor)[]
+    default: boolean
+  }
 }>

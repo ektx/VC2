@@ -14,11 +14,12 @@
     "build2": "gulp -f ./bin/build2.js",
     "update": "node --experimental-json-modules ./bin/update.mjs",
     "create": "node ./bin/create.mjs && yarn run update",
-    "e2e": "./node_modules/.bin/cypress open"
+    "e2e": "./node_modules/.bin/cypress open",
+    "dts": "vue-tsc --declaration --emitDeclarationOnly"
   },
-  "main": "./lib/index.js",
-  "module": "./lib/index.js",
-  "style": "./lib/layout.css",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "style": "lib/layout.css",
   "types": "types/index.d.ts",
   "author": "WenLong",
   "dependencies": {
@@ -44,7 +45,9 @@
     "rollup": "^3.21.4",
     "rollup-plugin-esbuild": "^5.0.0",
     "rollup-plugin-postcss": "^4.0.2",
-    "trash": "^6.1.1"
+    "trash": "^6.1.1",
+    "typescript": "^5.3.3",
+    "vue-tsc": "^1.8.27"
   },
   "license": "MIT"
 }
