@@ -19,27 +19,27 @@
       ref="input"
       class="vc-input__text"
       v-bind="setAttrs($attrs, ['events'])"
-      v-model="modelValue"
+      :value="modelValue"
       :disabled="disabled"
       :placeholder="placeholder"
       :type="TYPE"
+      @input="evt => $emit('update:modelValue', evt.target.value)"
+      @keyup.enter="e => $emit('enter', e)"
     />
     <textarea
       v-else
       ref="textarea"
       class="vc-input__textarea"
       v-bind="setAttrs($attrs, ['events'])"
-      v-model="modelValue"
+      :value="modelValue"
       :placeholder="placeholder"
       :disabled="disabled"
       :style="textareaCalcStyle"
+      @input="evt => $emit('update:modelValue', evt.target.value)"
+      @keyup.enter="e => $emit('enter', e)"
     ></textarea>
 
-    <div
-      class="vc-input__clearable"
-      v-if="clearable && modelValue"
-      @click="clearMsg"
-    >
+    <div class="vc-input__clearable" v-if="clearable" @click="clearMsg">
       <i class="vc-icon-error"></i>
     </div>
 
@@ -179,11 +179,10 @@ export default {
         ;({ minRows, maxRows } = props.autosize)
       }
 
-      textareaCalcStyle.value = calcTextareaHeight(
-        textarea.value,
-        minRows,
-        maxRows
-      )
+      textareaCalcStyle.value = {
+        ...calcTextareaHeight(textarea.value, minRows, maxRows),
+        resize: typeof props.autosize === 'boolean' ? 'vertical' : 'none'
+      }
     }
 
     onMounted(() => {
@@ -198,6 +197,8 @@ export default {
 
     // 点击 清除图标 清除数据
     const clearMsg = () => {
+      if (!props.modelValue) inputEl.value = ''
+
       emit('update:modelValue', '')
       emit('change', '')
       emit('clear')

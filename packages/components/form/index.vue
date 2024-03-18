@@ -1,11 +1,11 @@
 <template>
-  <form :class="['vc-form', { inline }]">
-    <slot />
+  <form :class="['vc-form', { inline }]" :style="myStyle">
+    <slot></slot>
   </form>
 </template>
 
 <script>
-import merge from '../../utils/merge'
+import { toRaw } from 'vue'
 
 export default {
   name: 'VcForm',
@@ -17,7 +17,10 @@ export default {
   props: {
     // 表单域标签的宽度，例如 '50px'。作为 Form 直接子元素的 form-item 会继承该值。
     // 支持 auto。
-    labelWidth: String,
+    labelWidth: {
+      type: String,
+      default: '80px'
+    },
     // 数据
     model: Object,
     // 规则
@@ -51,9 +54,16 @@ export default {
       defaultValue: {}
     }
   },
+  computed: {
+    myStyle() {
+      return {
+        '--labelWidth': this.labelWidth
+      }
+    }
+  },
   mounted() {
     if (this.model) {
-      this.defaultValue = merge({}, this.model)
+      this.defaultValue = structuredClone(toRaw(this.model))
     }
   },
   methods: {

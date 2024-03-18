@@ -4,7 +4,7 @@
 
     <div class="vc-color-picker__display-panel">
       <div class="current-color">
-        <div class="color-box" @click="clear">
+        <div class="color-box" @click="onClear" title="清空值">
           <span :style="colorStyle"></span>
           <i class="vc-icon-close"></i>
         </div>
@@ -21,12 +21,11 @@
 
 <script>
 import ColorPanel from './colorPanel.vue'
-import HSVAPanel from './hsvaPanel.vue'
+import HSVAPanel from './panel/hsvaPanel.vue'
 import HSLAPanel from './hslaPanel.vue'
 import RGBAPanel from './rgbaPanel.vue'
-import HexPanel from './hexPanel.vue'
+import HexPanel from './panel/hexPanel.vue'
 import AlphaBar from './alphaBar.vue'
-import { computed } from 'vue'
 
 export default {
   name: 'VcColorPickerDropdown',
@@ -52,8 +51,8 @@ export default {
     }
   },
   methods: {
-    clear() {
-      this.vcColorPicker.hsv = {}
+    onClear() {
+      this.vcColorPicker.$emit('update:modelValue', '')
     }
   }
 }

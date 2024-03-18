@@ -1,55 +1,74 @@
 <template>
-  <teleport v-if="show" :to="`#tab-nav__${id}`">
-    <slot name="label"/>
-  </teleport>
   <div class="vc-tab-pane" v-if="visible">
-    <slot/>
+    <slot></slot>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'vcTabPane',
-  props: {
-    // 选项卡标题
-    label: {
-      type: String,
-      default: ''
-    },
-    // 与选项卡绑定值 value 对应的标识符，表示选项卡别名
-    name: {
-      type: [String, Number],
-      default: ''
-    },
-    // 标签是否可关闭
-    closable: Boolean,
-    // 是否禁用
-    disabled: Boolean,
-    // 选项卡图标
-    icon: String
+<script setup>
+import {
+  computed,
+  getCurrentInstance,
+  inject,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  onUpdated,
+  useSlots
+} from 'vue'
+
+const props = defineProps({
+  // 选项卡标题
+  label: {
+    type: String,
+    default: ''
   },
-  inject: ['vcTabs'],
-  data() {
-    return {
-      show: false,
-    }
+  // 与选项卡绑定值 value 对应的标识符，表示选项卡别名
+  name: {
+    type: [String, Number],
+    default: ''
   },
-  watch: {
-    disabled() {
-      this.vcTabs.updatePanel()
-    }
-  },
-  mounted() {
-    this.show = true
-    this.vcTabs.updatePanel()
-  },
-  computed: {
-    id () {
-      return this.name || this.label
-    },
-    visible () {
-      return this.vcTabs.activeTab ? this.id === this.vcTabs.activeTab.id : false
-    }
+  // 标签是否可关闭
+  closable: Boolean,
+  // 是否禁用
+  disabled: Boolean,
+  // 选项卡图标
+  icon: String
+})
+
+const instance = getCurrentInstance()
+const slots = useSlots()
+const tabsRoot = inject('tabsRootContextKey')
+
+const id = computed(() => {
+  return props.name || props.label
+})
+const visible = computed(() => {
+  return tabsRoot.props.modelValue
+    ? id.value === tabsRoot.props.modelValue
+    : false
+})
+
+onUpdated(() => {
+  if (slots.label) {
+    nextTick(() => {
+      tabsRoot.updatePanel({
+        id: instance.uid,
+        props,
+        slots
+      })
+    })
   }
-}
+})
+
+onMounted(() => {
+  tabsRoot.updatePanel({
+    id: instance.uid,
+    props,
+    slots
+  })
+})
+
+onBeforeUnmount(() => {
+  tabsRoot.removePanel(instance.uid)
+})
 </script>

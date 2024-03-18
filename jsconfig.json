@@ -2,7 +2,11 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@packages/*": ["packages/*"]
     }
+  },
+  "vueCompilerOptions": {
+    "optionsWrapper": [""]
   }
 }

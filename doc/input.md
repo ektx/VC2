@@ -44,6 +44,10 @@ const input = ref('')
 ```vue
 <template>
   <vc-input v-model="input" clearable />
+
+  <vc-input clearable />
+
+  <vc-input type=textarea clearable/>
 </template>
 
 <script setup>
@@ -153,8 +157,8 @@ export default {
 <template>
   <p>自动调整</p>
   <vc-input type="textarea" autosize v-model="textarea1" />
-  <p>指定最大与最小行数</p>
-  <vc-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="textarea2" />
+  <p>指定最大与最小行数，注意此时将不再支持手动调整大小。</p>
+  <vc-input type="textarea" :autosize="{ minRows: 3, maxRows: 4}" v-model="textarea2" />
 </template>
 
 <script setup>
@@ -235,7 +239,7 @@ const options = [{
 }]
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .vc-input {
   margin-bottom: 10px;
 }
@@ -372,6 +376,7 @@ const setSelect = () => demo.value.select()
 | focus | 在 Input 获得焦点时触发 | (event: Event) |
 | change | 仅在输入框失去焦点或用户按下回车时触发 | (event: Event) |
 | input | 在 Input 值改变时触发 | (event: Event) |
+| enter | 在按 `Enter` 键时触发 | (event: Event) |
 | clear | 在点击由 clearable 属性生成的清空按钮时触发 | (event: Event) |
 
 

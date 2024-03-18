@@ -1,7 +1,29 @@
 
 # Upload 上传
 
-## 头像上传
+## 图片上传
+
+### 基础上传
+
+::: codeBox
+```vue
+<template>
+  <vc-upload 
+    type="avatar"
+    action=" http://localhost:4080/api/upload"
+    :src="src"
+  />
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const src = ref('')
+</script>
+```
+:::
+
+### 头像上传
 
 ::: codeBox
 ```vue
@@ -184,6 +206,28 @@ export default {
     }
   }
 }
+</script>
+```
+:::
+
+### 使用剪贴板上传
+
+::: codeBox
+```vue
+<template>
+  <vc-upload 
+    type="avatar"
+    action="http://localhost:8091/api/mall/upload?type=store/26/goods"
+    placeholder="点击使用剪贴板数据"
+    useClipboard
+    :src="src"
+  />
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const src = ref('')
 </script>
 ```
 :::

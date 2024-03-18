@@ -22,7 +22,7 @@
         :value="intValue"
         @input="intValue = $event.target.value"
       />
-      <span v-if="isLoading">
+      <span v-if="loading">
         <i class="vc-icon-loading" />
       </span>
       <i v-else class="vc-icon-arrow-down" />
@@ -58,7 +58,7 @@
           </template>
         </ul>
         <div class="vc-select-empty" v-else>
-          {{ isLoading ? '加载中' : '无匹配数据' }}
+          {{ loading ? '加载中' : '无匹配数据' }}
         </div>
       </DropDown>
     </transition>
@@ -67,7 +67,6 @@
 
 <script>
 import { ref, onUnmounted, onMounted, watch, computed, inject } from 'vue'
-// import { createPopper } from '@popperjs/core'
 import { copyArray } from '../../utils/copy'
 import DropDown from './dropDown.vue'
 import VS_Tags from './tags.vue'
@@ -125,6 +124,8 @@ export default {
     createTags: Boolean,
     // 自定义远程搜索功能
     remoteMethod: Function,
+    // loading
+    loading: Boolean,
     // 值别名
     valueAlias: {
       type: String,
@@ -144,7 +145,6 @@ export default {
     const hoverItem = ref({})
     const intValue = ref('')
     const query = ref('')
-    const isLoading = ref(false)
     const vcFormItem = inject('vcFormItem', null)
 
     const myPlaceholder = computed(() => {
@@ -254,20 +254,14 @@ export default {
       myPlaceholder,
       myOptions,
       query,
-      isLoading,
       el,
       vcFormItem
     }
   },
   watch: {
     intValue(val) {
-      if (val) {
-        let done = () => (this.isLoading = false)
-
-        if (this.remoteMethod) {
-          this.isLoading = true
-          this.remoteMethod(val, done)
-        }
+      if (this.remoteMethod) {
+        this.remoteMethod(val)
       }
     }
   },

@@ -9,7 +9,7 @@
         round,
         'only-icon': !_hasSlot,
         'is-loading': loading,
-        'customize-color': color || _theme
+        'customize-color': color
       }
     ]"
     type="button"
@@ -22,7 +22,7 @@
         <i :class="_icon"></i>
       </div>
     </Transition>
-    <span v-if="_hasSlot"><slot /></span>
+    <span v-if="_hasSlot"><slot></slot></span>
   </button>
 </template>
 
@@ -30,6 +30,10 @@
 export default {
   name: 'VcButton',
   props: {
+    size: {
+      type: Number,
+      default: 14
+    },
     // 设置按钮效果
     theme: {
       type: String,
@@ -74,16 +78,11 @@ export default {
       return this.theme ? `vc-button--theme-${this.theme}` : ''
     },
     _style() {
-      let obj = {}
-
-      if (this.color) {
-        obj.color = this.color
+      return {
+        '--size': this.size,
+        '--color': this.color,
+        '--bg': typeof this.bg === 'string' ? this.bg : ''
       }
-      if (this.bg && typeof this.bg !== 'boolean') {
-        obj['--bg'] = this.bg
-      }
-
-      return obj
     },
     _bgClassName() {
       return typeof this.bg === 'boolean'

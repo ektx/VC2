@@ -1,3 +1,13 @@
-.vc-collapse {
-  border-bottom: 1px solid #ebeef5;
+@import '../../styles/var.less';
+
+.@{namespace}-collapse {
+  border-bottom: 1px solid var(@collapse-border-color);
+
+  &.no-border {
+    border: none;
+
+    .@{namespace}-collapse-item {
+      border: none;
+    }
+  }
 }

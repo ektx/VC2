@@ -5,7 +5,19 @@ Vue 3.x UI 组件库
 ## Development
 
 ```sh
-yarn dev
+pnpm dev
+```
+
+## build lib
+
+```sh
+pnpm lib
+```
+
+## build dts
+
+```sh
+pnpm dts
 ```
 
 ## Publish

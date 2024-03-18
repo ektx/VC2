@@ -1,9 +1,9 @@
 .vc-form {
+  gap: 10px;
+
   &.inline {
-    .vc-form-item {
-      display: inline-flex;
-      margin-right: 10px;
-      vertical-align: top;
-    }
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 5px 10px;
   }
 }

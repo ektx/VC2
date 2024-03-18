@@ -5,25 +5,24 @@
       { 'is-open': isOpen, 'is-disabled': disabled }
     ]"
   >
-    <div class="vc-collapse-item__header" @click="toggleEvt">
+    <div
+      :class="['vc-collapse-item__header', { 'is-sticky': sticky }]"
+      @click="toggleEvt"
+    >
       <div class="vc-collapse-item__title">
         <slot name="title">{{ title }}</slot>
       </div>
-      <i
-        :class="[
-          'vc-collapse-item__icon vc-icon-arrow-right',
-          { 'is-open': isOpen }
-        ]"
-      ></i>
+      <i class="vc-collapse-item__icon vc-icon-arrow-right"></i>
     </div>
 
     <div
+      ref="wrap"
       class="vc-collapse-item__wrap"
-      :style="_contentStyle"
+      :style="wrapStyle"
       @transitionend="transitionend"
     >
       <div class="vc-collapse-item__content">
-        <slot />
+        <slot></slot>
       </div>
     </div>
   </div>
@@ -41,12 +40,14 @@ export default {
     // 面板标题
     title: String,
     // 是否禁用
-    disabled: Boolean
+    disabled: Boolean,
+    /** 启用粘性 */
+    sticky: Boolean
   },
   inject: ['Collapse'],
   data() {
     return {
-      _contentStyle: {
+      wrapStyle: {
         height: 0
       }
     }
@@ -58,19 +59,14 @@ export default {
   },
   watch: {
     isOpen: {
-      handler(val) {
-        setTimeout(() => {
-          let { scrollHeight: H } = this.$el.querySelector(
-            '.vc-collapse-item__wrap'
-          )
+      async handler(val) {
+        await this.$nextTick()
+        const { scrollHeight: h } = this.$refs.wrap
 
-          this._contentStyle.height = H + 'px'
+        this.wrapStyle = { height: (val ? 0 : h) + 'px' }
 
-          if (!val) {
-            requestAnimationFrame(() => {
-              this._contentStyle.height = '0px'
-            })
-          }
+        requestAnimationFrame(() => {
+          this.wrapStyle = { height: (val ? h : 0) + 'px' }
         })
       },
       immediate: true
@@ -82,7 +78,7 @@ export default {
       this.Collapse.itemClick(this)
     },
     transitionend() {
-      if (this.isOpen) this._contentStyle.height = 'auto'
+      if (this.isOpen) this.wrapStyle = null
     }
   }
 }

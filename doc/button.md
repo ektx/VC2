@@ -11,7 +11,7 @@
     <vc-button theme="success">成功</vc-button>
     <vc-button theme="warn">警告</vc-button>
     <vc-button theme="error">错误</vc-button>
-    <vc-button color="#9c27b0">自定义颜色</vc-button>
+    <vc-button color="#f90" bg="#9c27b0">自定义颜色</vc-button>
   </div>
   <br/>
   <div>
@@ -20,7 +20,7 @@
     <vc-button plain theme="success">成功</vc-button>
     <vc-button plain theme="warn">警告</vc-button>
     <vc-button plain theme="error">错误</vc-button>
-    <vc-button plain color="#9c27b0">自定义颜色</vc-button>
+    <vc-button plain bg="#9c27b0">自定义颜色</vc-button>
   </div>
   <br/>
   <div>
@@ -29,7 +29,16 @@
     <vc-button round theme="success">成功</vc-button>
     <vc-button round theme="warn">警告</vc-button>
     <vc-button round theme="error">错误</vc-button>
-    <vc-button round color="#9c27b0">自定义颜色</vc-button>
+    <vc-button round bg="#9c27b0">自定义颜色</vc-button>
+  </div>
+  <br/>
+  <div>
+    <vc-button plain round>默认效果</vc-button>
+    <vc-button plain round theme="primary">主要效果</vc-button>
+    <vc-button plain round theme="success">成功</vc-button>
+    <vc-button plain round theme="warn">警告</vc-button>
+    <vc-button plain round theme="error">错误</vc-button>
+    <vc-button plain round bg="#9c27b0">自定义颜色</vc-button>
   </div>
 </template>
 
@@ -131,6 +140,7 @@
   <vc-button icon="vc-icon-star-off" />
   <vc-button theme="primary" icon="vc-icon-bell" />
   <vc-button theme="success" icon="vc-icon-success" />
+  <vc-button bg="#f90" icon="vc-icon-success" />
   <vc-button round icon="vc-icon-star-off" />
   <vc-button round theme="primary" icon="vc-icon-bell" />
   <vc-button round theme="success" icon="vc-icon-success" />

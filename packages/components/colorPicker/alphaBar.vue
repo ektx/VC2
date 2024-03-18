@@ -23,25 +23,19 @@
 </template>
 
 <script>
+import { hsv2rgb } from './color'
+
 export default {
   props: {
     format: String
   },
   inject: ['vcColorPicker'],
-  data() {
-    return {
-      // Hue: this.store.Hue,
-      // alpha: this.store.alpha,
-      // r: this.store.red,
-      // g: this.store.green,
-      // b: this.store.blue
-    }
-  },
   computed: {
     alphaBarStyles() {
-      let { R, G, B } = this.vcColorPicker
-      let from = `rgba(${R}, ${G}, ${B}, 0)`
-      let to = `rgb(${R}, ${G}, ${B})`
+      let { H, S, V } = this.vcColorPicker
+      let { r, g, b } = hsv2rgb(H, S, V)
+      let from = `rgba(${r}, ${g}, ${b}, 0)`
+      let to = `rgb(${r}, ${g}, ${b})`
 
       return {
         background: `linear-gradient(to right, ${from} 0%, ${to} 100%)`

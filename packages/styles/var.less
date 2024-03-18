@@ -1,9 +1,30 @@
+// onLine: http://lesscss.org/less-preview/
+// 声名类名
 @namespace: vc;
+@bg: e('--@{namespace}-bg');
+@disBg: e('--@{namespace}-disabled-bg');
+@textColorPrimary: e('--@{namespace}-text-color-primary');
+@textColorRegular: e('--@{namespace}-text-color-regular');
+@textColorSecondary: e('--@{namespace}-text-color-secondary');
+@borderColor: e('--@{namespace}-border-color');
+@backdropFilter: e('--@{namespace}-backdrop-filter');
+@backdropFilterBg: e('--@{namespace}-backdrop-filter-bg');
+@hoverColor: e('--@{namespace}-hover-color');
+@focusColor: e('--@{namespace}-focus-color');
+
+@placeholderColor: e('--@{namespace}-placeholder-color');
+@primaryColor: e('--@{namespace}-primary-color');
 
 @primary-color: #09f;
 @success-color: #4caf50;
 @warning-color: #ff9800;
-@danger-color: #ff4d4f;
+@danger-color: #c42c1d;
+@border-color: #dcdfe6;
+@disabled-color: #f5f7fa;
+
+@input: e('--@{namespace}-input');
+@table: e('--@{namespace}-table');
+@layer: e('--@{namespace}-layer');
 
 // font color
 @color-text-primary: #303133;
@@ -19,9 +40,9 @@
 @btn-error-color: @danger-color;
 @btn-disabled-text-color: @color-text-secondary;
 
-// table
-@table-text-color: @color-text-regular;
-@table-border-color: rgba(0, 0, 0, 0.1);
+// menu
+@menu-bg-color: #fff;
+@menu-aside-color: @border-color;
 
 // tag
 @tag-text-color: @color-text-secondary;
@@ -29,3 +50,8 @@
 @tag-success-color: @success-color;
 @tag-warning-color: @warning-color;
 @tag-danger-color: @danger-color;
+
+// collapse
+@collapse-border-color: @borderColor;
+@collapse-header-color: @textColorPrimary;
+@collapse-disabled-color: @textColorSecondary;

@@ -1,3 +1,5 @@
+@import '../../styles/theme.less';
+
 .vc-pagination {
   display: inline-flex;
   align-items: center;
@@ -25,12 +27,12 @@
       border-style: solid;
       border-color: #606266;
     }
-    
+
     &.prev-btn::after {
-      transform: rotate(45deg)
+      transform: rotate(45deg);
     }
     &.next-btn::after {
-      transform: rotate(-135deg)
+      transform: rotate(-135deg);
     }
 
     &:hover::after {
@@ -41,35 +43,34 @@
       cursor: not-allowed;
 
       &::after {
-        border-color: #ccc;
+        border-color: var(--pagination-disabled-color, #ccc);
       }
     }
   }
 
   .vc-icon-__prev {
     &:before {
-      content: "\e6c3";
+      content: '\e6c3';
     }
 
     &:hover::before {
-      content: "\e618";
+      content: '\e618';
     }
   }
   .vc-icon-__next {
     &:before {
-      content: "\e6c3";
+      content: '\e6c3';
     }
 
     &:hover::before {
-      content: "\e619";
+      content: '\e619';
     }
   }
 
   &.has-color {
     li {
-      color: #606266;
       border-radius: 3px;
-      background-color: #f5f5f5;
+      background-color: var(--pagination-show-bg);
       transition: none;
 
       &.is-active {
@@ -82,23 +83,19 @@
   li {
     display: inline-block;
     min-width: 2em;
-    padding: 0 .5em;
+    padding: 0 0.5em;
     margin: 0 3px;
     font-size: 14px;
     line-height: 2em;
-    color: #606266;
+    color: var(--pagination-color);
     text-align: center;
     cursor: pointer;
     user-select: none;
     box-sizing: border-box;
-    transition: color .35s;
+    transition: color 0.35s;
 
     &.is-active {
       font-weight: bold;
-      color: currentColor;
-    }
-
-    &:hover {
       color: currentColor;
     }
   }

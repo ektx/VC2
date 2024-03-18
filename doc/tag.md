@@ -12,12 +12,6 @@
   <vc-tag type="danger">标签五</vc-tag>
   <vc-tag color="#9c27b0">标签六</vc-tag>
 </template>
-
-<style scoped>
-.vc-tag {
-  margin: 0 10px 0 0;
-}
-</style>
 ```
 :::
 
@@ -64,15 +58,6 @@ export default {
   }
 }
 </script>
-
-<style lang="less" scoped>
-.vc-tag {
-  margin: 0 10px 0 0;
-}
-.vc-tag-group {
-  margin: 10px 0 0;
-}
-</style>
 ```
 :::
 
@@ -144,12 +129,6 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-.vc-tag-group {
-  margin: 10px 0 0;
-}
-</style>
 ```
 :::
 
@@ -193,12 +172,6 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-.vc-tag-group {
-  margin: 10px 0 0;
-}
-</style>
 ```
 :::
 
@@ -211,12 +184,6 @@ export default {
   <vc-tag type="info" padding="5px 10px">标签三</vc-tag>
   <vc-tag type="info" padding="5px 10px 15px 20px">标签三</vc-tag>
 </template>
-
-<style scoped>
-.vc-tag {
-  margin: 0 10px 0 0;
-}
-</style>
 ```
 :::
 
@@ -272,12 +239,6 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-.vc-tag-group {
-  margin: 10px 0 0;
-}
-</style>
 ```
 :::
 
@@ -315,12 +276,6 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-.vc-tag-group {
-  margin: 10px 0 0;
-}
-</style>
 ```
 :::
 

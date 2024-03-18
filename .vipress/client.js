@@ -1,8 +1,12 @@
 import VC from '../packages/index'
-import '../packages/index.less'
+// import VC from '../lib/index'
+// import '../packages/index.less'
+// import btn from '../dist/es/button/index.js'
+// import btn from '../dist/lib/button/index'
 
 export function init(app) {
   app.use(VC)
+  // app.use(btn)
 }
 
 /**
@@ -54,11 +58,11 @@ export const menu = [
       {
         label: 'Progress 进度条',
         to: '/doc/progress'
-      },
-      {
-        label: 'TimelineCalendar 时间线日历',
-        to: '/doc/timelineCalendar'
       }
+      // {
+      //   label: 'TimelineCalendar 时间线日历',
+      //   to: '/doc/timelineCalendar'
+      // }
     ]
   },
   {
@@ -75,6 +79,10 @@ export const menu = [
       {
         label: 'Radio 单选框',
         to: '/doc/radio'
+      },
+      {
+        label: 'Checkbox 多选框',
+        to: '/doc/checkbox'
       },
       {
         label: 'Switch 开关',
@@ -124,6 +132,10 @@ export const menu = [
       {
         label: 'Popover 弹出框',
         to: '/doc/popover'
+      },
+      {
+        label: 'SplitPanel 分割面板',
+        to: '/doc/splitPanel'
       }
     ]
   },
@@ -141,6 +153,15 @@ export const menu = [
       {
         label: 'Confirm 确认框',
         to: '/doc/confirm'
+      }
+    ]
+  },
+  {
+    label: '🧭 导航',
+    children: [
+      {
+        label: 'Menu 菜单',
+        to: '/doc/menu'
       }
     ]
   },

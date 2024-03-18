@@ -1,4 +1,4 @@
-# Tabs 标签页
+# 🚧 Tabs 标签页
 分隔内容上有关联但属于不同类别的数据集合。
 
 ## 基础效果
@@ -6,7 +6,7 @@
 ::: codeBox 
 ```vue
 <template>
-  <vc-tabs v-model:value="activeName" @tab-click="handleClick">
+  <vc-tabs v-model="activeName" @tab-click="handleClick">
     <vc-tab-pane label="用户管理" name="first">用户管理</vc-tab-pane>
     <vc-tab-pane label="配置管理" name="second">配置管理</vc-tab-pane>
     <vc-tab-pane label="角色管理" name="third">角色管理</vc-tab-pane>
@@ -39,11 +39,11 @@
 
 ```vue
 <template>
-  <vc-button @click="value = !value">Click</vc-button>
-  <vc-tabs value="second">
+  <vc-button @click="disabled = !disabled">{{ disabled ? '禁用':'可用'}}</vc-button>
+  <vc-tabs v-model="value">
     <vc-tab-pane label="用户管理" name="first">用户管理</vc-tab-pane>
     <vc-tab-pane label="配置管理" disabled name="second">配置管理</vc-tab-pane>
-    <vc-tab-pane label="角色管理" :disabled="value" name="third">角色管理</vc-tab-pane>
+    <vc-tab-pane label="角色管理" :disabled="disabled" name="third">角色管理</vc-tab-pane>
   </vc-tabs>
 </template>
 
@@ -51,7 +51,8 @@
   export default {
     data() {
       return {
-        value: false
+        value: 'first',
+        disabled: false
       }
     }
   };
@@ -64,12 +65,18 @@
 ::: codeBox 
 ```vue
 <template>
-  <vc-tabs>
-    <vc-tab-pane icon="vc-icon-os-apple" label="MacOS">MacOS</vc-tab-pane>
-    <vc-tab-pane icon="vc-icon-os-windows" label="Windows">Windows</vc-tab-pane>
-    <vc-tab-pane icon="vc-icon-os-linux" label="Linux">Linux</vc-tab-pane>
+  <vc-tabs v-model="value">
+    <vc-tab-pane icon="vc-icon-os-apple" label="MacOS" name="mac">MacOS</vc-tab-pane>
+    <vc-tab-pane icon="vc-icon-os-windows" label="Windows" name="win">Windows</vc-tab-pane>
+    <vc-tab-pane icon="vc-icon-os-linux" label="Linux" name="lin">Linux</vc-tab-pane>
   </vc-tabs>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+const value = ref('mac')
+</script>
 ```
 :::
 
@@ -82,27 +89,43 @@
 
 ```vue
 <template>
-  <vc-tabs>
-    <vc-tab-pane name="date">
+  <vc-tabs v-model="value">
+    <vc-tab-pane name="home">
       <template #label>
-        <i class="vc-icon-date"></i>我的行程
+        首页
+        <i class="vc-icon-date"></i>
       </template>
-      我的行程
+      首页
     </vc-tab-pane>
-    <vc-tab-pane label="Windows">Windows</vc-tab-pane>
-    <vc-tab-pane label="Linux">Linux</vc-tab-pane>
+    <vc-tab-pane name="class">
+      <template #label>
+        分类
+        <i class="vc-icon-date"></i>
+      </template>
+      分类
+    </vc-tab-pane>
+    <vc-tab-pane name="my">
+      <template #label>🤣 我的</template>
+      我的
+    </vc-tab-pane>
   </vc-tabs>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+const value = ref('home')
+</script>
 ```
 :::
 
-## 自定义增加标签页触发器
+## 动态添加
 
 ::: codeBox 
 ```vue
 <template>
   <vc-button @click="handleClick">Add</vc-button>
-  <vc-tabs v-model:value="activeName" @tabRemove="remove">
+  <vc-tabs v-model="activeName" @remove="remove">
     <vc-tab-pane 
       v-for="tab in list"
       :key="tab.name"
@@ -144,7 +167,7 @@
         this.activeName = name
       },
       remove(tab, index) {
-        this.list.splice(index, 1)
+        // this.list.splice(index, 1)
       }
     }
   };
@@ -166,7 +189,7 @@
     <vc-button round @click="activeName = 'fourth'">定时任务补偿</vc-button>
   </vc-button-group>
 
-  <vc-tabs :value="activeName">
+  <vc-tabs :modelValue="activeName">
     <vc-tab-pane label="用户管理" name="first">用户管理</vc-tab-pane>
     <vc-tab-pane label="配置管理" name="second">配置管理</vc-tab-pane>
     <vc-tab-pane label="角色管理" name="third">角色管理</vc-tab-pane>

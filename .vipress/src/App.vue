@@ -94,6 +94,7 @@ export default {
     box-sizing: border-box;
 
     article {
+      min-width: 0;
       padding: 0 20px 100px;
     }
 

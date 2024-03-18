@@ -94,7 +94,8 @@ export default {
       }
 
       if (typeof this.value === 'number') {
-        let val = this.value / this.total
+        // 当总数为 0 时 值为 0
+        let val = this.total === 0 ? 0 : this.value / this.total
 
         obj.children.default = {
           label: '',

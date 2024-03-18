@@ -1,19 +1,27 @@
 article {
   flex: 1;
+  width: 100%;
   max-width: 800px;
   color: var(--page-txt-color);
-  
+  box-sizing: border-box;
+
   @media screen {
     @media (min-width: 1500px) {
       margin: 0 auto;
     }
   }
-  
-  h1, h2, h3, h4, h5, h6, strong {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong {
     margin: 1.5em 0 0;
     color: var(--page-txt-color);
     font-weight: 400;
-    transition: border-color .4s ease-in-out;
+    transition: border-color 0.4s ease-in-out;
   }
 
   strong {
@@ -22,13 +30,13 @@ article {
   }
 
   h1 {
-    padding-bottom: .4em;
+    padding-bottom: 0.4em;
     font-size: 32px;
     line-height: 1em;
     border-bottom: 2px solid var(--article-line-color);
   }
   h2 {
-    padding-bottom: .4em;
+    padding-bottom: 0.4em;
     font-size: 28px;
     line-height: 1em;
     border-bottom: 1px solid var(--article-line-color);
@@ -47,7 +55,7 @@ article {
   }
 
   hr {
-    margin: .5rem 0;
+    margin: 0.5rem 0;
     border: none;
     border-bottom: 2px solid var(--article-line-color);
   }
@@ -57,7 +65,8 @@ article {
     line-height: 1.7;
   }
 
-  ul, ol {
+  ul,
+  ol {
     padding: 0 0 0 20px;
     margin: 10px 0;
     font-size: 14px;
@@ -67,7 +76,7 @@ article {
       line-height: 1.7;
 
       p {
-        margin: 0 0 .8em;
+        margin: 0 0 0.8em;
 
         &:first-child {
           margin-top: 0;
@@ -112,9 +121,8 @@ article {
           vertical-align: bottom;
           border: 1px solid var(--table-header-bg);
           background-color: var(--table-header-bg);
-          transition: 
-            background-color .3s ease-in-out,
-            border-color .3s ease-in-out;
+          transition: background-color 0.3s ease-in-out,
+            border-color 0.3s ease-in-out;
         }
       }
     }
@@ -125,8 +133,8 @@ article {
           font-size: 14px;
           line-height: 1.6;
           vertical-align: top;
-          transition: background-color .3s ease-out;
-          
+          transition: background-color 0.3s ease-out;
+
           &:nth-child(1),
           &:nth-child(2) {
             white-space: nowrap;
@@ -157,7 +165,7 @@ article {
   .vbook-error-box,
   blockquote {
     margin: 1em 0;
-    padding: .5em 0 .5em 1em;
+    padding: 0.5em 0 0.5em 1em;
     border-left: 5px solid var(--article-blockquote-color);
     background-color: var(--article-blockquote-bg);
 
@@ -175,15 +183,14 @@ article {
     code {
       background-color: var(--blockquote-code);
     }
-
   }
 
   .vbook-warning-box {
     border-color: #f90;
-    background-color: rgba(255,229,100, .3);
+    background-color: rgba(255, 229, 100, 0.3);
   }
   .vbook-error-box {
-    border-color: #F44336;
+    border-color: #f44336;
     background-color: rgba(244, 67, 54, 0.1);
   }
 
@@ -198,15 +205,13 @@ article {
     border-radius: 5px;
     white-space: nowrap;
     background-color: var(--code-inline-bg);
-    transition: 
-      color .3s ease-in-out, 
-      background-color .3s ease-in-out;
+    transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
   }
 
-  pre[class*="language"] {
+  pre[class*='language'] {
     position: relative;
     display: block;
-    padding: 1rem .7rem;
+    padding: 1rem 0.7rem;
     margin: 1rem 0;
     font-size: 13px;
     line-height: 1.4;
@@ -220,8 +225,8 @@ article {
     &:before {
       position: absolute;
       right: 1em;
-      top: .5em;
-      font-size: .7em;
+      top: 0.5em;
+      font-size: 0.7em;
       color: var(--code-lang-color);
     }
 
@@ -235,31 +240,32 @@ article {
     }
 
     .token.operator {
-      background-color: transparent!important;
+      background-color: transparent !important;
     }
-    .token.property, 
-    .token.tag, 
-    .token.boolean, 
-    .token.number, 
-    .token.constant, 
-    .token.symbol, 
+    .token.property,
+    .token.tag,
+    .token.boolean,
+    .token.number,
+    .token.constant,
+    .token.symbol,
     .token.deleted {
       color: var(--code-token-tag) !important;
     }
-    .token.atrule, 
-    .token.attr-value, 
+    .token.atrule,
+    .token.attr-value,
     .token.keyword {
       color: var(--code-token-value) !important;
     }
-    .token.selector, 
-    .token.attr-name, 
-    .token.string, 
-    .token.char, 
-    .token.builtin, 
+    .token.selector,
+    .token.attr-name,
+    .token.string,
+    .token.char,
+    .token.builtin,
     .token.inserted {
       color: var(--code-token-name) !important;
     }
-    .token.function, .token.class-name {
+    .token.function,
+    .token.class-name {
       color: var(--code-token-function) !important;
     }
   }
@@ -278,104 +284,103 @@ article {
     box-shadow: inset 0 -1px 0 #c6cbd1;
   }
 
-  pre[class~=language-js]:before {
-    content: "js"
+  pre[class~='language-js']:before {
+    content: 'js';
   }
 
-  pre[class~=language-ts]:before {
-    content: "ts"
+  pre[class~='language-ts']:before {
+    content: 'ts';
   }
 
-  pre[class~=language-html]:before {
-    content: "html"
+  pre[class~='language-html']:before {
+    content: 'html';
   }
 
-  pre[class~=language-md]:before {
-    content: "md"
+  pre[class~='language-md']:before {
+    content: 'md';
   }
 
-  pre[class~=language-vue]:before {
-    content: "vue"
+  pre[class~='language-vue']:before {
+    content: 'vue';
   }
 
-  pre[class~=language-css]:before {
-    content: "css"
+  pre[class~='language-css']:before {
+    content: 'css';
   }
 
-  pre[class~=language-sass]:before {
-    content: "sass"
+  pre[class~='language-sass']:before {
+    content: 'sass';
   }
 
-  pre[class~=language-scss]:before {
-    content: "scss"
+  pre[class~='language-scss']:before {
+    content: 'scss';
   }
 
-  pre[class~=language-less]:before {
-    content: "less"
+  pre[class~='language-less']:before {
+    content: 'less';
   }
 
-  pre[class~=language-stylus]:before {
-    content: "stylus"
+  pre[class~='language-stylus']:before {
+    content: 'stylus';
   }
 
-  pre[class~=language-go]:before {
-    content: "go"
+  pre[class~='language-go']:before {
+    content: 'go';
   }
 
-  pre[class~=language-java]:before {
-    content: "java"
+  pre[class~='language-java']:before {
+    content: 'java';
   }
 
-  pre[class~=language-c]:before {
-    content: "c"
+  pre[class~='language-c']:before {
+    content: 'c';
   }
 
-  pre[class~=language-sh]:before {
-    content: "sh"
+  pre[class~='language-sh']:before {
+    content: 'sh';
   }
 
-  pre[class~=language-yaml]:before {
-    content: "yaml"
+  pre[class~='language-yaml']:before {
+    content: 'yaml';
   }
 
-  pre[class~=language-py]:before {
-    content: "py"
+  pre[class~='language-py']:before {
+    content: 'py';
   }
 
-  pre[class~=language-javascript]:before {
-    content: "js"
+  pre[class~='language-javascript']:before {
+    content: 'js';
   }
 
-  pre[class~=language-typescript]:before {
-    content: "ts"
+  pre[class~='language-typescript']:before {
+    content: 'ts';
   }
 
-  pre[class~=language-markup]:before {
-    content: "html"
+  pre[class~='language-markup']:before {
+    content: 'html';
   }
 
-  pre[class~=language-markdown]:before {
-    content: "md"
+  pre[class~='language-markdown']:before {
+    content: 'md';
   }
 
-  pre[class~=language-json]:before {
-    content: "json"
+  pre[class~='language-json']:before {
+    content: 'json';
   }
 
-  pre[class~=language-ruby]:before {
-    content: "rb"
+  pre[class~='language-ruby']:before {
+    content: 'rb';
   }
 
-  pre[class~=language-python]:before {
-    content: "py"
+  pre[class~='language-python']:before {
+    content: 'py';
   }
 
-  pre[class~=language-bash]:before {
-    content: "bash"
+  pre[class~='language-bash']:before {
+    content: 'bash';
   }
 
-  pre[class~=language-diff]:before {
-    content: "diff"
+  pre[class~='language-diff']:before {
+    content: 'diff';
   }
 }
-

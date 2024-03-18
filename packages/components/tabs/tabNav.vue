@@ -1,122 +1,44 @@
 <template>
-  <ul class="vc-tabs__nav" :style="comNavStyle">
-    <Bar ref="bar"/>
-    <li 
-      v-for="tab in list" 
-      :key="tab.label"
+  <ul class="vc-tabs--nav">
+    <li
+      v-for="tab in list"
+      :key="tab.props.label"
       :class="[
-        'vc-tabs__item', 
+        'vc-tabs--item',
         {
-          'is-active': tab.active,
-          'is-disabled': tab.disabled
+          'is-active': tab.props.active,
+          'is-disabled': tab.props.disabled
         }
-      ]" 
-      @click="evt => clickEvt(evt, tab)"
+      ]"
+      @click="onClick(tab.props, $event)"
     >
-      <span :id="`tab-nav__${tab.id}`" class="vc-tabs__item-label">
-        <i v-if="tab.icon" :class="tab.icon"></i>
-        {{ tab.label }}
+      <slot v-if="tab.slots.label" name="label"></slot>
+
+      <span :class="`vc-tab-pane--${tab.id}`" class="vc-tabs__item-label">
+        <i v-if="tab.props.icon" :class="tab.props.icon"></i>
+        {{ tab.props.label }}
       </span>
-      <i v-if="tab.closable" class="vc-icon-close" @click="evt => closeEvt(evt, tab)"></i>
+      <i
+        v-if="tab.props.closable"
+        class="vc-icon-close"
+        @click="evt => closeEvt(evt, tab)"
+      ></i>
     </li>
   </ul>
 </template>
 
-<script>
-import { addResizeListener, removeResizeListener } from '../../utils/resize-event'
-import Bar from './bar.vue'
+<script setup>
+import { inject, renderSlot } from 'vue'
 
-export default {
-  components: { Bar },
-  props: {
-    list: {
-      type: Array,
-      default: () => ([])
-    },
-    removeTab: {
-      type: Function,
-    }
-  },
-  inject: ['vcTabs'],
-  data() {
-    return {
-      navStyle: {},
-      isStep: false
-    }
-  },
-  computed: {
-    comNavStyle () {
-      let { x = 0 } = this.navStyle
+const props = defineProps({
+  list: Array
+})
 
-      this.vcTabs.isNextDisable = x === 0
+const tabsRoot = inject('tabsRootContextKey')
 
-      if (this.$el) {
-        let { scrollWidth } = this.$el
-        let { width } = this.$el.parentNode.getBoundingClientRect()
-
-        this.vcTabs.isPrevDisable = width - x >= scrollWidth
-      }
-
-      return {
-        transform: `translateX(${x}px)`
-      }
-    },
-  },
-  methods: {
-    update() {
-      let { width } = this.$el.getBoundingClientRect()
-      let { width: _w } = this.$el.parentNode.getBoundingClientRect()
-      
-      this.vcTabs.isOver = width > _w
-      this.$nextTick(this.$refs.bar.updateBar)
-    },
-
-    closeEvt(evt, tab) {
-      evt.stopPropagation()
-
-      if (tab.disabled) return
-
-      let { width } = evt.target.parentNode.getBoundingClientRect()
-
-      this.navStyle.x += width
-
-      if (this.navStyle.x > 0) this.navStyle.x = 0
-
-      this.removeTab(tab)
-    },
-
-    clickEvt (evt, tab) {
-      this.vcTabs.activeTab = tab
-      this.vcTabs.$emit('tab-click', tab, evt)
-      this.vcTabs.$emit('tabClick', tab, evt)
-    },
-
-    moveNav(step = 0) {
-      let { x = 0 } = this.navStyle
-      let { scrollWidth } = this.$el
-      let { width } = this.$el.parentNode.getBoundingClientRect()
-
-      x += step
-
-      if (width - x >= scrollWidth) {
-        x = width - scrollWidth
-      }
-
-      if (x > 0) x = 0
-
-      this.navStyle.x = x
-      this.isStep = true
-    }
-  },
-  updated() {
-    if (this.isStep) this.isStep = false
-    else this.update()
-  },
-  mounted() {
-    addResizeListener(this.$el.parentNode, this.update)
-  },
-  unmounted() {
-    removeResizeListener(this.$el.parentNode, this.update)
-  }
+function onClick(props, e) {
+  console.log(props, e)
+  console.log(tabsRoot.props.modelValue)
+  tabsRoot.emits('update:modelValue', props.name)
 }
 </script>

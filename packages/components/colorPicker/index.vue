@@ -69,15 +69,20 @@ export default {
       A: 0,
       isEmpty: false,
       isVisible: false,
-      isOpened: false
+      isOpened: false,
+      cleanup: null
     }
   },
   computed: {
     currentColor() {
-      let { r, g, b } = hsv2rgb(this.H, this.S, this.V)
+      if (this.modelValue) {
+        let { r, g, b } = hsv2rgb(this.H, this.S, this.V)
 
-      return {
-        backgroundColor: `rgba(${r}, ${g}, ${b}, ${this.A})`
+        return {
+          backgroundColor: `rgba(${r}, ${g}, ${b}, ${this.A})`
+        }
+      } else {
+        return ''
       }
     }
   },
@@ -94,7 +99,7 @@ export default {
 
       this.isVisible = !this.isVisible
 
-      autoUpdate(this.$refs.colorEl, dropdownEl, () => {
+      this.cleanup = autoUpdate(this.$refs.colorEl, dropdownEl, () => {
         computePosition(this.$refs.colorEl, dropdownEl, {
           placement: 'bottom',
           strategy: 'fixed',
@@ -126,6 +131,7 @@ export default {
       if (this.$el.contains(e.target)) return
 
       this.isVisible = false
+      this.cleanup && this.cleanup()
     },
 
     afterEnterEvt() {
@@ -135,7 +141,7 @@ export default {
     updateVal({ type, value, hsv }) {
       let result = ''
 
-      console.log('update:model', type, hsv, value)
+      // console.log('update:model', type, hsv, value)
 
       this.H = Reflect.has(hsv, 'h') ? hsv.h : this.H
       this.S = Reflect.has(hsv, 's') ? hsv.s : this.S

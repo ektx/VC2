@@ -2,32 +2,24 @@
   <div
     :class="[
       'vc-form-item',
+      validateState,
+      validateStatus ? 'is-' + validateStatus : '',
       {
         'is-column': isColumn,
-        'is-required': isRequired,
-        'is-error': validateState === 'error'
+        'is-required': isRequired
       }
     ]"
+    :style="style"
   >
-    <Label
-      v-if="vcForm.inline ? label : true"
-      :label="label"
-      :labelWidth="labelWidth || vcForm.labelWidth"
-    />
+    <Label :label="label"></Label>
 
     <div class="vc-form-item__content">
-      <slot></slot>
-      <transition name="vc-fade-in">
-        <slot
-          v-if="validateState === 'error'"
-          name="error"
-          :error="validateMessage"
-        >
-          <div class="vc-form-item__error">
-            {{ validateMessage }}
-          </div>
+      <slot :status="validateStatus"></slot>
+      <div ref="errRef" class="vc-form-item__info">
+        <slot name="error" :error="validateMessage">
+          {{ validateMessage }}
         </slot>
-      </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -35,6 +27,7 @@
 <script>
 import Label from './label.vue'
 import AsyncValidator from 'async-validator'
+import { getValueOfPath, setValueOfPath } from '../../utils'
 
 export default {
   name: 'VcFormItem',
@@ -54,7 +47,38 @@ export default {
     // 指定标题的宽度，支持'auto'
     labelWidth: String,
     prop: String,
-    inline: Boolean
+    inline: Boolean,
+    gridColumn: String,
+    gridRow: String,
+    /** 设置提示文案 */
+    help: {
+      type: String,
+      default: ''
+    },
+    /** 校验状态 */
+    validateStatus: {
+      type: String,
+      default: '',
+      validator: val => {
+        return ['', 'error', 'success'].includes(val)
+      }
+    }
+  },
+  watch: {
+    async validateMessage(val) {
+      await this.$nextTick()
+
+      if (val) {
+        let h = this.$refs.errRef.scrollHeight
+
+        Object.assign(this.$refs.errRef.style, {
+          height: h + 'px',
+          transform: `translateY(0%)`
+        })
+      } else {
+        this.$refs.errRef.style = null
+      }
+    }
   },
   computed: {
     isColumn() {
@@ -75,25 +99,32 @@ export default {
         })
       }
       return result
+    },
+
+    style() {
+      let obj = {
+        '--labelWidth': this.labelWidth
+      }
+
+      if (this.gridColumn) {
+        obj.gridColumn = this.gridColumn
+      }
+
+      return obj
     }
   },
   data() {
     return {
-      parentForm: null,
       validateState: '',
       validateMessage: ''
     }
   },
   mounted() {
-    if (this.$parent.$options.name === 'VcForm') {
-      this.parentForm = this.$parent
+    if (this.prop && this.vcForm && this.vcForm.fields) {
+      this.vcForm.fields.push(this)
     }
 
-    if (this.prop) {
-      if (this.parentForm) {
-        this.parentForm.fields.push(this)
-      }
-    }
+    if (this.help) this.validateMessage = this.help
   },
   methods: {
     validate(trigger, cb) {
@@ -121,10 +152,10 @@ export default {
       model[this.prop] = this.vcForm.model[this.prop]
 
       validator.validate(model, { firstFields: true }, err => {
-        this.validateState = err ? 'error' : 'success'
+        this.validateState = err ? 'is-error' : 'is-success'
         this.validateMessage = err ? err[0].message : ''
 
-        cb(err)
+        cb && cb(err)
       })
     },
 
@@ -132,17 +163,15 @@ export default {
       this.clearValidate()
 
       if (this.prop) {
-        let val = Reflect.has(this.vcForm.defaultValue, this.prop)
-          ? this.vcForm.defaultValue[this.prop]
-          : ''
+        const val = getValueOfPath(this.vcForm.defaultValue, this.prop)
 
-        this.vcForm.model[this.prop] = val
+        setValueOfPath(this.vcForm.model, this.prop, val)
       }
     },
 
     clearValidate() {
       this.validateState = ''
-      this.validateMessage = ''
+      this.validateMessage = this.help || ''
     },
 
     getRules() {

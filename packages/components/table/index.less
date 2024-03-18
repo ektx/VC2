@@ -1,9 +1,9 @@
-@import '../../styles/var.less';
+@import '../../styles/theme.less';
 
-.vc-table {
+.@{namespace}-table {
   position: relative;
-  background-color: #fff;
-  
+  background-color: e('var(@{table}-bg)');
+
   &--content {
     width: 100%;
     overflow: auto;
@@ -13,54 +13,57 @@
     width: 100%;
     margin: 0;
   }
-  
+
   thead {
     th {
-      border-bottom: 2px solid @table-border-color;
-      
+      border-bottom: 2px solid e('var(@{table}-border-color)');
+
       .cell {
-        
         padding: 10px 5px;
         font-size: 14px;
         text-align: left;
-        color: @table-text-color;
+        color: e('var(@{table}-header-color)');
         border: none;
       }
     }
   }
 
   tbody {
-    td, th {
-      border-bottom: 1px solid @table-border-color;
-      transition: background-color .3s ease-in-out;
+    td,
+    th {
+      border-bottom: 1px solid e('var(@{table}-border-color)');
 
       .cell {
         padding: 10px 5px;
         font-size: 14px;
-        color: @table-text-color;
+        color: e('var(@{table}-color)');
         word-break: break-all;
       }
 
       // 调整显示间隔
-      .vc-radio, .vc-radio__label {
+      .vc-radio,
+      .vc-radio__label {
         margin: 0 0 0 5px;
       }
     }
 
     tr:hover {
-      td, th {
-        background-color: #eee;
+      td,
+      th {
+        background-color: e('var(@{table}-hover-bg)');
       }
     }
   }
 
   .has-border {
-    td, th {
-      border: 1px solid @table-border-color;
+    td,
+    th {
+      border: 1px solid e('var(@{table}-border-color)');
     }
   }
 
   &__pagination {
+    padding: 10px 0;
     text-align: right;
   }
 
@@ -72,13 +75,13 @@
     height: 100%;
     display: grid;
     place-items: center;
-    color: @table-text-color;
-    background: rgba(255, 255, 255, .5);
+    color: e('var(@{table}-color)');
+    background: e('var(@{table}-mod-bg)');
 
     .inner {
       text-align: center;
       p {
-        color: @table-text-color;
+        color: e('var(@{table}-color)');
       }
     }
 
@@ -89,19 +92,19 @@
 
   &__body {
     overflow: auto;
-    border-bottom: 1px solid @table-border-color;
+    border-bottom: 1px solid e('var(@{table}-border-color)');
 
     &.highlight-current-row {
       .current {
         td {
-          background-color: #f0f8ff;
-          border-color: #deeefb;
+          background-color: e('var(@{table}-light-bg)');
+          border-color: e('var(@{table}-light-border-color)');
         }
 
         &:hover td {
-          background-color: #eee;
+          background-color: e('var(@{table}-hover-bg)');
         }
-      } 
+      }
     }
   }
 
@@ -115,7 +118,7 @@
     text-align: center;
 
     &.is-border {
-      border: 1px solid @table-border-color;
+      border: 1px solid e('var(@{table}-border-color)');
     }
   }
 }
