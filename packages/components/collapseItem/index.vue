@@ -38,7 +38,7 @@ export default {
       default: ''
     },
     // 面板标题
-    title: String,
+    title: [Number, String],
     // 是否禁用
     disabled: Boolean,
     /** 启用粘性 */
