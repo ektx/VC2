@@ -81,7 +81,6 @@ export default {
   computed: {
     bodyStyle() {
       return {
-        height: this.vcTable.height,
         width: this.width
       }
     }

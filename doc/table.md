@@ -197,7 +197,7 @@ export default {
     :data="data" 
     v-model:pageIndex="index" 
     :page-total="data.length"
-    height="200px"
+    height="400px"
     border
   >
     <template #empty>
