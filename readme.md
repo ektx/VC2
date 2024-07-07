@@ -5,6 +5,10 @@ Vue 3.x UI 组件库
 ## Development
 
 ```sh
+# first run
+pnpm doc
+
+## dev
 pnpm dev
 ```
 

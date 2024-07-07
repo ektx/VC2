@@ -70,6 +70,7 @@ export default {
     data: Array,
     mergeSpan: Array,
     width: String,
+    height: String,
     highlightSelectedRow: Boolean,
     showSelectColumn: [Boolean, String]
   },
@@ -81,7 +82,7 @@ export default {
   computed: {
     bodyStyle() {
       return {
-        height: this.vcTable.height,
+        height: this.height,
         width: this.width
       }
     }

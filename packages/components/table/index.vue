@@ -41,6 +41,7 @@
         :header="_header"
         :data="currentData"
         :width="tableWidth"
+        :height="height"
         :mergeSpan="style?.mergeSpan"
         :highlightSelectedRow="highlightSelectedRow"
         :showSelectColumn="showSelectColumn"
@@ -157,8 +158,8 @@ export default {
     return {
       _pageIndex: this.pageIndex,
       _header: this.header,
-      resizeObserver: null,
-      tableWidth: 'auto'
+      resizeObserver: null
+      // tableWidth: 'auto'
     }
   },
   watch: {
@@ -179,6 +180,12 @@ export default {
 
         return this.data.slice(start, end)
       }
+    },
+    tableWidth() {
+      console.log(this.header)
+      this.header.forEach(item => {
+        // if ()
+      })
     }
   },
   mounted() {
@@ -238,12 +245,12 @@ export default {
       }
 
       // 设置的宽度大于容器宽度
-      if (setWitdh >= width) {
-        this.tableWidth = setWitdh + noSetWidth * defaultTdWidth + 'px'
-      } else {
-        defaultTdWidth = (width - setWitdh) / noSetWidth
-        this.tableWidth = width + 'px'
-      }
+      // if (setWitdh >= width) {
+      //   this.tableWidth = setWitdh + noSetWidth * defaultTdWidth + 'px'
+      // } else {
+      //   defaultTdWidth = (width - setWitdh) / noSetWidth
+      //   this.tableWidth = width + 'px'
+      // }
 
       onHasWidthObjs.forEach(item => {
         item.width = defaultTdWidth

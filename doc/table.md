@@ -214,16 +214,17 @@ export default {
         {
           label: '姓名',
           key: 'name',
-          width: '180px'
+          width: '300px'
         },
         {
           label: '时间',
           key: 'date',
-          width: '180px'
+          width: '300px'
         },
         {
           label: '地址',
           key: 'address',
+          width: '400px'
         },
       ],
       data: [],
