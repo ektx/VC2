@@ -1,8 +1,8 @@
 <template>
-  <div class="vc-table">
+  <div class="vc-table" :style="iStyle">
     <div v-if="loading" class="vc-table__loading-mod">
       <div class="inner">
-        <i class="vc-icon-loading" />
+        <i class="vc-icon-loading"></i>
         <p>{{ typeof loading === 'boolean' ? 'Loading...' : loading }}</p>
       </div>
     </div>
@@ -186,14 +186,15 @@ export default {
       this.header.forEach(item => {
         // if ()
       })
+    },
+    iStyle() {
+      return {
+        height: this.height ?? ''
+      }
     }
   },
   mounted() {
     this.watchRootDom()
-
-    this.$nextTick(() => {
-      console.log(this.$slots.tbody)
-    })
   },
   methods: {
     pageChangeEvt(index) {
