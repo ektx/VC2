@@ -32,9 +32,13 @@
   }
 
   &__wrap {
+    height: 0;
     transition: height 0.3s ease-in-out;
     will-change: height;
     overflow: hidden;
+  }
+  &.is-open &__wrap {
+    height: ~'calc-size(max-content, size)';
   }
 
   &__content {

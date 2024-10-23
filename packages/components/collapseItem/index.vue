@@ -15,12 +15,7 @@
       <i class="vc-collapse-item__icon vc-icon-arrow-right"></i>
     </div>
 
-    <div
-      ref="wrap"
-      class="vc-collapse-item__wrap"
-      :style="wrapStyle"
-      @transitionend="transitionend"
-    >
+    <div ref="wrap" class="vc-collapse-item__wrap">
       <div class="vc-collapse-item__content">
         <slot></slot>
       </div>
@@ -45,40 +40,15 @@ export default {
     sticky: Boolean
   },
   inject: ['Collapse'],
-  data() {
-    return {
-      wrapStyle: {
-        height: 0
-      }
-    }
-  },
   computed: {
     isOpen() {
       return this.Collapse.modelValue.includes(this.value)
-    }
-  },
-  watch: {
-    isOpen: {
-      async handler(val) {
-        await this.$nextTick()
-        const { scrollHeight: h } = this.$refs.wrap
-
-        this.wrapStyle = { height: (val ? 0 : h) + 'px' }
-
-        requestAnimationFrame(() => {
-          this.wrapStyle = { height: (val ? h : 0) + 'px' }
-        })
-      },
-      immediate: true
     }
   },
   methods: {
     toggleEvt() {
       if (this.disabled) return
       this.Collapse.itemClick(this)
-    },
-    transitionend() {
-      if (this.isOpen) this.wrapStyle = null
     }
   }
 }
