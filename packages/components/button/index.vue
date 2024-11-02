@@ -13,14 +13,13 @@
       }
     ]"
     type="button"
-    :disabled="loading || disabled"
+    :disabled="disabled"
     :style="_style"
-    @click="clickEvt"
   >
     <Transition name="vc-button--loading">
-      <div v-if="_icon" class="vc-button--icon">
+      <span v-if="_icon" class="vc-button--icon">
         <i :class="_icon"></i>
-      </div>
+      </span>
     </Transition>
     <span v-if="_hasSlot"><slot></slot></span>
   </button>
@@ -39,6 +38,7 @@ export default {
       type: String,
       default: '',
       validator(val) {
+        // @ts-ignore
         return ['primary', 'success', 'warn', 'error', ''].includes(val)
       }
     },
