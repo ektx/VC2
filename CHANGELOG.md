@@ -1,10 +1,11 @@
 # CHANGELOG
 
-## 1.17.0
+## 1.17.0 dev
 
 ### Fixes
 
 - collapse 优化动画功能，使用 `calc-size()` 方案
+- button 优化按钮样式，调整部分属性
 
 ## 1.16.6 (2024-3-20)
 
