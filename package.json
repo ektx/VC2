@@ -31,7 +31,6 @@
     "vue-router": "^4.0.10"
   },
   "devDependencies": {
-    "@ektx/vipress": "^0.15.0",
     "@rollup/plugin-node-resolve": "^15.0.2",
     "@vitejs/plugin-vue": "^4.1.0",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
