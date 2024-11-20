@@ -2,14 +2,12 @@
   <button
     :class="[
       'vc-button',
-      _theme,
-      _bgClassName,
+      theme,
       {
         plain,
         round,
-        'only-icon': !_hasSlot,
-        'is-loading': loading,
-        'customize-color': color
+        text,
+        'is-loading': loading
       }
     ]"
     type="button"
@@ -21,7 +19,7 @@
         <i :class="_icon"></i>
       </span>
     </Transition>
-    <span v-if="_hasSlot"><slot></slot></span>
+    <span><slot></slot></span>
   </button>
 </template>
 
@@ -38,58 +36,37 @@ export default {
       type: String,
       default: '',
       validator(val) {
-        // @ts-ignore
         return ['primary', 'success', 'warn', 'error', ''].includes(val)
       }
     },
     /** 设置颜色 */
-    color: {
-      type: String,
-      default: ''
-    },
+    color: String,
     // 镂空
     plain: Boolean,
     // 圆角
     round: Boolean,
     // 图标
-    icon: {
-      type: String,
-      default: ''
-    },
+    icon: String,
+    text: Boolean,
     // 加载状态
     loading: Boolean,
     // 禁用状态
     disabled: Boolean,
     classes: String,
     // text 时，用于显示背景色
-    bg: {
-      type: [Boolean, String],
-      default: false
-    }
+    bg: String
   },
   computed: {
     _icon() {
       return this.loading ? 'vc-icon-loading' : this.icon
     },
-    _hasSlot() {
-      return this.$slots.default
-    },
-    _theme() {
-      return this.theme ? `vc-button--theme-${this.theme}` : ''
-    },
+
     _style() {
       return {
         '--size': this.size,
         '--color': this.color,
         '--bg': typeof this.bg === 'string' ? this.bg : ''
       }
-    },
-    _bgClassName() {
-      return typeof this.bg === 'boolean'
-        ? this.bg
-          ? 'has-bg'
-          : ''
-        : 'customize-bg'
     }
   }
 }

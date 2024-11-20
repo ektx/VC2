@@ -21,6 +21,7 @@
     <vc-button plain theme="warn">警告</vc-button>
     <vc-button plain theme="error">错误</vc-button>
     <vc-button plain bg="#9c27b0">自定义颜色</vc-button>
+    <vc-button plain color="#f90">自定义颜色</vc-button>
   </div>
   <br/>
   <div>
@@ -29,7 +30,6 @@
     <vc-button round theme="success">成功</vc-button>
     <vc-button round theme="warn">警告</vc-button>
     <vc-button round theme="error">错误</vc-button>
-    <vc-button round bg="#9c27b0">自定义颜色</vc-button>
   </div>
   <br/>
   <div>
@@ -57,26 +57,12 @@
 ::: codeBox
 ```vue
 <template>
-  <div>
-    <p>默认效果</p>
-    <vc-button type="text">默认效果</vc-button>
-    <vc-button type="text" theme="primary">主要效果</vc-button>
-    <vc-button type="text" theme="success">成功</vc-button>
-    <vc-button type="text" theme="warn">警告</vc-button>
-    <vc-button type="text" theme="error">错误</vc-button>
-    <vc-button type="text" color="#9c27b0">自定义颜色</vc-button>
-  </div>
-  
-  <div>
-    <p>带有背景色</p>
-    <vc-button type="text" bg >默认效果</vc-button>
-    <vc-button type="text" bg theme="primary">主要效果</vc-button>
-    <vc-button type="text" bg theme="success">成功</vc-button>
-    <vc-button type="text" bg theme="warn">警告</vc-button>
-    <vc-button type="text" bg theme="error">错误</vc-button>
-    <vc-button type="text" bg color="#9c27b0">自定义颜色</vc-button>
-    <vc-button type="text" bg="#f90" color="#9c27b0">自定义背景颜色</vc-button>
-  </div>
+  <vc-button text>默认效果</vc-button>
+  <vc-button text theme="primary">主要效果</vc-button>
+  <vc-button text theme="success">成功</vc-button>
+  <vc-button text theme="warn">警告</vc-button>
+  <vc-button text theme="error">错误</vc-button>
+  <vc-button text color="#9c27b0">自定义颜色</vc-button>
 </template>
 
 <style scoped>
@@ -140,7 +126,7 @@
   <vc-button icon="vc-icon-star-off" />
   <vc-button theme="primary" icon="vc-icon-bell" />
   <vc-button theme="success" icon="vc-icon-success" />
-  <vc-button bg="#f90" icon="vc-icon-success" />
+  <vc-button color="#fff" bg="#f90" icon="vc-icon-success" />
   <vc-button round icon="vc-icon-star-off" />
   <vc-button round theme="primary" icon="vc-icon-bell" />
   <vc-button round theme="success" icon="vc-icon-success" />

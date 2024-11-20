@@ -1,19 +1,22 @@
 {
   "compilerOptions": {
-    "target": "esnext",  
-    "module": "esnext", 
-    "moduleResolution": "node",                   
+    "target": "ESNext",  
+    "module": "ESNext", 
+    "skipLibCheck": true,
+    
+    /* Bundler mode */
+    "moduleResolution": "Bundler", 
+                      
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"],
       "@packages/*": ["packages/*"]
     },     
-    "allowJs": true,  
-    "checkJs": true,  
     "outDir": "./dist",  
-    "esModuleInterop": true,                             
+    /* Linting */
+    "allowJs": true,  
+    "checkJs": false,  
     "forceConsistentCasingInFileNames": true,          
-    "skipLibCheck": true                     
   },
   "exclude": [
     "node_modules",
