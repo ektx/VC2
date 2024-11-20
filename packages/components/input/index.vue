@@ -71,7 +71,6 @@
 <script>
 import { ref, reactive, onMounted, watch, inject } from 'vue'
 import { setAttrs } from '../../utils/index'
-import calcTextareaHeight from './calcTextareaHeight'
 
 export default {
   name: 'VcInput',
@@ -180,7 +179,7 @@ export default {
       }
 
       textareaCalcStyle.value = {
-        ...calcTextareaHeight(textarea.value, minRows, maxRows),
+        '--max-rows': maxRows + 'rlh',
         resize: typeof props.autosize === 'boolean' ? 'vertical' : 'none'
       }
     }
