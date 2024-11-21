@@ -172,7 +172,7 @@ export default {
       if (props.type !== 'textarea' || !props.autosize) return
 
       let minRows = 2
-      let maxRows = null
+      let maxRows = ''
 
       if (typeof props.autosize === 'object') {
         ;({ minRows, maxRows } = props.autosize)
