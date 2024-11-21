@@ -54,7 +54,7 @@
       class="vc-input__show-passwd"
       @click="togglePasswd"
     >
-      <i :class="TYPE === 'text' ? 'vc-icon-not-view' : 'vc-icon-view'"></i>
+      <i :class="TYPE === 'text' ? 'vc-icon-view' : 'vc-icon-not-view'"></i>
     </div>
 
     <div v-if="showWordLimit" class="vc-input__num-length">
@@ -171,7 +171,7 @@ export default {
     const resizeTextarea = () => {
       if (props.type !== 'textarea' || !props.autosize) return
 
-      let minRows = 1
+      let minRows = 2
       let maxRows = null
 
       if (typeof props.autosize === 'object') {
@@ -179,7 +179,9 @@ export default {
       }
 
       textareaCalcStyle.value = {
+        fieldSizing: 'content',
         '--max-rows': maxRows + 'rlh',
+        '--min-rows': minRows + 'rlh',
         resize: typeof props.autosize === 'boolean' ? 'vertical' : 'none'
       }
     }

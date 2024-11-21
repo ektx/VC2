@@ -81,10 +81,9 @@
   &__textarea {
     margin: 0.4em;
     display: block;
-    line-height: 1.5;
-    field-sizing: content;
-    min-inline-size: 1ch;
-    // max-inline-size: 10ch;
+    line-height: 1.8;
+    field-sizing: inherit;
+    min-block-size: var(--min-rows, 1rlh);
     max-block-size: var(--max-rows, inherit);
     resize: vertical;
     font-size: inherit;
@@ -142,6 +141,18 @@
     color: #777;
     background-color: transparent;
     box-sizing: border-box;
+
+    // select 组合
+    .@{namespace}-select input {
+      margin: 0 -10px;
+      border: none;
+    }
+
+    .@{namespace}-button {
+      margin: 0 -10px;
+      height: 100%;
+      border-radius: 0;
+    }
   }
 
   &__prepend {
