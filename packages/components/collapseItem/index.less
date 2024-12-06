@@ -35,7 +35,8 @@
     height: 0;
     transition: height 0.3s ease-in-out;
     will-change: height;
-    overflow: hidden;
+    // overflow: hidden;
+    overflow-y: clip;
   }
   &.is-open &__wrap {
     height: ~'calc-size(max-content, size)';
