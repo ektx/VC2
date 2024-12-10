@@ -1,13 +1,14 @@
-import VC from '../packages/index'
+import VC from '@root/packages/index'
 // import VC from '../lib/index'
 // import '../packages/index.less'
 // import btn from '../dist/es/button/index.js'
 // import btn from '../dist/lib/button/index'
+// import app from '/main.js'
+// app.use(btn)
 
-export function init(app) {
-  app.use(VC)
-  // app.use(btn)
-}
+setTimeout(() => {
+  if (App) App.use(VC)
+})
 
 /**
  * 菜单格式默认为以下

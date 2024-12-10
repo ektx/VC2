@@ -23,4 +23,3 @@ app.component('TOC', TOC)
 init(app)
 
 app.mount('#app')
-

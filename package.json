@@ -28,7 +28,7 @@
     "dayjs": "^1.11.0",
     "resize-observer-polyfill": "^1.5.1",
     "vue": "^3.2.37",
-    "vue-router": "^4.0.10"
+    "vue-router": "^4.4.0"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.0.2",
