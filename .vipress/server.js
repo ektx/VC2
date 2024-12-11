@@ -10,5 +10,4 @@ export default {
     base: '/', // 公共基础路径
     outDir: 'dist' // 指定输出目录，默认 dist
   }
-  // plugins: [vuePlugin(), vueJSX()] // 使用的模板信息
 }
