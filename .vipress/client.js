@@ -1,13 +1,13 @@
 // 开发地址
-// import VC from '@root/packages/index'
+import VC from '@root/packages/index'
 
 // 生产地址测试
-import VC from '@root/lib/es/index'
-import '@root/lib/es/vc2.css'
+// import VC from '@root/lib/es/index'
+// import '@root/lib/es/index.css'
 
 // 测试单独引用组件
 // import btn from '@root/lib/es/components/button/index.js'
-// import '@root/lib/es/vc2.css'
+// import '@root/lib/es/index.css'
 
 setTimeout(() => {
   if (App) App.use(VC) // ✔️

@@ -26,8 +26,8 @@
       "require": "./lib/cjs/index.cjs"
     }
   },
-  "style": "lib/layout.css",
-  "types": "types/index.d.ts",
+  "style": "lib/es/index.css",
+  "types": "lib/es/index.d.ts",
   "author": "WenLong",
   "dependencies": {
     "@floating-ui/dom": "^0.5.4",

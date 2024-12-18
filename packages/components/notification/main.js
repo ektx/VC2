@@ -54,6 +54,7 @@ function Notification(options) {
   notifyObj[id] = { id, visible, top, bottom, el, position }
 }
 
+// @ts-ignore
 Notification.close = function (id) {
   let notify = notifyObj[id]
   notify.visible.value = false
