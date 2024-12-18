@@ -1,13 +1,17 @@
-import VC from '@root/packages/index'
-// import VC from '../lib/index'
-// import '../packages/index.less'
-// import btn from '../dist/es/button/index.js'
-// import btn from '../dist/lib/button/index'
-// import app from '/main.js'
-// app.use(btn)
+// 开发地址
+// import VC from '@root/packages/index'
+
+// 生产地址测试
+import VC from '@root/lib/es/index'
+import '@root/lib/es/vc2.css'
+
+// 测试单独引用组件
+// import btn from '@root/lib/es/components/button/index.js'
+// import '@root/lib/es/vc2.css'
 
 setTimeout(() => {
-  if (App) App.use(VC)
+  if (App) App.use(VC) // ✔️
+  // if (App) App.use(btn) // ✔️
 })
 
 /**
