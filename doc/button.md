@@ -149,11 +149,11 @@
 ::: codeBox
 ```vue
 <template>
-  <vc-button-group>
-    <vc-button round theme="primary" icon="vc-icon-arrow-left">上一首</vc-button>
-    <vc-button round theme="primary">播放</vc-button>
-    <vc-button round theme="primary">暂停</vc-button>
-    <vc-button round theme="primary">下一首 <i class="vc-icon-arrow-right"/></vc-button>
+  <vc-button-group round>
+    <vc-button theme="primary" icon="vc-icon-arrow-left">上一首</vc-button>
+    <vc-button theme="primary">播放</vc-button>
+    <vc-button theme="primary">暂停</vc-button>
+    <vc-button theme="primary">下一首 <i class="vc-icon-arrow-right"></i></vc-button>
   </vc-button-group>
 
   <vc-button-group>
