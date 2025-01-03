@@ -1,6 +1,6 @@
 {
   "name": "@ektx/vc2",
-  "version": "1.16.6",
+  "version": "1.16.7",
   "type": "module",
   "files": [
     "lib",
@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "vipress",
     "doc": "vipress build doc",
-    "lib": "vipress build lib",
+    "lib": "vipress lib",
     "build": "node ./bin/build.js",
     "build2": "gulp -f ./bin/build2.js",
     "update": "node --experimental-json-modules ./bin/update.mjs",
@@ -24,6 +24,10 @@
     ".": {
       "import": "./lib/es/index.js",
       "require": "./lib/cjs/index.cjs"
+    },
+    "./lib/es/index.css": {
+      "import": "./lib/es/index.css",
+      "require": "./lib/es/index.css"
     }
   },
   "style": "lib/es/index.css",
