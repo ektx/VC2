@@ -172,7 +172,7 @@ export default {
       if (props.type !== 'textarea' || !props.autosize) return
 
       let minRows = 2
-      let maxRows = ''
+      let maxRows = Infinity
 
       if (typeof props.autosize === 'object') {
         ;({ minRows, maxRows } = props.autosize)
@@ -180,8 +180,8 @@ export default {
 
       textareaCalcStyle.value = {
         fieldSizing: 'content',
-        '--max-rows': maxRows + 'rlh',
-        '--min-rows': minRows + 'rlh',
+        '--max-rows': maxRows + 'lh',
+        '--min-rows': minRows + 'lh',
         resize: typeof props.autosize === 'boolean' ? 'vertical' : 'none'
       }
     }

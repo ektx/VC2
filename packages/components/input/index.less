@@ -4,7 +4,7 @@
   position: relative;
   display: flex;
   padding: 0;
-  vertical-align: middle;
+  margin: 0;
   align-items: stretch;
   box-sizing: border-box;
   border: 1px solid e('var(@{input}-border-color)');
@@ -55,8 +55,8 @@
 
   &__textarea,
   &__text {
+    flex: 1;
     appearance: none;
-    width: 100%;
     color: e('var(@{input}-color)');
     border: 0;
     outline: none;
@@ -65,8 +65,9 @@
   }
 
   &__text {
-    padding: 0.4em;
-    flex: 1;
+    height: 1em;
+    line-height: 1;
+    padding: 7px 0.4em;
 
     &::-webkit-input-placeholder {
       color: e('var(@{input}-placeholder-color)');
@@ -80,10 +81,11 @@
 
   &__textarea {
     margin: 0.4em;
+    padding: 0 15px 0 0;
     display: block;
     line-height: 1.8;
     field-sizing: inherit;
-    min-block-size: var(--min-rows, 1rlh);
+    min-block-size: var(--min-rows, 1lh);
     max-block-size: var(--max-rows, inherit);
     resize: vertical;
     font-size: inherit;
@@ -95,6 +97,12 @@
 
     &::-webkit-input-placeholder {
       color: e('var(@{input}-placeholder-color)');
+    }
+
+    & + .@{namespace}-input__clearable {
+      position: absolute;
+      top: 5px;
+      right: 0px;
     }
   }
 
