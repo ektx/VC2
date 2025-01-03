@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="vcForm.labelWidth != '0%'"
     :class="[
       'vc-form-item__label',
       `text-align-${vcForm.labelPosition}`,
