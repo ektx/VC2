@@ -600,6 +600,50 @@ function resetForm() {
 ```
 :::
 
+## 登录示例
+
+::: codeBox
+```vue
+<template>
+  <vc-form ref="form" :model="formData" labelWidth="0%">
+    <vc-form-item prop="passwd" >
+      <vc-input
+        placeholder="用户"
+        type="text" 
+        v-model="formData.name"
+      />
+    </vc-form-item>
+    <vc-form-item prop="checkPass">
+      <vc-input
+        placeholder="密码"
+        type="password" 
+        v-model="formData.passwd"
+      />
+    </vc-form-item>
+    <vc-form-item>
+      <vc-button theme="primary" @click="submitForm">登录</vc-button>
+    </vc-form-item>
+  </vc-form>
+</template>
+
+<script setup>
+import { ref, reactive } from 'vue'
+
+const form = ref(null)
+const formData = reactive({
+  passwd: '',
+  checkPass: '',
+})
+</script>
+
+<style scoped>
+.vc-button {
+  width: 100%;
+}
+</style>
+```
+:::
+
 
 ## 复杂对象
 
