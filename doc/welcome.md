@@ -6,20 +6,30 @@
 npm i vc2
 # or
 yarn add vc2
+# or
+pnpm add vc2
 ```
 
 ## 使用
 
+### 全局引用
 ```js
-// 全局引用
 import VC2 from 'vc2'
-app.use(VC2)
+import '@root/lib/es/index.css'
 
-// 单个组件引用 全局注册方案
+app.use(VC2)
+```
+
+### 单个组件引用 全局注册方案
+
+```js
 import { VcNotification } from 'vc2'
 app.use(VcNotification)
+```
 
-// 单个组件单文件引用方式
+### 单个组件单文件引用方式
+
+```js
 import { VcNotification } from 'vc2'
 
 // Option API
