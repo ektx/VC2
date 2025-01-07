@@ -1,38 +1,59 @@
 <template>
-  <label :class="['vc-checkbox', { 'is-disabled': disabled }]">
+  <label :class="['vc-checkbox', { 'is-disabled': _disabled, indeterminate }]">
     <span class="vc-checkbox--int">
       <input
         type="checkbox"
         v-model="currentVal"
-        :value="label"
-        :disabled="disabled"
+        :disabled="_disabled"
+        @change.stop
       />
       <span class="vc-checkbox--icon"></span>
     </span>
-    <span class="vc-checkbox--label">
-      <slot></slot>
-    </span>
+    <span class="vc-checkbox--label"> <slot></slot></span>
   </label>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 
 defineOptions({
   name: 'VcCheckbox'
 })
 
 const props = defineProps({
-  label: [String, Number, Boolean, Object],
+  /**
+   * @zh 绑定值
+   * @en Value
+   */
+  value: [String, Number, Boolean, Object],
+  /**
+   * @zh 动态绑定值
+   */
   modelValue: {
     type: [String, Boolean, Number]
   },
+  /**
+   * @zh 是否为半选状态
+   * @en Whether it is an indeterminate state
+   */
+  indeterminate: Boolean,
+  /**
+   * @zh 是否禁用
+   * @en Whether to disable
+   */
   disabled: Boolean
 })
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'change'])
+
+const vcFormItem = inject('vcFormItem', null)
+const checkboxGroup = inject('VcCheckboxGroup', null)
 
 const currentVal = computed({
   get() {
+    if (checkboxGroup) {
+      return checkboxGroup.modelValue.includes(props.value)
+    }
+
     if (typeof props.modelValue === 'boolean') {
       return props.modelValue
     }
@@ -40,7 +61,44 @@ const currentVal = computed({
     return true
   },
   set(val) {
-    emits('update:modelValue', val)
+    if (checkboxGroup) {
+      let r = []
+
+      if (val) {
+        r = [...checkboxGroup.modelValue, props.value]
+      } else {
+        r = checkboxGroup.modelValue.filter(v => v !== props.value)
+      }
+      console.log(r)
+      checkboxGroup.$emit('update:modelValue', r)
+      checkboxGroup.$emit('change', r)
+    } else {
+      emits('update:modelValue', val)
+      emits('change', val)
+    }
   }
+})
+
+const _disabled = computed(() => {
+  if (checkboxGroup) {
+    if (currentVal.value) {
+      if (
+        checkboxGroup.min &&
+        checkboxGroup.modelValue.length <= checkboxGroup.min
+      ) {
+        return true
+      }
+    } else {
+      if (
+        checkboxGroup.max &&
+        checkboxGroup.modelValue.length >= checkboxGroup.max
+      ) {
+        return true
+      }
+    }
+    return checkboxGroup.disabled
+  }
+
+  return props.disabled
 })
 </script>
