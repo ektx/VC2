@@ -1,15 +1,20 @@
 <template>
-  <div class="vc-checkbox-group">
+  <div class="vc-checkbox-group" :style="_style">
     <slot>
-      <Checkbox v-for="item in list" :key="item.value" :value="item.value">{{
-        item.label
-      }}</Checkbox>
+      <Checkbox
+        v-for="item in list"
+        :key="item.value"
+        :value="item.value"
+        :size="item.size ?? size"
+        :disabled="item.disabled ?? disabled"
+        >{{ item.label }}</Checkbox
+      >
     </slot>
   </div>
 </template>
 
 <script setup>
-import { getCurrentInstance, provide } from 'vue'
+import { computed, getCurrentInstance, provide } from 'vue'
 import Checkbox from '../checkbox/index.vue'
 
 const instance = getCurrentInstance()
@@ -33,11 +38,22 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
-  }
+  },
+  size: String,
+  gap: String
 })
 
 defineOptions({
   name: 'VcCheckboxGroup'
+})
+
+const _style = computed(() => {
+  if (props.gap) {
+    return {
+      '--gap': props.gap
+    }
+  }
+  return {}
 })
 
 provide('VcCheckboxGroup', instance.proxy)

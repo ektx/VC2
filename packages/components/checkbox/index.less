@@ -26,7 +26,8 @@
     display: block;
     width: 1em;
     aspect-ratio: 1;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    font-size: var(--size, inherit);
+    border: e('var(@{checkbox}-icon-border)');
     border-radius: 2px;
     transition: background-color 0.3s;
 
@@ -55,7 +56,8 @@
   }
 
   &--label {
-    color: #333;
+    color: e('var(@{checkbox}-label-color)');
+    font-size: var(--size, inherit);
   }
 
   &.indeterminate {

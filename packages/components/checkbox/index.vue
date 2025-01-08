@@ -1,10 +1,13 @@
 <template>
-  <label :class="['vc-checkbox', { 'is-disabled': _disabled, indeterminate }]">
+  <label
+    :class="['vc-checkbox', { 'is-disabled': disabled, indeterminate }]"
+    :style="_style"
+  >
     <span class="vc-checkbox--int">
       <input
         type="checkbox"
         v-model="currentVal"
-        :disabled="_disabled"
+        :disabled="disabled"
         @change.stop
       />
       <span class="vc-checkbox--icon"></span>
@@ -33,7 +36,7 @@ const props = defineProps({
     type: [String, Boolean, Number]
   },
   /**
-   * @zh 是否为半选状态
+   * @zh 是否为中间状态
    * @en Whether it is an indeterminate state
    */
   indeterminate: Boolean,
@@ -41,7 +44,8 @@ const props = defineProps({
    * @zh 是否禁用
    * @en Whether to disable
    */
-  disabled: Boolean
+  disabled: Boolean,
+  size: String
 })
 const emits = defineEmits(['update:modelValue', 'change'])
 
@@ -79,26 +83,12 @@ const currentVal = computed({
   }
 })
 
-const _disabled = computed(() => {
-  if (checkboxGroup) {
-    if (currentVal.value) {
-      if (
-        checkboxGroup.min &&
-        checkboxGroup.modelValue.length <= checkboxGroup.min
-      ) {
-        return true
-      }
-    } else {
-      if (
-        checkboxGroup.max &&
-        checkboxGroup.modelValue.length >= checkboxGroup.max
-      ) {
-        return true
-      }
+const _style = computed(() => {
+  if (props.size) {
+    return {
+      '--size': props.size
     }
-    return checkboxGroup.disabled
   }
-
-  return props.disabled
+  return {}
 })
 </script>
