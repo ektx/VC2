@@ -1,13 +1,13 @@
 <template>
   <label
-    :class="['vc-checkbox', { 'is-disabled': disabled, indeterminate }]"
+    :class="['vc-checkbox', { 'is-disabled': _disabled, indeterminate }]"
     :style="_style"
   >
     <span class="vc-checkbox--int">
       <input
         type="checkbox"
         v-model="currentVal"
-        :disabled="disabled"
+        :disabled="_disabled"
         @change.stop
       />
       <span class="vc-checkbox--icon"></span>
@@ -81,6 +81,29 @@ const currentVal = computed({
       emits('change', val)
     }
   }
+})
+
+const _disabled = computed(() => {
+  if (checkboxGroup) {
+    if (currentVal.value) {
+      if (
+        checkboxGroup.min &&
+        checkboxGroup.modelValue.length <= checkboxGroup.min
+      ) {
+        return true
+      }
+    } else {
+      if (
+        checkboxGroup.max &&
+        checkboxGroup.modelValue.length >= checkboxGroup.max
+      ) {
+        return true
+      }
+    }
+    return checkboxGroup.disabled
+  }
+
+  return props.disabled
 })
 
 const _style = computed(() => {
