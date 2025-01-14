@@ -36,7 +36,7 @@ export default {
     let message = inject('vcMessage')
     let icons = ref([])
 
-    fetch('/data/iconfont.json')
+    fetch(`${import.meta.env.PROD ? '/VC2' : ''}/data/iconfont.json`)
       .then(res => res.json())
       .then(res => {
         console.log(res)
