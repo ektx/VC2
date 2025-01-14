@@ -1,38 +1,37 @@
 <template>
-  <div class="vc-color-picker__drop-down" @mouseup="mouseupEvt">
-
-    <ColorPanel :isOpened="isOpened"/>
+  <div class="vc-color-picker__drop-down">
+    <ColorPanel :S="S" :V="V" :isOpened="isOpened" />
 
     <div class="vc-color-picker__display-panel">
       <div class="current-color">
-        <div class="color-box" @click="clear">
+        <div class="color-box" @click="onClear" title="清空值">
           <span :style="colorStyle"></span>
           <i class="vc-icon-close"></i>
         </div>
       </div>
-      <AlphaBar :format="format"/>
+      <AlphaBar :format="format" />
     </div>
+
     <HexPanel v-if="format === 'hex'" />
     <HSVAPanel v-else-if="format === 'hsv'" />
     <HSLAPanel v-else-if="format === 'hsl'" />
-    <RGBAPanel v-else/>
+    <RGBAPanel v-else />
   </div>
 </template>
 
 <script>
 import ColorPanel from './colorPanel.vue'
-import HSVAPanel from './hsvaPanel.vue'
+import HSVAPanel from './panel/hsvaPanel.vue'
 import HSLAPanel from './hslaPanel.vue'
 import RGBAPanel from './rgbaPanel.vue'
-import HexPanel from './hexPanel.vue'
+import HexPanel from './panel/hexPanel.vue'
 import AlphaBar from './alphaBar.vue'
-import { getCurrentInstance, onMounted, ref, computed } from 'vue'
 
 export default {
   name: 'VcColorPickerDropdown',
   inject: ['vcColorPicker'],
-  components: { 
-    ColorPanel,  
+  components: {
+    ColorPanel,
     HSVAPanel,
     HSLAPanel,
     RGBAPanel,
@@ -42,27 +41,18 @@ export default {
   props: {
     format: String,
     isOpened: Boolean,
+    H: Number,
+    S: Number,
+    V: Number
   },
-  setup() {
-    const { ctx } = getCurrentInstance()
-
-    function mouseupEvt(evt) {
-      if (!ctx.vcColorPicker.isDrag)
-        evt.stopPropagation()
+  computed: {
+    colorStyle() {
+      return this.vcColorPicker.currentColor
     }
-
-    const colorStyle = computed(() => {
-      return ctx.vcColorPicker.colorStyle
-    })
-
-    function clear() {
-      ctx.vcColorPicker.hsv = {}
-    }
-
-    return {
-      mouseupEvt,
-      colorStyle,
-      clear
+  },
+  methods: {
+    onClear() {
+      this.vcColorPicker.$emit('update:modelValue', '')
     }
   }
 }

@@ -1,35 +1,63 @@
 {
-  "name": "vc2",
-  "version": "0.0.0-alpha.10",
+  "name": "@ektx/vc2",
+  "version": "1.16.7",
+  "type": "module",
   "files": [
-    "dist"
+    "lib",
+    "types",
+    "global.d.ts"
   ],
   "scripts": {
-    "dev": "node ./bin/main.js",
+    "dev": "vipress",
+    "doc": "vipress build doc",
+    "lib": "vipress lib",
     "build": "node ./bin/build.js",
-    "update": "node ./bin/update.js",
+    "build2": "gulp -f ./bin/build2.js",
+    "update": "node --experimental-json-modules ./bin/update.mjs",
     "create": "node ./bin/create.mjs && yarn run update",
-    "e2e": "./node_modules/.bin/cypress open"
+    "e2e": "./node_modules/.bin/cypress open",
+    "dts": "vue-tsc --declaration --emitDeclarationOnly"
   },
-  "module": "./dist/index.js",
-  "style": "./dist/layout.css",
+  "main": "lib/cjs/index.cjs",
+  "module": "lib/es/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/es/index.js",
+      "require": "./lib/cjs/index.cjs"
+    },
+    "./lib/es/index.css": {
+      "import": "./lib/es/index.css",
+      "require": "./lib/es/index.css"
+    }
+  },
+  "style": "lib/es/index.css",
+  "types": "lib/es/index.d.ts",
   "author": "WenLong",
   "dependencies": {
-    "@popperjs/core": "^2.4.4",
-    "async-validator": "^3.3.0",
-    "prismjs": "^1.20.0",
+    "@floating-ui/dom": "^0.5.4",
+    "async-validator": "^4.0.7",
+    "dayjs": "^1.11.0",
     "resize-observer-polyfill": "^1.5.1",
-    "vue": "^3.0.0-rc.5"
+    "vue": "^3.2.37",
+    "vue-router": "^4.4.0"
   },
   "devDependencies": {
-    "@vue/compiler-sfc": "^3.0.0-rc.5",
-    "cypress": "^4.9.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@vitejs/plugin-vue": "^4.1.0",
+    "@vitejs/plugin-vue-jsx": "^3.0.1",
+    "@vue/compiler-sfc": "^3.2.37",
+    "esbuild": "^0.17.18",
+    "gulp": "^4.0.2",
     "inquirer": "^7.3.3",
-    "koa-router": "^9.0.1",
-    "less": "^3.11.3",
-    "markdown-it": "^11.0.0",
+    "less": "^4.1.2",
+    "postcss": "^8.4.23",
+    "prismjs": "^1.29.0",
+    "rollup": "^3.21.4",
+    "rollup-plugin-esbuild": "^5.0.0",
+    "rollup-plugin-postcss": "^4.0.2",
     "trash": "^6.1.1",
-    "vite": "^1.0.0-rc.4"
+    "typescript": "^5.3.3",
+    "vue-tsc": "^1.8.27"
   },
   "license": "MIT"
 }

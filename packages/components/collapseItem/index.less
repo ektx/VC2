@@ -1,0 +1,55 @@
+@import '../../styles/var.less';
+
+.@{namespace}-collapse-item {
+  color: var(@textColorRegular);
+  border-top: 1px solid var(@collapse-border-color);
+
+  &__header {
+    display: flex;
+    padding: 10px 0;
+    font-size: 14px;
+    color: var(@collapse-header-color);
+    font-weight: bold;
+    line-height: 1.6;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    &.is-sticky {
+      position: sticky;
+      top: 0;
+      left: 0;
+      backdrop-filter: var(@backdropFilter);
+      background: var(@backdropFilterBg);
+    }
+  }
+
+  &__icon {
+    transition: transform 0.3s;
+  }
+  &.is-open &__icon {
+    transform: rotate(90deg);
+  }
+
+  &__wrap {
+    height: 0;
+    transition: height 0.3s ease-in-out;
+    will-change: height;
+    // overflow: hidden;
+    overflow-y: clip;
+  }
+  &.is-open &__wrap {
+    height: ~'calc-size(max-content, size)';
+  }
+
+  &__content {
+    min-height: 0;
+    padding: 0px 0px 10px;
+    box-sizing: border-box;
+  }
+
+  &.is-disabled &__header {
+    color: var(@collapse-disabled-color);
+    cursor: not-allowed;
+  }
+}

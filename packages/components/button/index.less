@@ -1,0 +1,108 @@
+@import '../../styles/var.less';
+
+.@{namespace}-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 7px 0.8em 9px;
+  font-size: calc(var(--size) * 1px);
+  border-radius: var(--radius, 0.2em);
+  border: none;
+  line-height: 1;
+  color: var(--color, @btn-default-text-color);
+  box-sizing: border-box;
+  background-color: var(--bg, #eee);
+  vertical-align: middle;
+  transition: 0.2s;
+  cursor: pointer;
+  outline: none;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:active {
+    filter: brightness(0.7);
+  }
+
+  &[disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:active {
+      transform: none;
+      filter: none;
+    }
+  }
+
+  &.primary {
+    --bg: @btn-primary-color;
+    --color: #fff;
+  }
+  &.success {
+    --bg: @btn-success-color;
+    --color: #fff;
+  }
+  &.warn {
+    --bg: @btn-warn-color;
+    --color: #fff;
+  }
+  &.error {
+    --bg: @btn-error-color;
+    --color: #fff;
+  }
+
+  &.plain {
+    color: var(--bg, var(--color, @btn-default-text-color));
+    background: transparent;
+    border: 1px solid var(--bg, var(--color, #ddd));
+  }
+
+  &.round {
+    --radius: 1.5em;
+
+    &:has(.@{namespace}-button--icon + span:empty) {
+      padding: 0;
+      width: 2em;
+      height: 2em;
+      border-radius: 50%;
+    }
+  }
+
+  &.text {
+    color: var(--bg, var(--color, @btn-default-text-color));
+    background: transparent;
+  }
+
+  &--icon {
+    display: inline-flex;
+    width: 1em;
+    color: var(--color, @btn-default-text-color);
+    overflow: hidden;
+  }
+}
+
+// loading 显示与隐藏动画
+.@{namespace}-button--loading-enter-active,
+.@{namespace}-button--loading-leave-active {
+  transition: width 0.2s ease-out;
+}
+
+.@{namespace}-button--loading-enter-from,
+.@{namespace}-button--loading-leave-to {
+  width: 0;
+}

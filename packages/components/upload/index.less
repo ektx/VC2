@@ -1,0 +1,157 @@
+.vc-upload {
+  position: relative;
+
+  & > input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+}
+
+.vc-upload__file-list {
+  &-item {
+    display: grid;
+    padding: 5px;
+    height: 30px;
+    grid-template: 1fr 5px ~'/' 1fr 40px;
+    border-radius: 2px;
+    transition: background 0.35s;
+
+    div.vc-progress {
+      grid-column: 1 ~'/' 3;
+      margin: 0;
+    }
+
+    .item-name {
+      font-size: 14px;
+    }
+
+    .item-status {
+      display: flex;
+      justify-content: flex-end;
+
+      i {
+        font-size: 14px;
+        width: 1.2em;
+        height: 1.2em;
+        line-height: 1.2;
+        text-align: center;
+        vertical-align: top;
+      }
+
+      .vc-icon-upload {
+        color: #777;
+      }
+      .vc-icon-success {
+        color: #4caf50;
+      }
+      .vc-icon-error {
+        color: #ff4d4f;
+      }
+
+      .remove {
+        width: 0;
+        opacity: 0;
+        background: transparent;
+        overflow: hidden;
+        box-sizing: border-box;
+        cursor: pointer;
+        transition: width 0.35s ease-out, opacity 0.35s ease-out;
+      }
+    }
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.05);
+
+      .remove {
+        width: 1.2em;
+        opacity: 1;
+      }
+    }
+  }
+
+  &-content {
+    ul {
+      margin: 14px 0;
+      padding: 0;
+    }
+  }
+}
+.vc-upload {
+  &__btns-btn {
+    display: inline-block;
+
+    & + [class$='__btns-btn'] {
+      margin-left: 10px;
+    }
+  }
+
+  &__btns-area {
+    margin-bottom: 5px;
+    .vc-button {
+      position: relative;
+      overflow: hidden;
+    }
+  }
+}
+
+// 头像
+.vc-upload-avatar {
+  position: relative;
+  display: inline-flex;
+  width: 200px;
+  height: 200px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #eee;
+  box-sizing: border-box;
+  border-radius: 3px;
+  cursor: pointer;
+  will-change: box-shadow;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.05);
+  }
+
+  &__helper {
+    text-align: center;
+    color: #777;
+
+    i {
+      font-size: 18px;
+
+      &.vc-clipboard-btn {
+        padding: 5px;
+        border-radius: 5px;
+        transition: border-color 0.3s;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+
+        &:hover {
+          border-color: rgba(0, 0, 0, 0.5);
+        }
+      }
+    }
+
+    p {
+      margin: 0;
+      font-size: 12px;
+    }
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .clipboard-txt {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+}

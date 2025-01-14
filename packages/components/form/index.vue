@@ -1,11 +1,11 @@
 <template>
-  <form :class="['vc-form', { inline }]">
-    <slot/>
+  <form :class="['vc-form', { inline }]" :style="myStyle">
+    <slot></slot>
   </form>
 </template>
 
 <script>
-import merge from '../../utils/merge'
+import { toRaw } from 'vue'
 
 export default {
   name: 'VcForm',
@@ -17,7 +17,10 @@ export default {
   props: {
     // 表单域标签的宽度，例如 '50px'。作为 Form 直接子元素的 form-item 会继承该值。
     // 支持 auto。
-    labelWidth: String,
+    labelWidth: {
+      type: String,
+      default: '80px'
+    },
     // 数据
     model: Object,
     // 规则
@@ -44,27 +47,36 @@ export default {
       default: ''
     }
   },
-  data () {
+  data() {
     return {
       autoLabelWidth: 0,
       fields: [],
       defaultValue: {}
     }
   },
+  computed: {
+    myStyle() {
+      return {
+        '--labelWidth': this.labelWidth
+      }
+    }
+  },
   mounted() {
     if (this.model) {
-      this.defaultValue = merge({}, this.model)
+      this.defaultValue = structuredClone(toRaw(this.model))
     }
   },
   methods: {
-    validate (cb) {
+    validate(cb) {
       this.validateArr(this.fields, cb)
     },
 
     resetFields() {
       if (!this.model) {
-        console.warn('[VC Warn][Form]model is required for resetFields to work.');
-        return;
+        console.warn(
+          '[VC Warn][Form]model is required for resetFields to work.'
+        )
+        return
       }
       this.fields.forEach(field => {
         field.resetField()
@@ -114,7 +126,7 @@ export default {
 
     validateArr(arr, cb) {
       let result = true
-      let count = 0
+
       if (!this.model) {
         console.warn('[VC2 Warn][Form]model is required for validate to work!')
         return
@@ -123,27 +135,13 @@ export default {
       if (arr.length === 0 && cb) cb(result)
 
       arr.forEach(field => {
-        field.validate('', (message, field) => {
+        field.validate('', message => {
           if (message) result = false
-
-          if (++count === arr.length) {
-            cb && cb(result)
-          }
         })
       })
+
+      cb && cb(result)
     }
   }
 }
 </script>
-
-<style lang="less">
-.vc-form {
-  &.inline {
-    display: flex;
-
-    .vc-form-item {
-      margin-right: 10px;
-    }
-  }
-}
-</style>

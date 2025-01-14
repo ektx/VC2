@@ -4,12 +4,12 @@
 
 以下为组合式 api 组件的 demo 写法演示：
 
-::: demo
+::: codeBox
 
 > 默认 `ref` `reactive` `watch` `inject` 都已经注入，使用时，无需导入。  
 > 更多内容访问：[Vue3 Composition API](https://composition-api.vuejs.org/)
 
-```html
+```vue
 <template>
   测试 ref: <span>{{ msg }}</span> <br/>
   <input v-model="msg" />
@@ -63,6 +63,17 @@ function click2Evt(state) {
   state.count++
 }
 </script>
+
+<style lang="less" hideInCode>
+.display-box {
+  line-height: 2;
+  font-size: 14px;
+}
+hr {
+  margin: 10px 0;
+  border: 1px solid #eee;
+}
+</style>
 ```
 :::
 
@@ -70,8 +81,8 @@ function click2Evt(state) {
 
 以下是选项式 api 的组件 demo 写法演示：
 
-::: demo
-```html
+::: codeBox
+```vue
 <template>
   测试: {{ msg }} <br/>
   <input v-model="msg" />

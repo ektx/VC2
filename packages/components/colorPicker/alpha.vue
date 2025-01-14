@@ -1,30 +1,26 @@
 <template>
   <li>
-    <input 
-      type="number" 
-      max="1" min="0" 
-      step="0.01" 
-      v-model="alpha" 
-    >
+    <input type="number" max="1" min="0" step="0.01" v-model="a" />
     <p>A</p>
   </li>
 </template>
 
 <script>
-import { computed, getCurrentInstance } from 'vue'
 export default {
   inject: ['vcColorPicker'],
-  setup() {
-    const { ctx } = getCurrentInstance()
-
-    const alpha = computed({
-      get: () => ctx.vcColorPicker.alpha,
-      set: (val)=> {
-        ctx.vcColorPicker.alpha = val
+  computed: {
+    a: {
+      get() {
+        return this.vcColorPicker.A
+      },
+      set(val) {
+        this.vcColorPicker.updateVal({
+          type: 'alpha',
+          hsv: { a: val },
+          value: val
+        })
       }
-    })
-
-    return { alpha }
+    }
   }
 }
 </script>

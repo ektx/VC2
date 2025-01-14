@@ -1,0 +1,26 @@
+.vc-button-group {
+  display: inline-flex;
+
+  & > .vc-button {
+    border-radius: 0;
+    border-right: 1px solid rgba(#000, 0.1);
+
+    &:first-child {
+      border-radius: var(--radius, 0.2em) 0 0 var(--radius, 0.2em);
+    }
+    &:last-child {
+      border-radius: 0 var(--radius, 0.2em) var(--radius, 0.2em) 0;
+      border-right: none;
+    }
+  }
+
+  &.round > .vc-button {
+    &:first-child {
+      border-radius: var(--radius, 2em) 0 0 var(--radius, 2em);
+    }
+    &:last-child {
+      border-radius: 0 var(--radius, 2em) var(--radius, 2em) 0;
+      border-right: none;
+    }
+  }
+}

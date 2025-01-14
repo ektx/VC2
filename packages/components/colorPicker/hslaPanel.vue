@@ -1,15 +1,15 @@
 <template>
   <ul class="color-picker__hsla-panel color-picker__text-table">
     <li>
-      <input type="number" v-model="hsl.h" @blur="changeEvt">
+      <input type="number" v-model="h" />
       <p>H</p>
     </li>
     <li>
-      <input type="text" v-model="hsl.s" @blur="changeEvt">
+      <input type="number" v-model="s" max="100" min="0" />
       <p>S</p>
     </li>
     <li>
-      <input type="text" v-model="hsl.l" @blur="changeEvt">
+      <input type="number" v-model="l" max="100" min="0" />
       <p>L</p>
     </li>
     <Alpha />
@@ -17,34 +17,71 @@
 </template>
 
 <script>
-import { getCurrentInstance, computed } from 'vue'
-import { formatString, hsv2hsl, hsl2hsv } from './color'
 import Alpha from './alpha.vue'
+import { hsl2hsv, hsv2hsl } from './color'
 
 export default {
-  name: 'VcColorPickerHSLAPanel',
   inject: ['vcColorPicker'],
   components: { Alpha },
-  setup() {
-    const { ctx } = getCurrentInstance()
+  computed: {
+    hsl() {
+      let { H, S, V } = this.vcColorPicker
 
-    const hsl = computed(() => {
-      let {h, s, v} = ctx.vcColorPicker.hsv
-      let hsl = hsv2hsl(h, s, v)
+      return hsv2hsl(H, S, V)
+    },
+    h: {
+      get() {
+        return this.hsl.h
+      },
+      set(value) {
+        let hsv = hsl2hsv(value, this.s, this.l)
 
-      return { ...hsl }
-    })
-
-    function changeEvt() {
-      let { h, s, l } = hsl.value
-      let { hsv } = formatString(`hsl(${h}, ${s}, ${l})`)
-      
-      ctx.vcColorPicker.hsv = hsv
+        this.vcColorPicker.updateVal({
+          type: 'hsl',
+          hsv,
+          value: this.getFormat({ h: value })
+        })
+      }
+    },
+    s: {
+      get() {
+        return this.hsl.s
+      },
+      set(value) {
+        let hsv = hsl2hsv(this.h, value, this.l)
+        this.vcColorPicker.updateVal({
+          type: 'hsl',
+          hsv,
+          value: this.getFormat({ s: value })
+        })
+      }
+    },
+    l: {
+      get() {
+        return this.hsl.l
+      },
+      set(value) {
+        let hsv = hsl2hsv(this.h, this.s, value)
+        this.vcColorPicker.updateVal({
+          type: 'hsl',
+          hsv,
+          value: this.getFormat({ l: value })
+        })
+      }
     }
+  },
+  methods: {
+    getFormat(value) {
+      let { A } = this.vcColorPicker
+      let { h, s, l } = Object.assign(
+        {},
+        { h: this.h, s: this.s, l: this.l },
+        value
+      )
+      let start = +A === 1 ? 'hsl' : 'hsla'
+      let end = +A === 1 ? ')' : `, ${A})`
 
-    return {
-      hsl,
-      changeEvt,
+      return `${start}(${h}, ${s}%, ${l}%${end}`
     }
   }
 }

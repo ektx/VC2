@@ -1,0 +1,70 @@
+@import '../../styles/theme.less';
+@import '../../styles/transition.less';
+
+.@{namespace}-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: e('var(@{layer}-mod-bg)');
+  z-index: 1000;
+  isolation: isolate;
+  overflow: auto;
+
+  &--inner {
+    width: 50%;
+    margin: 0;
+    border-radius: 10px;
+    box-sizing: border-box;
+    background-color: var(--vc-layer-bg);
+    box-shadow: 0 0 50px -10px rgba(0, 0, 0, 0.3);
+    will-change: background-color, transform;
+    transform-origin: top left;
+
+    .@{namespace}-layer.fullscreen & {
+      width: 100vw;
+      height: 100%;
+      margin: 0;
+      border-radius: 0;
+      overflow: auto;
+    }
+
+    & > .@{namespace}-layer--main {
+      padding: 10px;
+    }
+
+    & > .@{namespace}-layer--footer {
+      padding: 10px;
+      text-align: right;
+
+      button + button {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  &--header {
+    position: relative;
+    font-size: 18px;
+    color: var(--vc-layer-header-color);
+    font-weight: 400;
+    text-align: left;
+    padding: 15px 40px 10px 10px;
+
+    i {
+      position: absolute;
+      top: 18px;
+      right: 10px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity 0.3s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}

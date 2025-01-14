@@ -1,27 +1,25 @@
 <template>
-  <div 
+  <div
     :class="[
-      'vc-form-item', 
-      { 
+      'vc-form-item',
+      validateState,
+      validateStatus ? 'is-' + validateStatus : '',
+      {
         'is-column': isColumn,
         'is-required': isRequired
       }
     ]"
+    :style="style"
   >
-    <Label :label="label" :labelWidth="labelWidth || vcForm.labelWidth"/>
+    <Label :label="label"></Label>
+
     <div class="vc-form-item__content">
-      <slot></slot>
-      <transition name="vc-fade-in">
-        <slot
-          v-if="validateState === 'error'"
-          name="error"
-          :error="validateMessage"
-        >
-          <div class="vc-form-item__error">
-            {{ validateMessage}}
-          </div>
+      <slot :status="validateStatus"></slot>
+      <div ref="errRef" class="vc-form-item__info">
+        <slot name="error" :error="validateMessage">
+          {{ validateMessage }}
         </slot>
-      </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -29,6 +27,7 @@
 <script>
 import Label from './label.vue'
 import AsyncValidator from 'async-validator'
+import { getValueOfPath, setValueOfPath } from '../../utils'
 
 export default {
   name: 'VcFormItem',
@@ -49,25 +48,50 @@ export default {
     labelWidth: String,
     prop: String,
     inline: Boolean,
+    gridColumn: String,
+    gridRow: String,
+    /** 设置提示文案 */
+    help: {
+      type: String,
+      default: ''
+    },
+    /** 校验状态 */
+    validateStatus: {
+      type: String,
+      default: '',
+      validator: val => {
+        return ['', 'error', 'success'].includes(val)
+      }
+    }
+  },
+  watch: {
+    async validateMessage(val) {
+      await this.$nextTick()
+
+      if (val) {
+        let h = this.$refs.errRef.scrollHeight
+
+        Object.assign(this.$refs.errRef.style, {
+          height: h + 'px',
+          transform: `translateY(0%)`
+        })
+      } else {
+        this.$refs.errRef.style = null
+      }
+    }
   },
   computed: {
-    isColumn () {
-      let result = false
-      const hasWidth = !!(this.labelWidth || this.vcForm.labelWidth)
-      const isInline = this.inline || this.vcForm.inline
-
-      if (!hasWidth && !isInline) result = true
-
-      return this.vcForm.labelPosition === 'top' ? true : result
+    isColumn() {
+      return this.vcForm.labelPosition === 'top'
     },
 
-    isRequired () {
+    isRequired() {
       let rules = this.getRules()
       let result = false
 
       if (rules && rules.length) {
         rules.every(rule => {
-          if (rule.required) { 
+          if (rule.required) {
             result = true
             return false
           }
@@ -75,37 +99,44 @@ export default {
         })
       }
       return result
+    },
+
+    style() {
+      let obj = {
+        '--labelWidth': this.labelWidth
+      }
+
+      if (this.gridColumn) {
+        obj.gridColumn = this.gridColumn
+      }
+
+      return obj
     }
   },
-  data () {
+  data() {
     return {
-      parentForm: null,
       validateState: '',
-      validateMessage: '',
+      validateMessage: ''
     }
   },
-  mounted () {
-    if (this.$parent.$options.name === 'VcForm') {
-      this.parentForm = this.$parent
+  mounted() {
+    if (this.prop && this.vcForm && this.vcForm.fields) {
+      this.vcForm.fields.push(this)
     }
 
-    if (this.prop) {
-      if (this.parentForm) {
-        this.parentForm.fields.push( this )
-      }
-    }
+    if (this.help) this.validateMessage = this.help
   },
   methods: {
-    validate (trigger, cb) {
+    validate(trigger, cb) {
       const rules = this.getRules()
-
       const descriptor = {}
+
       descriptor[this.prop] = []
 
       if (rules.length > 0) {
         rules.forEach(rule => {
           if (trigger) {
-            if (rule.trigger.includes(trigger))
+            if (rule.trigger && rule.trigger.includes(trigger))
               descriptor[this.prop].push(rule)
           } else {
             descriptor[this.prop].push(rule)
@@ -120,11 +151,11 @@ export default {
 
       model[this.prop] = this.vcForm.model[this.prop]
 
-      validator.validate(model, { firstFields: true }, (err, fields) => {
-        this.validateState = err ? 'error' : 'success'
+      validator.validate(model, { firstFields: true }, err => {
+        this.validateState = err ? 'is-error' : 'is-success'
         this.validateMessage = err ? err[0].message : ''
 
-        cb(this.validateMessage)
+        cb && cb(err)
       })
     },
 
@@ -132,14 +163,15 @@ export default {
       this.clearValidate()
 
       if (this.prop) {
-        let val = this.vcForm.defaultValue[this.prop] || ''
-        this.vcForm.model[this.prop] = val
+        const val = getValueOfPath(this.vcForm.defaultValue, this.prop)
+
+        setValueOfPath(this.vcForm.model, this.prop, val)
       }
     },
 
     clearValidate() {
       this.validateState = ''
-      this.validateMessage = ''
+      this.validateMessage = this.help || ''
     },
 
     getRules() {
@@ -147,7 +179,7 @@ export default {
 
       return this.vcForm.rules[this.prop] || []
     },
-
+    // 子组件验证方法
     checkValidate(trigger) {
       this.$nextTick(() => {
         this.validate(trigger)

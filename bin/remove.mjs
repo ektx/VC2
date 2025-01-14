@@ -1,3 +1,4 @@
+// 删除组件功能
 import trash from 'trash'
 import fs from 'fs'
 import inquirer from 'inquirer'
@@ -31,11 +32,9 @@ async function main() {
     console.log(`🗑  正在为您删除 ${component.dir} 组件及相关文档等内容，请稍候...`)
     let { menu } = await getMenu()
 
-    console.log(menu)
     menu.forEach(nav => {
       nav.children.forEach((child, i) => {
-        if (child.file.startsWith(component.dir)) {
-          console.log(child, i)
+        if (child.to.startsWith(`/doc/${component.dir}`)) {
           nav.children.splice(i, 1)
         }
       })

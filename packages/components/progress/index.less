@@ -1,0 +1,126 @@
+.vc-progress {
+    position: relative;
+    display: grid;
+    margin: 5px 0;
+    grid-template-columns: 1fr 3em;
+    column-gap: 10px;
+    align-items: center;
+  
+    &.is-hide-text {
+      margin: 10px 0;
+      grid-template-columns: 1fr;
+    }
+    &.is-space {
+      grid-template-columns: 1fr;
+      row-gap: 10px;
+    }
+  
+    &-bar {
+      display: flex;
+      height: calc(1px * var(--height, 6));
+      border-radius: calc(1px * var(--height, 6));
+      background: rgba(0, 0, 0, .08);
+      overflow: hidden;
+
+      &__item {
+        position: relative;
+        height: 100%;
+        width: calc(1% * var(--width));
+        color: var(--color, inherit);
+        background-color: currentColor;
+        transition: 
+          width .3s ease-in-out, 
+          background-color .3s ease-in-out;
+        will-change: width, background-color;
+  
+        &.is-active::after {
+          position: absolute;
+          top: 0;
+          left: 0;
+          content: '';
+          display: block;
+          width: 100%;
+          height: 100%;
+          background-image: linear-gradient(
+            45deg, 
+            rgba(0, 0, 0, 0.05) 25%, 
+            transparent 25%, 
+            transparent 50%, 
+            rgba(0, 0, 0, 0.05) 50%, 
+            rgba(0, 0, 0, 0.05) 75%, 
+            transparent 75%, transparent
+          );
+          background-size: 1em 1em;
+          animation: vc-progress-active .5s infinite linear;
+        }
+        
+        &::before {
+          display: none;
+          height: 100%;
+          margin: 0 3px;
+          color: #fff;
+          text-shadow: 1px 1px rgba(0, 0, 0, .1);
+          text-align: right;
+          align-items: center;
+          box-sizing: border-box;
+          counter-reset: progress var(--width);
+          content: counter(progress) + '%';
+        }
+        &.has-txt::before {
+          display: grid;
+        }
+      }
+    }
+
+    &-text {
+      font-size: 12px;
+      color: inherit;
+  
+      & > span {
+        color: #333;
+      }
+    }
+  
+    &.default {
+      color: #09f;
+    }
+    &.success {
+      color: #4caf50;
+    }
+    &.warning {
+      color: #ff9800;
+    }
+    &.error {
+      color: #ff4d4f;
+    }
+  
+    @keyframes vc-progress-active {
+      0% {
+        background-position: 0 0;
+      }
+      100% {
+        background-position: 1em 0;
+      }
+    }
+  
+    &__space-list {
+      li {
+        display: inline-block;
+        color: #333;
+        font-size: 13px;
+        line-height: 1;
+  
+        & + li {
+          margin-left: 1em;
+        }
+  
+        i {
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          margin: 0 5px;
+          border-radius: 100%;
+        }
+      }
+    }
+  }

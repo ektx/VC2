@@ -1,16 +1,25 @@
 <template>
-  <button 
+  <button
     :class="[
-      'vc-button', 
-      color, 
-      {plain, animate, round}
-    ]" 
+      'vc-button',
+      theme,
+      {
+        plain,
+        round,
+        text,
+        'is-loading': loading
+      }
+    ]"
     type="button"
-    :disabled="loading || disabled"
-    @click="clickEvt"
+    :disabled="disabled"
+    :style="_style"
   >
-    <i v-if="_icon" :class="_icon"></i>
-    <span><slot/></span>
+    <Transition name="vc-button--loading">
+      <span v-if="_icon" class="vc-button--icon">
+        <i :class="_icon"></i>
+      </span>
+    </Transition>
+    <span><slot></slot></span>
   </button>
 </template>
 
@@ -18,41 +27,46 @@
 export default {
   name: 'VcButton',
   props: {
-    // 设置按钮效果
-    color: {
-      type: String,
-      // @arguments: primary / success / warn / error
-      default: 'default'
+    size: {
+      type: Number,
+      default: 14
     },
+    // 设置按钮效果
+    theme: {
+      type: String,
+      default: '',
+      validator(val) {
+        return ['primary', 'success', 'warn', 'error', ''].includes(val)
+      }
+    },
+    /** 设置颜色 */
+    color: String,
     // 镂空
     plain: Boolean,
     // 圆角
     round: Boolean,
     // 图标
-    icon: {
-      type: String,
-      default: ''
-    },
+    icon: String,
+    text: Boolean,
     // 加载状态
     loading: Boolean,
+    // 禁用状态
     disabled: Boolean,
-  },
-  data () {
-    return {
-      animate: false
-    }
+    classes: String,
+    // text 时，用于显示背景色
+    bg: String
   },
   computed: {
-    _icon () {
+    _icon() {
       return this.loading ? 'vc-icon-loading' : this.icon
-    }
-  },
-  methods: {
-    clickEvt () {
-      this.animate = false
-      setTimeout(() => {
-        this.animate = true
-      }, 20)
+    },
+
+    _style() {
+      return {
+        '--size': this.size,
+        '--color': this.color,
+        '--bg': typeof this.bg === 'string' ? this.bg : ''
+      }
     }
   }
 }

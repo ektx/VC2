@@ -1,0 +1,133 @@
+@import '../../styles/var.less';
+
+.vc-switch {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  font-size: 14px;
+  vertical-align: middle;
+  box-sizing: border-box;
+  transition: opacity 0.35s;
+  cursor: pointer;
+
+  &__inset {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    padding: 0 3px;
+    transition: opacity 0.35s;
+
+    i,
+    span {
+      display: inline-block;
+      font-size: 0.7em;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    &-open {
+      left: 0;
+      padding-right: calc(1em + 10px);
+
+      .is-checked & {
+        opacity: 1;
+      }
+    }
+    &-close {
+      opacity: 1;
+      right: 0;
+      padding-left: calc(1em + 10px);
+
+      .is-checked & {
+        opacity: 0;
+      }
+    }
+  }
+
+  &__label {
+    color: @color-text-primary;
+    font-size: 14px;
+    transition: color 0.35s;
+
+    &-left {
+      margin-right: 8px;
+    }
+    &-right {
+      margin-left: 8px;
+    }
+
+    &.is-active {
+      color: #409eff;
+    }
+  }
+
+  &.is-disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.vc-switch__core {
+  margin: 0;
+  display: inline-block;
+  position: relative;
+  min-width: 2em;
+  height: 20px;
+  outline: none;
+  color: #ddd;
+  background-color: currentColor;
+  border: 2px solid;
+  border-radius: 1em;
+  vertical-align: middle;
+  transition: color 0.35s;
+
+  .is-checked & {
+    color: #0099ff;
+  }
+
+  &-dot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 0.5em;
+    height: 1em;
+    line-height: 1em;
+    word-break: keep-all;
+    font-style: inherit;
+    border-radius: 1em;
+    background-color: #fff;
+    transition: padding 0.35s, transform 0.35s, left 0.35s;
+
+    &:empty {
+      padding: 0;
+      width: 1em;
+    }
+
+    &.has-text {
+      padding: 0 0.25em;
+    }
+
+    .is-checked & {
+      left: 100%;
+      transform: translate(-100%, 0%);
+    }
+    .vc-switch__core:active & {
+      padding: 0 0.6em;
+    }
+    .vc-icon-loading {
+      position: absolute;
+      font-size: 12px;
+      left: calc(50% - 6px);
+      top: calc(50% - 6px);
+    }
+  }
+
+  i {
+    font-style: normal;
+    font-size: 0.8em;
+    vertical-align: top;
+  }
+}

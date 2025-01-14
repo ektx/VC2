@@ -1,35 +1,27 @@
 <template>
-  <transition 
-    name="vc-fade-down" 
-    @after-enter="afterEnter" 
-    @after-leave="afterLeave"
-  >
-    <div 
-      v-show="show" 
-      class="vc-layer" 
+  <transition name="vc-fade-animate">
+    <div
+      v-show="visible"
+      :class="['vc-layer', { fullscreen }]"
       @click.self="layerBoxClick"
     >
-      <transition name="scale">
-        <div v-show="show" class="layer-inner" :style="style">
-          <div class="vc-layer__header">
-            <slot name="title">
-              <span>{{title}}</span>
-            </slot>
+      <div ref="content" class="vc-layer--inner" :style="style">
+        <div v-if="!noHeader" class="vc-layer--header">
+          <slot name="header">
+            <span>{{ title }}</span>
             <i class="vc-icon-close" @click="hideLayer"></i>
-          </div>
-          <div class="vc-layer__main"><slot></slot></div>
-          <div class="vc-layer__footer" v-if="$slots.footer">
-            <slot name="footer"></slot>
-          </div>
+          </slot>
         </div>
-        </transition>
+        <div class="vc-layer--main"><slot></slot></div>
+        <div v-if="$slots.footer" class="vc-layer--footer">
+          <slot name="footer"></slot>
+        </div>
       </div>
+    </div>
   </transition>
 </template>
 
 <script>
-import { isIE } from '../../utils/IE'
-
 export default {
   name: 'VcLayer',
   props: {
@@ -41,178 +33,175 @@ export default {
       type: String,
       default: '标题'
     },
-    width: String,
-    position: {
+    // 不需要头部
+    noHeader: {
+      type: Boolean,
+      default: false
+    },
+    // 调整弹层的宽度
+    width: {
+      type: String,
+      default: '50%'
+    },
+    offset: {
       type: Object,
-      default: () => ({})
+      default: () => ({
+        x: 0,
+        y: 0
+      })
     },
     // 点击背景不消失，默认false
     closeModal: {
       type: Boolean,
       default: false
     },
-    // Dialog 自身是否插入至 body 元素上
+    // 弹层自身是否插入至 body 元素上
     appendToBody: Boolean,
-  },
-  computed: {
-    style () {
-      let style = {}
-      let {x, y} = this.evt
-
-      // 如果用户指定了位置
-      if (this.position) {
-        x = Reflect.has(this.position, 'x') ? this.position.x : x
-        y = Reflect.has(this.position, 'y') ? this.position.y : y
-      } 
-
-      style = {
-        transformOrigin: `${x}px ${y}px`
-      }
-
-      if (this.width) style.width = this.width
-
-      return style
+    // 是否为全屏
+    fullscreen: Boolean,
+    // 关闭前的回调，会暂停弹层的关闭
+    beforeClose: {
+      type: Function,
+      default: null
     }
   },
-  data () {
-      return {
-          evt: {
-              x: 0,
-              y: 0
-          },
-          isAllow: false
-      }
+  emits: ['open', 'update:show', 'close', 'opened', 'closed'],
+  data() {
+    return {
+      // 默认不是组件调用关闭
+      visible: false,
+      timer: null,
+      style: {},
+      fromStyle: {},
+      toStyle: {},
+      // 记录鼠标点击元素位置信息
+      mousePosition: null
+    }
   },
   watch: {
-    show (val) {
-      if (val) {
-        // 允许记录点击位置
-        this.isAllow = true
-        this.$emit('open')
-
-        if (this.appendToBody) {
-          document.body.appendChild(this.$el)
-        }
+    show: {
+      handler(val) {
+        if (val) this.toggleDisplay()
+        else this.close()
       }
     }
   },
-  mounted () {
-    if (this.show) {
-      if (this.appendToBody) {
-        document.body.appendChild(this.$el)
-      }
+  mounted() {
+    if (this.appendToBody) {
+      document.body.appendChild(this.$el)
     }
-    document.documentElement.addEventListener('click', this.getClickPosition)
+    window.addEventListener('click', this.getClickPosition, true)
+
+    this.$nextTick(() => {
+      this.show && this.toggleDisplay()
+    })
+  },
+  unmounted() {
+    if (this.$el) {
+      this.$el.remove()
+    }
+    window.removeEventListener('click', this.getClickPosition, true)
   },
   methods: {
-    layerBoxClick () {
-      if (!this.closeModal) this.hideLayer()
+    layerBoxClick() {
+      !this.closeModal && this.hideLayer()
     },
 
-    hideLayer () {
-      this.$emit('update:show', false)
+    hideLayer() {
+      if (this.beforeClose) {
+        this.beforeClose()
+        return
+      }
+
+      this.close()
+    },
+
+    close() {
+      this.visible = false
       this.$emit('close')
+      this.animate(this.toStyle, this.fromStyle, () => {
+        this.$emit('update:show', false)
+        this.$emit('closed')
+        document.documentElement.style.overflow = ''
+      })
     },
 
-    getClickPosition (evt) {
-      if ( isIE() ) {
-        if (this.show) return
-      } else {
-        // 防止组件记录了非开启弹层的位置信息
-        if (!this.isAllow) return
-        if (!this.show) return
-      }
+    getClickPosition(e) {
+      let { x, y } = e.target.getBoundingClientRect()
+      this.mousePosition = { x, y }
 
-      let { clientX, clientY } = evt
+      setTimeout(() => {
+        this.mousePosition = null
+      }, 100)
+    },
+
+    toggleDisplay() {
+      if (this.visible) return
+      // 打开开始
+      this.$emit('open')
+      // 开始主容器显示
+      this.visible = true
+      document.documentElement.style.overflow = 'hidden'
+
+      this.fromStyle = { opacity: 0 }
+      this.toStyle = { opacity: 1 }
+
+      let width = this.fullscreen ? '100vw' : this.getWidth()
+      let offset = { ...{ x: 0, y: 0 }, ...this.offset }
+      let toX = (window.innerWidth - width) / 2 + offset.x
+      let toY = 100 + offset.y
+      let { x = 0, y = 0 } = this.mousePosition || {}
+      let scale = this.mousePosition ? 0 : 1
+
+      x = this.mousePosition ? x : toX
+
+      this.fromStyle.transform = `translate(${x}px, ${y}px) scale(${scale})`
+      this.toStyle.width = width + 'px'
+      this.toStyle.transform = `translate(${toX}px, ${toY}px) scale(1)`
+
+      this.animate(this.fromStyle, this.toStyle, () => {
+        this.style = this.toStyle
+        this.$emit('opened')
+      })
+    },
+
+    getWidth() {
       // 0.5为弹层的默认宽度
-      let width = window.innerWidth * .5
-            
-      if (this.width) {
-        if (this.width.endsWith('px')) {
-          width = parseInt(this.width)
-        } 
+      let width = window.innerWidth * 0.5
+      let fontSize = 0
+
+      switch (true) {
+        case this.width.endsWith('rem'):
+          ;({ fontSize } =
+            document.documentElement.style ||
+            window.getComputedStyle(document.documentElement))
+          width = parseFloat(this.width) * parseInt(fontSize)
+          break
+
+        case this.width.endsWith('em'):
+          ;({ fontSize } = this.$el.style || window.getComputedStyle(this.$el))
+          width = parseFloat(this.width) * parseInt(fontSize)
+          break
+
         // 20vw 20%
-        else {
-          width = window.innerWidth * (parseInt(this.width)/100)
-        }
+        case /[vw|%]/i.test(this.width):
+          width = window.innerWidth * (parseInt(this.width) / 100)
+          break
+
+        default:
+          width = parseInt(this.width)
       }
 
-      let halfW = width / 2
-      let x = clientX - (window.innerWidth / 2)
-      let y = clientY - 100
-
-      // x 轴偏移
-      x = x + halfW
-
-      this.evt = Object.assign({}, {x, y})
-      this.isAllow = false
+      return width
     },
 
-    afterEnter() {
-      this.$emit('opened')
-    },
-        
-    afterLeave() {
-      this.$emit('closed')
+    animate(from, to, cb) {
+      const animate = this.$refs.content.animate([from, to], {
+        duration: 300,
+        easing: 'cubic-bezier(0.87, 0, 0.13, 1)'
+      })
+      animate.onfinish = () => cb()
     }
-  },
-  unmounted () {
-    if (this.appendToBody && this.$el) {
-      this.$el.parentNode.removeChild(this.$el)
-    }
-    document.documentElement.removeEventListener('click', this.getClickPosition)
   }
 }
 </script>
-
-<style lang="less">
-.vc-layer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  overflow: auto;
-
-  .layer-inner {
-    width: 50%;
-    margin: 100px auto;
-    background-color: #fff;
-    border-radius: 3px;
-    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
-
-    & > .vc-layer__header {
-      position: relative;
-      font-size: 18px;
-      color: #333;
-      font-weight: 400;
-      text-align: left;
-      padding: 15px 40px 10px 20px;
-
-      i {
-        position: absolute;
-        top: 18px;
-        right: 15px;
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-      }
-    }
-
-    & > .vc-layer__main {
-      padding: 10px 20px;
-    }
-
-    & > .vc-layer__footer {
-      padding: 10px 20px;
-      text-align: right;
-
-      button + button {
-        margin-left: 10px;
-      }
-    }
-  }
-}
-</style>

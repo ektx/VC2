@@ -1,5 +1,10 @@
 node_modules
 .DS_Store
 dist
+lib
 *.local
+.idea/
 yarn-error.log
+*lock.json
+*/md-pages/*
+*.lock

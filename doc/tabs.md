@@ -1,12 +1,12 @@
-# Tabs 标签页
+# 🚧 Tabs 标签页
 分隔内容上有关联但属于不同类别的数据集合。
 
 ## 基础效果
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
-  <vc-tabs v-model:value="activeName">
+  <vc-tabs v-model="activeName" @tab-click="handleClick">
     <vc-tab-pane label="用户管理" name="first">用户管理</vc-tab-pane>
     <vc-tab-pane label="配置管理" name="second">配置管理</vc-tab-pane>
     <vc-tab-pane label="角色管理" name="third">角色管理</vc-tab-pane>
@@ -33,65 +33,99 @@
 
 ## 禁用效果
 
-::: demo 
+::: codeBox 
 
 > 通过添加 `disabled`  来禁用单个 Tab
 
-```html
+```vue
 <template>
-  <vc-tabs value="second">
+  <vc-button @click="disabled = !disabled">{{ disabled ? '禁用':'可用'}}</vc-button>
+  <vc-tabs v-model="value">
     <vc-tab-pane label="用户管理" name="first">用户管理</vc-tab-pane>
     <vc-tab-pane label="配置管理" disabled name="second">配置管理</vc-tab-pane>
-    <vc-tab-pane label="角色管理" name="third">角色管理</vc-tab-pane>
+    <vc-tab-pane label="角色管理" :disabled="disabled" name="third">角色管理</vc-tab-pane>
   </vc-tabs>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        value: 'first',
+        disabled: false
+      }
+    }
+  };
+</script>
 ```
 :::
 
 ## 图标效果
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
-  <vc-tabs>
-    <vc-tab-pane icon="vc-icon-os-apple" label="MacOS">MacOS</vc-tab-pane>
-    <vc-tab-pane icon="vc-icon-os-windows" label="Windows">Windows</vc-tab-pane>
-    <vc-tab-pane icon="vc-icon-os-linux" label="Linux">Linux</vc-tab-pane>
+  <vc-tabs v-model="value">
+    <vc-tab-pane icon="vc-icon-os-apple" label="MacOS" name="mac">MacOS</vc-tab-pane>
+    <vc-tab-pane icon="vc-icon-os-windows" label="Windows" name="win">Windows</vc-tab-pane>
+    <vc-tab-pane icon="vc-icon-os-linux" label="Linux" name="lin">Linux</vc-tab-pane>
   </vc-tabs>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+const value = ref('mac')
+</script>
 ```
 :::
 
 ## 自定义标签页
 
-::: demo 
+::: codeBox 
 
 > 在 `vc-tab-pane` 中使用具名插槽可以自定义标签。  
 > `label` 与 `name` 不可同时省略。
 
-```html
+```vue
 <template>
-  <vc-tabs>
-    <vc-tab-pane name="date">
+  <vc-tabs v-model="value">
+    <vc-tab-pane name="home">
       <template #label>
-        <i class="vc-icon-date"></i>我的行程
+        首页
+        <i class="vc-icon-date"></i>
       </template>
-      我的行程
+      首页
     </vc-tab-pane>
-    <vc-tab-pane label="Windows">Windows</vc-tab-pane>
-    <vc-tab-pane label="Linux">Linux</vc-tab-pane>
+    <vc-tab-pane name="class">
+      <template #label>
+        分类
+        <i class="vc-icon-date"></i>
+      </template>
+      分类
+    </vc-tab-pane>
+    <vc-tab-pane name="my">
+      <template #label>🤣 我的</template>
+      我的
+    </vc-tab-pane>
   </vc-tabs>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+const value = ref('home')
+</script>
 ```
 :::
 
-## 自定义增加标签页触发器
+## 动态添加
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-button @click="handleClick">Add</vc-button>
-  <vc-tabs v-model:value="activeName" @removeTab="remove">
+  <vc-tabs v-model="activeName" @remove="remove">
     <vc-tab-pane 
       v-for="tab in list"
       :key="tab.name"
@@ -133,7 +167,7 @@
         this.activeName = name
       },
       remove(tab, index) {
-        this.list.splice(index, 1)
+        // this.list.splice(index, 1)
       }
     }
   };
@@ -145,8 +179,8 @@
 
 ## 动态控制
 
-::: demo 
-```html
+::: codeBox 
+```vue
 <template>
   <vc-button-group>
     <vc-button round @click="activeName = 'first'">用户管理</vc-button>
@@ -155,7 +189,7 @@
     <vc-button round @click="activeName = 'fourth'">定时任务补偿</vc-button>
   </vc-button-group>
 
-  <vc-tabs :value="activeName">
+  <vc-tabs :modelValue="activeName">
     <vc-tab-pane label="用户管理" name="first">用户管理</vc-tab-pane>
     <vc-tab-pane label="配置管理" name="second">配置管理</vc-tab-pane>
     <vc-tab-pane label="角色管理" name="third">角色管理</vc-tab-pane>
@@ -163,14 +197,10 @@
   </vc-tabs>
 </template>
 
-<script>
-  export default {
-    setup() {
-      return {
-        activeName: ref('first')
-      }
-    }
-  };
+<script setup>
+import { ref } from 'vue'
+
+const activeName = ref('first')
 </script>
 ```
 :::
@@ -180,20 +210,21 @@
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
 |---|---|---|---|---|
-| value | `String/Number` | 选中对象 | - | - |
+| value | **String/Number** | 选中对象 | - | - |
 
 ## Events
 
 | 事件名 | 说明 | 回调参数 |
 | --- | --- | --- |
-| removeTab | 关闭的标签 | 返回关闭标签相关属性及tab的索引 |
+| tab-click | tab 被选中时触发 | 被选中的标签 tab 实例 |
+| tab-remove | 关闭的标签 | 返回关闭标签相关属性及tab的索引 |
 
 ## TabPane Poprs
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 |
 |---|---|---|---|---|
-| label | `String` | 选项卡标题 | - | - |
-| name | `String/Number` | 与选项卡绑定值 value 对应的标识符，表示选项卡别名 | - | - |
-| closable | `Boolean` | 标签是否可关闭 | - | false |
-| disabled | `Boolean` | 是否禁用 | - | false |
-| icon | `String` | 选项卡图标 | - | - |
+| label | **String** | 选项卡标题 | - | - |
+| name | **String/Number** | 与选项卡绑定值 value 对应的标识符，表示选项卡别名 | - | - |
+| closable | **Boolean** | 标签是否可关闭 | - | false |
+| disabled | **Boolean** | 是否禁用 | - | false |
+| icon | **String** | 选项卡图标 | - | - |

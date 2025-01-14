@@ -1,0 +1,81 @@
+.vc-popover {
+  display: inline-block;
+
+  &__layer {
+    position: fixed;
+    padding: 10px;
+    font-size: 14px;
+    color: #606266;
+    border: 1px solid rgba(0,8,16,.15);
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+    background-color: hsla(0, 0%, 100%, .85);
+    backdrop-filter: saturate(100%) blur(10px);
+    border-radius: 10px;
+    box-sizing: border-box;
+    z-index: 1000;
+
+    .arrow {
+      position: absolute;
+      width: 16px;
+      height: 6px;
+
+      &[placement^='top'] {
+        bottom: -6px;
+        transform: rotate(180deg);
+      }
+      
+      &[placement^='bottom'] {
+        top: -6px;
+      }
+      
+      &[placement^='left'] {
+        right: -11px;
+        transform: rotate(90deg);
+      }
+      
+      &[placement^='right'] {
+        left: -11px;
+        transform: rotate(-90deg);
+      }
+
+      svg {
+        vertical-align: top;
+        .svg-arrow {
+          fill: rgba(0,8,16,.15);
+        }
+        .svg-content {
+          fill: #fff;
+        }
+      }
+    }
+
+    
+  }
+
+  &__title {
+    padding: 0 0 5px;
+    font-size: 16px;
+    color: #333;
+  }
+
+  &__footer {
+    text-align: right;
+
+    button {
+      padding-left: 10px;
+      font-size: 14px;
+      color: #9e9e9e;
+      border: none;
+      cursor: pointer;
+      background-color: transparent;
+
+      &:hover {
+        opacity: .8;
+      }
+
+      &[type=submit] {
+        color: #09f;
+      }
+    }
+  }
+}

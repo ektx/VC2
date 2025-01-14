@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",  
+    "module": "ESNext", 
+    "skipLibCheck": true,
+    
+    /* Bundler mode */
+    "moduleResolution": "Bundler", 
+                      
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@packages/*": ["packages/*"]
+    },     
+    "outDir": "./dist",  
+    /* Linting */
+    "allowJs": true,  
+    "checkJs": false,  
+    "forceConsistentCasingInFileNames": true,          
+  },
+  "exclude": [
+    "node_modules",
+    "bin",
+    "cypress",
+    "doc",
+    "lib",
+    "types",
+    "dist",
+    "vite.config*"
+  ]
+}

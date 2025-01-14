@@ -24,7 +24,7 @@ export default {
   props: {
     // 显示内容
     message: {
-      type: String,
+      type: [String, Number],
       default: ''
     },
     /**
