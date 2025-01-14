@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev": "vipress",
-    "doc": "vipress build doc",
+    "doc": "vipress doc",
     "lib": "vipress lib",
     "build": "node ./bin/build.js",
     "build2": "gulp -f ./bin/build2.js",
