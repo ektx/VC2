@@ -3,7 +3,8 @@
 
   & > .vc-button {
     border-radius: 0;
-    border-right: 1px solid rgba(#000, 0.1);
+    border-right: 1px solid rgba(#000);
+    border-color: e('hsl(from var(--bg, #eee) h s calc(l - 5))');
 
     &:first-child {
       border-radius: var(--radius, 0.2em) 0 0 var(--radius, 0.2em);
