@@ -20,10 +20,18 @@ export default {
     /** 移除边框 */
     noBorder: Boolean
   },
+  data() {
+    return {
+      name: ''
+    }
+  },
   provide() {
     return {
       Collapse: this
     }
+  },
+  beforeMount() {
+    this.name = Date.now()
   },
   methods: {
     hasClass,
@@ -33,9 +41,9 @@ export default {
       let result = this.modelValue.slice()
 
       if (this.accordion) {
-        result = item.isOpen ? [] : [item.value]
+        result = item.$el.open ? [] : [item.value]
       } else {
-        if (item.isOpen) {
+        if (item.$el.open) {
           result.splice(
             this.modelValue.findIndex(val => val === item.value),
             1
@@ -45,8 +53,8 @@ export default {
         }
       }
 
-      this.$emit('update:modelValue', result)
-      this.$emit('change', result)
+      this.$emit('update:modelValue', ...new Set([result]))
+      this.$emit('change', ...new Set([result]))
     }
   }
 }

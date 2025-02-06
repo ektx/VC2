@@ -1,10 +1,13 @@
 @import '../../styles/var.less';
 
-.@{namespace}-collapse-item {
+@_item: e('.@{namespace}-collapse-item');
+
+@{_item} {
   color: var(@textColorRegular);
   border-top: 1px solid var(@collapse-border-color);
+  transition: all 0.5s ease;
 
-  &__header {
+  summary {
     display: flex;
     padding: 10px 0;
     font-size: 14px;
@@ -26,19 +29,18 @@
 
   &__icon {
     transition: transform 0.3s;
-  }
-  &.is-open &__icon {
-    transform: rotate(90deg);
+
+    @{_item}[open] & {
+      transform: rotate(90deg);
+    }
   }
 
-  &__wrap {
+  &::details-content {
+    transition: height 0.3s ease, content-visibility 0.3s allow-discrete;
     height: 0;
-    transition: height 0.3s ease-in-out;
-    will-change: height;
-    // overflow: hidden;
-    overflow-y: clip;
+    overflow: clip;
   }
-  &.is-open &__wrap {
+  &[open]::details-content {
     height: ~'calc-size(max-content, size)';
   }
 
@@ -48,7 +50,7 @@
     box-sizing: border-box;
   }
 
-  &.is-disabled &__header {
+  &.is-disabled summary {
     color: var(@collapse-disabled-color);
     cursor: not-allowed;
   }

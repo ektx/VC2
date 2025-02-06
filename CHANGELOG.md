@@ -4,9 +4,11 @@
 
 ### Fixes
 
-- collapse 优化动画功能，使用 `calc-size()` 方案
+- collapse 使用[details](https://developer.chrome.com/blog/styling-details?hl=zh-cn)重构，优化动画功能，使用 `calc-size()` 方案
 - button 优化按钮样式，调整部分属性;调整默认高度 30px
 - input 优化自适应文本高度功能
+- 添加对 ts 的支持
+- 优化打包内容及其它细节调整
 
 ## 1.16.6 (2024-3-20)
 

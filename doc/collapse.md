@@ -91,7 +91,7 @@ export default {
 <template>
   <vc-collapse v-model="value" accordion>
     <vc-collapse-item value="1">
-      <template #title>
+      <template #summary>
         一致性 Consistency <i class="vc-icon-star-off"/>
       </template>
       <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
