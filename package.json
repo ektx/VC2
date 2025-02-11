@@ -46,7 +46,7 @@
     "@vitejs/plugin-vue": "^4.1.0",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "@vue/compiler-sfc": "^3.2.37",
-    "esbuild": "^0.17.18",
+    "esbuild": "^0.25.0",
     "gulp": "^4.0.2",
     "inquirer": "^7.3.3",
     "less": "^4.1.2",
