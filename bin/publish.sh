@@ -25,7 +25,7 @@ do
     REGISTRY="--registry http://localhost:4873"
     break
   else
-    REGISTRY="--registry http://npm.qixin007.com"
+    REGISTRY="--registry https://registry.npmjs.org"
     break
   fi
 done

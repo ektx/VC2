@@ -1,6 +1,6 @@
 {
   "name": "@ektx/vc2",
-  "version": "1.17.0",
+  "version": "1.17.2",
   "type": "module",
   "files": [
     "lib",
@@ -22,16 +22,17 @@
   "module": "lib/es/index.js",
   "exports": {
     ".": {
+      "types": "./lib/es/index.d.ts",
       "import": "./lib/es/index.js",
       "require": "./lib/cjs/index.cjs"
     },
     "./lib/es/index.css": {
+      "types": "./lib/es/index.d.ts",
       "import": "./lib/es/index.css",
       "require": "./lib/es/index.css"
     }
   },
   "style": "lib/es/index.css",
-  "types": "lib/es/index.d.ts",
   "author": "WenLong",
   "dependencies": {
     "@floating-ui/dom": "^0.5.4",
