@@ -1,10 +1,14 @@
-// vite.config.js
 import { resolve } from 'path'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
+import virtualRouter from './server/virtualRouter'
 
 export default defineConfig({
-  plugins: [vue()],
+  root: resolve(__dirname, 'example'),
+  server: {
+    port: 3010
+  },
+  plugins: [vue(), virtualRouter()],
   build: {
     lib: {
       // Could also be a dictionary or array of multiple entry points
@@ -26,6 +30,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      vue: 'vue/dist/vue.esm-bundler.js',
+      '@src': resolve(__dirname, 'example'),
       '@packages': resolve(__dirname, 'packages')
     }
   }

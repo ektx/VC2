@@ -8,7 +8,7 @@
     "global.d.ts"
   ],
   "scripts": {
-    "dev": "vipress",
+    "dev": "vite",
     "doc": "vipress doc",
     "lib": "vipress lib",
     "build": "node ./bin/build.js",
@@ -47,10 +47,14 @@
     "@vitejs/plugin-vue": "^4.1.0",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "@vue/compiler-sfc": "^3.2.37",
+    "chokidar": "^4.0.3",
     "esbuild": "^0.17.18",
+    "fs-extra": "^11.3.0",
     "gulp": "^4.0.2",
     "inquirer": "^7.3.3",
     "less": "^4.1.2",
+    "markdown-it": "^14.1.0",
+    "markdown-it-for-inline": "^2.0.1",
     "postcss": "^8.4.23",
     "prismjs": "^1.29.0",
     "rollup": "^3.21.4",
@@ -58,6 +62,7 @@
     "rollup-plugin-postcss": "^4.0.2",
     "trash": "^6.1.1",
     "typescript": "^5.3.3",
+    "vite": "^6.2.5",
     "vue-tsc": "^1.8.27"
   },
   "license": "MIT"

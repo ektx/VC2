@@ -8,3 +8,4 @@ yarn-error.log
 *lock.json
 */md-pages/*
 *.lock
+.cache/
