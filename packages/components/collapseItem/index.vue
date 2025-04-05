@@ -1,18 +1,18 @@
 <template>
   <details
     :name="name"
-    :class="[
-      'vc-collapse-item',
-      { 'is-open': isOpen, 'is-disabled': disabled }
-    ]"
-    :open="isOpen"
+    :class="['vc-collapse-item', { 'is-disabled': disabled }]"
+    :open="defOpen"
   >
     <summary :class="[{ 'is-sticky': sticky }]" @click="toggleEvt">
-      <div class="vc-collapse-item__title">
-        <slot v-if="$slots.summary" name="summary">{{ title }}</slot>
-        <slot name="title">{{ title }}</slot>
-      </div>
-      <i class="vc-collapse-item__icon vc-icon-arrow-right"></i>
+      <slot name="summary" :open="isOpen">
+        <div class="content">
+          <div class="vc-collapse-item__title">
+            <slot name="summary-title">{{ title }}</slot>
+          </div>
+          <i class="vc-collapse-item__icon vc-icon-arrow-right"></i>
+        </div>
+      </slot>
     </summary>
 
     <div ref="wrap" class="vc-collapse-item__wrap">
@@ -42,12 +42,15 @@ export default {
   inject: ['Collapse'],
   data() {
     return {
+      defOpen: false,
       isOpen: false,
       name: null
     }
   },
+
   mounted() {
-    this.isOpen = this.Collapse.modelValue.includes(this.value)
+    this.defOpen = this.Collapse.modelValue.includes(this.value)
+    this.isOpen = this.defOpen
     this.name = this.Collapse.accordion ? this.Collapse.name : ''
   },
   methods: {
@@ -56,6 +59,7 @@ export default {
         e.preventDefault()
         return
       }
+      this.isOpen = !this.isOpen
       this.Collapse.itemClick(this)
     }
   }
