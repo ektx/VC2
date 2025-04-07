@@ -1,6 +1,14 @@
 @import './var.less';
 
 :root {
+  /* this has to be set to switch between light or dark */
+  color-scheme: light dark;
+
+  --vcTextColor: light-dark(#303133, #e5eaf3);
+  --vcSubTextColor: light-dark(#909399, #c0c4cc);
+  --vcDisabledTextColor: light-dark(#909399, #c0c4cc);
+  --vcBorderColor: light-dark(#dcdfe6, #555);
+
   @{bg}: #fff;
   @{disBg}: #eee;
   @{textColorPrimary}: #303133;

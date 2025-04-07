@@ -3,8 +3,8 @@
 @_item: e('.@{namespace}-collapse-item');
 
 @{_item} {
-  color: var(@textColorRegular);
-  border-top: 1px solid var(@collapse-border-color);
+  color: var(--vcTextColor);
+  border-top: 1px solid var(--vcBorderColor);
   transition: all 0.5s ease;
 
   summary {
@@ -22,7 +22,7 @@
       display: flex;
       padding: 10px 0;
       width: 100%;
-      color: var(@collapse-header-color);
+      color: var(--vcTextColor);
       font-weight: bold;
       line-height: 1.6;
       justify-content: space-between;
@@ -54,8 +54,8 @@
     box-sizing: border-box;
   }
 
-  &.is-disabled summary {
-    color: var(@collapse-disabled-color);
+  &.is-disabled summary .content {
+    color: var(--vcDisabledTextColor);
     cursor: not-allowed;
   }
 }
