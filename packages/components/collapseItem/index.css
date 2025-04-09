@@ -1,8 +1,4 @@
-@import '../../styles/var.less';
-
-@_item: e('.@{namespace}-collapse-item');
-
-@{_item} {
+.vc-collapse-item {
   color: var(--vcTextColor);
   border-top: 1px solid var(--vcBorderColor);
   transition: all 0.5s ease;
@@ -11,11 +7,10 @@
     display: flex;
 
     &.is-sticky {
+      container-type: scroll-state;
       position: sticky;
       top: 0;
       left: 0;
-      backdrop-filter: var(@backdropFilter);
-      background: var(@backdropFilterBg);
     }
 
     .content {
@@ -28,13 +23,18 @@
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
+
+      @container scroll-state(stuck: top) {
+        backdrop-filter: var(--vcBackdropFilter);
+        background: var(--vcBackdropFilterBg);
+      }
     }
   }
 
-  &__icon {
+  i.icon {
     transition: transform 0.3s;
 
-    @{_item}[open] & {
+    .vc-collapse-item[open] & {
       transform: rotate(90deg);
     }
   }
@@ -45,10 +45,10 @@
     overflow: clip;
   }
   &[open]::details-content {
-    height: ~'calc-size(max-content, size)';
+    height: calc-size(max-content, size);
   }
 
-  &__content {
+  .vc-collapse-item__content {
     min-height: 0;
     padding: 0px 0px 10px;
     box-sizing: border-box;

@@ -10,7 +10,7 @@
           <div class="vc-collapse-item__title">
             <slot name="summary-title">{{ title }}</slot>
           </div>
-          <i class="vc-collapse-item__icon vc-icon-arrow-right"></i>
+          <i class="icon vc-icon-arrow-right"></i>
         </div>
       </slot>
     </summary>

@@ -6,8 +6,11 @@
 
   --vcTextColor: light-dark(#303133, #e5eaf3);
   --vcSubTextColor: light-dark(#909399, #c0c4cc);
-  --vcDisabledTextColor: light-dark(#909399, #c0c4cc);
+  --vcDisabledTextColor: light-dark(#909399, #8b8b8b);
   --vcBorderColor: light-dark(#dcdfe6, #555);
+
+  --vcBackdropFilter: saturate(180%) blur(20px);
+  --vcBackdropFilterBg: rgba(22, 22, 23, 0.8);
 
   @{bg}: #fff;
   @{disBg}: #eee;
@@ -20,8 +23,6 @@
   @{focusColor}: @primary-color;
 
   @{primaryColor}: @primary-color;
-  @{backdropFilter}: saturate(180%) blur(20px);
-  @{backdropFilterBg}: rgba(#fff, 0.8);
 
   @disabledColor: #aaa;
 
@@ -70,9 +71,6 @@
   @{textColorRegular}: #cfd3dc; // --vc-text-color-regular
   @{borderColor}: #555;
   @{placeholderColor}: #555;
-
-  @{backdropFilter}: saturate(180%) blur(20px);
-  @{backdropFilterBg}: rgba(22, 22, 23, 0.8);
 
   @disabledColor: #555;
 
