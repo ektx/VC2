@@ -15,17 +15,35 @@ export default defineConfig({
       entry: resolve(__dirname, 'packages/index.js'),
       name: 'vc2',
       // the proper extensions will be added
-      fileName: 'vc'
+      fileName: 'vc',
+      cssFileName: 'index'
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
       external: ['vue'],
-      output: {
-        // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
-        globals: {
-          vue: 'Vue'
+      output: [
+        {
+          //打包格式
+          format: 'es',
+          //打包后文件名
+          entryFileNames: '[name].js',
+          //让打包目录和我们目录对应
+          preserveModules: true,
+          exports: 'named',
+          dir: `./lib/es`
+        },
+        {
+          //打包格式
+          format: 'cjs',
+          //打包后文件名
+          entryFileNames: '[name].cjs',
+          //让打包目录和我们目录对应
+          preserveModules: true,
+          exports: 'named',
+          //配置打包根目录
+          dir: `./lib/cjs`
         }
-      }
+      ]
     }
   },
   resolve: {

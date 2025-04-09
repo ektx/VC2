@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "dev": "vite",
+    "b": "vite build",
     "doc": "vipress doc",
     "lib": "vipress lib",
     "build": "node ./bin/build.js",
