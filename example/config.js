@@ -1,1 +1,1 @@
-export const title = 'Sanyou-Element'
+export const title = 'VC2'
