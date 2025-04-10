@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --mode lib",
     "doc": "vipress doc",
     "lib": "vipress lib",
     "update": "node --experimental-json-modules ./bin/update.mjs",

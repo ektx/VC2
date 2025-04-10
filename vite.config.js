@@ -1,26 +1,32 @@
 import { resolve } from 'path'
 import vue from '@vitejs/plugin-vue'
+import vueJSX from '@vitejs/plugin-vue-jsx'
+import dts from 'vite-plugin-dts'
 import { defineConfig } from 'vite'
 import virtualRouter from './server/virtualRouter'
 
-export default defineConfig({
-  root: resolve(__dirname, 'example'),
-  server: {
-    port: 3010
-  },
-  plugins: [vue(), virtualRouter()],
+const libConfig = {
+  plugins: [
+    vue(),
+    vueJSX(),
+    dts({
+      entryRoot: './packages',
+      outDir: [`./lib/es`, `./lib/cjs`]
+    })
+  ],
   build: {
+    outDir: resolve(__dirname, 'lib'),
+    emptyOutDir: true,
+    copyPublicDir: false,
+
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: resolve(__dirname, 'packages/index.js'),
-      name: 'vc2',
-      // the proper extensions will be added
-      fileName: 'vc',
       cssFileName: 'index'
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
-      external: ['vue'],
+      external: ['vue', /node_modules/],
       output: [
         {
           //打包格式
@@ -45,7 +51,16 @@ export default defineConfig({
         }
       ]
     }
+  }
+}
+
+const devConfig = {
+  root: resolve(__dirname, 'example'),
+  server: {
+    port: 3010
   },
+  plugins: [vue(), vueJSX(), virtualRouter()],
+
   resolve: {
     alias: {
       vue: 'vue/dist/vue.esm-bundler.js',
@@ -53,4 +68,13 @@ export default defineConfig({
       '@packages': resolve(__dirname, 'packages')
     }
   }
+}
+
+export default defineConfig(({ command, mode }) => {
+  console.log(command, mode)
+  if (command === 'build') {
+    return mode === 'lib' ? libConfig : {}
+  }
+
+  return devConfig
 })
