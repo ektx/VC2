@@ -22,6 +22,15 @@ pnpm doc
 
 # 运行开发界面
 pnpm dev
+
+# link
+pnpm link --global
+
+# use link
+pnpm link --global @ektx/vc2
+
+# unlink
+pnpm unlink --global @ektx/vc2
 ```
 
 ## build lib
