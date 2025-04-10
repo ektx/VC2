@@ -7,23 +7,23 @@
   margin: 0;
   align-items: stretch;
   box-sizing: border-box;
-  border: 1px solid e('var(@{input}-border-color)');
+  border: 1px solid var(--vcBorderColor);
   border-radius: 0.25em;
-  background: e('var(@{input}-bg)');
+  background: var(--vcBg);
   transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out;
   will-change: border-color, box-shadow;
   cursor: text;
 
   &:hover {
-    border-color: e('var(@{input}-hover-color)');
+    border-color: var(--vcBorderHoverColor);
   }
   &:focus-within,
   &.is-focus {
-    border-color: e('var(@{input}-focus-color)');
+    border-color: var(--vcBorderFocusColor);
   }
   &.is-disabled {
     cursor: not-allowed;
-    background: e('var(@{input}-disabled-bg)');
+    background: var(--vcDisBg);
   }
 
   .is-error & {
@@ -70,7 +70,7 @@
     padding: 7px 0.4em;
 
     &::-webkit-input-placeholder {
-      color: e('var(@{input}-placeholder-color)');
+      color: var(--vcPlaceholderColor);
     }
 
     &::-ms-reveal,
