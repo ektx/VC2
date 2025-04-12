@@ -7,8 +7,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: e('var(@{layer}-mod-bg)');
-  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: var(--zindex, 1000);
   isolation: isolate;
   overflow: auto;
 
@@ -17,7 +17,8 @@
     margin: 0;
     border-radius: 10px;
     box-sizing: border-box;
-    background-color: var(--vc-layer-bg);
+    background: light-dark(#fff, #252525);
+    border: 1px solid light-dark(#fff, #444);
     box-shadow: 0 0 50px -10px rgba(0, 0, 0, 0.3);
     will-change: background-color, transform;
     transform-origin: top left;
