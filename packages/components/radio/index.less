@@ -19,7 +19,7 @@
     outline: none;
     box-sizing: border-box;
     overflow: hidden;
-    transition: border 0.35s;
+    transition: border 0.3s;
 
     &::before {
       content: '';
@@ -29,7 +29,8 @@
       background: transparent;
       border-radius: 100%;
       vertical-align: top;
-      transition: background-color 0.35s;
+      transition: background-color 0.3s;
+      will-change: transition;
     }
 
     &:checked {
@@ -65,11 +66,11 @@
     align-items: center;
     position: relative;
     margin: 0 -1px 0 0px;
-    padding: 0.4em 0.7em;
+    padding: 0.2em 0.5em;
+    color: light-dark(#606266, #ccc);
     border-radius: 0;
-    border: 1px solid #ddd;
+    border: 1px solid light-dark(#ddd, #565656);
     z-index: 0;
-    transition: background-color 0.3s, border 0.3s;
 
     &.is-checked {
       color: #fff;
