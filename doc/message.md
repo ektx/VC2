@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { VcMessage } from '../../../../packages/index'
+import { VcMessage } from '@ektx/vc2'
 
 function info () {
   VcMessage({
@@ -58,13 +58,14 @@ function error () {
 
 <script>
 import { ref, inject } from 'vue'
+import { VcMessage } from '@ektx/vc2'
 
 export default {
   setup() {
     let message = inject('vcMessage')
 
     function info () {
-      message({
+      VcMessage({
         type: 'info',
         showClose: true,
         duration: 0,
@@ -72,7 +73,7 @@ export default {
       })
     }
     function success () {
-      message({
+      VcMessage({
         type: 'success',
         showClose: true,
         duration: 0,
@@ -80,7 +81,7 @@ export default {
       })
     }
     function warning () {
-      message({
+      VcMessage({
         type: 'warning',
         showClose: true,
         duration: 0,
@@ -88,7 +89,7 @@ export default {
       })
     }
     function error () {
-      message({
+      VcMessage({
         type: 'error',
         showClose: true,
         duration: 0,
