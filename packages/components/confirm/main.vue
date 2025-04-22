@@ -3,18 +3,18 @@
     name="vc-confirm-backdrop-animate"
     @after-leave="handlerAfterLeave"
   >
-    <div 
-      v-show="visible.value" 
-      class="vc-confirm" 
+    <div
+      v-show="visible.value"
+      class="vc-confirm"
       @click.self="closeEvt('close', 'modal')"
     >
       <transition name="vc-fade-down-animate">
         <div v-show="visible.value" class="vc-confirm-box">
-          <div class="vc-confirm-box__header">
-            <div class="vc-confirm-box__title">{{title}}</div>
-            <i 
+          <div class="vc-confirm-box-header">
+            <div class="vc-confirm-box__title">{{ title }}</div>
+            <i
               v-if="showClose"
-              class="vc-confirm-box__close-btn vc-icon-close" 
+              class="vc-confirm-box__close-btn vc-icon-close"
               @click="closeEvt('close', 'icoBtn')"
             ></i>
           </div>
@@ -23,8 +23,11 @@
             <div v-else>{{ message }}</div>
 
             <div v-if="type === 'prompt'" class="vc-confirm-box__prompt">
-              <input 
-                :class="['vc-confirm-box__prompt-input', {'is-error': errorMsg.length}]" 
+              <input
+                :class="[
+                  'vc-confirm-box__prompt-input',
+                  { 'is-error': errorMsg.length }
+                ]"
                 type="text"
                 v-model="promptVal"
               />
@@ -36,9 +39,10 @@
               v-for="btn in _buttons"
               :key="btn.label"
               :type="btn.type"
-              :color="btn.color"
+              :theme="btn.color"
               @click="btn.func"
-            >{{ btn.label }}</vc-button>
+              >{{ btn.label }}</vc-button
+            >
           </div>
         </div>
       </transition>
@@ -68,7 +72,7 @@ export default {
     // 自定义按钮功能
     buttons: {
       type: Array,
-      default: () => ([])
+      default: () => []
     },
     // 是否显示右上角关闭按钮
     showClose: {
@@ -105,7 +109,7 @@ export default {
     }
   },
   computed: {
-    _buttons () {
+    _buttons() {
       if (this.buttons.length) {
         return this.buttons.map(btn => ({
           ...btn,
@@ -137,7 +141,7 @@ export default {
     }
   },
   methods: {
-    closeEvt (data = '', el) {
+    closeEvt(data = '', el) {
       // 点击的是背景，同时不允许点击背景关闭时
       if (el === 'modal' && !this.closeOnClickModal) return
 
