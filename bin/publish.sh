@@ -54,12 +54,12 @@ read -r -p "🗑  是否需要回收版本? [y/N]" input
 NEED_UNPUBLISH=0
 case $input in 
   [yY][eE][sS]|[yY])
-    echo "是"
+    echo "Yes"
     npm unpublish $REGISTRY --force
     NEED_UNPUBLISH=1
     ;;
   *)
-    echo "否"
+    echo "No"
     ;;
 esac
 
@@ -89,7 +89,7 @@ fi
 
 echo -e "\n🔨 开始编译"
 
-npm run lib
+npm run build
 
 echo -e "\n🚀 提交版本"
 
