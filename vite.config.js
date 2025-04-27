@@ -26,7 +26,15 @@ const libConfig = {
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
-      external: ['vue', /node_modules/],
+      external: [
+        'vue',
+        'vue-router',
+        '@floating-ui/dom',
+        'async-validator',
+        'dayjs',
+        'resize-observer-polyfill',
+        /node_modules/
+      ],
       output: [
         {
           //打包格式
