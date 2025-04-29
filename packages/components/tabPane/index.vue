@@ -9,10 +9,8 @@ import {
   computed,
   getCurrentInstance,
   inject,
-  nextTick,
   onBeforeUnmount,
   onMounted,
-  onUpdated,
   useSlots
 } from 'vue'
 
@@ -48,22 +46,10 @@ const visible = computed(() => {
     : false
 })
 
-onUpdated(() => {
-  if (slots.label) {
-    nextTick(() => {
-      tabsRoot.updatePanel({
-        id: instance.uid,
-        props,
-        slots
-      })
-    })
-  }
-})
-
 onMounted(() => {
   tabsRoot.updatePanel({
     id: instance.uid,
-    props,
+    ...props,
     slots
   })
 })

@@ -1,11 +1,22 @@
 <template>
   <div class="vc-tabs">
     <div class="vc-tabs--header">
-      <div class="vc-tabs--nav-wrap">
-        <Nav2 :list="list"></Nav2>
+      <div class="vc-tabs-nav-wrap">
+        <div
+          :class="['vc-tabs-nav-item', { active: item.name === modelValue }]"
+          v-for="(item, index) in list"
+          @click="onClickNav(item, index)"
+        >
+          <TabNav :data="item"></TabNav>
+          <i
+            v-if="item.closable"
+            class="vc-icon-close"
+            @click.stop="onCloseItem(item)"
+          ></i>
+        </div>
       </div>
-      <div class="vc-append">
-        <slot name="append"></slot>
+      <div class="vc-tabs-extra">
+        <slot name="extra"></slot>
       </div>
     </div>
 
@@ -23,10 +34,11 @@ import {
   watch,
   useSlots,
   onMounted,
-  nextTick
+  onUpdated,
+  nextTick,
+  computed
 } from 'vue'
-import Nav from './tabNav.vue'
-import Nav2 from './tabNav'
+import TabNav from './tabNav'
 
 const props = defineProps({
   // 选中对象
@@ -48,7 +60,8 @@ const virtualVisible = ref(false)
 
 const instance = getCurrentInstance()
 const slots = useSlots()
-console.log(slots)
+
+console.log(slots.default())
 console.log(instance)
 provide('tabsRootContextKey', {
   instance,
@@ -58,35 +71,9 @@ provide('tabsRootContextKey', {
   emits
 })
 
-// watch(
-//   () => props.value,
-//   val => {
-//     this.list.forEach(item => {
-//       if (item.id === val) this.activeTab = item
-//     })
-//   }
-// )
-
-onMounted(() => {})
-
-/**
- * @param {MouseEvent} e
- */
-const onWheel = e => {
-  const { clientWidth, scrollWidth } = virtualBoxRrf.value
-
-  if (scrollWidth <= clientWidth) return
-
-  e.preventDefault()
-
-  if (/mac/i.test(navigator.userAgent)) {
-    e.currentTarget.scrollLeft -= e.deltaY
-  } else {
-    e.currentTarget.scrollLeft += e.deltaY
-  }
-
-  // updateVirtualScroll()
-}
+onMounted(() => {
+  console.log('[onMounted SplitCollapseItem]')
+})
 
 function updatePanel(pane) {
   console.log('update...', pane)
@@ -97,11 +84,6 @@ function updatePanel(pane) {
   }
 
   list.value.push(pane)
-
-  nextTick(() => {
-    // focusActive()
-    // updateVirtualScroll()
-  })
 }
 
 function removePanel(id) {
@@ -133,21 +115,11 @@ function focusActive() {
     activeEl.offsetLeft - clientWidth + activeEl.clientWidth
 }
 
-function updateVirtualScroll() {
-  if (!virtualBoxRrf.value) return
+function onClickNav(item, i) {
+  emits('update:modelValue', item.name)
+}
 
-  const { clientWidth, scrollWidth } = virtualBoxRrf.value
-  const barEl = virtualScrollRef.value.querySelector(
-    '.vc-tabs--virtual-scrollbar'
-  )
-
-  virtualVisible.value = clientWidth < scrollWidth
-
-  Object.assign(barEl.style, {
-    width: (clientWidth * 100) / scrollWidth + '%',
-    transform: `translate(${
-      (virtualBoxRrf.value.scrollLeft * 100) / clientWidth
-    }%, 0px)`
-  })
+function onCloseItem(item) {
+  debugger
 }
 </script>

@@ -133,6 +133,9 @@ const value = ref('home')
       :name="tab.name"
       closable
     >{{ tab.content }}</vc-tab-pane>
+    <template #extra>
+      <vc-button @click="handleClick">Add</vc-button>
+    </template>
   </vc-tabs>
 </template>
 
