@@ -7,8 +7,8 @@
           v-for="(item, index) in list"
           @click="onClickNav(item, index)"
         >
-          <TabNav :data="item"></TabNav>
-          <i
+          <TabNav :data="item"></TabNav
+          ><i
             v-if="item.closable"
             class="vc-icon-close"
             @click.stop="onCloseItem(item)"
