@@ -78,7 +78,7 @@ export default {
 
 ## 嵌套信息
 
-可以在 Popover 中嵌套多种类型信息，以下为嵌套表格的例子。
+可以在 Popover 中嵌套其它组件， 以下为嵌套表格的例子。
 
 ::: codeBox
 ```vue
@@ -86,7 +86,7 @@ export default {
   <vc-popover
     trigger="click"
     :width="450"
-    placement="right"
+    area="right"
   >
     <vc-table :data="data" :header="header"/>
 
@@ -154,7 +154,7 @@ export default {
 <template>
 <vc-popover
   v-model="visible"
-  trigger="manual" 
+  popover="manual" 
   width="200px"
   placement="left"
 >
@@ -164,7 +164,7 @@ export default {
     <vc-button type="text" color="primary" @click="visible = false">确定</vc-button>
   </div>
   <template #reference>
-    <vc-button @click="visible = !visible">手动激活</vc-button>
+    <vc-button @click="visible = !visible">Delete</vc-button>
   </template>
 </vc-popover>
 </template>
