@@ -5,14 +5,7 @@
 </template>
 
 <script setup>
-import {
-  computed,
-  getCurrentInstance,
-  inject,
-  onBeforeUnmount,
-  onMounted,
-  useSlots
-} from 'vue'
+import { computed, getCurrentInstance, inject, onMounted, useSlots } from 'vue'
 
 const props = defineProps({
   // 选项卡标题
@@ -52,9 +45,5 @@ onMounted(() => {
     ...props,
     slots
   })
-})
-
-onBeforeUnmount(() => {
-  tabsRoot.removePanel(instance.uid)
 })
 </script>

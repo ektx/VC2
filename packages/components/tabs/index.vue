@@ -11,7 +11,7 @@
           ><i
             v-if="item.closable"
             class="vc-icon-close"
-            @click.stop="onCloseItem(item)"
+            @click.stop="onCloseItem(item, index)"
           ></i>
         </div>
       </div>
@@ -47,7 +47,7 @@ const props = defineProps({
     default: ''
   }
 })
-const emits = defineEmits(['update:modelValue', 'remove'])
+const emits = defineEmits(['update:modelValue', 'close'])
 
 const list = ref([])
 const activeTab = ref(null)
@@ -67,7 +67,6 @@ provide('tabsRootContextKey', {
   instance,
   props,
   updatePanel,
-  removePanel,
   emits
 })
 
@@ -86,40 +85,35 @@ function updatePanel(pane) {
   list.value.push(pane)
 }
 
-function removePanel(id) {
-  let index = list.value.findIndex(item => item.id === id)
-
-  list.value.splice(index, 1)
-}
-
-const removeTab = tab => {
-  let index = this.list.findIndex(item => item.id === tab.id)
-  this.list.splice(index, 1)
-  // 更新当前标签
-  if (this.activeTab && tab.id === this.activeTab.id) {
-    this.activeTab = null
-  }
-
-  this.$emit('tab-remove', tab, index)
-  this.$emit('tabRemove', tab, index)
-}
-
-function focusActive() {
-  const activeEl = virtualBoxRrf.value.querySelector('.is-active')
-  const { clientWidth } = virtualBoxRrf.value
-
-  if (!activeEl) return
-  console.log(1, activeEl.offsetLeft)
-  // activeEl && activeEl.scrollIntoView()
-  virtualBoxRrf.value.scrollLeft =
-    activeEl.offsetLeft - clientWidth + activeEl.clientWidth
-}
-
 function onClickNav(item, i) {
   emits('update:modelValue', item.name)
 }
 
-function onCloseItem(item) {
-  debugger
+function onCloseItem(item, index) {
+  list.value.splice(index, 1)
+  // 当关闭节点与活动节点相同时
+  if (item.name === props.modelValue) {
+    if (index > 0) {
+      emits('update:modelValue', list.value[index - 1].name)
+    } else {
+      if (list.value.length > 0) {
+        emits('update:modelValue', list.value[0].name)
+      }
+    }
+  } else {
+    let activeIndex = list.value.findIndex(
+      item => item.name === props.modelValue
+    )
+
+    // 存在激活项
+    if (activeIndex > -1) {
+      // 当活动节点在删除节点前，需要减1
+      if (activeIndex > index) {
+        emits('update:modelValue', list.value[activeIndex - 1].name)
+      }
+    }
+  }
+
+  emits('close', { tab: item, index })
 }
 </script>

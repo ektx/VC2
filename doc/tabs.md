@@ -1,4 +1,4 @@
-# 🚧 Tabs 标签页
+# Tabs 标签页
 分隔内容上有关联但属于不同类别的数据集合。
 
 ## 基础效果
@@ -125,7 +125,7 @@ const value = ref('home')
 ```vue
 <template>
   <vc-button @click="handleClick">Add</vc-button>
-  <vc-tabs v-model="activeName" @remove="remove">
+  <vc-tabs v-model="activeName" @close="onClose">
     <vc-tab-pane 
       v-for="tab in list"
       :key="tab.name"
@@ -143,16 +143,16 @@ const value = ref('home')
   export default {
     data() {
       return {
-        activeName: '',
+        activeName: 1,
         list: [
           {
             label: 'Tab 1',
-            name: '1',
+            name: 1,
             content: 'Tab 1'
           },
           {
             label: 'Tab 2',
-            name: '2',
+            name: 2,
             content: 'Tab 2'
           }
         ]
@@ -161,7 +161,8 @@ const value = ref('home')
     methods: {
       handleClick() {
         let l = this.list.length
-        let name = l + 1
+        let name = l > 0 ? this.list[l -1].name + 1 : 0
+
         this.list.push({
           label: `New Tab ${name}`,
           name,
@@ -169,8 +170,12 @@ const value = ref('home')
         })
         this.activeName = name
       },
-      remove(tab, index) {
-        // this.list.splice(index, 1)
+      onClose({tab, index}) {
+        this.list.splice(index, 1)
+
+        // if (tab.name === this.activeName && this.list.length) {
+        //   this.activeName = this.list[index === 0 ? 1 : index - 1].name
+        // }
       }
     }
   };

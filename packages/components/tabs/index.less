@@ -81,11 +81,33 @@
     transition: color 0.3s;
 
     .vc-icon-close {
-      width: 0;
+      position: absolute;
+      top: 50%;
+      right: 5px;
       aspect-ratio: 1;
+      opacity: 0;
       margin-left: 5px;
       overflow: hidden;
-      transition: width 0.35s;
+      transition: opacity 0.35s;
+      transform: translate(0%, -50%);
+
+      &:hover {
+        background: light-dark(#ddd, #444);
+      }
+    }
+
+    &:has(.vc-icon-close) {
+      position: relative;
+      padding: 0 15px;
+      transition: color 0.3s, padding 0.3s;
+
+      &:hover {
+        padding: 0 22px 0 8px;
+
+        .vc-icon-close {
+          opacity: 1;
+        }
+      }
     }
 
     &.is-active {
@@ -99,12 +121,6 @@
     &.is-disabled {
       // color: @color-text-secondary;
       cursor: not-allowed;
-    }
-
-    &:hover {
-      .vc-icon-close {
-        width: 1em;
-      }
     }
 
     &.active {
