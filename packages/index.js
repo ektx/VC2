@@ -77,6 +77,7 @@ const components = [
 
 const install = app => {
   components.forEach(item => {
+    console.log(item)
     if (!item.function) {
       app.component(item.name, item)
     } else {
