@@ -1,9 +1,9 @@
 import App from './index.vue'
 
-import './index.css'
+import './index.less'
 
 App.install = app => {
-  app.component(app.name, App)
+  app.component(App.name, App)
 }
 
 export default App

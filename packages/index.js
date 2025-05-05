@@ -16,6 +16,7 @@ import MenuItem from './components/menuItem/index.vue'
 import OperationList from './components/operationList/index.vue'
 import Pagination from './components/pagination/index.vue'
 import Popover from './components/popover/index.vue'
+// import Popover from './components/popover/main.jsx'
 import Progress from './components/progress/index.vue'
 import Radio from './components/radio/index.vue'
 import RadioGroup from './components/radioGroup/index.vue'
@@ -77,7 +78,6 @@ const components = [
 
 const install = app => {
   components.forEach(item => {
-    console.log(item)
     if (!item.function) {
       app.component(item.name, item)
     } else {
