@@ -154,7 +154,7 @@ export default {
 <template>
 <vc-popover
   v-model="visible"
-  popover="manual" 
+  trigger="manual" 
   width="200px"
   placement="left"
 >
@@ -169,14 +169,9 @@ export default {
 </vc-popover>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      visible: false
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+const visible = ref(false)
 </script>
 ```
 :::
