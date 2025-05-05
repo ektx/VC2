@@ -24,7 +24,7 @@ Popover 是基于 popper 扩展的功能。具体可以访问 [floating-ui](http
     trigger="click"
     width="200px"
     title="标题"
-    placement="top"
+    area="left  center"
     content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
   >
     <template #reference>
@@ -85,8 +85,8 @@ export default {
 <template>
   <vc-popover
     trigger="click"
-    :width="450"
-    area="right"
+    :width="100"
+    area="left center"
   >
     <vc-table :data="data" :header="header"/>
 
