@@ -1,5 +1,5 @@
 <template>
-  <div class="vc-tabs">
+  <div ref="el" class="vc-tabs">
     <div class="vc-tabs--header">
       <div class="vc-tabs-nav-wrap">
         <div
@@ -15,7 +15,7 @@
           ></i>
         </div>
       </div>
-      <div class="vc-tabs-extra">
+      <div v-if="$slots.extra" class="vc-tabs-extra">
         <slot name="extra"></slot>
       </div>
     </div>
@@ -33,10 +33,8 @@ import {
   provide,
   watch,
   useSlots,
-  onMounted,
-  onUpdated,
   nextTick,
-  computed
+  useTemplateRef
 } from 'vue'
 import TabNav from './tabNav'
 
@@ -50,19 +48,10 @@ const props = defineProps({
 const emits = defineEmits(['update:modelValue', 'close'])
 
 const list = ref([])
-const activeTab = ref(null)
-const isOver = ref(false)
-const isPrevDisable = ref(false)
-const isNextDisable = ref(false)
-const virtualBoxRrf = ref(null)
-const virtualScrollRef = ref(null)
-const virtualVisible = ref(false)
-
 const instance = getCurrentInstance()
 const slots = useSlots()
+const el = useTemplateRef('el')
 
-console.log(slots.default())
-console.log(instance)
 provide('tabsRootContextKey', {
   instance,
   props,
@@ -70,12 +59,7 @@ provide('tabsRootContextKey', {
   emits
 })
 
-onMounted(() => {
-  console.log('[onMounted SplitCollapseItem]')
-})
-
-function updatePanel(pane) {
-  console.log('update...', pane)
+async function updatePanel(pane) {
   let index = list.value.findIndex(item => item.id === pane.id)
 
   if (index > -1) {
@@ -83,6 +67,16 @@ function updatePanel(pane) {
   }
 
   list.value.push(pane)
+
+  await nextTick()
+
+  // 聚集活动节点
+  const activeEl = el.value.querySelector('.active')
+  const activeBCR = activeEl.getBoundingClientRect()
+  const wrapEl = el.value.querySelector('.vc-tabs-nav-wrap')
+  const offset = activeBCR.x - wrapEl.clientWidth + activeBCR.width
+
+  wrapEl.scrollBy(offset, 0)
 }
 
 function onClickNav(item, i) {
@@ -98,18 +92,6 @@ function onCloseItem(item, index) {
     } else {
       if (list.value.length > 0) {
         emits('update:modelValue', list.value[0].name)
-      }
-    }
-  } else {
-    let activeIndex = list.value.findIndex(
-      item => item.name === props.modelValue
-    )
-
-    // 存在激活项
-    if (activeIndex > -1) {
-      // 当活动节点在删除节点前，需要减1
-      if (activeIndex > index) {
-        emits('update:modelValue', list.value[activeIndex - 1].name)
       }
     }
   }

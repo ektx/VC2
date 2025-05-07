@@ -1,15 +1,6 @@
 .vc-tabs {
   position: relative;
 
-  &__scroll {
-    position: relative;
-    overflow: hidden;
-
-    &.is-over {
-      margin: 0 20px;
-    }
-  }
-
   .vc-tabs--header {
     position: relative;
     display: flex;
@@ -47,6 +38,7 @@
     position: relative;
     display: flex;
     overflow: auto;
+    scroll-behavior: smooth;
     scrollbar-width: none;
 
     &::after {
@@ -165,4 +157,10 @@
   height: 100%;
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.2);
+}
+
+.vc-tabs-extra {
+  display: flex;
+  padding: 0 0 0 5px;
+  align-items: center;
 }
