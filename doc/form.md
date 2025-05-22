@@ -190,11 +190,11 @@ export default {
     <vc-form-item label="活动名称">
       <vc-input type="text" v-model="formData.name" validate-event/>
     </vc-form-item>
-    <vc-form-item label="活动区域">
+    <vc-form-item label="区域">
       <vc-select v-model="formData.region" :options="options"/>
     </vc-form-item>
 
-    <vc-form-item label="活动形式" prop="desc">
+    <vc-form-item label="形式" prop="desc">
       <vc-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"></vc-input>
     </vc-form-item>
 

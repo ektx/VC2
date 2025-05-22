@@ -1,21 +1,24 @@
 @import '../../styles/var.less';
 
 .@{namespace}-form-item {
-  display: flex;
-  margin-bottom: 10px;
+  display: grid;
+  grid: inherit;
+  grid-column: span 2;
+  gap: 20px;
+  grid-template-columns: subgrid;
+  // grid-template-columns: 100px 1fr;
   font-size: 14px;
   line-height: 2.25em;
 
   &.is-column {
-    flex-direction: column;
+    grid: unset;
+    gap: 0px;
+    grid-template-columns: auto;
   }
 
-  &__content {
-    flex: 0 0 calc(100% - var(--labelWidth, 25%));
-
-    :where(.@{namespace}-form-item.is-column) & {
-      flex: 1;
-    }
+  form.inline & {
+    grid-column: unset;
+    grid-template-columns: max-content 1fr;
   }
 
   &__info {
@@ -37,8 +40,8 @@
 
   &__label {
     flex: 0 0 var(--labelWidth, 25%);
-    display: inline-block;
-    padding-right: 10px;
+    // display: inline-block;
+    // padding-right: 10px;
     color: @color-text-regular;
     vertical-align: top;
     box-sizing: border-box;

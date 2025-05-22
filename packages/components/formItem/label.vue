@@ -9,7 +9,7 @@
       }
     ]"
   >
-    <label v-if="label">{{ label }}</label>
+    <label contenteditable v-if="label">{{ label }}</label>
     <span
       v-if="vcForm.labelSuffix && label"
       class="vc-form-item__label-suffix"
