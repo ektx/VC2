@@ -21,6 +21,11 @@
     grid-template-columns: max-content 1fr;
   }
 
+  &:not(:has(.vc-form-item__label)) {
+    gap: 0;
+    grid-column: unset;
+  }
+
   &__info {
     height: 0;
     overflow: hidden;
