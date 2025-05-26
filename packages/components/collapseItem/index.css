@@ -43,9 +43,11 @@
     transition: height 0.3s ease, content-visibility 0.3s allow-discrete;
     height: 0;
     overflow: clip;
+    interpolate-size: allow-keywords;
   }
   &[open]::details-content {
-    height: calc-size(max-content, size);
+    /* height: calc-size(max-content, size); */
+    height: auto;
   }
 
   .vc-collapse-item__content {

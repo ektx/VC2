@@ -26,7 +26,7 @@
         <i class="vc-icon-loading" />
       </span>
       <i v-else class="vc-icon-arrow-down" />
-      <i class="vc-icon-error" @click="clearValue" />
+      <i class="vc-icon-error" @click="onClear"></i>
     </div>
     <transition name="vc-zoom-in-top" @after-leave="afterLeave">
       <DropDown v-show="isOpen">
@@ -135,6 +135,10 @@ export default {
     labelAlias: {
       type: String,
       default: 'label'
+    },
+    // 清空选项的值
+    valueOnClear: {
+      type: [String, Number, Boolean, Function]
     }
   },
   setup(props, { emit }) {
@@ -370,11 +374,24 @@ export default {
       }
     },
 
-    clearValue(evt) {
+    onClear(evt) {
       evt.stopPropagation()
 
       if (this.isOpen) this.isOpen = false
-      this.$emit('update:modelValue', this.multiple ? [] : '')
+
+      let val = this.multiple ? [] : ''
+      // 添加清空值的逻辑 添加清空默认值
+      if (this.valueOnClear) {
+        if (typeof this.valueOnClear === 'function') {
+          // 可以使用 () => null 返回 null
+          val = this.valueOnClear()
+        } else {
+          val = this.valueOnClear
+        }
+      }
+
+      this.$emit('update:modelValue', val)
+      this.$emit('onClear', val)
     },
 
     afterLeave() {

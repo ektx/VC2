@@ -110,13 +110,18 @@ const options = [{
 ::: codeBox
 ```vue
 <template>
-  <vc-select v-model="value" :options="options" multiple clearable/>
+  value: {{ JSON.stringify(value1) }}
+  <vc-select v-model="value1" :options="options" clearable :value-on-clear="() => null"/>
+  value list: {{ value2 }}
+  <vc-select v-model="value2" :options="options" multiple clearable/>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 
-const value = ref([])
+const value1 = ref('')
+const value2 = ref([])
+
 const options = [{
   value: '选项1',
   label: '黄金糕'
@@ -753,6 +758,12 @@ setTimeout(() => {
 | loading | **Boolean** | loading | - | false |
 | valueAlias | **String** | 值别名 | - | value |
 | labelAlias | **String** | 标签别名 | - | label |
+
+## 事件
+
+| 事件名 | 说明 | 回调参数 |
+| --- | --- | --- |
+| onClear | 可清空的单选模式下用户点击清空按钮时触发 | `val => {}` |
 
 
 ## Slots
