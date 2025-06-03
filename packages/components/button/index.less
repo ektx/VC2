@@ -10,9 +10,9 @@
   border-radius: var(--radius, 0.2em);
   border: none;
   line-height: 1;
-  color: var(--color, @btn-default-text-color);
+  color: var(--color, --vcTextColor);
   box-sizing: border-box;
-  background-color: var(--bg, #eee);
+  background-color: var(--bg, light-dark(#eee, #222));
   vertical-align: middle;
   transition: 0.2s;
   cursor: pointer;
@@ -28,11 +28,15 @@
   }
 
   &:hover {
-    background-color: e('hsl(from var(--bg, #ddd) h s calc(l + 10))');
+    background-color: e(
+      'hsl(from var(--bg, light-dark(#ddd, #222)) h s calc(l + 10))'
+    );
   }
 
   &:active {
-    background-color: e('hsl(from var(--bg, #ddd) h s calc(l - 10))');
+    background-color: e(
+      'hsl(from var(--bg, light-dark(#ddd, #222)) h s calc(l - 10))'
+    );
   }
 
   &[disabled] {
@@ -67,9 +71,9 @@
   }
 
   &.plain {
-    color: var(--bg, var(--color, @btn-default-text-color));
+    color: var(--bg, var(--color, var(--vcTextColor)));
     background: transparent;
-    border: 1px solid var(--bg, var(--color, #ddd));
+    border: 1px solid var(--bg, var(--color, var(--vcBorderColor)));
   }
 
   &.round {
