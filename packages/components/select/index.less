@@ -14,17 +14,17 @@
       padding: 5px 24px 5px 10px;
       width: 100%;
       height: 100%;
-      color: @color-text-regular;
-      background-color: #fff;
+      color: var(--vcTextColor);
+      background-color: transparent;
       background-image: none;
       border-radius: 3px;
-      border: 1px solid #ddd;
+      border: 1px solid var(--vcBorderColor);
       box-sizing: border-box;
       outline: none;
       transition: border 0.3s;
 
       &:hover {
-        border-color: #aaa;
+        border-color: var(--vcBorderHoverColor);
       }
       &::placeholder {
         color: @color-text-placeholder;
@@ -32,12 +32,17 @@
 
       .is-focus &,
       .is-open & {
-        border-color: #09f;
+        border-color: var(--vcBorderFocusColor);
       }
 
       .is-disabled & {
-        background-color: #f5f7fa;
+        color: var(--vcDisabledTextColor);
+        background-color: var(--vcDisBg);
         cursor: not-allowed;
+
+        &:hover {
+          border-color: var(--vcBorderColor);
+        }
       }
     }
 
@@ -94,11 +99,11 @@
   padding: 0 1em;
   align-items: center;
   line-height: 2.8em;
-  color: @color-text-regular;
-  transition: color 0.3s, font-weight 0.3s;
+  color: var(--vcTextColor);
+  transition: color 0.15s, font-weight 0.15s;
 
   &:hover {
-    background-color: #f5f7fa;
+    background-color: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
   }
 
   &.selected {
@@ -107,7 +112,7 @@
   }
 
   &[disabled] {
-    color: #aaa;
+    color: var(--vcDisabledTextColor);
     cursor: not-allowed;
   }
 
@@ -135,10 +140,11 @@
     display: inline-block;
     margin: 0 3px 3px 0;
     padding: 2px 3px;
-    color: #666;
+    color: var(--vcTextColor);
     border-radius: 2px;
-    border: 1px solid #e9e9eb;
-    background-color: #f4f4f5;
+    border: 1px solid;
+    border-color: light-dark(#e9e9eb, #2c2c2e);
+    background-color: light-dark(#f4f4f5, #2c2c2e);
 
     i {
       opacity: 0.5;
@@ -165,7 +171,7 @@
     background-color: transparent;
 
     &::placeholder {
-      color: @color-text-placeholder;
+      color: var(--vcPlaceholderColor);
     }
 
     .@{namespace}-tag + & {
@@ -178,9 +184,9 @@
   position: absolute;
   z-index: 2000;
   width: 200px;
-  border: 1px solid #ddd;
-  background-color: #fff;
+  border: 1px solid light-dark(#ddd, #222);
   background-color: hsla(0, 0%, 100%, 0.85);
+  background-color: light-dark(#ffffffea, #1c1c1eee);
   backdrop-filter: saturate(100%) blur(10px);
   border-radius: 5px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);

@@ -13,16 +13,6 @@
           <div class="body">{{ content }}</div>
         </slot>
       </div>
-
-      <!-- <div
-        :class="['popover-reference', referenceClass, { open: isVisible }]"
-        :popovertarget="popoverId"
-        popovertargetaction="toggle"
-        @click.stop="onClick"
-        :style="{ anchorName }"
-      >
-        <slot name="reference"></slot>
-      </div> -->
     </teleport>
 
     <Inner
