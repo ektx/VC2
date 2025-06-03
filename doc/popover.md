@@ -1,6 +1,234 @@
 
 # Popover 弹出框
 
+## 展示位置
+
+:::codeBox
+```vue
+<template>
+  <ul>
+    <li>
+      <vc-popover
+        trigger="hover"
+        title="标题"
+        area="top-left"
+        content="这是一段内容。"
+      >
+        <template #reference>
+          <vc-button>top left</vc-button>
+        </template>
+      </vc-popover>
+    </li>
+    <li>
+      <vc-popover
+        trigger="hover"
+        title="title"
+        area="top span-left"
+        content="this is top span-left"
+      >
+        <template #reference>
+          <vc-button>top span-left</vc-button>
+        </template>
+      </vc-popover>
+    </li>
+    <li>
+      <vc-popover
+        trigger="hover"
+        title="标题"
+        area="top"
+        content="这是一段内容。"
+      >
+        <template #reference>
+          <vc-button>top</vc-button>
+        </template>
+      </vc-popover>
+    </li>
+    <li>
+      <vc-popover
+        trigger="hover"
+        title="title"
+        area="top span-right"
+        content="this is top span-right"
+      >
+        <template #reference>
+          <vc-button>top span-right</vc-button>
+        </template>
+      </vc-popover>
+    </li>
+    <li>
+      <vc-popover
+        trigger="hover"
+        title="title"
+        area="top-right"
+        content="this is top-right"
+      >
+        <template #reference>
+          <vc-button>top-right</vc-button>
+        </template>
+      </vc-popover>
+    </li>
+    <li>
+      <vc-popover
+        trigger="hover"
+        title="title"
+        area="left span-top"
+        content="this is left span-top"
+      >
+        <template #reference>
+          <vc-button>left span-top</vc-button>
+        </template>
+      </vc-popover>
+    </li>
+    <li style="grid-column: 2 / span 3"></li>
+    <li>
+      <vc-popover
+        trigger="hover"
+        title="title"
+        area="right span-top"
+        content="this is right span-top"
+      >
+        <template #reference>
+          <vc-button>right span-top</vc-button>
+        </template>
+      </vc-popover>
+    </li>
+    <li>
+      <vc-popover
+        trigger="hover"
+        title="title"
+        area="left"
+        content="this is left"
+      >
+        <template #reference>
+          <vc-button>left</vc-button>
+        </template>
+      </vc-popover>
+    </li>
+    <li style="grid-column: 2 / span 3"></li>
+    <li>
+      <vc-popover
+        trigger="hover"
+        title="title"
+        area="right"
+        content="this is right"
+      >
+        <template #reference>
+          <vc-button>right</vc-button>
+        </template>
+      </vc-popover>
+    </li>
+    
+    <li>
+      <vc-popover
+        trigger="hover"
+        title="title"
+        area="left span-bottom"
+        content="this is left span-bottom"
+      >
+        <template #reference>
+          <vc-button>left span-bottom</vc-button>
+        </template>
+      </vc-popover>
+    </li>
+    <li style="grid-column: 2 / span 3"></li>
+    <li>
+      <vc-popover
+        trigger="hover"
+        title="title"
+        area="right span-bottom"
+        content="this is right span-bottom"
+      >
+        <template #reference>
+          <vc-button>right span-bottom</vc-button>
+        </template>
+      </vc-popover>
+    </li>
+
+    <li>
+      <vc-popover
+        trigger="hover"
+        title="标题"
+        area="bottom-left"
+        content="这是一段内容。"
+      >
+        <template #reference>
+          <vc-button>bottom-left</vc-button>
+        </template>
+      </vc-popover>
+    </li>
+    <li>
+      <vc-popover
+        trigger="hover"
+        title="title"
+        area="bottom span-left"
+        content="this is bottom span-left"
+      >
+        <template #reference>
+          <vc-button>bottom span-left</vc-button>
+        </template>
+      </vc-popover>
+    </li>
+    <li>
+      <vc-popover
+        trigger="hover"
+        title="标题"
+        area="bottom"
+        content="this is bottom"
+      >
+        <template #reference>
+          <vc-button>bottom</vc-button>
+        </template>
+      </vc-popover>
+    </li>
+    <li>
+      <vc-popover
+        trigger="hover"
+        title="title"
+        area="bottom span-right"
+        content="this is bottom span-right"
+      >
+        <template #reference>
+          <vc-button>bottom span-right</vc-button>
+        </template>
+      </vc-popover>
+    </li>
+    <li>
+      <vc-popover
+        trigger="hover"
+        title="title"
+        area="bottom-right"
+        content="this is bottom-right"
+      >
+        <template #reference>
+          <vc-button>bottom-right</vc-button>
+        </template>
+      </vc-popover>
+    </li>
+  </ul>
+</template>
+
+<style lang="css" scoped>
+ul {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(5, 1fr);
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    button {
+      width: 100%;
+    }
+  }
+}
+</style>
+```
+:::
+
+
 Popover 是基于 popper 扩展的功能。具体可以访问 [floating-ui](https://floating-ui.com/)。
 
 ## 基础效果
@@ -86,7 +314,7 @@ export default {
   <vc-popover
     trigger="click"
     :width="100"
-    area="left center"
+    area="left"
   >
     <vc-table :data="data" :header="header"/>
 
@@ -154,9 +382,9 @@ export default {
 <template>
 <vc-popover
   v-model="visible"
-  trigger="manual" 
+  popover="manual" 
   width="200px"
-  placement="left"
+  area="left"
 >
   <p>这是一段内容确定删除吗？</p>
   <div style="text-align: right; margin-top: 10px">
@@ -169,9 +397,14 @@ export default {
 </vc-popover>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-const visible = ref(false)
+<script>
+export default {
+  data() {
+    return {
+      visible: false
+    }
+  }
+}
 </script>
 ```
 :::

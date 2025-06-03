@@ -1,0 +1,127 @@
+.popover-reference {
+  anchor-name: --anchor-el;
+}
+
+.vc-popover-target {
+  display: none;
+  inset: unset;
+  width: var(--w, max-content);
+
+  position: absolute;
+  opacity: 0;
+  padding: 5px 8px;
+  margin: 5px;
+  border: 1px solid light-dark(#ccc, #444);
+  border-radius: 5px;
+  transition: opacity 0.3s, display 0.3s, overlay 0.3s;
+  position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+
+  &:popover-open {
+    display: block;
+    opacity: 1;
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+
+  &.top {
+    margin: 5px 0;
+    bottom: anchor(top);
+    left: anchor(center);
+    transform: translateX(-50%);
+
+    &.span-left {
+      left: unset;
+      right: anchor(right);
+      transform: unset;
+    }
+
+    &.span-right {
+      left: anchor(left);
+      right: unset;
+      transform: unset;
+    }
+  }
+
+  &.top-left {
+    margin: 5px 0;
+    bottom: anchor(top);
+    right: anchor(left);
+  }
+
+  &.top-right {
+    margin: 5px 0;
+    bottom: anchor(top);
+    left: anchor(right);
+  }
+
+  &.left {
+    margin: 0 5px;
+    right: anchor(left);
+    left: unset;
+    top: anchor(center);
+    transform: translateY(-50%);
+
+    &.span-top {
+      bottom: anchor(bottom);
+      top: unset;
+      transform: unset;
+    }
+
+    &.span-bottom {
+      top: anchor(top);
+      transform: unset;
+    }
+  }
+
+  &.right {
+    margin: 0 5px;
+    left: anchor(right);
+    top: anchor(center);
+    transform: translateY(-50%);
+
+    &.span-top {
+      bottom: anchor(bottom);
+      top: unset;
+      transform: unset;
+    }
+
+    &.span-bottom {
+      top: anchor(top);
+      right: unset;
+      transform: unset;
+    }
+  }
+
+  &.bottom {
+    margin: 5px 0;
+    top: anchor(bottom);
+    left: anchor(center);
+    transform: translateX(-50%);
+
+    &.span-left {
+      right: anchor(right);
+      left: unset;
+      transform: unset;
+    }
+
+    &.span-right {
+      left: anchor(left);
+      right: unset;
+      transform: unset;
+    }
+  }
+
+  &.bottom-left {
+    margin: 0 5px;
+    top: anchor(bottom);
+    right: anchor(left);
+  }
+
+  &.bottom-right {
+    margin: 0 5px;
+    top: anchor(bottom);
+    left: anchor(right);
+  }
+}

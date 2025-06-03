@@ -11,23 +11,25 @@ export default defineComponent({
     let ctx = getCurrentInstance()
 
     return () => {
-      const defaultSlot = props.slots.reference?.(attrs)
+      const referenceSlot = props.slots.reference?.(attrs)
 
-      if (!defaultSlot) return null
+      if (!referenceSlot) return null
 
-      if (defaultSlot.length > 1) {
+      if (referenceSlot.length > 1) {
         console.warn('requires exact only one valid child.')
         return null
       }
 
-      const firstNode = defaultSlot[0]
+      const firstNode = referenceSlot[0]
 
       if (!firstNode) {
         console.warn('no valid child node found')
         return null
       }
 
-      return cloneVNode(defaultSlot[0], attrs)
+      console.log(attrs)
+
+      return cloneVNode(referenceSlot[0], attrs)
     }
   }
 })
