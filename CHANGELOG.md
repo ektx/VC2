@@ -1,8 +1,11 @@
 # CHANGELOG
 
-## 1.18.0 (2025-5-7)
+## 1.18.0 (2025-6-11)
 
 - tabs 组件功能重构
+- popver 组件重构，使用原生 [popover](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Reference/Global_attributes/popover) 方案。
+- select 组件深色模式支持
+- `fix` 修复 collapse 组件宽度超出问题。
 
 ## 1.17.2 (2025-3-6)
 
