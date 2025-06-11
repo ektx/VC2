@@ -64,7 +64,7 @@ const libConfig = {
 
 const docConfig = {
   root: resolve(__dirname, 'example'),
-  base: '/VC/',
+  base: '/VC2/',
   plugins: [vue(), vueJSX(), virtualRouter()],
   build: {
     outDir: resolve(__dirname, 'docs'),
