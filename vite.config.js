@@ -62,6 +62,23 @@ const libConfig = {
   }
 }
 
+const docConfig = {
+  root: resolve(__dirname, 'example'),
+  base: '/VC/',
+  plugins: [vue(), vueJSX(), virtualRouter()],
+  build: {
+    outDir: resolve(__dirname, 'docs'),
+    emptyOutDir: true
+  },
+  resolve: {
+    alias: {
+      vue: 'vue/dist/vue.esm-bundler.js',
+      '@src': resolve(__dirname, 'example'),
+      '@packages': resolve(__dirname, 'packages')
+    }
+  }
+}
+
 const devConfig = {
   root: resolve(__dirname, 'example'),
   server: {
@@ -85,7 +102,7 @@ const devConfig = {
 export default defineConfig(({ command, mode }) => {
   console.log(command, mode)
   if (command === 'build') {
-    return mode === 'lib' ? libConfig : devConfig
+    return mode === 'lib' ? libConfig : docConfig
   }
 
   return devConfig
