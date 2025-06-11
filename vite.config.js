@@ -68,6 +68,10 @@ const devConfig = {
     port: 3010
   },
   plugins: [vue(), vueJSX(), virtualRouter()],
+  build: {
+    outDir: resolve(__dirname, 'docs'),
+    emptyOutDir: true
+  },
 
   resolve: {
     alias: {
@@ -81,7 +85,7 @@ const devConfig = {
 export default defineConfig(({ command, mode }) => {
   console.log(command, mode)
   if (command === 'build') {
-    return mode === 'lib' ? libConfig : {}
+    return mode === 'lib' ? libConfig : devConfig
   }
 
   return devConfig
