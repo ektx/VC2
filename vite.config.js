@@ -81,6 +81,7 @@ const docConfig = {
 
 const devConfig = {
   root: resolve(__dirname, 'example'),
+  base: '/VC2/',
   server: {
     port: 3010
   },

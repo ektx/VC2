@@ -6,7 +6,9 @@ import chokidar from 'chokidar'
 const virtualModuleId = '@vipress-router'
 const resolvedVirtualModuleId = '\0' + virtualModuleId
 
+// markdown 文档目录
 const mdDocDir = 'doc'
+// 模板缓存目录
 const temSaveDir = '.cache'
 
 export default async function () {

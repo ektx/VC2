@@ -20,8 +20,7 @@ const scrollBehavior = function (to, from, savedPosition) {
 console.log('routes', routes, import.meta.env)
 
 export default createRouter({
-  base: import.meta.env.BASE_URL,
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior,
   routes
 })

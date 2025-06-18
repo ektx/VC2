@@ -12,7 +12,7 @@ export const menu = [
     children: [
       {
         label: '快速上手',
-        to: 'welcome'
+        to: '/welcome'
       }
     ]
   },
