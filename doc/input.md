@@ -43,18 +43,31 @@ const input = ref('')
 
 ```vue
 <template>
-  <vc-input v-model="input" clearable />
+  <main>
+    <vc-input v-model="input" clearable />
 
-  <vc-input clearable />
+    <vc-input :modelValue="input" clearable @clear="onClear"/>
 
-  <vc-input type=textarea clearable/>
+    <vc-input type=textarea clearable/>
+  </main>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 
 const input = ref('1234')
+
+function onClear() {
+  input.value = ''
+}
 </script>
+
+<style lang="css" scoped>
+main {
+  display: grid;
+  gap: 10px;
+}
+</style>
 ```
 :::
 
