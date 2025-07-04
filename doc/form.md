@@ -634,6 +634,16 @@ const formData = reactive({
   passwd: '',
   checkPass: '',
 })
+
+let submitForm = () => {
+  form.value.validate(valid => {
+    if (valid) {
+      console.log('submit!');
+    } else {
+      console.log('error submit!!');
+    }
+  });
+}
 </script>
 
 <style scoped>
