@@ -4,8 +4,7 @@
   grid-template-columns: max-content 1fr;
 
   &.inline {
-    // grid: inherit;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(var(--w, 260px), 1fr));
     gap: 5px 15px;
   }
 
