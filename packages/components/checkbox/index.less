@@ -27,8 +27,9 @@
     width: 1em;
     aspect-ratio: 1;
     font-size: var(--size, inherit);
-    border: e('var(@{checkbox}-icon-border)');
-    border-radius: 2px;
+    border: var(--vc-checkbox-icon-border);
+    border-color: var(--vc-checkbox-icon-border-color);
+    border-radius: 0.215em;
     transition: background-color 0.3s;
 
     &::after {

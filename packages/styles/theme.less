@@ -69,11 +69,18 @@
 
   // checkbox
   @{checkbox}-label-color: e('var(@{textColorPrimary})');
-  @{checkbox}-icon-border: 1px solid rgba(#000, 0.2);
   @{checkbox}-checked-color: e('var(@{primaryColor})');
   @{checkbox}-disabled-color: e('var(@{textColorRegular})');
   @{checkbox}-disabled-border-color: @disabledColor;
   @{checkbox}-disabled-bg-color: #eee;
+
+  // new theme ----------------------
+  // checkbox
+  --vc-checkbox-icon-border: 1px solid transparent;
+  --vc-checkbox-icon-border-color: light-dark(
+    rgba(0, 0, 0, 0.2),
+    rgba(255, 255, 255, 0.2)
+  );
 }
 
 .dark {
@@ -105,7 +112,6 @@
   @{layer}-mod-bg: rgba(#fff, 0.1);
 
   // checkbox
-  @{checkbox}-icon-border: 1px solid rgba(#fff, 0.2);
   @{checkbox}-checked-color: e('var(@{primaryColor}, #09f)');
   @{checkbox}-disabled-color: @color-text-regular;
   @{checkbox}-disabled-border-color: @disabledColor;
