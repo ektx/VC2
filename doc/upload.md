@@ -10,7 +10,7 @@
 <template>
   <vc-upload 
     type="avatar"
-    action=" http://localhost:4080/api/upload"
+    action=" http://localhost:3000/uploads"
     :src="src"
   />
 </template>

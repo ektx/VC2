@@ -9,6 +9,7 @@
     />
     <Avatar
       v-if="type === 'avatar'"
+      :src="fileList.length ? fileList[0].src : $props.src"
       v-bind="$props"
       @selectFile="selectFile"
       @upload="uploadFile"
@@ -129,6 +130,17 @@ export default {
         }
       })
     },
+
+    displayImgs(item) {
+      let reader = new FileReader()
+
+      reader.onload = e => {
+        item.src = e.target.result
+      }
+
+      reader.readAsDataURL(item.file)
+    },
+
     fileChangeEvt(evt) {
       let { files } = evt.target
       let exceedSize = []
@@ -177,8 +189,15 @@ export default {
           })
         return
       }
+
+      this.displayImgs(fileList[0])
+
       // 在没有错误情况下，更新文件列表
-      this.fileList = this.fileList.concat(fileList)
+      if (this.type === 'avatar') {
+        this.fileList = fileList
+      } else {
+        this.fileList = this.fileList.concat(fileList)
+      }
 
       if (this.autoUpload && !hasExceedLimit) {
         this.uploadFile(this.fileList)
