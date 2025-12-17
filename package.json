@@ -34,6 +34,7 @@
   "author": "WenLong",
   "dependencies": {
     "@floating-ui/dom": "^1.7.0",
+    "@types/node": "^25.0.3",
     "async-validator": "^4.0.7",
     "dayjs": "^1.11.0",
     "vue": "^3.2.37",

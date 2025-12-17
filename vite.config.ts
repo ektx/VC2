@@ -2,10 +2,10 @@ import { resolve } from 'path'
 import vue from '@vitejs/plugin-vue'
 import vueJSX from '@vitejs/plugin-vue-jsx'
 import dts from 'vite-plugin-dts'
-import { defineConfig } from 'vite'
+import { defineConfig, UserConfig, ConfigEnv } from 'vite'
 import virtualRouter from './server/virtualRouter'
 
-const libConfig = {
+const libConfig: UserConfig = {
   plugins: [
     vue(),
     vueJSX(),
@@ -62,7 +62,7 @@ const libConfig = {
   }
 }
 
-const docConfig = {
+const docConfig: UserConfig = {
   root: resolve(__dirname, 'example'),
   base: '/VC2/',
   plugins: [vue(), vueJSX(), virtualRouter()],
@@ -100,8 +100,7 @@ const devConfig = {
   }
 }
 
-export default defineConfig(({ command, mode }) => {
-  console.log(command, mode)
+export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   if (command === 'build') {
     return mode === 'lib' ? libConfig : docConfig
   }
