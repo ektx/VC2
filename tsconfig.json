@@ -2,17 +2,23 @@
   "compilerOptions": {
     "target": "ESNext",  
     "module": "ESNext", 
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "declarationDir": "lib/types",
     "skipLibCheck": true,
     
     /* Bundler mode */
     "moduleResolution": "Bundler", 
                       
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
       "@packages/*": ["packages/*"]
     },     
-    "outDir": "./dist",  
+    "outDir": "./lib",  
     /* Linting */
     "allowJs": true,  
     "checkJs": false,  

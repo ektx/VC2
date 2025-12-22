@@ -18,10 +18,11 @@ const libConfig: UserConfig = {
     outDir: resolve(__dirname, 'lib'),
     emptyOutDir: true,
     copyPublicDir: false,
+    sourcemap: true,
 
     lib: {
       // Could also be a dictionary or array of multiple entry points
-      entry: resolve(__dirname, 'packages/index.js'),
+      entry: resolve(__dirname, 'packages/index.ts'),
       cssFileName: 'index'
     },
     rollupOptions: {
