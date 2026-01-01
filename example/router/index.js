@@ -3,6 +3,11 @@ import routes from '@vipress-router'
 
 console.log('routes', routes)
 
+routes.push({
+  path: '/',
+  redirect: '/welcome'
+})
+
 const scrollBehavior = function (to, from, savedPosition) {
   if (to.hash) {
     return {
