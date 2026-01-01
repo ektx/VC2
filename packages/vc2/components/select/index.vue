@@ -1,0 +1,362 @@
+<template>
+  <div
+    :class="[
+      'vc-select',
+      {
+        'is-focus': isFocus,
+        'is-open': isOpen,
+        'is-disabled': disabled,
+        clearable
+      }
+    ]"
+    ref="el"
+    @click.stop="focusEvt"
+  >
+    <VS_Tags ref="tags" :selectedItem="selectedItem" />
+    <div ref="inputArea" class="vc-select__input">
+      <input
+        type="text"
+        autocomplete="off"
+        :readonly="!filterable"
+        :placeholder="myPlaceholder"
+        :value="intValue"
+        @input="intValue = ($event.target as HTMLInputElement).value"
+      />
+      <span v-if="loading">
+        <i class="vc-icon-loading" />
+      </span>
+      <i v-else class="vc-icon-arrow-down" />
+      <i class="vc-icon-error" @click="onClear"></i>
+    </div>
+    <transition name="vc-zoom-in-top" @after-leave="afterLeave">
+      <DropDown v-show="isOpen">
+        <ul v-if="myOptions.length">
+          <template v-for="item in myOptions" :key="item.label">
+            <template v-if="item.children">
+              <VCSGroup :item="item">
+                <template #label="item">
+                  <slot name="header" v-bind="item">
+                    <div class="vc-select-group__label">{{ item.label }}</div>
+                  </slot>
+                </template>
+                <template #default="item">
+                  <slot name="option" v-bind="item">
+                    <label>{{ item[labelAlias] }}</label>
+                    <i v-if="item.selected" class="vc-icon-check"></i>
+                  </slot>
+                </template>
+              </VCSGroup>
+            </template>
+            <VCSOption v-else :item="item">
+              <template #default="item">
+                <slot name="option" v-bind="item">
+                  <label>{{ item[labelAlias] }}</label>
+                  <i v-if="item.selected" class="vc-icon-check"></i>
+                </slot>
+              </template>
+            </VCSOption>
+          </template>
+        </ul>
+        <div class="vc-select-empty" v-else>
+          {{ loading ? '加载中' : '无匹配数据' }}
+        </div>
+      </DropDown>
+    </transition>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import {
+  ref,
+  onUnmounted,
+  onMounted,
+  watch,
+  computed,
+  inject,
+  provide,
+  getCurrentInstance,
+  reactive,
+  toRefs
+} from 'vue'
+import { copyArray } from '../../utils/copy'
+import DropDown from './dropDown.vue'
+import VS_Tags from './tags.vue'
+import VCSOption from './option.vue'
+import VCSGroup from './group.vue'
+import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom'
+import { selectProps, selectEmits, type SelectOption, selectKey } from './types'
+
+defineOptions({
+  name: 'VcSelect'
+})
+
+const props = defineProps(selectProps)
+const emit = defineEmits(selectEmits)
+
+const el = ref<HTMLElement | null>(null)
+const isFocus = ref(false)
+const isOpen = ref(false)
+const selectedItem = ref<Record<string, SelectOption>>({})
+const hoverItem = ref({})
+const intValue = ref('')
+const query = ref('')
+const vcFormItem = inject<any>('vcFormItem', null)
+const inputArea = ref<HTMLElement | null>(null)
+
+const myPlaceholder = computed(() => {
+  let result = props.placeholder
+
+  if (props.multiple || props.createTags) {
+    // 在可筛选时
+    if (props.filterable) {
+      result = ''
+    } else {
+      result = (props.modelValue as any[]).length ? '' : props.placeholder
+    }
+  } else {
+    if (isFocus.value && Object.keys(selectedItem.value).length) {
+      result = Object.values(selectedItem.value)[0][props.labelAlias] as string
+    }
+  }
+  return result
+})
+
+let tooltip: any = null
+let hideDropdown = (evt: any) => {
+  if (el.value?.contains(evt.target)) return
+
+  isOpen.value = false
+  isFocus.value = false
+}
+
+onUnmounted(() => {
+  document.removeEventListener('click', hideDropdown, true)
+})
+
+onMounted(() => {
+  document.addEventListener('click', hideDropdown, true)
+})
+
+const myOptions = computed(() => {
+  let list = copyArray(props.options) as SelectOption[]
+
+  if (props.filterable) {
+    let val = intValue.value || query.value
+    let result: SelectOption[] = []
+
+    if (props.filterMethod) {
+      result = props.filterMethod(val, list)
+    } else {
+      list.forEach(option => {
+        if (option.children) {
+          let _arr: SelectOption[] = []
+
+          option.children.forEach(item => {
+            if ((item[props.labelAlias] as string).includes(val)) {
+              _arr.push(item)
+            }
+          })
+
+          if (_arr.length) result.push({ ...option, children: _arr })
+        } else {
+          if ((option[props.labelAlias] as string).includes(val))
+            result.push(option)
+        }
+      })
+    }
+
+    if (props.createTags) {
+      let key = query.value.trim()
+      if (key && !Reflect.has(selectedItem.value, key)) {
+        result.unshift({
+          [props.valueAlias]: key,
+          [props.labelAlias]: key
+        })
+      }
+    }
+
+    list = result
+  }
+
+  return list
+})
+
+watch(
+  () => isFocus.value,
+  val => {
+    if (val) {
+      emit('focus', val as any)
+    } else {
+      emit('blur')
+
+      if (!props.multiple && Object.values(selectedItem.value).length) {
+        intValue.value = Object.values(selectedItem.value)[0][
+          props.labelAlias
+        ] as string
+      }
+
+      if (vcFormItem) vcFormItem.checkValidate('blur')
+    }
+  }
+)
+
+watch(
+  () => intValue.value,
+  val => {
+    if (props.remoteMethod) {
+      props.remoteMethod(val)
+    }
+  }
+)
+
+const focusEvt = () => {
+  if (props.disabled) return
+
+  if (isOpen.value) {
+    isOpen.value = false
+    isFocus.value = false
+    return
+  }
+
+  let { width } = (el.value as HTMLElement).getBoundingClientRect()
+  let tooltipEl = (el.value as HTMLElement).querySelector(
+    '.vc-select__dropdown'
+  ) as HTMLElement
+  isOpen.value = true
+  isFocus.value = true
+
+  if (props.multiple) {
+    intValue.value = ''
+  } else {
+    if (props.filterable) {
+      intValue.value = ''
+    }
+  }
+
+  tooltipEl.style.width = width + 'px'
+
+  tooltip = autoUpdate(inputArea.value as HTMLElement, tooltipEl, () => {
+    if (!inputArea.value) return
+
+    computePosition(inputArea.value as HTMLElement, tooltipEl, {
+      placement: 'bottom',
+      middleware: [flip(), offset(5)]
+    }).then(({ x, y }) => {
+      Object.assign(tooltipEl.style, {
+        left: x + 'px',
+        top: y + 'px'
+      })
+    })
+  })
+}
+
+const selectedEvt = (evt: Event, item: SelectOption) => {
+  evt.stopPropagation()
+
+  if (item.disabled) return
+
+  let result: any = ''
+  let key = item[props.valueAlias]
+
+  query.value = ''
+
+  if (props.multiple || props.createTags) {
+    if (key in selectedItem.value) {
+      delete selectedItem.value[key]
+    } else {
+      selectedItem.value[key] = item
+    }
+
+    result = Object.keys(selectedItem.value)
+    intValue.value = ''
+  } else {
+    selectedItem.value = {
+      [key]: item
+    }
+    result = key
+    intValue.value = item[props.labelAlias] as string
+  }
+
+  // 不是多选则关闭选项列表
+  if (!props.multiple) {
+    isOpen.value = false
+  }
+
+  // 触发表彰验证
+  if (vcFormItem) {
+    vcFormItem.checkValidate('change')
+  }
+  emit('update:modelValue', result)
+  emit('change', result, item)
+}
+
+const updateSelectedItem = (item: SelectOption, isAdd: boolean) => {
+  let key = item[props.valueAlias]
+
+  if (isAdd) {
+    if (selectedItem.value[key]) {
+      if (item[props.labelAlias] === selectedItem.value[key][props.labelAlias])
+        return
+    }
+
+    if (props.multiple) {
+      selectedItem.value[key] = item
+    } else {
+      selectedItem.value = {
+        [key]: item
+      }
+      intValue.value = item[props.labelAlias] as string
+    }
+  } else {
+    if (selectedItem.value[key] && !props.multiple) {
+      intValue.value = ''
+    }
+
+    delete selectedItem.value[key]
+  }
+}
+
+const onClear = (evt: Event) => {
+  evt.stopPropagation()
+
+  if (isOpen.value) isOpen.value = false
+
+  let val: any = props.multiple ? [] : ''
+  // 添加清空值的逻辑 添加清空默认值
+  if (props.valueOnClear) {
+    if (typeof props.valueOnClear === 'function') {
+      // 可以使用 () => null 返回 null
+      val = props.valueOnClear()
+    } else {
+      val = props.valueOnClear
+    }
+  }
+
+  emit('update:modelValue', val)
+  emit('onClear', val)
+}
+
+const afterLeave = () => {
+  // tooltip?.destroy()
+  emit('closed')
+}
+
+// Expose methods for parent components
+defineExpose({
+  selectedEvt,
+  updateSelectedItem
+})
+
+const state = {
+  props,
+  query,
+  selectedItem,
+  selectedEvt,
+  updateSelectedItem,
+  $refs: {
+    inputArea
+  }
+}
+
+provide(selectKey, state)
+</script>
