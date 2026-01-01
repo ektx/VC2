@@ -8,13 +8,10 @@
     "global.d.ts"
   ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build --mode lib",
-    "doc": "vite build --mode doc",
-    "update": "node --experimental-json-modules ./bin/update.mjs",
-    "create": "node ./bin/create.mjs && yarn run update",
-    "e2e": "./node_modules/.bin/cypress open",
-    "dts": "vue-tsc --declaration --emitDeclarationOnly"
+    "dev": "pnpm -F example dev",
+    "build": "pnpm -F @ektx/vc2 build",
+    "build:all": "pnpm -r build",
+    "example:dev": "pnpm -F example dev"
   },
   "main": "lib/cjs/index.cjs",
   "module": "lib/es/index.js",
@@ -40,6 +37,7 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "@types/node": "^25.0.3",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vitejs/plugin-vue-jsx": "^4.1.2",
     "@vue/compiler-sfc": "^3.2.37",
