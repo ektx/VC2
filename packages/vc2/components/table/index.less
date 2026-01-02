@@ -1,0 +1,149 @@
+@import '../../styles/var.less';
+
+.@{namespace}-table {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 200px;
+  position: relative;
+  background-color: e('var(@{table}-bg)');
+
+  &--content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: auto;
+    scrollbar-width: none;
+
+    &:has(table.has-border) {
+      border: 1px solid e('var(@{table}-border-color)');
+    }
+  }
+
+  table {
+    width: 100%;
+    margin: 0;
+    table-layout: fixed;
+  }
+
+  thead {
+    th {
+      border-bottom: 1px solid e('var(@{table}-border-color)');
+
+      .cell {
+        padding: 10px 5px;
+        font-size: 14px;
+        text-align: left;
+        color: e('var(@{table}-header-color)');
+        border: none;
+      }
+    }
+  }
+
+  tbody {
+    td,
+    th {
+      border-bottom: 1px solid e('var(@{table}-border-color)');
+
+      .cell {
+        padding: 10px 5px;
+        font-size: 14px;
+        color: e('var(@{table}-color)');
+        word-break: break-all;
+      }
+
+      // 调整显示间隔
+      .vc-radio,
+      .vc-radio__label {
+        margin: 0 0 0 5px;
+      }
+    }
+
+    tr:hover {
+      td,
+      th {
+        background-color: e('var(@{table}-hover-bg)');
+      }
+    }
+  }
+
+  .has-border {
+    td,
+    th {
+      border: 1px solid e('var(@{table}-border-color)');
+
+      &:first-child {
+        border-width: 0 1px 1px 0;
+      }
+    }
+
+    tr:first-child {
+      td,
+      th {
+        border-top-width: 0;
+      }
+    }
+  }
+
+  &__pagination {
+    padding: 10px 0;
+    text-align: right;
+  }
+
+  &__loading-mod {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    color: e('var(@{table}-color)');
+    background: e('var(@{table}-mod-bg)');
+
+    .inner {
+      text-align: center;
+      p {
+        color: e('var(@{table}-color)');
+      }
+    }
+
+    i {
+      font-size: 14px;
+    }
+  }
+
+  &__body {
+    flex: 1;
+    overflow: auto;
+    border-bottom: 1px solid e('var(@{table}-border-color)');
+
+    &.highlight-current-row {
+      .current {
+        td {
+          background-color: e('var(@{table}-light-bg)');
+          border-color: e('var(@{table}-light-border-color)');
+        }
+
+        &:hover td {
+          background-color: e('var(@{table}-hover-bg)');
+        }
+      }
+    }
+  }
+
+  &__empty {
+    display: grid;
+    height: 100%;
+    min-height: 200px;
+    place-items: center;
+    color: #999;
+    font-size: 1.2em;
+    text-align: center;
+
+    &.is-border {
+      border: 1px solid e('var(@{table}-border-color)');
+    }
+  }
+}
