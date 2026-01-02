@@ -1,0 +1,17 @@
+.vc-form {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: max-content 1fr;
+
+  &.inline {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(var(--w, 260px), 100%), 1fr)
+    );
+    gap: 5px 15px;
+  }
+
+  &:not(:has(.vc-form-item__label)) {
+    grid-template-columns: 1fr;
+  }
+}
