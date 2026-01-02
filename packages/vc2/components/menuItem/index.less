@@ -1,0 +1,155 @@
+@import '../../styles/var.less';
+
+.@{namespace}-menu-item {
+  font-size: 14px;
+  line-height: 2em;
+  color: @color-text-regular;
+  cursor: pointer;
+
+  &--header {
+    display: flex;
+    height: var(--itemH, 40px);
+    align-items: center;
+    box-sizing: border-box;
+
+    &:hover {
+      color: @primary-color;
+      background-color: rgba(@primary-color, 0.05);
+    }
+  }
+
+  &--icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--itemH);
+    aspect-ratio: 1;
+  }
+  &--hd-inner {
+    flex: 1;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    :where(.is-collapse) & {
+      display: none;
+    }
+
+    :where(.is-fixed) & {
+      display: block;
+      padding: 0 10px;
+    }
+  }
+
+  &--more {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    width: 28px;
+    aspect-ratio: 1;
+
+    i {
+      transition: transform 0.3s ease-in-out;
+
+      :where(.inline-mode) & {
+        transform: rotate(90deg);
+      }
+
+      :where(.inline-mode .@{namespace}-menu-item--header.is-open) & {
+        transform: rotate(-90deg);
+      }
+
+      :where(.is-fixed) & {
+        transform: rotate(0deg);
+      }
+    }
+
+    :where(.is-collapse) & {
+      display: none;
+    }
+
+    :where(.is-fixed) & {
+      display: inline-flex;
+    }
+
+    :where(.horizontal-mode .level-0) & {
+      transform: rotate(90deg);
+    }
+  }
+
+  &.is-active {
+    color: @primary-color;
+  }
+  &.is-exact-active {
+    color: @primary-color;
+    & > .@{namespace}-menu-item--header {
+      background-color: rgba(@primary-color, 0.05);
+    }
+  }
+
+  &--child {
+    visibility: hidden;
+    padding: 0;
+    background-color: #fff;
+    background-color: hsla(0, 0%, 100%, 0.85);
+    backdrop-filter: saturate(100%) blur(10px);
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out,
+      transform 0.3s ease-in-out;
+    overflow: hidden;
+
+    &-inner {
+      min-height: 0;
+      min-width: 0;
+    }
+
+    &.is-open {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    &.is-fixed {
+      padding: 5px 0;
+      position: fixed;
+      z-index: 2000;
+      border-radius: 5px;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+      .@{namespace}-menu-item--header {
+        min-width: 150px;
+      }
+    }
+
+    &.is-inline {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.3s ease-in-out, opacity 0.3s ease-in-out,
+        visibility 0.3s ease-in-out, transform 0.3s ease-in-out;
+
+      &.is-open {
+        grid-template-rows: 1fr;
+      }
+    }
+  }
+
+  &.is-collapse {
+    & > .@{namespace}-menu-item--header {
+      justify-content: center;
+    }
+  }
+
+  &.is-disabled {
+    cursor: not-allowed;
+
+    .@{namespace}-menu-item--header {
+      color: rgba(0, 0, 0, 0.2);
+
+      &:hover {
+        color: rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+}
