@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "rootDir": ".",
+    "target": "ESNext",  
+    "module": "ESNext", 
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "declarationDir": "lib/types",
+    "skipLibCheck": true,
+    
+    /* Bundler mode */
+    "moduleResolution": "Bundler", 
+                      
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@packages/*": ["packages/*"]
+    },     
+    "outDir": "./lib",  
+    /* Linting */
+    "allowJs": true,  
+    "checkJs": false,  
+    "forceConsistentCasingInFileNames": true,          
+  },
+  "exclude": [
+    "node_modules",
+    "bin",
+    "cypress",
+    "doc",
+    "lib",
+    "types",
+    "dist",
+    "vite.config*"
+  ]
+}

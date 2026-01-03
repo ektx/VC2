@@ -1,0 +1,49 @@
+/**
+  弹层动画函数
+
+  1.使用方法:
+  .vc-test-div {
+    // 定义弹层背景色
+    @bgColor: rgba(0,0,0,.3);
+    // 使用背景色
+    background: @bgColor;
+    // 添加vue动画
+    .backdropAnimate(vc-test-div, @bgColor);
+  }
+
+  2.vue 过渡动画使用:
+  <transition name="{name}-backdrop-animate" >
+ */
+.backdropAnimate(
+  @name, 
+  @bgColor: rgba(0, 0, 0, .1), 
+  @time: 350ms
+) {
+  @names: ~'@{name}-backdrop-animate';
+  
+  &-backdrop-animate-enter-active {
+    animation: ~'@{names}-enter' @time;
+  }
+  &-backdrop-animate-leave-active {
+    animation: ~'@{names}-leave' @time;
+  }
+  
+  // vue 过渡动画
+  @keyframes ~'@{names}-enter' {
+    from {
+      background: rgba(0, 0, 0, 0);
+    }
+    to {
+      background: @bgColor;
+    }
+  }
+  @keyframes  ~'@{names}-leave' {
+    from {
+      background: @bgColor;
+    }
+    to {
+      background: rgba(0, 0, 0, 0);
+    }
+  }
+}
+

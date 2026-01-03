@@ -1,37 +1,23 @@
 {
   "compilerOptions": {
-    "target": "ESNext",  
-    "module": "ESNext", 
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "strict": true,
     "jsx": "preserve",
     "sourceMap": true,
     "resolveJsonModule": true,
+    "isolatedModules": true,
     "esModuleInterop": true,
-    "declaration": true,
-    "declarationDir": "lib/types",
+    "lib": ["esnext", "dom"],
     "skipLibCheck": true,
-    
-    /* Bundler mode */
-    "moduleResolution": "Bundler", 
-                      
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@packages/*": ["packages/*"]
-    },     
-    "outDir": "./lib",  
-    /* Linting */
-    "allowJs": true,  
-    "checkJs": false,  
-    "forceConsistentCasingInFileNames": true,          
+      "@ektx/vc2": ["packages/vc2/index.ts"],
+      "@packages/*": ["packages/vc2/*"]
+    }
   },
-  "exclude": [
-    "node_modules",
-    "bin",
-    "cypress",
-    "doc",
-    "lib",
-    "types",
-    "dist",
-    "vite.config*"
-  ]
+  "include": ["packages/**/*.ts", "packages/**/*.d.ts", "packages/**/*.tsx", "packages/**/*.vue", "example/**/*.ts", "example/**/*.d.ts", "example/**/*.tsx", "example/**/*.vue", "*.d.ts"],
+  "exclude": ["node_modules", "packages/vc2/lib"]
 }
