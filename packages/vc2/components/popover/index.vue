@@ -24,12 +24,13 @@
       @mouseleave="onMouseleave"
       @focusin="onFocusIn"
       @focusout="onFocusOut"
+      @contextmenu="onContextMenu"
     ></Inner>
   </Popper>
 </template>
 
 <script setup lang="ts">
-import { computed, useId, ref, type CSSProperties } from 'vue'
+import { computed, useId, ref, type CSSProperties, watch, onMounted } from 'vue'
 import Inner from './slots'
 import Popper from '../popper/index.vue'
 import { popoverProps } from './types'
@@ -39,6 +40,7 @@ defineOptions({
 })
 
 const props = defineProps(popoverProps)
+const emit = defineEmits(['update:visible'])
 
 const id = useId()
 const popoverId = `popover-${id}`
@@ -56,48 +58,71 @@ const popoverStyle = computed<CSSProperties>(() => {
   } as CSSProperties
 })
 
+function updateVisible(val: boolean) {
+  isVisible.value = val
+  emit('update:visible', val)
+}
+
 function onBeforetoggle(e: any) {
   if (e.newState === 'closed') {
     timer = setTimeout(() => {
-      isVisible.value = false
+      updateVisible(false)
     }, 100)
+  } else {
+    updateVisible(true)
   }
 }
 
 const onClick = () => {
-  const el = document.getElementById(popoverId) as HTMLElement & {
-    showPopover(): void
-    hidePopover(): void
-  }
-
-  if (!el) return
+  if (props.trigger !== 'click') return
 
   if (isVisible.value) {
-    el.hidePopover()
-    isVisible.value = false
+    hide()
   } else {
-    el.showPopover()
-    isVisible.value = true
+    show()
   }
 }
 
 function onHover() {
-  onClick()
+  if (props.trigger !== 'hover') return
+  if (timer) {
+    clearTimeout(timer)
+    timer = null
+  }
+  show()
 }
 
 function onMouseleave() {
-  // logic here if needed
+  if (props.trigger !== 'hover') return
+  timer = setTimeout(() => {
+    hide()
+  }, 100)
 }
 
-function onFocusIn() {}
-function onFocusOut() {}
+function onFocusIn() {
+  if (props.trigger !== 'focus') return
+  show()
+}
+
+function onFocusOut() {
+  if (props.trigger !== 'focus') return
+  hide()
+}
+
+function onContextMenu(e: MouseEvent) {
+  if (props.trigger !== 'contextmenu') return
+  e.preventDefault()
+  show()
+}
 
 function show() {
   const el = document.getElementById(popoverId) as HTMLElement & {
     showPopover(): void
     hidePopover(): void
   }
-  el?.showPopover()
+  if (el && !isVisible.value) {
+    el.showPopover()
+  }
 }
 
 function hide() {
@@ -105,8 +130,29 @@ function hide() {
     showPopover(): void
     hidePopover(): void
   }
-  el?.hidePopover()
+  if (el && isVisible.value) {
+    el.hidePopover()
+  }
 }
+
+watch(
+  () => props.visible,
+  newVal => {
+    if (props.trigger !== 'manual') return
+    if (newVal) {
+      show()
+    } else {
+      hide()
+    }
+  },
+  { immediate: true }
+)
+
+onMounted(() => {
+  if (props.trigger === 'manual' && props.visible) {
+    show()
+  }
+})
 
 defineExpose({ show, hide })
 </script>

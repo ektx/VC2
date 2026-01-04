@@ -1,9 +1,20 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 
+export type PopoverTrigger =
+  | 'hover'
+  | 'click'
+  | 'focus'
+  | 'manual'
+  | 'contextmenu'
+
 export const popoverProps = {
-  modelValue: {
+  visible: {
     type: Boolean,
     default: false
+  },
+  trigger: {
+    type: String as PropType<PopoverTrigger>,
+    default: 'click'
   },
   popover: {
     type: String as PropType<'auto' | 'manual'>,
