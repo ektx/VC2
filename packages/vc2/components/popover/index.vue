@@ -58,6 +58,10 @@ const popoverStyle = computed<CSSProperties>(() => {
   } as CSSProperties
 })
 
+const popover = computed(() => {
+  return props.trigger === 'manual' ? 'manual' : 'auto'
+})
+
 function updateVisible(val: boolean) {
   isVisible.value = val
   emit('update:visible', val)

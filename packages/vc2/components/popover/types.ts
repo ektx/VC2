@@ -16,10 +16,6 @@ export const popoverProps = {
     type: String as PropType<PopoverTrigger>,
     default: 'click'
   },
-  popover: {
-    type: String as PropType<'auto' | 'manual'>,
-    default: 'auto'
-  },
   defaultClass: {
     type: String,
     default: ''
