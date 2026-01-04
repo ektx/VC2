@@ -84,7 +84,7 @@ type FunctionalTool = { name: string; function: (...args: any[]) => any }
 type Installable = Component | FunctionalTool
 
 const install = (app: VueApp) => {
-  components.forEach((item: Installable) => {
+  components.forEach((item: any) => {
     if (!item.function) {
       app.component((item as any).name, item as Component)
     } else {

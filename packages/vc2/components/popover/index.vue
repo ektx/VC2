@@ -17,7 +17,7 @@
 
     <Inner
       ref="referenceArea"
-      :slots="$slots"
+      :slots="(slots as any)"
       :style="{ anchorName }"
       @click="onClick"
       @mouseenter="onHover"
@@ -30,7 +30,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, useId, ref, type CSSProperties, watch, onMounted } from 'vue'
+import {
+  computed,
+  useId,
+  ref,
+  type CSSProperties,
+  watch,
+  onMounted,
+  useSlots
+} from 'vue'
 import Inner from './slots'
 import Popper from '../popper/index.vue'
 import { popoverProps } from './types'
@@ -41,6 +49,7 @@ defineOptions({
 
 const props = defineProps(popoverProps)
 const emit = defineEmits(['update:visible'])
+const slots = useSlots()
 
 const id = useId()
 const popoverId = `popover-${id}`

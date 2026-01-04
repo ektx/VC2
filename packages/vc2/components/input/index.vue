@@ -83,7 +83,7 @@ const emit = defineEmits(inputEmits)
 
 const textarea = ref<HTMLTextAreaElement | null>(null)
 const input = ref<HTMLInputElement | null>(null)
-let textareaCalcStyle = ref<StyleValue | null>(null)
+let textareaCalcStyle = ref<any>(null)
 let TYPE = ref(props.type)
 let inputEl: HTMLInputElement | HTMLTextAreaElement | null = null
 

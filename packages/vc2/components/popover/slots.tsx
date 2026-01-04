@@ -1,10 +1,11 @@
-import { cloneVNode, defineComponent, type PropType, type Slots } from 'vue'
+import { cloneVNode, defineComponent, type PropType } from 'vue'
 
 export default defineComponent({
   name: 'PopoverInner',
+  inheritAttrs: false,
   props: {
     slots: {
-      type: Object as PropType<Slots>,
+      type: Object as PropType<any>,
       default: () => ({})
     }
   },

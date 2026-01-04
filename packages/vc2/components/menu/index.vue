@@ -7,10 +7,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue'
 import { menuInjectionKey } from './key'
 
-export default {
+export default defineComponent({
   name: 'VcMenu',
   provide() {
     return {
@@ -28,7 +29,7 @@ export default {
     mode: {
       type: String,
       default: 'inline',
-      validator: val => {
+      validator: (val: any) => {
         return ['inline', 'horizontal', 'vertical'].includes(val)
       }
     },
@@ -71,7 +72,7 @@ export default {
     moreIconPosition: {
       type: String,
       default: 'right',
-      validator: val => ['left', 'right'].includes(val)
+      validator: (val: any) => ['left', 'right'].includes(val)
     }
   },
   watch: {
@@ -137,5 +138,5 @@ export default {
       })
     }
   }
-}
+})
 </script>

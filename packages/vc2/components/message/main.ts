@@ -13,6 +13,7 @@ interface RuntimeMessageOptions extends Required<Pick<MessageOptions, 'duration'
   message?: string
   type?: MessageType
   visible: Ref<boolean>
+  [key: string]: any
 }
 
 const Message = function (options: MessageOptions | string = {}) {

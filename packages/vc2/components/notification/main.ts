@@ -21,7 +21,7 @@ interface RuntimeNotify {
 
 const notifyObj: Record<number, RuntimeNotify & { el: HTMLElement }> = {}
 
-function Notification(options: NotificationOptions = {}) {
+export function Notification(options: NotificationOptions = {}) {
   const visible = ref(false)
   const top = ref(-1)
   const bottom = ref(-1)

@@ -34,6 +34,7 @@ interface RuntimeConfirmOptions extends Required<Pick<ConfirmOptions, 'type'>> {
   closed: () => void
   resolve: (data?: unknown) => void
   reject: (data?: unknown) => void
+  [key: string]: any
 }
 
 function Confirm(options: ConfirmOptions = {}) {

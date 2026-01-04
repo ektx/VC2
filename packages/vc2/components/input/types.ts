@@ -7,7 +7,7 @@ export const inputProps = {
   suffixIcon: String,
   prefixIcon: String,
   modelValue: {
-    type: [String, Number],
+    type: [String, Number] as PropType<string | number>,
     default: ''
   },
   disabled: {
