@@ -25,6 +25,12 @@
     "checkJs": false,  
     "forceConsistentCasingInFileNames": true,          
   },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.vue",
+    "../../global.d.ts"
+  ],
   "exclude": [
     "node_modules",
     "bin",

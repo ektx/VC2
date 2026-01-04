@@ -1,0 +1,55 @@
+import type { ExtractPropTypes, PropType } from 'vue'
+
+export const popoverProps = {
+  modelValue: {
+    type: Boolean,
+    default: false
+  },
+  popover: {
+    type: String as PropType<'auto' | 'manual'>,
+    default: 'auto'
+  },
+  defaultClass: {
+    type: String,
+    default: ''
+  },
+  referenceClass: {
+    type: String,
+    default: ''
+  },
+  /**
+   * 定位
+   * top | top center | top span-left | top span-right | top left | top right |
+   * bottom(default) | bottom center | bottom span-left | bottom span-right | bottom left | bottom right |
+   * left | left center | left span-top | left span-bottom |
+   * right | right center | right span-top | right span-bottom |
+   *
+   */
+  area: {
+    type: String,
+    default: 'bottom span-right'
+  },
+  speed: {
+    type: String,
+    default: '0.3s'
+  },
+  title: {
+    type: String,
+    default: 'Title'
+  },
+  content: {
+    type: String,
+    default: ''
+  },
+  width: {
+    type: [String, Number] as PropType<string | number>,
+    default: ''
+  }
+} as const
+
+export type PopoverProps = ExtractPropTypes<typeof popoverProps>
+
+export interface PopoverInstance {
+  show: () => void
+  hide: () => void
+}

@@ -4,3 +4,5 @@ import './index.less'
 
 export const VcPopover = withInstall(Popover)
 export default VcPopover
+
+export * from './types'

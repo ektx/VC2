@@ -4,7 +4,7 @@
       <div
         :id="popoverId"
         :class="['vc-popover-target', area, defaultClass]"
-        :popover
+        :popover="popover"
         :style="popoverStyle"
         @beforetoggle="onBeforetoggle"
       >
@@ -28,89 +28,49 @@
   </Popper>
 </template>
 
-<script setup>
-import { computed, useId, ref } from 'vue'
+<script setup lang="ts">
+import { computed, useId, ref, type CSSProperties } from 'vue'
 import Inner from './slots'
 import Popper from '../popper/index.vue'
+import { popoverProps } from './types'
 
 defineOptions({
   name: 'VcPopover'
 })
 
-const props = defineProps({
-  modelValue: {
-    type: Boolean,
-    default: false
-  },
-  popover: {
-    type: String,
-    default: 'auto' // 'manual' 手动js控制
-  },
-  defaultClass: {
-    type: String,
-    default: ''
-  },
-  referenceClass: {
-    type: String,
-    default: ''
-  },
-  /**
-   * 定位
-   * top | top center | top span-left | top span-right | top left | top right |
-   * bottom(default) | bottom center | bottom span-left | bottom span-right | bottom left | bottom right |
-   * left | left center | left span-top | left span-bottom |
-   * right | right center | right span-top | right span-bottom |
-   *
-   */
-  area: {
-    type: String,
-    default: 'bottom span-right'
-  },
-  speed: {
-    type: String,
-    default: '0.3s'
-  },
-  title: {
-    type: String,
-    default: 'Title'
-  },
-  content: {
-    type: String,
-    default: ''
-  },
-  width: {
-    type: [String, Number],
-    default: ''
-  }
-})
+const props = defineProps(popoverProps)
 
 const id = useId()
 const popoverId = `popover-${id}`
 const anchorName = '--anchor-el-' + id
 const isVisible = ref(false)
-let timer = null
+let timer: ReturnType<typeof setTimeout> | null = null
 
-const popoverStyle = computed(() => {
-  let w = typeof props.width === 'number' ? props.width + 'px' : props.width
+const popoverStyle = computed<CSSProperties>(() => {
+  const w = typeof props.width === 'number' ? props.width + 'px' : props.width
   return {
     positionAnchor: anchorName,
     insetArea: props.area,
-    // positionArea: props.area,
     '--speed': props.speed,
     '--w': w
-  }
+  } as CSSProperties
 })
 
-function onBeforetoggle(e) {
-  if (e.newState == 'closed') {
+function onBeforetoggle(e: any) {
+  if (e.newState === 'closed') {
     timer = setTimeout(() => {
       isVisible.value = false
     }, 100)
   }
 }
 
-const onClick = e => {
-  let el = document.getElementById(popoverId)
+const onClick = () => {
+  const el = document.getElementById(popoverId) as HTMLElement & {
+    showPopover(): void
+    hidePopover(): void
+  }
+
+  if (!el) return
 
   if (isVisible.value) {
     el.hidePopover()
@@ -122,24 +82,30 @@ const onClick = e => {
 }
 
 function onHover() {
-  // debugger
+  onClick()
 }
 
 function onMouseleave() {
-  // debugger
+  // logic here if needed
 }
 
 function onFocusIn() {}
 function onFocusOut() {}
 
 function show() {
-  let el = document.getElementById(popoverId)
-  el.showPopover()
+  const el = document.getElementById(popoverId) as HTMLElement & {
+    showPopover(): void
+    hidePopover(): void
+  }
+  el?.showPopover()
 }
 
 function hide() {
-  let el = document.getElementById(popoverId)
-  el.hidePopover()
+  const el = document.getElementById(popoverId) as HTMLElement & {
+    showPopover(): void
+    hidePopover(): void
+  }
+  el?.hidePopover()
 }
 
 defineExpose({ show, hide })

@@ -10,7 +10,8 @@
     "global.d.ts"
   ],
   "scripts": {
-    "build": "vite build --mode lib"
+    "build": "npm run type-check && vite build --mode lib",
+    "type-check": "vue-tsc --noEmit -p tsconfig.json"
   },
   "exports": {
     ".": {

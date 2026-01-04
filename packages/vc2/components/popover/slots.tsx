@@ -1,15 +1,14 @@
-import { cloneVNode, defineComponent, onMounted, getCurrentInstance } from 'vue'
+import { cloneVNode, defineComponent, type PropType, type Slots } from 'vue'
 
 export default defineComponent({
+  name: 'PopoverInner',
   props: {
     slots: {
-      type: Object,
-      default: () => {}
+      type: Object as PropType<Slots>,
+      default: () => ({})
     }
   },
-  setup(props, { emit, attrs }) {
-    let ctx = getCurrentInstance()
-
+  setup(props, { attrs }) {
     return () => {
       const referenceSlot = props.slots.reference?.(attrs)
 
@@ -27,9 +26,7 @@ export default defineComponent({
         return null
       }
 
-      console.log(attrs)
-
-      return cloneVNode(referenceSlot[0], attrs)
+      return cloneVNode(firstNode, attrs)
     }
   }
 })
