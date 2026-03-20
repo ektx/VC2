@@ -7,12 +7,16 @@ export interface MessageOptions {
   message?: string
   type?: MessageType
   duration?: number
+  showClose?: boolean
 }
 
-interface RuntimeMessageOptions extends Required<Pick<MessageOptions, 'duration'>> {
+interface RuntimeMessageOptions extends Required<
+  Pick<MessageOptions, 'duration'>
+> {
   message?: string
   type?: MessageType
   visible: Ref<boolean>
+  showClose: Ref<boolean>
   [key: string]: any
 }
 
@@ -23,11 +27,14 @@ const Message = function (options: MessageOptions | string = {}) {
 
   let boxEl = document.querySelector('.vc-message-box') as HTMLElement | null
   const visible = ref(false)
+  const showClose = ref(false)
+
   const runtime: RuntimeMessageOptions = {
     message: options.message,
     type: options.type,
     duration: options.duration ?? 3000,
-    visible
+    visible,
+    showClose
   }
 
   const app = createApp(App, runtime)
@@ -50,6 +57,8 @@ const Message = function (options: MessageOptions | string = {}) {
     setTimeout(() => {
       visible.value = false
     }, time)
+  } else {
+    showClose.value = true
   }
 
   function close() {

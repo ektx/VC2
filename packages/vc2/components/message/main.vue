@@ -1,20 +1,17 @@
 <template>
-  <transition 
-    name="vc-message-fade" 
+  <transition
+    name="vc-message-fade"
     @after-enter="handleAfterEnter"
     @before-leave="handleBeforeLeave"
     @afterLeave="handleAfterLeave"
   >
-    <div 
-      v-show="visible.value" 
-      :class="['vc-message-inner', type, classes]"
-    >
+    <div v-show="visible.value" :class="['vc-message-inner', type, classes]">
       <i :class="[`vc-icon-${type}`, type]"></i>
-      
+
       <div v-if="useHtml" v-html="message"></div>
       <p v-else>{{ message }}</p>
 
-      <i v-if="showClose" class="vc-icon-close" @click="closeEvt"></i>
+      <i v-if="showClose.value" class="vc-icon-close" @click="closeEvt"></i>
     </div>
   </transition>
 </template>
@@ -36,7 +33,7 @@ export default {
     // @arguments info / success / warning / error
     type: String,
     // 显示关闭按钮
-    showClose: Boolean,
+    showClose: Object,
     // 使用 HTML 渲染
     useHtml: Boolean,
     // 自定义样式
@@ -51,17 +48,19 @@ export default {
     }
   },
   methods: {
-    handleAfterLeave () {
-      document.body.querySelector('.vc-message-box').removeChild(this.$el.parentNode)
+    handleAfterLeave() {
+      document.body
+        .querySelector('.vc-message-box')
+        .removeChild(this.$el.parentNode)
     },
-    handleAfterEnter () {
+    handleAfterEnter() {
       let H = this.$el.parentNode.scrollHeight
       this.$el.parentNode.style.height = H + 'px'
     },
-    handleBeforeLeave () {
+    handleBeforeLeave() {
       this.$el.parentNode.style.height = '0px'
     },
-    closeEvt () {
+    closeEvt() {
       this.visible.value = false
     }
   }
