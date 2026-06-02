@@ -1,6 +1,6 @@
 @import '../../styles/var.less';
 
-.@{namespace}-button {
+.vc-button {
   --bg: light-dark(#eee, #222);
   display: inline-flex;
   align-items: center;
@@ -29,12 +29,6 @@
     }
   }
 
-  &:has(.vc-button--icon) {
-    span:last-child {
-      // margin-left: 5px;
-    }
-  }
-
   &:hover {
     background-color: e(
       'hsl(from var(--bg, light-dark(#ddd, #222)) h s calc(l + 10))'
@@ -42,9 +36,8 @@
   }
 
   &:active {
-    background-color: e(
-      'hsl(from var(--bg, light-dark(#ddd, #222)) h s calc(l - 10))'
-    );
+    opacity: 0.8;
+    transition: none;
   }
 
   &[disabled] {
@@ -110,7 +103,7 @@
     }
   }
 
-  &--icon {
+  .vc-button--icon {
     display: inline-flex;
     width: 1em;
     margin-right: 5px;
@@ -124,13 +117,13 @@
 }
 
 // loading 显示与隐藏动画
-.@{namespace}-button--loading-enter-active,
-.@{namespace}-button--loading-leave-active {
+.vc-button--loading-enter-active,
+.vc-button--loading-leave-active {
   transition: all 0.3s ease-in-out;
 }
 
-.@{namespace}-button--loading-enter-from,
-.@{namespace}-button--loading-leave-to {
+.vc-button--loading-enter-from,
+.vc-button--loading-leave-to {
   width: 0;
   margin: 0;
   opacity: 0;
