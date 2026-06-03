@@ -1,8 +1,13 @@
 <template>
-  <dialog ref="el" class="vc-layer" closedby="none" @click="onClick">
+  <dialog
+    ref="el"
+    :class="['vc-layer', { def: !isDefAni }]"
+    closedby="none"
+    @click="onClick"
+  >
     <slot name="header">
       <div class="header">
-        <h1>{{ title }}</h1>
+        <h1>{{ title }}{{ isDefAni }}</h1>
         <button @click.stop="close">
           <i class="vc-icon-close"></i>
         </button>
@@ -18,39 +23,42 @@
 </template>
 
 <script setup lang="ts">
-import { ref, useTemplateRef } from 'vue'
-
-interface Props {
-  title?: string
-  show?: boolean
-}
+import { computed, ref, useTemplateRef } from 'vue'
+import { layerProps } from './types'
 
 defineOptions({
   name: 'VcLayer'
 })
 
 const el = useTemplateRef('el')
-const { title = '标题' } = defineProps<Props>()
+const { title = '标题' } = defineProps(layerProps)
 const isOpen = ref(false)
-const currentTargetEl = ref(null)
+const currentTargetEl = ref<HTMLElement | null>(null)
+
+const isDefAni = computed(() => !!currentTargetEl.value)
 
 function show(e: MouseEvent) {
   return new Promise((resolve, reject) => {
-    if (!el.value) reject('el is null')
-
-    el.value.style.viewTransitionName = 'screenDialog-open'
+    if (!el.value) {
+      reject('el is null')
+      return
+    }
 
     if (e) {
-      currentTargetEl.value = e.currentTarget || e.target
-      if (currentTargetEl.value)
+      el.value.style.viewTransitionName = 'screenDialog-open'
+      // 需要处理ts类型错误
+      currentTargetEl.value = (e.currentTarget || e.target) as HTMLElement
+
+      if (currentTargetEl.value) {
         currentTargetEl.value.style.viewTransitionName = 'screenDialog-open'
+      }
     }
 
     document.startViewTransition(() => {
       if (currentTargetEl.value)
         currentTargetEl.value.style.viewTransitionName = ''
 
-      el.value.showModal()
+      el.value?.showModal()
       isOpen.value = true
 
       resolve(true)
@@ -60,13 +68,20 @@ function show(e: MouseEvent) {
 
 function close() {
   return new Promise(async resolve => {
-    el.value.style.viewTransitionName = 'screenDialog-hide'
+    if (!el.value) return
+
+    console.log('close', currentTargetEl.value)
+    if (currentTargetEl.value)
+      el.value.style.viewTransitionName = 'screenDialog-hide'
 
     const transition = document.startViewTransition(() => {
-      if (currentTargetEl.value)
-        currentTargetEl.value.style.viewTransitionName = 'screenDialog-hide'
+      if (el.value) el.value.style.viewTransitionName = ''
 
-      el.value.close()
+      if (currentTargetEl.value) {
+        currentTargetEl.value.style.viewTransitionName = 'screenDialog-hide'
+      }
+
+      el.value?.close()
       isOpen.value = false
 
       resolve(true)
@@ -75,8 +90,10 @@ function close() {
     try {
       await transition.finished
     } finally {
-      if (currentTargetEl.value)
+      if (currentTargetEl.value) {
         currentTargetEl.value.style.viewTransitionName = ''
+        currentTargetEl.value = null
+      }
     }
   })
 }

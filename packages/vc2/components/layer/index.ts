@@ -4,3 +4,5 @@ import './index.css'
 
 export const VcLayer = withInstall(Layer)
 export default VcLayer
+
+export * from './types'
