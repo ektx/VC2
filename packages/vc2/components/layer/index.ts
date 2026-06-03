@@ -1,6 +1,6 @@
 import { withInstall } from '../../utils/withInstall'
 import Layer from './index.vue'
-import './index.less'
+import './index.css'
 
 export const VcLayer = withInstall(Layer)
 export default VcLayer

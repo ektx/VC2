@@ -1,0 +1,67 @@
+.vc-layer {
+  min-width: var(--w, 380px);
+  padding: 10px;
+  border: 1px solid light-dark(#fff, #444);
+  box-shadow: 0 0 50px -10px #0000004d;
+  border-radius: 10px;
+  color: #fff;
+  background: light-dark(#fff, #252525);
+  view-transition-name: screenDialog-open;
+
+  .header {
+    display: flex;
+    flex-direction: row;
+
+    h1 {
+      flex: 1;
+      font-size: 18px;
+      padding: 10px 0;
+      margin: 0;
+      line-height: 1;
+      border: none;
+    }
+
+    button {
+      padding: 0 10px;
+      background: transparent;
+      outline: none;
+      border: none;
+      opacity: 0.5;
+      cursor: pointer;
+      transition: opacity 0.3s ease-in-out;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      path {
+        fill: #fff;
+      }
+    }
+  }
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.3s ease-in-out;
+  }
+
+  &[open]::backdrop {
+    background: rgba(0 0 0 / 0.4);
+  }
+}
+
+/* 推荐的完整写法 */
+::view-transition-group(screenDialog-open),
+::view-transition-group(screenDialog-hide) {
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::view-transition-old(screenDialog-open) {
+  display: none;
+  /* opacity: 0; */
+}
+::view-transition-new(screenDialog-hide) {
+  /* display: none; */
+  /* opacity: 0; */
+}
