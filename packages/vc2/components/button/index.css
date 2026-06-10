@@ -1,6 +1,5 @@
-@import '../../styles/var.less';
-
 .vc-button {
+  --color: light-dark(#1d1d1d, #ddd);
   --bg: light-dark(#eee, #222);
   display: inline-flex;
   align-items: center;
@@ -8,6 +7,7 @@
   gap: 0px;
   padding: 7px 0.8em;
   font-size: calc(var(--size) * 1px);
+  font-weight: 400;
   border-radius: var(--radius, 0.2em);
   border: none;
   line-height: 1;
@@ -30,53 +30,66 @@
   }
 
   &:hover {
-    background-color: e(
-      'hsl(from var(--bg, light-dark(#ddd, #222)) h s calc(l + 10))'
-    );
+    opacity: 0.8;
   }
 
   &:active {
     opacity: 0.8;
+    background: hsl(from var(--bg, light-dark(#ddd, #222)) h s calc(l - 20));
     transition: none;
   }
 
   &[disabled] {
     opacity: 0.7;
     cursor: not-allowed;
+  }
 
-    &:hover {
-      opacity: 0.8;
-    }
-
-    &:active {
-      transform: none;
-      filter: none;
-    }
+  /* https://developer.apple.com/design/human-interface-guidelines/color#System-colors */
+  &.primary {
+    --color: Canvas;
+    --bg: light-dark(#0088ff, #0091ff);
+  }
+  &.success {
+    --color: Canvas;
+    --bg: light-dark(#34c759, #30d158);
+  }
+  &.warn {
+    --color: Canvas;
+    --bg: light-dark(#ff8d28, #ff9230);
+  }
+  &.error {
+    --color: Canvas;
+    --bg: light-dark(#ff383c, #ff4245);
   }
 
   &.plain {
-    --bg: light-dark(#222, #ddd);
-    color: var(--bg);
+    color: var(--color, --bg);
     background: transparent;
-    border: 1px solid var(--bg, var(--color, var(--vcBorderColor)));
+    border: 1px solid var(--color);
+
+    &.primary {
+      --color: light-dark(#0088ff, #0091ff);
+    }
+    &.success {
+      --color: light-dark(#34c759, #30d158);
+    }
+    &.warn {
+      --color: light-dark(#ff8d28, #ff9230);
+    }
+    &.error {
+      --color: light-dark(#ff383c, #ff4245);
+    }
 
     &:hover {
-      color: contrast-color(var(--bg));
-      background: var(--bg);
+      background: light-dark(
+        hsla(from var(--color) h s l / 0.1),
+        hsla(from var(--color) h s l / 0.2)
+      );
+      /* background: light-dark(
+        color-mix(in srgb, var(--color) 10%, transparent),
+        color-mix(in srgb, var(--color) 30%, transparent)
+      ); */
     }
-  }
-
-  &.primary {
-    --bg: #0071e3;
-  }
-  &.success {
-    --bg: light-dark(#67c23a, #007700);
-  }
-  &.warn {
-    --bg: light-dark(#e6a23c, #9d5e00);
-  }
-  &.error {
-    --bg: #c42c1d;
   }
 
   &.round {
@@ -91,11 +104,25 @@
   }
 
   &.text {
-    color: var(--bg, var(--color, @btn-default-text-color));
+    color: var(--color, --bg);
     background: transparent;
+    transition: 0.2s opacity;
+
+    &.primary {
+      --color: light-dark(#0088ff, #0091ff);
+    }
+    &.success {
+      --color: light-dark(#34c759, #30d158);
+    }
+    &.warn {
+      --color: light-dark(#ff8d28, #ff9230);
+    }
+    &.error {
+      --color: light-dark(#ff383c, #ff4245);
+    }
 
     &:hover {
-      color: e('hsl(from var(--bg, var(--color, #999)) h s calc(l + 10))');
+      opacity: 0.7;
     }
 
     &:active {
