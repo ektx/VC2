@@ -7,14 +7,14 @@
     "build": "vite build"
   },
   "dependencies": {
-    "vue": "^3.2.37",
-    "vue-router": "^4.5.1",
     "@ektx/vc2": "workspace:*",
+    "less": "^4.1.2",
     "prismjs": "^1.29.0",
-    "less": "^4.1.2"
+    "vue": "^3.5.35",
+    "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.2.3",
+    "@vitejs/plugin-vue": "^6.0.7",
     "vite": "^6.2.5"
   }
 }
