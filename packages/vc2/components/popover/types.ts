@@ -51,6 +51,26 @@ export const popoverProps = {
   width: {
     type: [String, Number] as PropType<string | number>,
     default: ''
+  },
+
+  confirmButton: {
+    type: [Boolean, String] as PropType<boolean | string>,
+    default: false
+  },
+
+  confirm: {
+    type: Function as PropType<() => void>,
+    default: () => {}
+  },
+
+  cancelButton: {
+    type: [Boolean, String] as PropType<boolean | string>,
+    default: false
+  },
+
+  cancel: {
+    type: Function as PropType<() => void>,
+    default: () => {}
   }
 } as const
 

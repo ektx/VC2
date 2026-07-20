@@ -11,13 +11,25 @@
         <slot>
           <div class="title">{{ title }}</div>
           <div class="body">{{ content }}</div>
+          <vc-button-group class="footer">
+            <vc-button v-if="cancelButton" @click="onClickBtn('cancel')">
+              {{ getTxt(cancelButton) }}
+            </vc-button>
+            <vc-button
+              v-if="confirmButton"
+              theme="primary"
+              @click="onClickBtn('confirm')"
+            >
+              {{ getTxt(confirmButton) }}
+            </vc-button>
+          </vc-button-group>
         </slot>
       </div>
     </teleport>
 
     <Inner
       ref="referenceArea"
-      :slots="(slots as any)"
+      :slots="slots as any"
       :style="{ anchorName }"
       @click="onClick"
       @mouseenter="onHover"
@@ -42,13 +54,14 @@ import {
 import Inner from './slots'
 import Popper from '../popper/index.vue'
 import { popoverProps } from './types'
+import VcButton from '../button/index.vue'
 
 defineOptions({
   name: 'VcPopover'
 })
 
 const props = defineProps(popoverProps)
-const emit = defineEmits(['update:visible'])
+const emit = defineEmits(['update:visible', 'confirm', 'cancel'])
 const slots = useSlots()
 
 const id = useId()
@@ -74,6 +87,15 @@ const popover = computed(() => {
 function updateVisible(val: boolean) {
   isVisible.value = val
   emit('update:visible', val)
+}
+
+function getTxt(item: string | boolean) {
+  return item ? (typeof item === 'string' ? item : '确认') : ''
+}
+
+function onClickBtn(type: 'confirm' | 'cancel') {
+  emit(type)
+  hide()
 }
 
 function onBeforetoggle(e: any) {

@@ -14,8 +14,14 @@
   overflow: visible;
   border: 1px solid light-dark(#ccc, #444);
   border-radius: 5px;
-  transition: opacity 0.3s, display 0.3s, overlay 0.3s;
-  position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+  transition:
+    opacity 0.3s,
+    display 0.3s,
+    overlay 0.3s;
+  position-try-fallbacks:
+    flip-block,
+    flip-inline,
+    flip-block flip-inline;
 
   &:popover-open {
     display: block;
@@ -32,6 +38,14 @@
     width: 8px;
     aspect-ratio: 1;
     background: yellowgreen;
+  }
+
+  .footer {
+    padding: 0;
+    margin: 10px 0 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
   }
 
   &.top {
