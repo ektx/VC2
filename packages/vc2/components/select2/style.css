@@ -1,0 +1,14 @@
+.vc-cus-select {
+  select {
+    &,
+    &::picker(select) {
+      appearance: base-select;
+    }
+
+    > div.options {
+      min-inline-size: calc(anchor-size(self-block) + 120px);
+      /* min-inline-size: 140px; */
+      scroll-behavior: smooth;
+    }
+  }
+}

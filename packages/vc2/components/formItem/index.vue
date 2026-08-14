@@ -5,21 +5,22 @@
       validateState,
       validateStatus ? 'is-' + validateStatus : '',
       {
-        'is-column': isColumn,
         'is-required': isRequired
       }
     ]"
     :style="style"
   >
-    <Label :label="label"></Label>
+    <div :class="['vc-form-item-warp', labelPosition]">
+      <Label v-if="label !== null" :label="label"></Label>
 
-    <div class="vc-form-item__content">
-      <slot :status="validateStatus"></slot>
-      <div ref="errRef" class="vc-form-item__info">
-        <slot name="error" :error="validateMessage">
-          {{ validateMessage }}
-        </slot>
+      <div class="vc-form-item__content">
+        <slot :status="validateStatus"></slot>
       </div>
+    </div>
+    <div ref="errRef" class="vc-form-item__info">
+      <slot name="error" :error="validateMessage">
+        {{ validateMessage }}
+      </slot>
     </div>
   </div>
 </template>
@@ -41,7 +42,7 @@ export default {
   props: {
     // 标题
     label: {
-      type: String,
+      type: [String, null],
       default: ''
     },
     // 指定标题的宽度，支持'auto'
@@ -69,22 +70,13 @@ export default {
       await this.$nextTick()
 
       if (val) {
-        let h = this.$refs.errRef.scrollHeight
-
-        Object.assign(this.$refs.errRef.style, {
-          height: h + 'px',
-          transform: `translateY(0%)`
-        })
+        this.$refs.errRef.classList.add('is-visible')
       } else {
-        this.$refs.errRef.style = null
+        this.$refs.errRef.classList.remove('is-visible')
       }
     }
   },
   computed: {
-    isColumn() {
-      return this.vcForm.labelPosition === 'top'
-    },
-
     isRequired() {
       let rules = this.getRules()
       let result = false
@@ -111,6 +103,10 @@ export default {
       }
 
       return obj
+    },
+
+    labelPosition() {
+      return 'label-pos-' + this.vcForm.labelPosition
     }
   },
   data() {

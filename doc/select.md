@@ -8,6 +8,7 @@
 ```vue
 <template>
   <vc-select v-model="value" :options="options"/>
+  <!-- <vc-select2 v-model="value" :options="options"/> -->
 </template>
 
 <script setup>
@@ -15,6 +16,9 @@ import { ref } from 'vue'
 
 const value = ref('')
 const options = [{
+  value: 'all',
+  label: '全部'
+},{
   value: '选项1',
   label: '黄金糕'
 }, {

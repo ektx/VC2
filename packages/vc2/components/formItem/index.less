@@ -1,14 +1,52 @@
 @import '../../styles/var.less';
 
-.@{namespace}-form-item {
+.vc-form-item {
   display: grid;
-  grid: inherit;
-  grid-column: span 2;
-  gap: 20px;
+  gap: 2px 10px;
   grid-template-columns: subgrid;
-  // grid-template-columns: 100px 1fr;
+  grid-column: span 2;
+  grid-row: span 2;
+  grid-auto-flow: column;
   font-size: 14px;
   line-height: 2.25em;
+
+  &-warp {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: subgrid;
+    grid-column: span 2;
+    grid-auto-flow: column;
+    font-size: 14px;
+
+    &.label-pos-left {
+      .vc-form-item__label {
+        justify-content: flex-start;
+      }
+    }
+
+    &.label-pos-right {
+      .vc-form-item__label {
+        justify-content: flex-end;
+      }
+    }
+
+    &.label-pos-top {
+      grid-template-columns: unset;
+      grid-template-rows: unset;
+      display: flex;
+      flex-direction: column;
+      gap: 2px 0;
+
+      .vc-form-item__label {
+        justify-content: flex-start;
+      }
+    }
+  }
+
+  &:has(.label-pos-top) {
+    gap: 0;
+    margin-bottom: 10px;
+  }
 
   &.is-column {
     grid: unset;
@@ -26,15 +64,27 @@
     grid-column: unset;
   }
 
-  &__info {
+  .vc-form-item__info {
     height: 0;
+    grid-row: 2;
+    grid-column: 2;
     overflow: hidden;
     font-size: 12px;
-    line-height: 16px;
+    line-height: 1;
     color: #999;
-    transform: translateY(-100%);
-    transition: height 0.2s ease-out, transform 0.2s ease-out;
-    will-change: transform;
+    visibility: hidden;
+    interpolate-size: allow-keywords;
+    transition:
+      height 0.2s ease-out,
+      content-visibility 0.2s allow-discrete,
+      transform 0.2s ease-out;
+    will-change: transform, height, content-visibility;
+
+    &.is-visible {
+      height: 1.5em;
+      visibility: visible;
+      transform: translateY(0);
+    }
   }
 
   &:where(.is-error) {
@@ -43,16 +93,19 @@
     }
   }
 
-  &__label {
-    flex: 0 0 var(--labelWidth, 25%);
-    // display: inline-block;
-    // padding-right: 10px;
+  .vc-form-item__label {
+    display: flex;
+    max-width: var(--labelWidth);
+    align-items: center;
     color: @color-text-regular;
-    vertical-align: top;
     box-sizing: border-box;
 
     label {
-      vertical-align: middle;
+      width: 100%;
+      display: flex;
+      justify-content: inherit;
+      line-height: 1.5;
+      // background: yellow;
     }
 
     .is-required &:not(.is-no-asterisk):before {
@@ -80,6 +133,10 @@
       flex: 1;
       padding: 0;
     }
+  }
+
+  .vc-form-item__content {
+    display: flex;
   }
 }
 

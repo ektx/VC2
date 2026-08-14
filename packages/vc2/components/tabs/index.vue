@@ -38,6 +38,8 @@ import {
 } from 'vue'
 import TabNav from './tabNav'
 
+defineOptions({ name: 'VcTabs' })
+
 const props = defineProps({
   // 选中对象
   modelValue: {

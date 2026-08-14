@@ -186,7 +186,7 @@ export default {
 
   <br/>
   
-  <vc-form label-width="80px" :labelPosition="labelPosition">
+  <vc-form :labelPosition="labelPosition">
     <vc-form-item label="活动名称">
       <vc-input type="text" v-model="formData.name" validate-event/>
     </vc-form-item>
@@ -198,7 +198,7 @@ export default {
       <vc-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"></vc-input>
     </vc-form-item>
 
-    <vc-form-item>
+    <vc-form-item :label="labelPosition==='top' ? null:''">
       <vc-button theme="primary">提交</vc-button>
       <vc-button>取消</vc-button>
     </vc-form-item>

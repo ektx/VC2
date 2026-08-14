@@ -18,8 +18,10 @@ export default {
     // 表单域标签的宽度，例如 '50px'。作为 Form 直接子元素的 form-item 会继承该值。
     // 支持 auto。
     labelWidth: {
-      type: String,
-      default: '80px'
+      type: String
+      // default: '30%'
+      // default: '200px'
+      // default: ''
     },
     // 数据
     model: Object,
