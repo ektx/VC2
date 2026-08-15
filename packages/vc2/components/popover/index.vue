@@ -29,7 +29,7 @@
 
     <Inner
       ref="referenceArea"
-      :slots="slots as any"
+      :slots="slots"
       :style="{ anchorName }"
       @click="onClick"
       @mouseenter="onHover"
@@ -37,7 +37,7 @@
       @focusin="onFocusIn"
       @focusout="onFocusOut"
       @contextmenu="onContextMenu"
-    ></Inner>
+    />
   </Popper>
 </template>
 

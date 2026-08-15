@@ -9,7 +9,7 @@
 ::: codeBox
 ```vue
 <template>
-  <vc-radio v-model="radio" :label="1">项目1</vc-radio>
+  <vc-radio v-model="radio" :label="1" :size="28">项目1</vc-radio>
   <vc-radio v-model="radio" :label="2">项目2</vc-radio>
 </template>
 
@@ -63,6 +63,8 @@ const change = event =>{
 ::: codeBox
 ```vue
 <template>
+{{value}}
+<br/>
   <vc-radio-group v-model="value" type="button" :size="18">
     <vc-radio label="上海">上海</vc-radio>
     <vc-radio label="北京">北京</vc-radio>
