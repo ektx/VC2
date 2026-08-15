@@ -1,12 +1,38 @@
 .vc-radio-group {
-  .vc-radio {
-    &.is-button {
-      &:first-of-type {
-        border-radius: 3px 0 0 3px;
-      }
-      &:last-of-type {
-        border-radius: 0 3px 3px 0;
-      }
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0;
+  font-size: var(--size, 14px);
+  position: relative;
+  anchor-scope: all;
+
+  &:has(.is-button) {
+    --border-color: light-dark(#ddd, #565656);
+    column-rule: 1px solid var(--border-color); // 分隔线样式
+    box-shadow: inset 0 0 0 1px var(--border-color);
+    border-radius: 0.2lh;
+    overflow: hidden;
+  }
+
+  &--selected {
+    position: absolute;
+    position-anchor: --radio-selected;
+    top: anchor(top);
+    left: anchor(left);
+    width: anchor-size(width);
+    height: anchor-size(height);
+    background-color: var(--bg, #409eff);
+    transition:
+      top 0.3s,
+      left 0.3s,
+      height 0.3s,
+      width 0.3s;
+  }
+
+  &[disabled] {
+    .vc-radio-group--selected {
+      background-color: light-dark(#aaa, #333);
     }
   }
 }

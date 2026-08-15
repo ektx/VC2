@@ -5,10 +5,10 @@
       {
         'is-border': border,
         'is-button': isButton,
-        'is-checked': isChecked,
-        'is-disabled': isDisabled
+        'is-checked': isChecked
       }
     ]"
+    :disabled="disabled || undefined"
     :style="sizeStyle"
   >
     <span :class="['vc-radio__radio', { 'is-min': isButton }]">
@@ -17,7 +17,7 @@
         class="vc-radio__input"
         v-model="intValue"
         :value="label"
-        :disabled="isDisabled"
+        :disabled="disabled"
         @change="handleChange"
         @blur="handleBlur"
         @focus="handleFocus"
@@ -68,34 +68,27 @@ export default {
     const isChecked = computed(() => {
       return intValue.value === props.label
     })
-    const isDisabled = computed(() => {
-      return vcRadioGroup
-        ? vcRadioGroup.disabled
-          ? true
-          : props.disabled
-        : props.disabled
-    })
 
     const sizeStyle = computed(() => {
       let size = props.size
-      let background = props.background || ''
+      // let background = props.background || ''
       let color = props.color || ''
       let obj = {}
 
       if (vcRadioGroup) {
         size = vcRadioGroup.size
-        background = vcRadioGroup.background
-        color = vcRadioGroup.color
+        // background = vcRadioGroup.background
+        // color = vcRadioGroup.color
       }
 
       if (isChecked.value) {
         obj = {
-          background,
-          borderColor: background,
-          color
+          // background,
+          // borderColor: background,
+          // color
         }
       }
-      obj.fontSize = size + 'px'
+      // obj.fontSize = size + 'px'
 
       return obj
     })
@@ -146,7 +139,6 @@ export default {
 
     return {
       intValue,
-      isDisabled,
       isChecked,
       isButton,
       sizeStyle,

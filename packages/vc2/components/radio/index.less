@@ -2,11 +2,12 @@
   display: inline-block;
   margin: 0 15px 0 0;
   color: #606266;
-  font-size: 14px;
+  font-size: var(--size, 14px);
   white-space: nowrap;
   user-select: none;
   outline: none;
   cursor: pointer;
+  transition: color 0.3s;
 
   &__input {
     appearance: none;
@@ -65,18 +66,14 @@
     display: inline-flex;
     align-items: center;
     position: relative;
-    margin: 0 -1px 0 0px;
+    margin: 0px;
     padding: 0.2em 0.5em;
     color: light-dark(#606266, #ccc);
-    border-radius: 0;
-    border: 1px solid light-dark(#ddd, #565656);
-    z-index: 0;
+    // border-radius: 0;
 
     &.is-checked {
-      color: #fff;
-      background-color: #409eff;
-      border-color: #409eff;
-      z-index: 1;
+      color: var(--color, #fff);
+      anchor-name: --radio-selected;
     }
   }
 
@@ -86,9 +83,8 @@
     border-radius: 3px;
   }
 
-  &.is-disabled {
-    opacity: 0.5;
-    filter: grayscale(1);
+  &[disabled] {
+    color: #aaa;
     cursor: not-allowed;
   }
 }

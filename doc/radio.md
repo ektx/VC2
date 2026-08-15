@@ -56,21 +56,22 @@ const change = event =>{
 :::
 
 
-## 按钮样式
+## Button 按钮样式
 
 按钮样式的单选组合。
 
 ::: codeBox
 ```vue
 <template>
-  <vc-radio-group v-model="radio1" type="button" :size="10">
+  <vc-radio-group v-model="value" type="button" :size="18">
     <vc-radio label="上海">上海</vc-radio>
     <vc-radio label="北京">北京</vc-radio>
     <vc-radio label="天津">天津</vc-radio>
     <vc-radio label="安徽">安徽</vc-radio>
   </vc-radio-group>
   <br/>
-  <vc-radio-group v-model="radio2" type="button" :size="14">
+  <br/>
+  <vc-radio-group v-model="value" type="button" :size="14">
     <vc-radio label="上海">上海</vc-radio>
     <vc-radio label="北京">北京</vc-radio>
     <vc-radio label="天津">天津</vc-radio>
@@ -81,37 +82,68 @@ const change = event =>{
 <script setup>
 import { ref } from 'vue'
 
-let radio1 = ref('安徽')
-let radio2 = ref('安徽')
+let value = ref('安徽')
 </script>
 ```
 :::
+
+## Segmented 分段控制器
+
+用于展示多个选项并允许用户选择其中单个选项。
+
+::: codeBox
+```vue
+<template>
+  <vc-radio-group v-model="value" type="button" :size="18">
+    <vc-radio label="上海">上海</vc-radio>
+    <vc-radio label="北京">北京</vc-radio>
+    <vc-radio label="天津">天津</vc-radio>
+    <vc-radio label="安徽">安徽</vc-radio>
+  </vc-radio-group>
+  <br/>
+  <br/>
+  <vc-radio-group v-model="value" type="button" :size="14">
+    <vc-radio label="上海">上海</vc-radio>
+    <vc-radio label="北京">北京</vc-radio>
+    <vc-radio label="天津">天津</vc-radio>
+    <vc-radio label="安徽">安徽</vc-radio>
+  </vc-radio-group>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+let value = ref('安徽')
+</script>
+```
+:::
+
 
 ## 自定颜色
 
 ::: codeBox
 ```vue
 <template>
-  <vc-radio-group v-model="radio1" type="button" background="green">
-    <vc-radio label="1">上海</vc-radio>
-    <vc-radio label="2">北京</vc-radio>
-    <vc-radio label="3">天津</vc-radio>
-    <vc-radio label="4">安徽</vc-radio>
+  <vc-radio-group v-model="value" type="button" background="green">
+    <vc-radio label="上海">上海</vc-radio>
+    <vc-radio label="北京">北京</vc-radio>
+    <vc-radio label="天津">天津</vc-radio>
+    <vc-radio label="安徽">安徽</vc-radio>
   </vc-radio-group>
   <br/>
-  <vc-radio-group v-model="radio2" type="button" color="#000">
-    <vc-radio label="1">上海</vc-radio>
-    <vc-radio label="2">北京</vc-radio>
-    <vc-radio label="3">天津</vc-radio>
-    <vc-radio label="4">安徽</vc-radio>
+  <br/>
+  <vc-radio-group v-model="value" type="button" color="#ffeb3b">
+     <vc-radio label="上海">上海</vc-radio>
+    <vc-radio label="北京">北京</vc-radio>
+    <vc-radio label="天津">天津</vc-radio>
+    <vc-radio label="安徽">安徽</vc-radio>
   </vc-radio-group>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 
-let radio1 = ref('1')
-let radio2 = ref('1')
+let value = ref('安徽')
 </script>
 ```
 :::

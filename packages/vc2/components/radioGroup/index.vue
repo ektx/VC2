@@ -1,5 +1,11 @@
 <template>
-  <div class="vc-radio-group" role="radiogroup">
+  <div
+    class="vc-radio-group"
+    :disabled="disabled || undefined"
+    role="radiogroup"
+    :style="style"
+  >
+    <div class="vc-radio-group--selected"></div>
     <slot></slot>
   </div>
 </template>
@@ -40,6 +46,16 @@ export default {
     color: {
       type: String,
       default: ''
+    }
+  },
+  computed: {
+    style() {
+      console.log(this.size)
+      return {
+        '--size': `${this.size}px`,
+        '--bg': this.background,
+        '--color': this.color
+      }
     }
   }
 }
