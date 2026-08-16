@@ -10,7 +10,7 @@
     :disabled="disabled || undefined"
     :style="sizeStyle"
   >
-    <span :class="['vc-radio__radio']">
+    <span class="vc-radio__radio">
       <input
         type="radio"
         class="vc-radio__input"
@@ -63,17 +63,11 @@ const {
   // 文字颜色
   color: String
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'blur', 'focus', 'change'])
 
 const vcFormItem = inject('vcFormItem', null)
-const vcRadioGroup = inject('vcRadioGroup', null)
 const isFocus = ref(false)
-const isUpdate = ref(false)
 
-// const isButton = computed(() => {
-//   console.log(type)
-//   return vcRadioGroup ? vcRadioGroup.type === 'button' : false
-// })
 const isChecked = computed(() => {
   return modelValue === label
 })
@@ -89,33 +83,16 @@ const handleChange = evt => {
   debugger
   vcFormItem && vcFormItem.checkValidate('change')
 
-  // if (isUpdate.value) {
-  //   isUpdate.value = false
-  //   return
-  // }
-
-  // if (vcRadioGroup) {
-  //   vcRadioGroup.$emit('change', evt)
-  // } else {
-  //   emit('change', evt)
-  // }
+  emit('change', evt)
 }
 
 const handleBlur = evt => {
-  if (vcRadioGroup) {
-    vcRadioGroup.$emit('blur', evt)
-  } else {
-    emit('blur', evt)
-  }
+  emit('blur', evt)
 
   vcFormItem && vcFormItem.checkValidate('blur')
 }
 
-const handleFocus = evt => {
-  if (vcRadioGroup) {
-    vcRadioGroup.$emit('focus', evt)
-  } else {
-    emit('focus', evt)
-  }
+const handleFocus = e => {
+  emit('focus', e)
 }
 </script>

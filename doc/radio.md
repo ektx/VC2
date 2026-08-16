@@ -96,7 +96,7 @@ let value = ref('安徽')
 ::: codeBox
 ```vue
 <template>
-  <vc-radio-group v-model="value" type="button" :size="18">
+  <vc-radio-group v-model="value" type="segmented">
     <vc-radio label="上海">上海</vc-radio>
     <vc-radio label="北京">北京</vc-radio>
     <vc-radio label="天津">天津</vc-radio>
@@ -104,7 +104,7 @@ let value = ref('安徽')
   </vc-radio-group>
   <br/>
   <br/>
-  <vc-radio-group v-model="value" type="button" :size="14">
+  <vc-radio-group v-model="value" plain type="segmented">
     <vc-radio label="上海">上海</vc-radio>
     <vc-radio label="北京">北京</vc-radio>
     <vc-radio label="天津">天津</vc-radio>
@@ -126,7 +126,7 @@ let value = ref('安徽')
 ::: codeBox
 ```vue
 <template>
-  <vc-radio-group v-model="value" type="button" background="green">
+  <vc-radio-group v-model="value" type="button" background="#9C27B0">
     <vc-radio label="上海">上海</vc-radio>
     <vc-radio label="北京">北京</vc-radio>
     <vc-radio label="天津">天津</vc-radio>
@@ -134,8 +134,31 @@ let value = ref('安徽')
   </vc-radio-group>
   <br/>
   <br/>
-  <vc-radio-group v-model="value" type="button" color="#ffeb3b">
+  <vc-radio-group v-model="value" type="button" background="#9C27B0" color="#ffeb3b">
      <vc-radio label="上海">上海</vc-radio>
+    <vc-radio label="北京">北京</vc-radio>
+    <vc-radio label="天津">天津</vc-radio>
+    <vc-radio label="安徽">安徽</vc-radio>
+  </vc-radio-group>
+  <br/>
+  <br/>
+  <vc-radio-group v-model="value" type="segmented" background="#9C27B0" color="#ffeb3b">
+    <vc-radio label="上海">上海</vc-radio>
+    <vc-radio label="北京">北京</vc-radio>
+    <vc-radio label="天津">天津</vc-radio>
+    <vc-radio label="安徽">安徽</vc-radio>
+  </vc-radio-group>
+  <br/>
+  <br/>
+  <vc-radio-group 
+    v-model="value" 
+    type="segmented" 
+    background="#9C27B0" 
+    color="#ffeb3b" 
+    bar-color="#058d2e" 
+    txt-color="#fff"
+  >
+    <vc-radio label="上海">上海</vc-radio>
     <vc-radio label="北京">北京</vc-radio>
     <vc-radio label="天津">天津</vc-radio>
     <vc-radio label="安徽">安徽</vc-radio>
@@ -191,7 +214,9 @@ let radio3 = ref('1')
     <vc-radio disabled v-model="radio" label="天津"></vc-radio>
     <vc-radio disabled v-model="radio" label="安徽"></vc-radio>
   </div>
+
   <br/>
+
   <vc-radio-group v-model="radio" type="button" disabled>
     <vc-radio label="上海"></vc-radio>
     <vc-radio label="北京"></vc-radio>
@@ -200,11 +225,23 @@ let radio3 = ref('1')
   </vc-radio-group>
 
   <br/>
+  <br/>
+
   <vc-radio-group v-model="radio" type="button">
-    <vc-radio label="上海">上海</vc-radio>
-    <vc-radio label="北京" disabled>北京</vc-radio>
-    <vc-radio label="天津">天津</vc-radio>
-    <vc-radio label="安徽">安徽</vc-radio>
+    <vc-radio label="上海" />
+    <vc-radio label="北京" disabled />
+    <vc-radio label="天津" />
+    <vc-radio label="安徽" />
+  </vc-radio-group>
+
+  <br/>
+  <br/>
+
+  <vc-radio-group v-model="radio" type="segmented" disabled>
+    <vc-radio label="上海" />
+    <vc-radio label="北京" />
+    <vc-radio label="天津" />
+    <vc-radio label="安徽" />
   </vc-radio-group>
 </template>
 
@@ -247,8 +284,8 @@ let radio = ref('北京')
     @focus="focus"
     @blur="blur"
   >
-    <vc-radio v-model="radio" label="北京"></vc-radio>
-    <vc-radio v-model="radio" label="上海"></vc-radio>
+    <vc-radio label="北京"></vc-radio>
+    <vc-radio label="上海"></vc-radio>
   </vc-radio-group>
 </template>
 
@@ -256,6 +293,7 @@ let radio = ref('北京')
 import { ref, inject } from 'vue'
 
 let radio = ref('北京')
+let radio1 = ref('北京')
 let message = inject('vcMessage')
 
 const change = event =>{

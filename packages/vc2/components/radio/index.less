@@ -1,8 +1,9 @@
 .vc-radio {
   --selected: var(--bg, #409eff);
+
   display: inline-block;
   margin: 0;
-  color: #606266;
+  color: var(--def-color);
   font-size: var(--size, 14px);
   white-space: nowrap;
   user-select: none;
@@ -51,6 +52,7 @@
     vertical-align: middle;
     border-radius: 100%;
 
+    [type='segmented'] &,
     [type='button'] & {
       width: 0;
       height: 0;
@@ -63,24 +65,26 @@
     vertical-align: middle;
   }
 
+  [type='segmented'] &,
   [type='button'] & {
     display: inline-flex;
     align-items: center;
     position: relative;
     margin: 0px;
     padding: 0.2em 0.5em;
-    color: light-dark(#606266, #ccc);
+    color: var(--def-color);
 
     &.is-checked {
-      color: var(--color, #fff);
+      color: var(--selected-color, #fff);
       anchor-name: --radio-selected;
     }
   }
 
   &.is-border {
+    --border-color: light-dark(#ddd, #565656);
     padding: 0.4em 0.7em;
-    border: 1px solid #ddd;
-    border-radius: 3px;
+    border: 1px solid var(--border-color);
+    border-radius: 0.2lh;
   }
 
   &[disabled] {
