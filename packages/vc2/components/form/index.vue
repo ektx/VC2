@@ -47,6 +47,10 @@ export default {
     labelSuffix: {
       type: String,
       default: ''
+    },
+    columns: {
+      type: Number,
+      default: undefined
     }
   },
   data() {
@@ -59,7 +63,8 @@ export default {
   computed: {
     myStyle() {
       return {
-        '--labelWidth': this.labelWidth
+        '--labelWidth': this.labelWidth,
+        '--columns': this.columns
       }
     }
   },

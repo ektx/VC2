@@ -95,7 +95,7 @@ export default {
 
     style() {
       let obj = {
-        // '--labelWidth': this.labelWidth
+        '--labelWidth': this.labelWidth
       }
 
       if (this.gridColumn) {

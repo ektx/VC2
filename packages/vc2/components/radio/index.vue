@@ -80,7 +80,6 @@ const sizeStyle = computed(() => {
 })
 
 const handleChange = evt => {
-  debugger
   vcFormItem && vcFormItem.checkValidate('change')
 
   emit('change', evt)
