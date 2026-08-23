@@ -1,4 +1,4 @@
-import Button from './components/button/index.vue'
+import Button from './components/button/button.vue'
 import ButtonGroup from './components/buttonGroup/index.vue'
 import Checkbox from './components/checkbox/index.vue'
 import CheckboxGroup from './components/checkboxGroup/index.vue'

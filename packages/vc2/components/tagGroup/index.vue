@@ -38,7 +38,7 @@
 
 <script>
 import Tag from '../tag/index.vue'
-import MyButton from '../button/index.vue'
+import MyButton from '../button/index'
 import MyInput from '../input/index.vue'
 
 export default {

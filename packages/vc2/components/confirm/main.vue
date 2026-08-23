@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import vcButton from '../button/index.vue'
+import vcButton from '../button/index'
 
 export default {
   name: 'VcConfirm',

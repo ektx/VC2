@@ -54,7 +54,7 @@ import {
 import Inner from './slots'
 import Popper from '../popper/index.vue'
 import { popoverProps } from './types'
-import VcButton from '../button/index.vue'
+import VcButton from '../button/index'
 
 defineOptions({
   name: 'VcPopover'
