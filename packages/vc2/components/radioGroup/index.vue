@@ -3,6 +3,7 @@
     class="vc-radio-group"
     :disabled="disabled || undefined"
     :plain="plain || undefined"
+    :round="round || undefined"
     role="radiogroup"
     :type="type"
     :style="style"
@@ -69,6 +70,10 @@ const props = defineProps({
   txtColor: {
     type: String,
     default: undefined
+  },
+  round: {
+    type: Boolean,
+    default: false
   }
 })
 const emit = defineEmits(['update:modelValue', 'focus', 'blur', 'change'])

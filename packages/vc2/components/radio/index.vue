@@ -15,22 +15,22 @@
         type="radio"
         class="vc-radio__input"
         :checked="isChecked"
-        :value="label"
+        :value="value || label"
         :disabled="disabled"
         @change="handleChange"
         @blur="handleBlur"
         @focus="handleFocus"
-        @click="emit('update:modelValue', label)"
+        @click="emit('update:modelValue', value || label)"
       />
     </span>
     <span class="vc-radio__label">
-      <slot>{{ label }}</slot>
+      <slot>{{ value || label }}</slot>
     </span>
   </label>
 </template>
 
 <script setup>
-import { ref, computed, inject } from 'vue'
+import { ref, computed, inject, onMounted } from 'vue'
 
 defineOptions({
   name: 'VcRadio',
@@ -39,6 +39,7 @@ defineOptions({
 
 const {
   label,
+  value,
   modelValue = '',
   size,
   disabled = false,
@@ -48,6 +49,8 @@ const {
 } = defineProps({
   // 标签
   label: [String, Number, Boolean, Object],
+  // 值
+  value: [String, Number, Boolean, Object],
   // 绑定值
   modelValue: [String, Number, Boolean, Object],
   // 是否禁用
@@ -69,7 +72,7 @@ const vcFormItem = inject('vcFormItem', null)
 const isFocus = ref(false)
 
 const isChecked = computed(() => {
-  return modelValue === label
+  return modelValue === value || label
 })
 
 const sizeStyle = computed(() => {
@@ -94,4 +97,10 @@ const handleBlur = evt => {
 const handleFocus = e => {
   emit('focus', e)
 }
+
+onMounted(() => {
+  if (label) {
+    console.warn('[VcRadio] label is deprecated, please use value')
+  }
+})
 </script>
