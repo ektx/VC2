@@ -253,7 +253,7 @@ export default {
 
   <hr>
 
-  <vc-form ref="form" inline :model="formData" :rules="rules" :columns="columns">
+  <vc-form ref="form" inline :model="formData" :rules="rules" :columns="columns" label-width="60px">
 
     <vc-form-item label="活动名称" prop="name">
       <vc-input v-model="formData.name"/>

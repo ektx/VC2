@@ -1,35 +1,41 @@
 <template>
-  <div :class="['vc-switch__inset', `vc-switch__inset-${type}`]">
+  <div ref="el" :class="['vc-switch__inset', `vc-switch__inset-${type}`]">
     <i v-if="icon" :class="icon"></i>
-    <span v-if="text" class="vc-switch__inset-text" >{{text}}</span>
+    <span v-if="text" class="vc-switch__inset-text">{{ text }}</span>
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    type: String,
-    icon: String,
-    text: {
-      type: [String, Number],
-      default: ''
-    }
-  },
-  mounted() {
-    this.update()
-  },
-  updated() {
-    this.update()
-  },
-  methods: {
-    update() {
-      let { scrollWidth } = this.$el
-      let { width } = this.$parent.coreStyleObj
+<script setup>
+import { onMounted, useTemplateRef } from 'vue'
 
-      if (!width || width < scrollWidth) {
-        this.$parent.coreStyleObj.width = scrollWidth
-      }
-    }
+const props = defineProps({
+  type: String,
+  icon: String,
+  text: {
+    type: [String, Number],
+    default: ''
   }
+})
+const $el = useTemplateRef('el')
+//   mounted() {
+//     this.update()
+//   },
+//   updated() {
+//     this.update()
+//   },
+//   methods: {
+//   }
+// }
+const update = () => {
+  let { scrollWidth } = $el.value
+  // let { width } = this.$parent.coreStyleObj
+
+  // if (!width || width < scrollWidth) {
+  //   this.$parent.coreStyleObj.width = scrollWidth
+  // }
 }
+
+onMounted(() => {
+  update()
+})
 </script>

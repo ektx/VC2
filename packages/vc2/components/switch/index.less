@@ -1,6 +1,6 @@
-@import '../../styles/var.less';
-
 .vc-switch {
+  --duration: 0.3s;
+
   display: inline-flex;
   align-items: center;
   position: relative;
@@ -48,7 +48,7 @@
   }
 
   &__label {
-    color: @color-text-primary;
+    color: light-dark(#333, #fff);
     font-size: 14px;
     transition: color 0.35s;
 
@@ -83,7 +83,7 @@
   border: 2px solid;
   border-radius: 1em;
   vertical-align: middle;
-  transition: color 0.35s;
+  transition: color 0.3s;
 
   .is-checked & {
     color: #0099ff;
@@ -99,8 +99,12 @@
     word-break: keep-all;
     font-style: inherit;
     border-radius: 1em;
-    background-color: #fff;
-    transition: padding 0.35s, transform 0.35s, left 0.35s;
+    background-color: light-dark(#fff, #222);
+    transition:
+      padding var(--duration),
+      transform var(--duration),
+      left var(--duration),
+      background var(--duration);
 
     &:empty {
       padding: 0;
