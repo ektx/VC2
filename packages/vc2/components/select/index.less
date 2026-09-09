@@ -1,12 +1,13 @@
 @import '../../styles/var.less';
 
-.@{namespace}-select {
+.vc-select {
   position: relative;
   display: inline-block;
   width: 100%;
 
   &__input {
     position: relative;
+    anchor-name: var(--aname);
 
     input {
       -webkit-appearance: none;
@@ -100,7 +101,9 @@
   align-items: center;
   line-height: 2.8em;
   color: var(--vcTextColor);
-  transition: color 0.15s, font-weight 0.15s;
+  transition:
+    color 0.15s,
+    font-weight 0.15s;
 
   &:hover {
     background-color: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
@@ -180,16 +183,39 @@
   }
 }
 
-.@{namespace}-select__dropdown {
-  position: absolute;
-  z-index: 2000;
-  width: 200px;
-  border: 1px solid light-dark(#ddd, #222);
-  background-color: hsla(0, 0%, 100%, 0.85);
-  background-color: light-dark(#ffffffea, #1c1c1eee);
+.vc-select__dropdown {
+  --_duration: 0.25s;
+
+  height: 0;
+  opacity: 0;
+  min-width: 120px;
+  inset: auto;
+  position-anchor: var(--aname);
+  position-area: bottom span-right;
+  position-try-fallbacks:
+    flip-block, --select-popover-left, --select-popover-right;
+  position-try-order: most-height;
+  border: 1px solid light-dark(#d2d2d2, #404040);
+  background-color: light-dark(#ffffffb8, #1c1c1edd);
   backdrop-filter: saturate(100%) blur(10px);
   border-radius: 5px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  interpolate-size: allow-keywords;
+  transition:
+    opacity var(--_duration) ease-in-out,
+    display var(--_duration) ease-in-out allow-discrete,
+    overlay var(--_duration) ease-in-out allow-discrete,
+    height var(--_duration) ease-in-out;
+
+  &:popover-open {
+    opacity: 1;
+    height: auto;
+
+    @starting-style {
+      opacity: 0;
+      height: 0;
+    }
+  }
 
   & ul {
     margin: 5px 0;
@@ -197,4 +223,12 @@
     max-height: 200px;
     overflow: auto;
   }
+}
+
+/* alternate position */
+@position-try --select-popover-left {
+  position-area: bottom span-right;
+}
+@position-try --select-popover-right {
+  position-area: top span-right;
 }

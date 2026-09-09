@@ -10,6 +10,7 @@
       }
     ]"
     ref="el"
+    :style="[{ '--aname': '--select-' + _id }]"
     @click.stop="focusEvt"
   >
     <VS_Tags ref="tags" :selectedItem="selectedItem" />
@@ -28,40 +29,38 @@
       <i v-else class="vc-icon-arrow-down" />
       <i class="vc-icon-error" @click="onClear"></i>
     </div>
-    <transition name="vc-zoom-in-top" @after-leave="afterLeave">
-      <DropDown v-show="isOpen">
-        <ul v-if="myOptions.length">
-          <template v-for="item in myOptions" :key="item.label">
-            <template v-if="item.children">
-              <VCSGroup :item="item">
-                <template #label="item">
-                  <slot name="header" v-bind="item">
-                    <div class="vc-select-group__label">{{ item.label }}</div>
-                  </slot>
-                </template>
-                <template #default="item">
-                  <slot name="option" v-bind="item">
-                    <label>{{ item[labelAlias] }}</label>
-                    <i v-if="item.selected" class="vc-icon-check"></i>
-                  </slot>
-                </template>
-              </VCSGroup>
-            </template>
-            <VCSOption v-else :item="item">
+    <DropDown :show="isOpen">
+      <ul v-if="myOptions.length">
+        <template v-for="item in myOptions" :key="item.label">
+          <template v-if="item.children">
+            <VCSGroup :item="item">
+              <template #label="item">
+                <slot name="header" v-bind="item">
+                  <div class="vc-select-group__label">{{ item.label }}</div>
+                </slot>
+              </template>
               <template #default="item">
                 <slot name="option" v-bind="item">
                   <label>{{ item[labelAlias] }}</label>
                   <i v-if="item.selected" class="vc-icon-check"></i>
                 </slot>
               </template>
-            </VCSOption>
+            </VCSGroup>
           </template>
-        </ul>
-        <div class="vc-select-empty" v-else>
-          {{ loading ? '加载中' : '无匹配数据' }}
-        </div>
-      </DropDown>
-    </transition>
+          <VCSOption v-else :item="item">
+            <template #default="item">
+              <slot name="option" v-bind="item">
+                <label>{{ item[labelAlias] }}</label>
+                <i v-if="item.selected" class="vc-icon-check"></i>
+              </slot>
+            </template>
+          </VCSOption>
+        </template>
+      </ul>
+      <div class="vc-select-empty" v-else>
+        {{ loading ? '加载中' : '无匹配数据' }}
+      </div>
+    </DropDown>
   </div>
 </template>
 
@@ -76,14 +75,14 @@ import {
   provide,
   getCurrentInstance,
   reactive,
-  toRefs
+  toRefs,
+  useId
 } from 'vue'
 import { copyArray } from '../../utils/copy'
 import DropDown from './dropDown.vue'
 import VS_Tags from './tags.vue'
 import VCSOption from './option.vue'
 import VCSGroup from './group.vue'
-import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom'
 import { selectProps, selectEmits, type SelectOption, selectKey } from './types'
 
 defineOptions({
@@ -102,6 +101,7 @@ const intValue = ref('')
 const query = ref('')
 const vcFormItem = inject<any>('vcFormItem', null)
 const inputArea = ref<HTMLElement | null>(null)
+const _id = useId()
 
 const myPlaceholder = computed(() => {
   let result = props.placeholder
@@ -235,19 +235,19 @@ const focusEvt = () => {
 
   tooltipEl.style.width = width + 'px'
 
-  tooltip = autoUpdate(inputArea.value as HTMLElement, tooltipEl, () => {
-    if (!inputArea.value) return
+  // tooltip = autoUpdate(inputArea.value as HTMLElement, tooltipEl, () => {
+  //   if (!inputArea.value) return
 
-    computePosition(inputArea.value as HTMLElement, tooltipEl, {
-      placement: 'bottom',
-      middleware: [flip(), offset(5)]
-    }).then(({ x, y }) => {
-      Object.assign(tooltipEl.style, {
-        left: x + 'px',
-        top: y + 'px'
-      })
-    })
-  })
+  //   computePosition(inputArea.value as HTMLElement, tooltipEl, {
+  //     placement: 'bottom',
+  //     middleware: [flip(), offset(5)]
+  //   }).then(({ x, y }) => {
+  //     Object.assign(tooltipEl.style, {
+  //       left: x + 'px',
+  //       top: y + 'px'
+  //     })
+  //   })
+  // })
 }
 
 const selectedEvt = (evt: Event, item: SelectOption) => {
