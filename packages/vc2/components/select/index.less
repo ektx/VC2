@@ -197,15 +197,24 @@
   position-try-order: most-height;
   border: 1px solid light-dark(#d2d2d2, #404040);
   background-color: light-dark(#ffffffb8, #1c1c1edd);
-  backdrop-filter: saturate(100%) blur(10px);
   border-radius: 5px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  backdrop-filter: saturate(100%) blur(10px);
+  overflow: hidden;
   interpolate-size: allow-keywords;
   transition:
     opacity var(--_duration) ease-in-out,
     display var(--_duration) ease-in-out allow-discrete,
     overlay var(--_duration) ease-in-out allow-discrete,
     height var(--_duration) ease-in-out;
+
+  & ul {
+    height: inherit;
+    margin: 5px 0;
+    padding: 0;
+    max-height: 200px;
+    overflow: hidden;
+  }
 
   &:popover-open {
     opacity: 1;
@@ -215,13 +224,10 @@
       opacity: 0;
       height: 0;
     }
-  }
 
-  & ul {
-    margin: 5px 0;
-    padding: 0;
-    max-height: 200px;
-    overflow: auto;
+    & ul {
+      overflow: auto;
+    }
   }
 }
 
