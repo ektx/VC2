@@ -11,27 +11,37 @@
     ]"
     ref="el"
     :style="[{ '--aname': '--select-' + _id }]"
-    @click.stop="focusEvt"
+    @click.stop="onSelectClick"
   >
-    <VS_Tags ref="tags" :selectedItem="selectedItem" />
-    <div ref="inputArea" class="vc-select__input">
-      <input
-        type="text"
-        autocomplete="off"
-        :readonly="!filterable"
-        :placeholder="myPlaceholder"
-        :value="intValue"
-        @input="intValue = ($event.target as HTMLInputElement).value"
-      />
-      <span v-if="loading">
-        <i class="vc-icon-loading" />
-      </span>
-      <i v-else class="vc-icon-arrow-down" />
-      <i class="vc-icon-error" @click="onClear"></i>
+    <div class="vc-select--content">
+      <div class="vc-select--inner">
+        <VS_Tags ref="tags" :selectedItem="selectedItem" />
+        <div ref="inputArea" class="vc-select--input">
+          <input
+            type="text"
+            autocomplete="off"
+            :readonly="!filterable"
+            :placeholder="myPlaceholder"
+            :value="intValue"
+            @input="intValue = ($event.target as HTMLInputElement).value"
+          />
+        </div>
+      </div>
+
+      <!-- suffix 后缀 -->
+      <div class="vc-select--suffix">
+        <span v-if="loading">
+          <i class="vc-icon-loading"></i>
+        </span>
+        <i v-else class="vc-icon-arrow-down"></i>
+        <i v-if="clearable" class="vc-icon-error" @click="onClear"></i>
+      </div>
     </div>
+
+    <!-- 下拉列表 -->
     <DropDown :show="isOpen">
-      <ul v-if="myOptions.length">
-        <template v-for="item in myOptions" :key="item.label">
+      <ul v-if="_Options.length">
+        <template v-for="item in _Options" :key="item.label">
           <template v-if="item.children">
             <VCSGroup :item="item">
               <template #label="item">
@@ -76,6 +86,7 @@ import {
   getCurrentInstance,
   reactive,
   toRefs,
+  toRaw,
   useId
 } from 'vue'
 import { copyArray } from '../../utils/copy'
@@ -95,6 +106,8 @@ const emit = defineEmits(selectEmits)
 const el = ref<HTMLElement | null>(null)
 const isFocus = ref(false)
 const isOpen = ref(false)
+
+/** 已经选中项 */
 const selectedItem = ref<Record<string, SelectOption>>({})
 const hoverItem = ref({})
 const intValue = ref('')
@@ -137,9 +150,10 @@ onMounted(() => {
   document.addEventListener('click', hideDropdown, true)
 })
 
-const myOptions = computed(() => {
-  let list = copyArray(props.options) as SelectOption[]
+const _Options = computed(() => {
+  let list: SelectOption[] = structuredClone(toRaw(props.options))
 
+  // 当有筛选时
   if (props.filterable) {
     let val = intValue.value || query.value
     let result: SelectOption[] = []
@@ -176,7 +190,22 @@ const myOptions = computed(() => {
     }
 
     list = result
+  } else {
+    const setSelectStatus = (arr: SelectOption[]) => {
+      arr.forEach(item => {
+        if (item.children) {
+          setSelectStatus(item.children)
+        } else {
+          item.selected = Reflect.has(
+            selectedItem.value,
+            item[props.valueAlias]
+          )
+        }
+      })
+    }
   }
+
+  console.log(list)
 
   return list
 })
@@ -209,19 +238,17 @@ watch(
   }
 )
 
-const focusEvt = () => {
+const onSelectClick = () => {
+  // 禁用
   if (props.disabled) return
 
+  // 已打开
   if (isOpen.value) {
     isOpen.value = false
     isFocus.value = false
     return
   }
 
-  let { width } = (el.value as HTMLElement).getBoundingClientRect()
-  let tooltipEl = (el.value as HTMLElement).querySelector(
-    '.vc-select__dropdown'
-  ) as HTMLElement
   isOpen.value = true
   isFocus.value = true
 
@@ -232,22 +259,6 @@ const focusEvt = () => {
       intValue.value = ''
     }
   }
-
-  tooltipEl.style.width = width + 'px'
-
-  // tooltip = autoUpdate(inputArea.value as HTMLElement, tooltipEl, () => {
-  //   if (!inputArea.value) return
-
-  //   computePosition(inputArea.value as HTMLElement, tooltipEl, {
-  //     placement: 'bottom',
-  //     middleware: [flip(), offset(5)]
-  //   }).then(({ x, y }) => {
-  //     Object.assign(tooltipEl.style, {
-  //       left: x + 'px',
-  //       top: y + 'px'
-  //     })
-  //   })
-  // })
 }
 
 const selectedEvt = (evt: Event, item: SelectOption) => {

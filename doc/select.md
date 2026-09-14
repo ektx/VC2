@@ -337,7 +337,7 @@ const options = [
 ```vue
 <template>
   <vc-select v-model="value1" :options="options" filterable />
-  <vc-select v-model="value2" :options="options" multiple filterable />
+  <vc-select v-model="value2" :options="options" multiple filterable style="width: 200px;" />
 </template>
 
 <script setup>

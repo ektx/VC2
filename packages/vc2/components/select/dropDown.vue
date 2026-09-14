@@ -20,8 +20,9 @@ watch(
   () => show,
   val => {
     if (val) {
-      console.log('show')
       el.value.showPopover()
+    } else {
+      el.value.hidePopover()
     }
   }
 )

@@ -5,28 +5,77 @@
   display: inline-block;
   width: 100%;
 
-  &__input {
-    position: relative;
+  &--inner {
+    flex: 1;
+  }
+
+  &--suffix {
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+
+    .vc-icon-arrow-down {
+      transition: rotate 0.3s;
+    }
+
+    .vc-icon-error {
+      display: none;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+  }
+
+  &--content {
     anchor-name: var(--aname);
+    display: flex;
+    flex-direction: row;
+    // gap: 5px;
+    // background-color: transparent;
+    // background-image: none;
+    border-radius: 3px;
+    border: 1px solid var(--vcBorderColor);
+    transition: border 0.3s;
+
+    &:hover {
+      border-color: var(--vcBorderHoverColor);
+
+      &:has(.vc-icon-error) {
+        .vc-icon-arrow-down {
+          display: none;
+        }
+      }
+
+      .vc-icon-error {
+        display: block;
+        opacity: 0.5;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+
+    &:focus-within {
+      border-color: var(--vcBorderFocusColor);
+    }
+  }
+
+  &--input {
+    position: relative;
 
     input {
-      -webkit-appearance: none;
+      appearance: none;
       display: inline-block;
       padding: 5px 24px 5px 10px;
       width: 100%;
       height: 100%;
       color: var(--vcTextColor);
-      background-color: transparent;
-      background-image: none;
-      border-radius: 3px;
-      border: 1px solid var(--vcBorderColor);
       box-sizing: border-box;
       outline: none;
+      border: none;
       transition: border 0.3s;
+      background: transparent;
 
-      &:hover {
-        border-color: var(--vcBorderHoverColor);
-      }
       &::placeholder {
         color: @color-text-placeholder;
       }
@@ -55,28 +104,6 @@
       color: @color-text-placeholder;
       transform: translateY(-50%);
       transition: transform 0.3s;
-
-      .@{namespace}-select.is-open & {
-        transform: translateY(-50%) rotateZ(-180deg);
-      }
-
-      &.@{namespace}-icon-error {
-        display: none;
-        cursor: pointer;
-
-        .clearable & {
-          display: block;
-          opacity: 0;
-        }
-        .clearable:hover & {
-          opacity: 0.7;
-        }
-      }
-      &.@{namespace}-icon-arrow-down {
-        .clearable:hover & {
-          display: none;
-        }
-      }
     }
   }
 
@@ -92,6 +119,12 @@
     text-align: center;
     color: #aaa;
     line-height: 3em;
+  }
+
+  &.is-open {
+    .vc-icon-arrow-down {
+      rotate: z -180deg;
+    }
   }
 }
 
@@ -189,9 +222,10 @@
   height: 0;
   opacity: 0;
   min-width: 120px;
-  inset: auto;
+  inset: 5px 0;
   position-anchor: var(--aname);
   position-area: bottom span-right;
+  width: anchor-size(var(--aname) width);
   position-try-fallbacks:
     flip-block, --select-popover-left, --select-popover-right;
   position-try-order: most-height;
