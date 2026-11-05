@@ -44,7 +44,12 @@
     </div>
 
     <!-- 下拉列表 -->
-    <DropDown :show="isOpen">
+    <DropDown
+      ref="dropdownEl"
+      :show="isOpen"
+      @open="onDropOpen"
+      @close="onDropClose"
+    >
       <ul v-if="_Options.length">
         <template v-for="item in _Options" :key="item.label">
           <template v-if="item.children">
@@ -97,7 +102,8 @@ import {
   reactive,
   toRefs,
   toRaw,
-  useId
+  useId,
+  useTemplateRef
 } from 'vue'
 import { copyArray } from '../../utils/copy'
 import DropDown from './dropDown.vue'
@@ -114,6 +120,7 @@ const props = defineProps(selectProps)
 const emit = defineEmits(selectEmits)
 
 const el = ref<HTMLElement | null>(null)
+const dropdownEl = useTemplateRef('dropdownEl')
 const isFocus = ref(false)
 const isOpen = ref(false)
 
@@ -246,15 +253,17 @@ const onSelectClick = () => {
   // 禁用
   if (props.disabled) return
 
-  // 已打开
-  if (isOpen.value) {
-    isOpen.value = false
-    isFocus.value = false
-    return
-  }
+  dropdownEl.value?.toggle()
+}
 
+const onDropOpen = () => {
   isOpen.value = true
   isFocus.value = true
+}
+
+const onDropClose = () => {
+  isOpen.value = false
+  isFocus.value = false
 }
 
 const selectedEvt = (evt: Event, item: SelectOption) => {

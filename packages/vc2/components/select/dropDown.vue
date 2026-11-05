@@ -5,25 +5,33 @@
 </template>
 
 <script setup>
-import { watch, useTemplateRef } from 'vue'
+import { useTemplateRef, onMounted, onBeforeUnmount } from 'vue'
 
 defineOptions({
   name: 'VcSelectDropDown'
 })
 
 const el = useTemplateRef('el')
-const { show } = defineProps({
-  show: Boolean
+const emit = defineEmits(['open', 'close'])
+
+function toggle() {
+  el.value.togglePopover()
+}
+
+function onToggle(e) {
+  if (e.newState === 'open') emit('open')
+  else emit('close')
+}
+
+onMounted(() => {
+  el.value.addEventListener('toggle', onToggle)
 })
 
-watch(
-  () => show,
-  val => {
-    if (val) {
-      el.value.showPopover()
-    } else {
-      el.value.hidePopover()
-    }
-  }
-)
+onBeforeUnmount(() => {
+  el.value.removeEventListener('toggle', onToggle)
+})
+
+defineExpose({
+  toggle
+})
 </script>
