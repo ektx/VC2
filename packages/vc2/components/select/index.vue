@@ -13,13 +13,14 @@
     :style="[{ '--aname': '--select-' + _id }]"
     @click.stop="onSelectClick"
   >
-    {{ intValue }}-{{ modelValue }}
+    >{{ myPlaceholder }}-{{ modelValue }}-{{ selectedItem }}
     <div class="vc-select--content">
       <div class="vc-select--inner">
         <VS_Tags
           v-if="multiple || createTags"
           ref="tags"
           :selectedItem="selectedItem"
+          :placeholder="myPlaceholder"
         />
 
         <div v-else ref="inputArea" class="vc-select--input">
@@ -126,7 +127,6 @@ const isOpen = ref(false)
 
 /** 已经选中项 */
 const selectedItem = ref<Record<string, SelectOption>>({})
-const hoverItem = ref({})
 const intValue = ref('')
 const query = ref('')
 const vcFormItem = inject<any>('vcFormItem', null)
@@ -136,20 +136,9 @@ const _id = useId()
 const myPlaceholder = computed(() => {
   let result = props.placeholder
 
-  if (props.multiple || props.createTags) {
-    // 在可筛选时
-    if (props.filterable) {
-      result = ''
-    } else {
-      result = (props.modelValue as any[]).length ? '' : props.placeholder
-    }
-  } else {
-    if (Object.keys(selectedItem.value).length) {
-      result = Object.values(selectedItem.value)[0][props.labelAlias] as string
-    }
+  if (props.modelValue && !Array.isArray(props.modelValue)) {
+    result = selectedItem.value[props.modelValue]?.[props.labelAlias]
   }
-  return result
-})
 
   return result
 })
@@ -183,33 +172,35 @@ const _Options = computed(() => {
       })
     }
 
-    if (props.createTags) {
-      let key = query.value.trim()
-      if (key && !Reflect.has(selectedItem.value, key)) {
-        result.unshift({
-          [props.valueAlias]: key,
-          [props.labelAlias]: key
-        })
+    list = result
+  }
+
+  // 处理选择的对象
+  if (props.modelValue) {
+    const setItem = (item: SelectOption) => {
+      const val = item[props.valueAlias]
+
+      if (Array.isArray(props.modelValue)) {
+        if (props.modelValue.includes(val)) {
+          selectedItem.value[val] = item
+        }
+      } else {
+        if (val === props.modelValue) {
+          selectedItem.value[val] = item
+        }
       }
     }
 
-    list = result
-  } else {
-    const setSelectStatus = (arr: SelectOption[]) => {
-      arr.forEach(item => {
-        if (item.children) {
-          setSelectStatus(item.children)
-        } else {
-          item.selected = Reflect.has(
-            selectedItem.value,
-            item[props.valueAlias]
-          )
-        }
-      })
-    }
+    list.forEach(child => {
+      if (child[props.childrenAlias]) {
+        child[props.childrenAlias].forEach((item: SelectOption) => {
+          setItem(item)
+        })
+      } else {
+        setItem(child)
+      }
+    })
   }
-
-  console.log(list)
 
   return list
 })
@@ -288,30 +279,12 @@ const selectedEvt = (evt: Event, item: SelectOption) => {
     vcFormItem.checkValidate('change')
   }
 
+  // toggle dropdown
+  if (!props.multiple) dropdownEl.value?.toggle()
+
   // 更新值
   emit('update:modelValue', result)
   emit('change', result, item)
-}
-
-const updateSelectedItem = (item: SelectOption, isAdd: boolean) => {
-  let key = item[props.valueAlias]
-
-  if (isAdd) {
-    if (selectedItem.value[key]) {
-      if (item[props.labelAlias] === selectedItem.value[key][props.labelAlias])
-        return
-    }
-
-    if (props.multiple) {
-      selectedItem.value[key] = item
-    } else {
-      selectedItem.value = {
-        [key]: item
-      }
-    }
-  } else {
-    delete selectedItem.value[key]
-  }
 }
 
 const onClear = (evt: Event) => {
@@ -341,8 +314,7 @@ const afterLeave = () => {
 
 // Expose methods for parent components
 defineExpose({
-  selectedEvt,
-  updateSelectedItem
+  selectedEvt
 })
 
 const state = {
@@ -350,7 +322,6 @@ const state = {
   query,
   selectedItem,
   selectedEvt,
-  updateSelectedItem,
   $refs: {
     inputArea
   }

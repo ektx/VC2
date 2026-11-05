@@ -13,28 +13,27 @@
     >
       +{{ moreSize }}
     </span>
+
     <input
-      v-if="vcSelect.props.filterable || vcSelect.props.createTags"
       class="vc-select-tags__filter"
       type="text"
       autocomplete="off"
       :placeholder="placeholder"
-      v-model="vcSelect.query"
     />
   </div>
 </template>
 
 <script>
-import { inject } from 'vue'
+// import { inject } from 'vue'
 import { selectKey } from './types'
 
 export default {
   name: 'VcSelectTags',
-  setup() {
-    const vcSelect = inject(selectKey) // inject('vcSelect')
-    console.log(vcSelect)
-    return { vcSelect }
-  },
+  // setup() {
+  //   const vcSelect = inject(selectKey) // inject('vcSelect')
+  //   console.log(vcSelect)
+  //   return { vcSelect }
+  // },
   props: {
     selectedItem: {
       type: Object,
@@ -56,20 +55,20 @@ export default {
       )
     },
     displayItem() {
-      if (this.vcSelect.props.collapseTags) {
-        return Object.values(this.selectedItem).slice(
-          0,
-          this.vcSelect.props.maxTagCount
-        )
-      } else {
-        return this.selectedItem
-      }
-    },
-    placeholder() {
-      return this.vcSelect.props.modelValue.length
-        ? ''
-        : this.vcSelect.props.placeholder
+      // if (this.vcSelect.props.collapseTags) {
+      //   return Object.values(this.selectedItem).slice(
+      //     0,
+      //     this.vcSelect.props.maxTagCount
+      //   )
+      // } else {
+      //   return this.selectedItem
+      // }
     }
+    // placeholder() {
+    //   return this.vcSelect.props.modelValue.length
+    //     ? ''
+    //     : this.vcSelect.props.placeholder
+    // }
   },
   methods: {
     focusEvt() {
@@ -80,4 +79,13 @@ export default {
     }
   }
 }
+</script>
+<script setup>
+import { inject, computed } from 'vue'
+
+const vcSelect = inject(selectKey)
+
+const { placeholder } = defineProps({
+  placeholder: String
+})
 </script>

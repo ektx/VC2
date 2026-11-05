@@ -15,7 +15,6 @@ export interface SelectContext {
   query: Ref<string>
   selectedItem: Ref<Record<string, SelectOption>>
   selectedEvt: (evt: Event, item: SelectOption) => void
-  updateSelectedItem: (item: SelectOption, isAdd: boolean) => void
   $refs: {
     inputArea: Ref<HTMLElement | null>
   }
@@ -105,6 +104,11 @@ export const selectProps = {
   labelAlias: {
     type: String,
     default: 'label'
+  },
+  // 子选项别名
+  childrenAlias: {
+    type: String,
+    default: 'children'
   },
   // 清空选项的值
   valueOnClear: {
