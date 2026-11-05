@@ -151,20 +151,7 @@ const myPlaceholder = computed(() => {
   return result
 })
 
-let tooltip: any = null
-let hideDropdown = (evt: any) => {
-  if (el.value?.contains(evt.target)) return
-
-  isOpen.value = false
-  isFocus.value = false
-}
-
-onUnmounted(() => {
-  document.removeEventListener('click', hideDropdown, true)
-})
-
-onMounted(() => {
-  document.addEventListener('click', hideDropdown, true)
+  return result
 })
 
 const _Options = computed(() => {
