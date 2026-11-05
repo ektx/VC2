@@ -13,16 +13,21 @@
     :style="[{ '--aname': '--select-' + _id }]"
     @click.stop="onSelectClick"
   >
+    {{ intValue }}-{{ modelValue }}
     <div class="vc-select--content">
       <div class="vc-select--inner">
-        <VS_Tags ref="tags" :selectedItem="selectedItem" />
-        <div ref="inputArea" class="vc-select--input">
+        <VS_Tags
+          v-if="multiple || createTags"
+          ref="tags"
+          :selectedItem="selectedItem"
+        />
+
+        <div v-else ref="inputArea" class="vc-select--input">
           <input
             type="text"
             autocomplete="off"
             :readonly="!filterable"
             :placeholder="myPlaceholder"
-            :value="intValue"
             @input="intValue = ($event.target as HTMLInputElement).value"
           />
         </div>
@@ -43,7 +48,7 @@
       <ul v-if="_Options.length">
         <template v-for="item in _Options" :key="item.label">
           <template v-if="item.children">
-            <VCSGroup :item="item">
+            <VCSGroup :item="item" :value="modelValue" :valueAlias="valueAlias">
               <template #label="item">
                 <slot name="header" v-bind="item">
                   <div class="vc-select-group__label">{{ item.label }}</div>
@@ -52,16 +57,21 @@
               <template #default="item">
                 <slot name="option" v-bind="item">
                   <label>{{ item[labelAlias] }}</label>
-                  <i v-if="item.selected" class="vc-icon-check"></i>
+                  <i class="vc-icon-check"></i>
                 </slot>
               </template>
             </VCSGroup>
           </template>
-          <VCSOption v-else :item="item">
+          <VCSOption
+            v-else
+            :item="item"
+            :value="modelValue"
+            :valueAlias="valueAlias"
+          >
             <template #default="item">
               <slot name="option" v-bind="item">
                 <label>{{ item[labelAlias] }}</label>
-                <i v-if="item.selected" class="vc-icon-check"></i>
+                <i class="vc-icon-check"></i>
               </slot>
             </template>
           </VCSOption>
@@ -127,7 +137,7 @@ const myPlaceholder = computed(() => {
       result = (props.modelValue as any[]).length ? '' : props.placeholder
     }
   } else {
-    if (isFocus.value && Object.keys(selectedItem.value).length) {
+    if (Object.keys(selectedItem.value).length) {
       result = Object.values(selectedItem.value)[0][props.labelAlias] as string
     }
   }
@@ -155,7 +165,7 @@ const _Options = computed(() => {
 
   // 当有筛选时
   if (props.filterable) {
-    let val = intValue.value || query.value
+    let val = query.value
     let result: SelectOption[] = []
 
     if (props.filterMethod) {
@@ -218,19 +228,13 @@ watch(
     } else {
       emit('blur')
 
-      if (!props.multiple && Object.values(selectedItem.value).length) {
-        intValue.value = Object.values(selectedItem.value)[0][
-          props.labelAlias
-        ] as string
-      }
-
       if (vcFormItem) vcFormItem.checkValidate('blur')
     }
   }
 )
 
 watch(
-  () => intValue.value,
+  () => query.value,
   val => {
     if (props.remoteMethod) {
       props.remoteMethod(val)
@@ -251,14 +255,6 @@ const onSelectClick = () => {
 
   isOpen.value = true
   isFocus.value = true
-
-  if (props.multiple) {
-    intValue.value = ''
-  } else {
-    if (props.filterable) {
-      intValue.value = ''
-    }
-  }
 }
 
 const selectedEvt = (evt: Event, item: SelectOption) => {
@@ -279,13 +275,11 @@ const selectedEvt = (evt: Event, item: SelectOption) => {
     }
 
     result = Object.keys(selectedItem.value)
-    intValue.value = ''
   } else {
     selectedItem.value = {
       [key]: item
     }
     result = key
-    intValue.value = item[props.labelAlias] as string
   }
 
   // 不是多选则关闭选项列表
@@ -297,6 +291,8 @@ const selectedEvt = (evt: Event, item: SelectOption) => {
   if (vcFormItem) {
     vcFormItem.checkValidate('change')
   }
+
+  // 更新值
   emit('update:modelValue', result)
   emit('change', result, item)
 }
@@ -316,13 +312,8 @@ const updateSelectedItem = (item: SelectOption, isAdd: boolean) => {
       selectedItem.value = {
         [key]: item
       }
-      intValue.value = item[props.labelAlias] as string
     }
   } else {
-    if (selectedItem.value[key] && !props.multiple) {
-      intValue.value = ''
-    }
-
     delete selectedItem.value[key]
   }
 }

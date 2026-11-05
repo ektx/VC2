@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="vcSelect.props.multiple || vcSelect.props.createTags"
-    class="vc-select-tags"
-  >
+  <div class="vc-select-tags">
     <span class="vc-tag--item" v-for="item in displayItem" :key="item.value">
       {{ item[vcSelect.props.labelAlias] }}
       <i
@@ -49,10 +46,11 @@ export default {
 
     H = H >= 24 ? H + 'px' : 'auto'
 
-    this.vcSelect.$refs.inputArea.value.style.height = H
+    // this.vcSelect.$refs.inputArea.value.style.height = H
   },
   computed: {
     moreSize() {
+      return 'moreSize'
       return (
         Object.keys(this.selectedItem).length - this.vcSelect.props.maxTagCount
       )

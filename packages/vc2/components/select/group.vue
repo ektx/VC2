@@ -2,10 +2,12 @@
   <div class="vc-select-group">
     <slot name="label" v-bind="item"></slot>
     <ul>
-      <VCSOption 
+      <VCSOption
         v-for="child in item.children"
         :key="child.value"
         :item="child"
+        :value="value"
+        :valueAlias="valueAlias"
       >
         <template #default="item">
           <slot v-bind="item"></slot>
@@ -15,17 +17,18 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import VCSOption from './option.vue'
 
-export default {
-  name: 'VcSelectGroup',
-  components: { VCSOption },
-  props: {
-    item: {
-      type: Object,
-      default: () => ({})
-    }
-  }
-}
+defineOptions({ name: 'VcSelectGroup' })
+
+const {
+  item = {},
+  value,
+  valueAlias
+} = defineProps({
+  item: Object,
+  value: [String, Number, Array],
+  valueAlias: String
+})
 </script>
