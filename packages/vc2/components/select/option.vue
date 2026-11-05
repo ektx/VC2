@@ -1,13 +1,8 @@
 <template>
   <li
-    :class="[
-      'vc-select-option',
-      {
-        selected: value === item[valueAlias]
-      }
-    ]"
+    :class="['vc-select-option', { selected }]"
     :disabled="item.disabled"
-    @click="evt => vcSelect.selectedEvt(evt, item)"
+    @click="e => vcSelect.selectedEvt(e, item)"
   >
     <slot v-bind="item"></slot>
   </li>
@@ -28,4 +23,11 @@ const {
   valueAlias: String
 })
 const vcSelect = inject(selectKey)
+const selected = computed(() => {
+  if (Array.isArray(value)) {
+    return value.includes(item[valueAlias])
+  } else {
+    return item[valueAlias] === value
+  }
+})
 </script>
