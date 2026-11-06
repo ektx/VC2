@@ -13,7 +13,6 @@
     :style="[{ '--aname': '--select-' + _id }]"
     @click.stop="onSelectClick"
   >
-    >{{ myPlaceholder }}-{{ modelValue }}-{{ selectedItem }}
     <div class="vc-select--content">
       <div class="vc-select--inner">
         <VS_Tags
@@ -21,6 +20,10 @@
           ref="tags"
           :selectedItem="selectedItem"
           :placeholder="myPlaceholder"
+          :collapseTags="collapseTags"
+          :maxTagCount="maxTagCount"
+          :filterable="filterable"
+          v-model:query="query"
         />
 
         <div v-else ref="inputArea" class="vc-select--input">
@@ -29,7 +32,8 @@
             autocomplete="off"
             :readonly="!filterable"
             :placeholder="myPlaceholder"
-            @input="intValue = ($event.target as HTMLInputElement).value"
+            :value="query"
+            @input="query = ($event.target as HTMLInputElement).value"
           />
         </div>
       </div>
