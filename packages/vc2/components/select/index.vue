@@ -26,7 +26,7 @@
           v-model:query="query"
         />
 
-        <div v-else ref="inputArea" class="vc-select--input">
+        <div v-else class="vc-select--input">
           <input
             type="text"
             autocomplete="off"
@@ -97,44 +97,33 @@
 <script lang="ts" setup>
 import {
   ref,
-  onUnmounted,
-  onMounted,
   watch,
   computed,
   inject,
   provide,
-  getCurrentInstance,
-  reactive,
-  toRefs,
   toRaw,
   useId,
   useTemplateRef
 } from 'vue'
-import { copyArray } from '../../utils/copy'
 import DropDown from './dropDown.vue'
 import VS_Tags from './tags.vue'
 import VCSOption from './option.vue'
 import VCSGroup from './group.vue'
 import { selectProps, selectEmits, type SelectOption, selectKey } from './types'
 
-defineOptions({
-  name: 'VcSelect'
-})
+defineOptions({ name: 'VcSelect' })
 
 const props = defineProps(selectProps)
 const emit = defineEmits(selectEmits)
 
-const el = ref<HTMLElement | null>(null)
 const dropdownEl = useTemplateRef('dropdownEl')
 const isFocus = ref(false)
 const isOpen = ref(false)
 
 /** 已经选中项 */
 const selectedItem = ref<Record<string, SelectOption>>({})
-const intValue = ref('')
 const query = ref('')
 const vcFormItem = inject<any>('vcFormItem', null)
-const inputArea = ref<HTMLElement | null>(null)
 const _id = useId()
 
 const myPlaceholder = computed(() => {
@@ -311,11 +300,6 @@ const onClear = (evt: Event) => {
   emit('onClear', val)
 }
 
-const afterLeave = () => {
-  // tooltip?.destroy()
-  emit('closed')
-}
-
 // Expose methods for parent components
 defineExpose({
   selectedEvt
@@ -325,10 +309,7 @@ const state = {
   props,
   query,
   selectedItem,
-  selectedEvt,
-  $refs: {
-    inputArea
-  }
+  selectedEvt
 }
 
 provide(selectKey, state)

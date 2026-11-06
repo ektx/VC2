@@ -15,9 +15,6 @@ export interface SelectContext {
   query: Ref<string>
   selectedItem: Ref<Record<string, SelectOption>>
   selectedEvt: (evt: Event, item: SelectOption) => void
-  $refs: {
-    inputArea: Ref<HTMLElement | null>
-  }
 }
 
 export const selectKey: InjectionKey<SelectContext> = Symbol('vcSelect')
