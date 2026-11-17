@@ -4,4 +4,3 @@ import './index.less'
 
 export const VcSwitch = withInstall(Switch)
 export default VcSwitch
-export * from './types'
