@@ -57,88 +57,28 @@
 <script setup>
 import { ref, computed, inject, watch } from 'vue'
 import Inset from './inset.vue'
+import { switchProps, switchEmits } from './types'
 
 defineOptions({
   name: 'VcSwitch',
   inheritAttrs: false
 })
 
-const emit = defineEmits(['change', 'update:value'])
+const emit = defineEmits(switchEmits)
 
-const props = defineProps({
-  // 开关所绑定的值
-  value: {
-    type: [String, Number, Boolean],
-    default: false
-  },
-  // switch开关的长度
-  width: {
-    type: Number,
-    default: 0
-  },
-  // switch 打开时的背景色
-  activeColor: {
-    type: String,
-    default: ''
-  },
-  // switch 关闭时的背景色
-  inactiveColor: {
-    type: String,
-    default: ''
-  },
-  // switch 打开时的值
-  activeValue: {
-    type: [Boolean, String, Number],
-    default: true
-  },
-  // switch 关闭时的值
-  inactiveValue: {
-    type: [Boolean, String, Number],
-    default: false
-  },
-  // switch 打开时所显示图标的类名
-  activeIcon: {
-    type: String,
-    default: ''
-  },
-  // 关闭时所显示图标的类名
-  inactiveIcon: {
-    type: String,
-    default: ''
-  },
-  // 内部图标文字
-  inset: {
-    type: Boolean,
-    default: false
-  },
-  // switch 打开时的文字描述
-  activeText: String,
-  // switch 关闭时的文字描述
-  inactiveText: String,
-  // 是否禁用
-  disabled: {
-    type: Boolean,
-    default: false
-  },
-  // 圓圈半徑
-  r: {
-    type: Number,
-    default: 16
-  },
-  // 加载状态，添加后，禁用不可点击
-  loading: {
-    type: Boolean,
-    default: false
-  },
-  // 按钮文字
-  btnText: String
-})
+const props = defineProps(switchProps)
 
-let checked = ref(props.value === props.activeValue)
 const vcFormItem = inject('vcFormItem', null)
 
+// 优先使用 v-model 绑定的 modelValue，未传时回退到已废弃的 value
+const currentValue = computed(() =>
+  props.modelValue === undefined ? props.value : props.modelValue
+)
+
+let checked = ref(currentValue.value === props.activeValue)
+
 watch(
-  () => props.value,
+  currentValue,
   val => (checked.value = val === props.activeValue)
 )
 
@@ -166,6 +106,7 @@ const changeStyle = () => {
   const val = checked.value ? props.activeValue : props.inactiveValue
 
   emit('change', val)
+  emit('update:modelValue', val)
   emit('update:value', val)
   vcFormItem && vcFormItem.checkValidate('change')
 }

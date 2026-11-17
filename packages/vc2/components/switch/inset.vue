@@ -6,12 +6,7 @@
 </template>
 
 <script setup>
-defineProps({
-  type: String,
-  icon: String,
-  text: {
-    type: [String, Number],
-    default: ''
-  }
-})
+import { switchInsetProps } from './types'
+
+defineProps(switchInsetProps)
 </script>

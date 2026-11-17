@@ -7,7 +7,7 @@
 ::: codeBox
 ```vue
 <template>
-  <vc-switch v-model:value="value" />
+  <vc-switch v-model="value" />
 </template>
 
 <script setup>
@@ -23,7 +23,7 @@ const value = ref(true)
 ::: codeBox
 ```vue
 <template>
-  <vc-switch v-model:value="value" @change="change" :active-value="100" :inactive-value="0" />
+  <vc-switch v-model="value" @change="change" :active-value="100" :inactive-value="0" />
 </template>
 
 <script setup>
@@ -47,7 +47,7 @@ function change (event) {
 ::: codeBox
 ```vue
 <template>
-  <vc-switch :value="true" active-color="#13ce66" inactive-color="#ff4949" />
+  <vc-switch :model-value="true" active-color="#13ce66" inactive-color="#ff4949" />
 </template>
 ```
 :::
@@ -60,7 +60,7 @@ function change (event) {
 
 ```vue
 <template>
-  <vc-switch :value="true" active-icon="vc-icon-sunny" active-text="白天" inactive-icon="vc-icon-moon" inactive-text="夜晚" />
+  <vc-switch :model-value="true" active-icon="vc-icon-sunny" active-text="白天" inactive-icon="vc-icon-moon" inactive-text="夜晚" />
   
   <br/>
   <br/>
@@ -76,14 +76,14 @@ function change (event) {
 ::: codeBox
 ```vue
 <template>
-  <vc-switch inset :value="false" active-icon="vc-icon-check" inactive-icon="vc-icon-close" />
+  <vc-switch inset :model-value="false" active-icon="vc-icon-check" inactive-icon="vc-icon-close" />
 
   <br/>
   <br/>
 
   <vc-switch 
     inset 
-    :value="true" 
+    :model-value="true" 
     active-icon="vc-icon-check" 
     inactive-icon="vc-icon-close" 
     inactive-text="关闭" 
@@ -100,7 +100,7 @@ function change (event) {
 ```vue
 <template>
   <vc-switch loading inactive-color="#ff4949" />
-  <vc-switch :value="true" loading />
+  <vc-switch :model-value="true" loading />
 </template>
 ```
 :::
@@ -111,7 +111,7 @@ function change (event) {
 ```vue
 <template>
   <div> 
-    <vc-switch v-model:value="switch1" :disabled="disabled" />
+    <vc-switch v-model="switch1" :disabled="disabled" />
     <br/>
     <vc-button @click="disabled = !disabled">Toggle Disabled</vc-button>
   </div>
@@ -143,12 +143,12 @@ export default {
 ::: codeBox
 ```vue
 <template>
-  <vc-switch inset :width="100" :value="true" inactive-text="关闭" active-text="opened!" />
+  <vc-switch inset :width="100" :model-value="true" inactive-text="关闭" active-text="opened!" />
   
   <br/>
   <br/>
 
-  <vc-switch inset :value="false" inactive-text="去睡觉" active-text="😪zzzzzzz" />
+  <vc-switch inset :model-value="false" inactive-text="去睡觉" active-text="😪zzzzzzz" />
 </template>
 ```
 :::
@@ -158,9 +158,9 @@ export default {
 ::: codeBox
 ```vue
 <template>
-  <vc-switch :value="true" :r="12" />
-  <vc-switch :value="true" :r="14" />
-  <vc-switch :value="true" :r="18" />
+  <vc-switch :model-value="true" :r="12" />
+  <vc-switch :model-value="true" :r="14" />
+  <vc-switch :model-value="true" :r="18" />
 </template>
 ```
 :::
@@ -173,7 +173,7 @@ export default {
 
 ```vue
 <template>
-  <vc-switch :value="true" btn-text="弹幕" />
+  <vc-switch :model-value="true" btn-text="弹幕" />
 </template>
 ```
 :::
@@ -182,28 +182,31 @@ export default {
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 | 
 |---|---|---|---|---|
-| value | **boolean / string / number** | 绑定值 | --- | --- |
-| r | **number** | 圆圈半径 | - | 16 |
+| model-value | **boolean / string / number** | 绑定值，配合 `v-model` 使用，与 `active-value` 相等时视为打开 | - | - |
+| value | **boolean / string / number** | 绑定值，配合 `v-model:value` 使用（**已废弃**，请改用 `v-model`） | - | false |
+| r | **number** | 圆点半径（px），switch 整体宽高随其等比缩放 | - | 16 |
+| width | **number** | switch 的固定宽度（px），不传时由圆点与内容自适应 | - | 0 |
 | disabled | **boolean** | 是否禁用 | - | false |
-| width | **number** | switch 的宽度（像素） | - | - |
-| active-icon | **string** | 打开时所显示图标的类名 | - | - |
-| inactive-icon | **string** | 关闭时所显示图标的类名 | - | - |
+| loading | **boolean** | 加载状态，添加后禁用不可点击 | - | false |
+| inset | **boolean** | 文字与图标显示在 switch 内部，宽度由内容自适应撑开 | - | false |
+| active-value | **boolean / string / number** | 打开时的值 | - | true |
+| inactive-value | **boolean / string / number** | 关闭时的值 | - | false |
 | active-text | **string** | 打开时的文字描述 | - | - |
 | inactive-text | **string** | 关闭时的文字描述 | - | - |
-| inset | **Boolean** | 控制文字显示在内部 | - | - |
-| active-value | **boolean / string / number** | 打开时的值 | - | false |
-| inactive-value | **boolean / string / number** | 关闭时的值 | - | false |
+| active-icon | **string** | 打开时所显示图标的类名 | - | - |
+| inactive-icon | **string** | 关闭时所显示图标的类名 | - | - |
 | active-color | **string** | switch 打开时的背景色 | - | - |
 | inactive-color | **string** | switch 关闭时的背景色 | - | - |
-| loading | **Boolean** | 加载状态，添加后，禁用不可点击 | - | - |
-| btnText | **String** | 按钮文字 | - | - |
+| btn-text | **string** | 圆点上的按钮文字，switch 宽度随文字自适应 | - | - |
 
 
 ## Events
 
 | 事件名称 | 说明 | 回调参数 | 
-|---|---|---|---|---|
+| --- | --- | --- |
 | change | switch 状态发生变化时的回调函数 | 新状态的值 |
+| update:modelValue | 绑定值更新事件，配合 `v-model` 使用 | 新状态的值 |
+| update:value | 绑定值更新事件，配合 `v-model:value` 使用（**已废弃**，请改用 `v-model`） | 新状态的值 |
 
 
 
