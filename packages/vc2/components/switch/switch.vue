@@ -21,7 +21,7 @@
       <span v-if="inactiveText">{{ inactiveText }}</span>
     </div>
 
-    <div class="vc-switch__core" :style="coreStyle" ref="coreEl">
+    <div class="vc-switch__core" :style="coreStyle">
       <Inset v-if="inset" type="open" :icon="activeIcon" :text="activeText" />
 
       <Inset
@@ -30,6 +30,10 @@
         :icon="inactiveIcon"
         :text="inactiveText"
       />
+
+      <span v-if="btnText" class="vc-switch__core-dot-size"
+        ><i>{{ btnText }}</i></span
+      >
 
       <span :class="['vc-switch__core-dot', { 'has-text': btnText }]">
         <span v-if="loading" class="vc-icon-loading"></span>
@@ -51,13 +55,15 @@
 </template>
 
 <script setup>
-import { ref, computed, inject, watch, nextTick } from 'vue'
+import { ref, computed, inject, watch } from 'vue'
 import Inset from './inset.vue'
 
 defineOptions({
   name: 'VcSwitch',
   inheritAttrs: false
 })
+
+const emit = defineEmits(['change', 'update:value'])
 
 const props = defineProps({
   // 开关所绑定的值
@@ -129,42 +135,18 @@ const props = defineProps({
 })
 
 let checked = ref(props.value === props.activeValue)
-const coreStyleObj = ref({})
-const coreEl = ref(null)
 const vcFormItem = inject('vcFormItem', null)
 
 watch(
   () => props.value,
-  val => (checked.value = val)
-)
-
-watch(
-  () => props.btnText,
-  val => {
-    if (val) {
-      nextTick(() => {
-        coreEl.value.style.width = val.length + 1 + 'em'
-      })
-    }
-  },
-  {
-    immediate: true
-  }
+  val => (checked.value = val === props.activeValue)
 )
 
 const coreStyle = computed(() => {
-  let { width } = coreStyleObj.value
-
-  if (props.width) {
-    width = props.width
-  }
-
   let color = checked.value ? props.activeColor : props.inactiveColor
 
   return {
-    width: width + 'px',
-    // fontSize: props.r + 'px',
-    // height: props.r + 'px',
+    ...(props.width ? { width: props.width + 'px' } : {}),
     color
   }
 })

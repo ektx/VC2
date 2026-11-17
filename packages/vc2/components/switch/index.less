@@ -12,6 +12,7 @@
   cursor: pointer;
 
   &__inset {
+    grid-area: stack;
     display: flex;
     align-items: center;
     opacity: 0;
@@ -37,7 +38,6 @@
       opacity: 1;
       justify-content: flex-end;
       padding-left: calc(var(--r) * 1px + 5px);
-      transform: translateY(-100%);
 
       .is-checked & {
         opacity: 0;
@@ -70,15 +70,18 @@
 
 .vc-switch__core {
   margin: 0;
-  display: inline-block;
+  display: inline-grid;
+  grid-template-areas: 'stack';
   position: relative;
   min-width: 2em;
-  // height: 20px;
+  min-height: 1em;
+  padding: 0 0.25em;
+  font-size: calc(var(--r, 14) * 1px);
   outline: none;
   color: #ddd;
   color: light-dark(#ddd, #444);
   background-color: currentColor;
-  border: 2px solid;
+  border: 0.125em solid;
   border-radius: 1em;
   vertical-align: middle;
   transition: color 0.3s;
@@ -88,18 +91,32 @@
     color: #0099ff;
   }
 
+  &-dot-size {
+    grid-area: stack;
+    visibility: hidden;
+    white-space: nowrap;
+    word-break: keep-all;
+    height: 0;
+    line-height: 0;
+    padding: 0 1em;
+    // margin: 0 0.25em;
+    font-style: normal;
+  }
+
   &-dot {
-    // position: absolute;
-    top: 0;
+    position: absolute;
+    top: 50%;
     left: 0;
+    z-index: 1;
     padding: 0 0.5em;
     height: 1em;
     line-height: 1em;
     word-break: keep-all;
     font-style: inherit;
-    font-size: calc(var(--r, 14) * 1px);
+    font-size: inherit;
     border-radius: 1em;
     background-color: light-dark(#fff, #222);
+    transform: translateY(-50%);
     transition:
       padding var(--duration),
       transform var(--duration),
@@ -117,7 +134,7 @@
 
     .is-checked & {
       left: 100%;
-      transform: translate(-100%, 0%);
+      transform: translate(-100%, -50%);
     }
     .vc-switch__core:active & {
       padding: 0 0.6em;
