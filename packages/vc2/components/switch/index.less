@@ -1,5 +1,6 @@
 .vc-switch {
   --duration: 0.3s;
+  --r: 14;
 
   display: inline-flex;
   align-items: center;
@@ -11,9 +12,6 @@
   cursor: pointer;
 
   &__inset {
-    position: absolute;
-    top: 0;
-    bottom: 0;
     display: flex;
     align-items: center;
     opacity: 0;
@@ -29,8 +27,7 @@
     }
 
     &-open {
-      left: 0;
-      padding-right: calc(1em + 10px);
+      padding-right: calc(var(--r) * 1px + 5px);
 
       .is-checked & {
         opacity: 1;
@@ -38,8 +35,9 @@
     }
     &-close {
       opacity: 1;
-      right: 0;
-      padding-left: calc(1em + 10px);
+      justify-content: flex-end;
+      padding-left: calc(var(--r) * 1px + 5px);
+      transform: translateY(-100%);
 
       .is-checked & {
         opacity: 0;
@@ -75,7 +73,7 @@
   display: inline-block;
   position: relative;
   min-width: 2em;
-  height: 20px;
+  // height: 20px;
   outline: none;
   color: #ddd;
   color: light-dark(#ddd, #444);
@@ -84,13 +82,14 @@
   border-radius: 1em;
   vertical-align: middle;
   transition: color 0.3s;
+  overflow: hidden;
 
   .is-checked & {
     color: #0099ff;
   }
 
   &-dot {
-    position: absolute;
+    // position: absolute;
     top: 0;
     left: 0;
     padding: 0 0.5em;
@@ -98,6 +97,7 @@
     line-height: 1em;
     word-break: keep-all;
     font-style: inherit;
+    font-size: calc(var(--r, 14) * 1px);
     border-radius: 1em;
     background-color: light-dark(#fff, #222);
     transition:

@@ -31,10 +31,7 @@
         :text="inactiveText"
       />
 
-      <span
-        :class="['vc-switch__core-dot', { 'has-text': btnText }]"
-        :style="{ fontSize: r + 'px' }"
-      >
+      <span :class="['vc-switch__core-dot', { 'has-text': btnText }]">
         <span v-if="loading" class="vc-icon-loading"></span>
         <i v-else>{{ btnText }}</i>
       </span>
@@ -166,8 +163,8 @@ const coreStyle = computed(() => {
 
   return {
     width: width + 'px',
-    fontSize: props.r + 'px',
-    height: props.r + 'px',
+    // fontSize: props.r + 'px',
+    // height: props.r + 'px',
     color
   }
 })
@@ -175,7 +172,8 @@ const coreStyle = computed(() => {
 const style = computed(() => {
   return {
     '--active-color': props.activeColor,
-    '--inactive-color': props.inactiveColor
+    '--inactive-color': props.inactiveColor,
+    '--r': props.r
   }
 })
 
