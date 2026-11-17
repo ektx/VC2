@@ -6,7 +6,9 @@
 ```vue
 <template>
   <vc-button @click="open = !open">Open Layer - {{open}}</vc-button>
-  <vc-layer v-model:show="open" title="hello world" >
+  <vc-button @click="onOpen(null)">默认动画</vc-button>
+  <vc-button @click="onOpen">从此打开</vc-button>
+  <vc-layer ref="dialog" v-model:show="open" title="hello world" >
     <p>这是一段信息</p>
   </vc-layer>
 </template>
@@ -15,6 +17,12 @@
 import { ref } from 'vue'
 
 const open = ref(false)
+const dialog = ref(null)
+
+const onOpen = (e) => {
+  console.log(e)
+  dialog.value.show(e)
+}
 </script>
 ```
 :::

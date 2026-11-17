@@ -1,0 +1,104 @@
+import Button from './components/button/button.vue'
+import ButtonGroup from './components/buttonGroup/index.vue'
+import Checkbox from './components/checkbox/index.vue'
+import CheckboxGroup from './components/checkboxGroup/index.vue'
+import Collapse from './components/collapse/index.vue'
+import CollapseItem from './components/collapseItem/index.vue'
+import ColorPicker from './components/colorPicker/index.vue'
+import Form from './components/form/index.vue'
+import FormItem from './components/formItem/index.vue'
+import Icon from './components/icon/index.vue'
+import Input from './components/input/index.vue'
+import InputNumber from './components/inputNumber/index.vue'
+import Layer from './components/layer/index.vue'
+import Menu from './components/menu/index.vue'
+import MenuItem from './components/menuItem/index.vue'
+import OperationList from './components/operationList/index.vue'
+import Pagination from './components/pagination/index.vue'
+import Popover from './components/popover/index.vue'
+// import Popover from './components/popover/main.jsx'
+import Progress from './components/progress/index.vue'
+import Radio from './components/radio/index.vue'
+import RadioGroup from './components/radioGroup/index.vue'
+import Select from './components/select/index.vue'
+// import Select2 from './components/select2/select.vue'
+import SplitPanel from './components/splitPanel/index.vue'
+import Switch from './components/switch/switch.vue'
+import Table from './components/table/index.vue'
+import Tabs from './components/tabs/index.vue'
+import TabPane from './components/tabPane/index.vue'
+import Tag from './components/tag/index.vue'
+import TagGroup from './components/tagGroup/index.vue'
+// import TimelineCalendar from './components/timelineCalendar/index.vue'
+import TimePicker from './components/timePicker/index.vue'
+import Upload from './components/upload/index.vue'
+
+import './index.less'
+
+import Confirm from './components/confirm/main'
+import Message from './components/message/main'
+import Notification from './components/notification/main'
+
+export * from './components'
+
+const components = [
+  Button,
+  ButtonGroup,
+  Checkbox,
+  CheckboxGroup,
+  Collapse,
+  CollapseItem,
+  ColorPicker,
+  Form,
+  FormItem,
+  Icon,
+  Input,
+  InputNumber,
+  Layer,
+  Menu,
+  MenuItem,
+  OperationList,
+  Pagination,
+  Popover,
+  Progress,
+  Radio,
+  RadioGroup,
+  Select,
+  // Select2,
+  SplitPanel,
+  Switch,
+  Table,
+  Tabs,
+  TabPane,
+  Tag,
+  TagGroup,
+  // TimelineCalendar,
+  TimePicker,
+  Upload,
+  Confirm,
+  Message,
+  Notification
+]
+
+import type { App as VueApp, Component } from 'vue'
+
+type FunctionalTool = { name: string; function: (...args: any[]) => any }
+type Installable = Component | FunctionalTool
+
+const install = (app: VueApp) => {
+  components.forEach((item: any) => {
+    if (!item.function) {
+      app.component((item as any).name, item as Component)
+    } else {
+      app.provide(item.name, item.function)
+      // 绑定 ctx 上(不建议使用全局，后期将要移除)
+      // 建议动态导入
+      ;(app.config.globalProperties as any)[item.name] = item.function
+    }
+  })
+}
+
+export default {
+  version: '0.16.0',
+  install
+}

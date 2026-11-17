@@ -1,62 +1,45 @@
-# VC 2
+# VC2 Monorepo
 
-Vue 3.x UI 组件库
+这是一个基于 pnpm workspace 构建的 Vue 3 组件库 monorepo 项目。
 
-## 安装依赖
+## 项目结构
 
-```sh
-# 先安装依赖
-pnpm i
+- `packages/vc2`: 核心组件库包
+- `example`: 示例项目/文档预览
+- `server`: 文档解析相关服务逻辑
 
-# 再安装 vipress
-pnpm link --global @ektx/vipress
+## 开发指南
+
+### 安装依赖
+
+```bash
+pnpm install
 ```
 
-- `@ektx/vipress` 是代码展示框架
+### 运行示例项目
 
-## 开发
-
-```sh
-# 先生成文档
-pnpm doc
-
-# 运行开发界面
+```bash
 pnpm dev
-
-# link
-pnpm link --global
-
-# use link
-pnpm link --global @ektx/vc2
-
-# unlink
-pnpm unlink --global @ektx/vc2
+# 或者
+pnpm -F example dev
 ```
 
-## build lib
+### 构建组件库
 
-```sh
-pnpm lib
+```bash
+pnpm build
+# 或者构建所有包
+pnpm build:all
 ```
 
-## build dts
+## Monorepo 规范
 
-```sh
-pnpm dts
-```
+1. **依赖管理**: 公共开发依赖安装在根目录，包特定依赖安装在各自的目录。
+2. **引用方式**: `example` 项目通过 `workspace:*` 协议引用 `packages/vc2`。
+3. **构建流程**: 使用 Vite 进行库模式构建，支持 ES 和 CJS 格式，并自动生成类型定义。
 
-## Publish
+## 发布流程
 
-```sh
-# build
-yarn build
-
-# publish
-npm publish
-```
-
-## E2E
-
-```sh
-yarn e2e
-```
+1. 更新 `packages/vc2/package.json` 中的版本号。
+2. 运行构建命令：`pnpm build`。
+3. 进入 `packages/vc2` 目录运行 `npm publish`。

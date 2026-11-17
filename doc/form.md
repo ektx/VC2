@@ -186,7 +186,7 @@ export default {
 
   <br/>
   
-  <vc-form label-width="80px" :labelPosition="labelPosition">
+  <vc-form :labelPosition="labelPosition">
     <vc-form-item label="活动名称">
       <vc-input type="text" v-model="formData.name" validate-event/>
     </vc-form-item>
@@ -198,7 +198,7 @@ export default {
       <vc-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"></vc-input>
     </vc-form-item>
 
-    <vc-form-item>
+    <vc-form-item :label="labelPosition==='top' ? null:''">
       <vc-button theme="primary">提交</vc-button>
       <vc-button>取消</vc-button>
     </vc-form-item>
@@ -249,7 +249,11 @@ export default {
 ::: codeBox
 ```vue
 <template>
-  <vc-form ref="form" inline :model="formData" :rules="rules">
+  列数:<vc-input-number v-model="columns"/>
+
+  <hr>
+
+  <vc-form ref="form" inline :model="formData" :rules="rules" :columns="columns" label-width="60px">
 
     <vc-form-item label="活动名称" prop="name">
       <vc-input v-model="formData.name"/>
@@ -284,11 +288,11 @@ export default {
       <vc-time-picker v-model="formData.time"/>
     </vc-form-item>
 
-    <vc-form-item label="活动形式" prop="desc" grid-column="span 2">
+    <vc-form-item label="活动形式" prop="desc" :grid-column="`span ${columns*2}`">
       <vc-input type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 4}" v-model="formData.desc"/>
     </vc-form-item>
 
-    <vc-form-item grid-column="span 2">
+    <vc-form-item :grid-column="`span ${columns*2}`">
       <vc-button theme="primary" @click="submitForm">提交</vc-button>
       <vc-button @click="resetForm">重置</vc-button>
       <vc-button @click="clearForm">清除错误</vc-button>
@@ -305,6 +309,7 @@ import { ref } from 'vue'
 export default {
   data () {
     return {
+      columns: 2,
       formData: {
         name: '',
         color: '',

@@ -130,6 +130,9 @@
   <vc-button round icon="vc-icon-star-off" />
   <vc-button round theme="primary" icon="vc-icon-bell" />
   <vc-button round theme="success" icon="vc-icon-success" />
+  <vc-button circle icon="vc-icon-star-off" />
+  <vc-button circle theme="primary" icon="vc-icon-bell" />
+  <vc-button circle theme="success" icon="vc-icon-success" />
   <vc-button theme="warn" icon="vc-icon-warning">警告</vc-button>
   <vc-button theme="error" icon="vc-icon-close">错误</vc-button>
 </template>

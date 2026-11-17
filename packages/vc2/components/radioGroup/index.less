@@ -1,0 +1,71 @@
+.vc-radio-group {
+  --def-color: light-dark(#606266, #ccc);
+  // --color: #606266;
+  --selected: var(--bg, #409eff);
+  --selected-color: var(--color, white);
+
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 10px;
+  font-size: var(--size, 14px);
+  position: relative;
+  anchor-scope: all;
+
+  &[type='segmented'],
+  &[type='button'] {
+    gap: 0;
+    --border-color: light-dark(#ddd, #565656);
+    border-radius: 0.2lh;
+    corner-shape: round;
+    overflow: hidden;
+  }
+
+  &[type='button'] {
+    column-rule: 1px solid var(--border-color); // 分隔线样式
+    box-shadow: inset 0 0 0 1px var(--border-color);
+  }
+
+  &--selected {
+    position: absolute;
+    position-anchor: --radio-selected;
+    top: anchor(top);
+    left: anchor(left);
+    width: anchor-size(width);
+    height: anchor-size(height);
+    background-color: var(--selected);
+    transition:
+      top 0.3s,
+      left 0.3s,
+      height 0.3s,
+      width 0.3s;
+  }
+
+  &[type='segmented'] {
+    --border-color: light-dark(#eee, #222);
+
+    padding: 2px;
+    border: 1px solid var(--bar-color, var(--border-color));
+    background-color: var(--bar-color, var(--border-color));
+
+    .vc-radio-group--selected {
+      border-radius: inherit;
+      corner-shape: round;
+    }
+
+    &[plain] {
+      --border-color: light-dark(#ddd, #565656);
+      background-color: transparent;
+    }
+  }
+
+  &[round] {
+    border-radius: 100lh;
+  }
+
+  &[disabled] {
+    .vc-radio-group--selected {
+      background-color: light-dark(#ddd, #565656);
+    }
+  }
+}

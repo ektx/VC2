@@ -1,0 +1,28 @@
+.vc-form {
+  &:has(.inline) {
+    --w: 200px;
+  }
+
+  display: grid;
+  gap: 5px 10px;
+  grid-template-columns: max-content 1fr;
+  // grid-template-columns: minmax(var(--w, max-content), min-content) 1fr;
+  // grid-template-columns:
+  //   minmax(min(var(--w), min-content), min-content)
+  //   1fr;
+  // grid-template-columns: minmax(var(--labelWidth, max-content), max-content) 1fr;
+  // grid-template-columns: min(100px, 20%) 1fr;
+
+  &.inline {
+    gap: 5px 15px;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(var(--w, 260px), 100%), 1fr)
+    );
+    grid-template-columns: repeat(var(--columns, 3), max-content 1fr);
+  }
+
+  &:not(:has(.vc-form-item__label)) {
+    // grid-template-columns: 1fr;
+  }
+}

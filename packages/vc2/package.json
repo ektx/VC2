@@ -1,0 +1,37 @@
+{
+  "name": "@ektx/vc2",
+  "version": "1.18.2",
+  "type": "module",
+  "main": "lib/cjs/index.cjs",
+  "module": "lib/es/index.js",
+  "types": "lib/es/index.d.ts",
+  "files": [
+    "lib",
+    "global.d.ts"
+  ],
+  "scripts": {
+    "build": "npm run type-check && vite build --mode lib",
+    "type-check": "vue-tsc --noEmit -p tsconfig.json"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/es/index.d.ts",
+      "import": "./lib/es/index.js",
+      "require": "./lib/cjs/index.cjs"
+    },
+    "./*": "./lib/*"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.0"
+  },
+  "dependencies": {
+    "@floating-ui/dom": "^1.7.0",
+    "async-validator": "^4.0.7",
+    "dayjs": "^1.11.0"
+  },
+  "sideEffects": [
+    "*.css",
+    "*.less"
+  ],
+  "license": "MIT"
+}

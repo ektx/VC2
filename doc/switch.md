@@ -182,28 +182,29 @@ export default {
 
 | 参数 | 类型 | 说明 | 可选值 | 默认值 | 
 |---|---|---|---|---|
-| value | **boolean / string / number** | 绑定值 | --- | --- |
-| r | **number** | 圆圈半径 | - | 16 |
+| value | **boolean / string / number** | 绑定值，与 `active-value` 相等时视为打开 | - | false |
+| r | **number** | 圆点半径（px），switch 整体宽高随其等比缩放 | - | 16 |
+| width | **number** | switch 的固定宽度（px），不传时由圆点与内容自适应 | - | 0 |
 | disabled | **boolean** | 是否禁用 | - | false |
-| width | **number** | switch 的宽度（像素） | - | - |
-| active-icon | **string** | 打开时所显示图标的类名 | - | - |
-| inactive-icon | **string** | 关闭时所显示图标的类名 | - | - |
+| loading | **boolean** | 加载状态，添加后禁用不可点击 | - | false |
+| inset | **boolean** | 文字与图标显示在 switch 内部，宽度由内容自适应撑开 | - | false |
+| active-value | **boolean / string / number** | 打开时的值 | - | true |
+| inactive-value | **boolean / string / number** | 关闭时的值 | - | false |
 | active-text | **string** | 打开时的文字描述 | - | - |
 | inactive-text | **string** | 关闭时的文字描述 | - | - |
-| inset | **Boolean** | 控制文字显示在内部 | - | - |
-| active-value | **boolean / string / number** | 打开时的值 | - | false |
-| inactive-value | **boolean / string / number** | 关闭时的值 | - | false |
+| active-icon | **string** | 打开时所显示图标的类名 | - | - |
+| inactive-icon | **string** | 关闭时所显示图标的类名 | - | - |
 | active-color | **string** | switch 打开时的背景色 | - | - |
 | inactive-color | **string** | switch 关闭时的背景色 | - | - |
-| loading | **Boolean** | 加载状态，添加后，禁用不可点击 | - | - |
-| btnText | **String** | 按钮文字 | - | - |
+| btn-text | **string** | 圆点上的按钮文字，switch 宽度随文字自适应 | - | - |
 
 
 ## Events
 
 | 事件名称 | 说明 | 回调参数 | 
-|---|---|---|---|---|
+| --- | --- | --- |
 | change | switch 状态发生变化时的回调函数 | 新状态的值 |
+| update:value | 绑定值更新事件，配合 `v-model:value` 使用 | 新状态的值 |
 
 
 

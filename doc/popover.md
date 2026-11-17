@@ -212,15 +212,20 @@ ul {
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 40px);
   list-style: none;
 
   li {
+    flex: 1;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 
     button {
       width: 100%;
+      height: 100%;
+      line-height: 1.4;
     }
   }
 }
@@ -273,7 +278,19 @@ Popover 是基于 popper 扩展的功能。具体可以访问 [floating-ui](http
   </vc-popover>
 
   <vc-popover
-    v-model="visible"
+    trigger="contextmenu" 
+    width="200px"
+    title="标题"
+    placement="left"
+    content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。"
+  >
+    <template #reference>
+      <vc-button>contextmenu 激活</vc-button>
+    </template>
+  </vc-popover>
+
+  <vc-popover
+    v-model:visible="visible"
     trigger="manual" 
     width="200px"
     title="标题"
@@ -286,21 +303,10 @@ Popover 是基于 popper 扩展的功能。具体可以访问 [floating-ui](http
   </vc-popover>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      visible: false
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+const visible = ref(false)
 </script>
-
-<style>
-.vc-popover {
-  margin-right: 20px;
-}
-</style>
 ```
 :::
 
@@ -381,30 +387,25 @@ export default {
 ```vue
 <template>
 <vc-popover
-  v-model="visible"
-  popover="manual" 
-  width="200px"
+  :visible="visible"
+  trigger="manual" 
   area="left"
 >
   <p>这是一段内容确定删除吗？</p>
-  <div style="text-align: right; margin-top: 10px">
+  <vc-button-group style="margin-top: 10px; ">
     <vc-button type="text" @click="visible = false">取消</vc-button>
     <vc-button type="text" color="primary" @click="visible = false">确定</vc-button>
-  </div>
+  </vc-button-group>
   <template #reference>
     <vc-button @click="visible = !visible">Delete</vc-button>
   </template>
 </vc-popover>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      visible: false
-    }
-  }
-}
+<script setup>
+import { ref } from 'vue'
+
+const visible = ref(false)
 </script>
 ```
 :::

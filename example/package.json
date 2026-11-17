@@ -1,0 +1,20 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@ektx/vc2": "workspace:*",
+    "less": "^4.1.2",
+    "prismjs": "^1.29.0",
+    "vue": "^3.5.35",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.7",
+    "vite": "^6.2.5"
+  }
+}

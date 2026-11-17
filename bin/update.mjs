@@ -1,10 +1,11 @@
 import fs from 'fs'
 import path from 'path'
-import pack from '../package.json'
 import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-const { version } = pack
+const { version } = JSON.parse(
+  await fs.promises.readFile(path.join(__dirname, '../package.json'), 'utf8')
+)
 
 // 生成 index.less
 function createCSS(list) {
@@ -85,20 +86,24 @@ const install = app => {
   files.forEach(dir => {
     let fun = new Promise((resolve, reject) => {
       let _dir = path.join(componentsDir, dir)
+      fs.stat(_dir, (err, stats) => {
+        if (err) return reject(err)
+        if (!stats.isDirectory()) return resolve()
 
-      fs.readdir(_dir, (err, _files) => {
-        if (err) {
-          return reject(err)
-        }
-
-        _files.forEach(file => {
-          if (path.extname(file) === '.less') {
-            layoutArr.push(`@import './components/${dir}/${file}';`)
-          } else if (file.startsWith('index')) {
-            componentArr.push({ dir, file })
+        fs.readdir(_dir, (err, _files) => {
+          if (err) {
+            return reject(err)
           }
+
+          _files.forEach(file => {
+            if (path.extname(file) === '.less') {
+              layoutArr.push(`@import './components/${dir}/${file}';`)
+            } else if (file.startsWith('index')) {
+              componentArr.push({ dir, file })
+            }
+          })
+          resolve()
         })
-        resolve()
       })
     })
 

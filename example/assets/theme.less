@@ -1,4 +1,6 @@
 :root {
+  color-scheme: light;
+
   --page-hold-color: #42b983;
   --page-hold-bg-color: rgba(66, 185, 131, 0.05);
 
@@ -34,6 +36,8 @@
 }
 
 html.dark {
+  color-scheme: dark;
+
   --page-hold-color: #42b983;
   --page-hold-bg-color: rgba(208, 208, 208, 0.15);
 
@@ -80,9 +84,7 @@ body {
   will-change: background;
 }
 
-:target:before {
-  content: '';
-  display: block;
-  height: 80px;
-  margin: -80px 0 0;
+:target {
+  scroll-margin: 20vb;
+  // outline: 2px solid red;
 }

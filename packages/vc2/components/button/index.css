@@ -1,0 +1,157 @@
+.vc-button {
+  --color: light-dark(#1d1d1d, #ddd);
+  --bg: light-dark(#eee, #222);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  padding: 7px 0.8em;
+  font-size: calc(var(--size) * 1px);
+  font-weight: 400;
+  border-radius: var(--radius, 0.2em);
+  border: none;
+  line-height: 1;
+  color: var(--color, --vcTextColor);
+  color: var(--color, contrast-color(var(--bg)));
+  background-color: var(--bg, light-dark(#eee, #222));
+  box-sizing: border-box;
+  vertical-align: middle;
+  transition: 0.2s;
+  cursor: pointer;
+  outline: none;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.8;
+    background: hsl(from var(--bg, light-dark(#ddd, #222)) h s calc(l - 20));
+    transition: none;
+  }
+
+  &[disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  /* https://developer.apple.com/design/human-interface-guidelines/color#System-colors */
+  &.primary {
+    --color: Canvas;
+    --bg: light-dark(#0088ff, #0091ff);
+  }
+  &.success {
+    --color: Canvas;
+    --bg: light-dark(#34c759, #30d158);
+  }
+  &.warn {
+    --color: Canvas;
+    --bg: light-dark(#ff8d28, #ff9230);
+  }
+  &.error {
+    --color: Canvas;
+    --bg: light-dark(#ff383c, #ff4245);
+  }
+
+  &.plain {
+    color: var(--color, --bg);
+    background: transparent;
+    border: 1px solid var(--color);
+
+    &.primary {
+      --color: light-dark(#0088ff, #0091ff);
+    }
+    &.success {
+      --color: light-dark(#34c759, #30d158);
+    }
+    &.warn {
+      --color: light-dark(#ff8d28, #ff9230);
+    }
+    &.error {
+      --color: light-dark(#ff383c, #ff4245);
+    }
+
+    &:hover {
+      background: light-dark(
+        hsla(from var(--color) h s l / 0.1),
+        hsla(from var(--color) h s l / 0.2)
+      );
+      /* background: light-dark(
+        color-mix(in srgb, var(--color) 10%, transparent),
+        color-mix(in srgb, var(--color) 30%, transparent)
+      ); */
+    }
+  }
+
+  &.round {
+    --radius: 1.5em;
+
+    &:has(.@{namespace}-button--icon + span:empty) {
+      padding: 0;
+      width: 2em;
+      height: 2em;
+      border-radius: 50%;
+    }
+  }
+
+  &.text {
+    color: var(--color, --bg);
+    background: transparent;
+    transition: 0.2s opacity;
+
+    &.primary {
+      --color: light-dark(#0088ff, #0091ff);
+    }
+    &.success {
+      --color: light-dark(#34c759, #30d158);
+    }
+    &.warn {
+      --color: light-dark(#ff8d28, #ff9230);
+    }
+    &.error {
+      --color: light-dark(#ff383c, #ff4245);
+    }
+
+    &:hover {
+      opacity: 0.7;
+    }
+
+    &:active {
+      color: e('hsl(from var(--bg, var(--color, #999)) h s calc(l - 10))');
+    }
+  }
+
+  .vc-button--icon {
+    display: inline-flex;
+    width: 1em;
+    margin-right: 5px;
+    color: var(--color, contrast-color(--bg));
+    overflow: hidden;
+
+    &:has(+ span:empty) {
+      margin: 0px;
+    }
+  }
+}
+
+// loading 显示与隐藏动画
+.vc-button--loading-enter-active,
+.vc-button--loading-leave-active {
+  transition: all 0.3s ease-in-out;
+}
+
+.vc-button--loading-enter-from,
+.vc-button--loading-leave-to {
+  width: 0;
+  margin: 0;
+  opacity: 0;
+}
